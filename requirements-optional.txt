@@ -1,0 +1,5 @@
+# Optional: only needed for the neural challenger model (M6) and LLM narration.
+# The full system runs without these.
+-r requirements.txt
+torch>=2.2
+google-genai>=0.3

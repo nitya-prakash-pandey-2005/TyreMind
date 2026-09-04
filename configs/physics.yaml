@@ -1,0 +1,190 @@
+# =============================================================================
+# TyreMind — Physical constants and priors
+# =============================================================================
+# EVERY value carries an `epistemic` tag. Nothing here is a magic number.
+#
+#   regulation : published in the FIA technical regulations. Exact.
+#   measured   : directly observable in the source data.
+#   literature : published value from a cited source.
+#   prior      : informative Bayesian prior; `sd` is propagated into all outputs.
+#   tuned      : fitted from data by an experiment in experiments/. The
+#                experiment id that produced it is recorded in `source`.
+#
+# Anything tagged `prior` or `tuned` MUST have its uncertainty propagated.
+# Anything tagged `estimated` without an sd is a bug — CI rejects it.
+# =============================================================================
+
+vehicle:
+  # FIA minimum mass EXCLUDING fuel, by season.
+  # 2026 figure = 722 kg (car + driver) + 46 kg (tyres).
+  # Source: FIA F1 Technical Regulations; summarised at
+  #   https://www.gpfans.com/en/f1-news/1076076/f1-2026-regulations-car-weight/
+  minimum_mass_kg:
+    epistemic: regulation
+    by_season:
+      2022: 798.0
+      2023: 798.0
+      2024: 798.0
+      2025: 800.0
+      2026: 768.0
+    default: 798.0
+
+  frontal_area_m2:
+    epistemic: literature
+    value: 1.5
+    sd: 0.1
+    source: "F1 cars ~1.5 m^2 frontal area; CdA ~1.2 m^2 with Cd 0.7-1.0"
+
+  drag_area_CdA_m2:
+    epistemic: literature
+    value: 1.20
+    sd: 0.15
+    source: "https://www.formula1-dictionary.net/f1-aerodynamic-drag/ (Cd ~0.85, CdA ~1.2)"
+
+  # Downforce area. ClA = Cl * A. Underbody Cz 2.2-2.4 is ~60-65% of total,
+  # implying total Cl ~3.5-4.0 over 1.5 m^2.
+  lift_area_ClA_m2:
+    epistemic: literature
+    value: 5.4
+    sd: 0.8
+    source: "https://www.f1technical.net/features/21667 (underbody Cz 2.2-2.4, 60-65% of total)"
+
+  wheelbase_m:
+    epistemic: regulation
+    value: 3.60
+    source: "FIA max wheelbase 3600 mm"
+
+  track_width_m:
+    epistemic: regulation
+    value: 2.00
+    source: "FIA max overall width 2000 mm"
+
+  cg_height_m:
+    epistemic: literature
+    value: 0.28
+    sd: 0.05
+    source: "Typical open-wheel single-seater CG height estimate. Affects load transfer only."
+
+  weight_distribution_front:
+    epistemic: regulation
+    value: 0.455
+    sd: 0.01
+    source: "FIA mandates front weight distribution within 44.6-46.4%"
+
+fuel:
+  # Fuel mass effect on lap time. THE most important prior in the system:
+  # it is the only thing that separates tyre degradation from the
+  # lap-number-monotone confounders inside a single run (see docs/research/
+  # 05_STATISTICAL_ARCHITECTURE.md, "The collinearity problem").
+  seconds_per_kg:
+    epistemic: prior
+    value: 0.030
+    sd: 0.005
+    source: "Widely used F1 paddock figure, ~0.03 s/kg. Cross-checked against
+              fuel-corrected lap time practice (f1datajunkie) and public team commentary."
+
+  burn_rate_kg_per_lap:
+    epistemic: prior
+    value: 2.70
+    sd: 0.30
+    source: "~110 kg race fuel over a ~305 km race. Circuit-dependent (1.6-3.5 kg/lap);
+              per-circuit overrides live in configs/circuits.yaml where known."
+
+  max_race_fuel_kg:
+    epistemic: regulation
+    by_season:
+      2022: 110.0
+      2023: 110.0
+      2024: 110.0
+      2025: 110.0
+      2026: 70.0
+    default: 110.0
+
+  density_kg_per_l:
+    epistemic: regulation
+    value: 0.75
+    source: "FIA fuel density range 0.720-0.775 kg/L at 15 C"
+
+environment:
+  air_density_kg_m3:
+    epistemic: literature
+    value: 1.225
+    sd: 0.05
+    source: "ISA sea level, 15 C. Recomputed per-session from air temp + pressure when available."
+  gravity_m_s2:
+    epistemic: measured
+    value: 9.81
+
+tyre:
+  # Pirelli slick range. C1 hardest -> C5 softest. C6 existed in 2025 only
+  # and was dropped for 2026 (insufficient delta to C5).
+  # Source: https://press.pirelli.com/complete-f1-tyre-range-for-the-first-three-grands-prix-of-2026/
+  compound_hardness_index:
+    epistemic: literature
+    C1: 1.0
+    C2: 2.0
+    C3: 3.0
+    C4: 4.0
+    C5: 5.0
+    C6: 6.0
+    note: "Event labels SOFT/MEDIUM/HARD are RELATIVE to the three compounds
+           nominated for that event, NOT absolute. Always resolve to C-number
+           via configs/circuits.yaml before comparing across races."
+
+  # Reduced-order 2-state thermal model. These are TUNED, not measured.
+  # We never claim these reproduce a real tyre temperature.
+  thermal:
+    surface_heat_capacity_J_per_K:
+      epistemic: tuned
+      value: 12000.0
+      source: "experiment: exp_thermal_calibration"
+    bulk_heat_capacity_J_per_K:
+      epistemic: tuned
+      value: 48000.0
+      source: "experiment: exp_thermal_calibration"
+    surface_to_bulk_conductance_W_per_K:
+      epistemic: tuned
+      value: 55.0
+      source: "experiment: exp_thermal_calibration"
+    convection_coefficient_W_per_K_per_ms:
+      epistemic: tuned
+      value: 2.4
+      source: "experiment: exp_thermal_calibration; scales with airspeed"
+    conduction_to_track_W_per_K:
+      epistemic: tuned
+      value: 30.0
+      source: "experiment: exp_thermal_calibration"
+    # Optimum operating window. Outside it, degradation accelerates in BOTH
+    # directions (cold -> graining, hot -> thermal degradation). This bidirectional
+    # shape is the physically correct one; a monotone-in-temperature wear law is wrong.
+    optimum_window_C:
+      epistemic: literature
+      lower: 90.0
+      upper: 110.0
+      sd: 10.0
+      source: "Pirelli slick working range, public technical briefings.
+               Compound-specific; treated as a soft prior, refined per-session."
+
+  # Energy-based wear. dW/dt = K(T, compound) * P_friction
+  # Archard is retained as a documented baseline for the ablation only.
+  # Source: https://pmc.ncbi.nlm.nih.gov/articles/PMC12915245/ (rubber wear review)
+  #         https://www.sciencedirect.com/science/article/pii/S0043164824000565 (MegaRide)
+  wear:
+    model: energy_based
+    reference_wear_coefficient:
+      epistemic: tuned
+      value: 1.0e-8
+      source: "experiment: exp_wear_clock — scale is arbitrary; only RELATIVE
+               energy exposure is used, so absolute units carry no claim."
+    temperature_sensitivity:
+      epistemic: tuned
+      value: 0.025
+      source: "experiment: exp_wear_clock — quadratic penalty per K outside window"
+
+strategy:
+  pit_lane_loss_s:
+    epistemic: measured
+    value: 21.0
+    sd: 3.0
+    source: "Circuit-specific; measured directly from FastF1 pit in/out lap deltas
+             where available. Falls back to this prior otherwise."

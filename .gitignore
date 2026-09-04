@@ -1,0 +1,41 @@
+# ---- secrets ----
+.env
+.env.local
+*.key
+credentials.json
+
+# ---- python ----
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# ---- data (large / regenerable) ----
+data/raw/
+data/interim/
+data/processed/
+data/external/
+cache/
+fastf1_cache/
+*.parquet
+!data/demo/*.parquet
+
+# ---- node ----
+node_modules/
+apps/web/dist/
+apps/web/.vite/
+*.log
+
+# ---- os / editor ----
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
