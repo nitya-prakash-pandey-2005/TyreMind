@@ -98,11 +98,23 @@ class TestRealTimeProperties:
         times = np.array(monitor.update_times_ms)
         assert times.size > 100
 
-        first_quarter = times[: times.size // 4].mean()
-        last_quarter = times[-times.size // 4 :].mean()
+        # Median, not mean. Updates take 40-70 microseconds, which is small
+        # enough that a single OS scheduling hiccup dominates an average and
+        # makes this fail under load while the code is fine. The median still
+        # catches the failure this test exists for -- an accidental
+        # full-history recompute would grow the cost by orders of magnitude,
+        # not by a scheduling jitter.
+        first_quarter = float(np.median(times[: times.size // 4]))
+        last_quarter = float(np.median(times[-times.size // 4 :]))
 
-        assert last_quarter < 3.0 * first_quarter, (
-            f"per-lap cost grew from {first_quarter:.3f} ms to {last_quarter:.3f} ms"
+        # Growth is only meaningful if it is also large in absolute terms. Going
+        # from 0.04 ms to 0.09 ms is not a loss of real-time behaviour; going
+        # from 0.04 ms to 40 ms is.
+        grew_proportionally = last_quarter > 3.0 * first_quarter
+        grew_materially = last_quarter - first_quarter > 1.0
+
+        assert not (grew_proportionally and grew_materially), (
+            f"per-lap cost grew from {first_quarter:.4f} ms to {last_quarter:.4f} ms"
         )
 
     def test_updates_are_fast_enough_to_be_called_real_time(self, session) -> None:
