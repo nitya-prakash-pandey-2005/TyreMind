@@ -1,0 +1,106 @@
+{
+  "experiment": "exp06_circuit_asymmetry",
+  "generated_at": "2026-09-04T20:09:07.312081+00:00",
+  "year": 2024,
+  "n_circuits": 8,
+  "n_correct": 7,
+  "accuracy": 0.875,
+  "circuits": [
+    {
+      "circuit": "Monza",
+      "published_direction": "clockwise",
+      "predicted_direction": "clockwise",
+      "correct": true,
+      "left_side_energy_share": 0.5488222886928623,
+      "left_turn_energy_share": 0.21482752836023764,
+      "front_axle_energy_share": 0.4659518285429824,
+      "net_rotation": -0.6671585308440051,
+      "peak_lateral_g": 5.881606516134327,
+      "n_laps": 12
+    },
+    {
+      "circuit": "Zandvoort",
+      "published_direction": "clockwise",
+      "predicted_direction": "clockwise",
+      "correct": true,
+      "left_side_energy_share": 0.5890583332899144,
+      "left_turn_energy_share": 0.29464763554810497,
+      "front_axle_energy_share": 0.46409229816309255,
+      "net_rotation": -0.6876206427068319,
+      "peak_lateral_g": 6.966232976575074,
+      "n_laps": 12
+    },
+    {
+      "circuit": "Silverstone",
+      "published_direction": "clockwise",
+      "predicted_direction": "clockwise",
+      "correct": true,
+      "left_side_energy_share": 0.5450242428599754,
+      "left_turn_energy_share": 0.35404210078543735,
+      "front_axle_energy_share": 0.46218004741462665,
+      "net_rotation": -0.7919726439722332,
+      "peak_lateral_g": 6.707141351150759,
+      "n_laps": 12
+    },
+    {
+      "circuit": "Barcelona",
+      "published_direction": "clockwise",
+      "predicted_direction": "clockwise",
+      "correct": true,
+      "left_side_energy_share": 0.5815169708674928,
+      "left_turn_energy_share": 0.25882373251818314,
+      "front_axle_energy_share": 0.46456166972152996,
+      "net_rotation": -0.5236440074718584,
+      "peak_lateral_g": 6.834939824433152,
+      "n_laps": 12
+    },
+    {
+      "circuit": "Interlagos",
+      "published_direction": "anti-clockwise",
+      "predicted_direction": "anti-clockwise",
+      "correct": true,
+      "left_side_energy_share": 0.45459538398570304,
+      "left_turn_energy_share": 0.7462790985744623,
+      "front_axle_energy_share": 0.459795197824739,
+      "net_rotation": 0.7489697081445819,
+      "peak_lateral_g": 4.717908497973277,
+      "n_laps": 12
+    },
+    {
+      "circuit": "Austin",
+      "published_direction": "anti-clockwise",
+      "predicted_direction": "clockwise",
+      "correct": false,
+      "left_side_energy_share": 0.5112038642593434,
+      "left_turn_energy_share": 0.4617788440133847,
+      "front_axle_energy_share": 0.46548601649755134,
+      "net_rotation": 2.48329433786997,
+      "peak_lateral_g": 6.871485798376715,
+      "n_laps": 12
+    },
+    {
+      "circuit": "Imola",
+      "published_direction": "anti-clockwise",
+      "predicted_direction": "anti-clockwise",
+      "correct": true,
+      "left_side_energy_share": 0.4808279155206297,
+      "left_turn_energy_share": 0.6005465032313899,
+      "front_axle_energy_share": 0.46888161673149736,
+      "net_rotation": 1.406297438020368,
+      "peak_lateral_g": 6.897534528093002,
+      "n_laps": 12
+    },
+    {
+      "circuit": "Singapore",
+      "published_direction": "anti-clockwise",
+      "predicted_direction": "anti-clockwise",
+      "correct": true,
+      "left_side_energy_share": 0.4729713329496032,
+      "left_turn_energy_share": 0.6094667320196338,
+      "front_axle_energy_share": 0.46913271306205373,
+      "net_rotation": 1.3063772481769607,
+      "peak_lateral_g": 5.777849991894734,
+      "n_laps": 12
+    }
+  ]
+}

@@ -115,6 +115,105 @@ def configure_cache(path: str | Path | None = None) -> Path:
     return chosen
 
 
+#: Circuit names that FastF1's fuzzy event matching does not resolve correctly.
+#:
+#: FastF1 matches an event name by string similarity and silently "corrects" a
+#: miss to its best guess, emitting only a warning. Asking for "Interlagos"
+#: returns the DUTCH Grand Prix at Zandvoort -- a different continent, a
+#: different circuit, and no error. Analysis then proceeds confidently on the
+#: wrong race.
+#:
+#: Circuits are commonly known by their location rather than their event title,
+#: so this maps the names people actually use onto the official ones.
+CIRCUIT_ALIASES: dict[str, str] = {
+    "interlagos": "Sao Paulo Grand Prix",
+    "sao paulo": "Sao Paulo Grand Prix",
+    "brazil": "Sao Paulo Grand Prix",
+    "austin": "United States Grand Prix",
+    "cota": "United States Grand Prix",
+    "imola": "Emilia Romagna Grand Prix",
+    "monza": "Italian Grand Prix",
+    "zandvoort": "Dutch Grand Prix",
+    "spa": "Belgian Grand Prix",
+    "silverstone": "British Grand Prix",
+    "barcelona": "Spanish Grand Prix",
+    "catalunya": "Spanish Grand Prix",
+    "suzuka": "Japanese Grand Prix",
+    "monaco": "Monaco Grand Prix",
+    "jeddah": "Saudi Arabian Grand Prix",
+    "yas marina": "Abu Dhabi Grand Prix",
+    "marina bay": "Singapore Grand Prix",
+    "hungaroring": "Hungarian Grand Prix",
+    "red bull ring": "Austrian Grand Prix",
+    "spielberg": "Austrian Grand Prix",
+    "baku": "Azerbaijan Grand Prix",
+    "montreal": "Canadian Grand Prix",
+    "mexico city": "Mexico City Grand Prix",
+    "las vegas": "Las Vegas Grand Prix",
+    "lusail": "Qatar Grand Prix",
+    "bahrain": "Bahrain Grand Prix",
+    "melbourne": "Australian Grand Prix",
+    "albert park": "Australian Grand Prix",
+    "shanghai": "Chinese Grand Prix",
+    "miami": "Miami Grand Prix",
+}
+
+
+def resolve_event(year: int, grand_prix: str | int):
+    """Resolve an event name to a FastF1 event, refusing a silent mismatch.
+
+    FastF1 will happily return a completely different Grand Prix if the name it
+    was given does not match anything, logging a warning that is easy to suppress
+    and easier to miss. That failure mode is worse than an exception: the data
+    loads, the model fits, and every number produced is about the wrong race.
+
+    This resolves through a circuit-name alias table first, then checks that the
+    event FastF1 returned actually relates to what was asked for -- by event
+    name, location, or country. A match that fails all three raises.
+
+    Args:
+        year: Season.
+        grand_prix: Event name, circuit name, or round number.
+
+    Returns:
+        The resolved FastF1 event.
+
+    Raises:
+        ValueError: If the resolved event does not plausibly match the request.
+    """
+    import fastf1
+
+    if isinstance(grand_prix, int):
+        return fastf1.get_event(year, grand_prix)
+
+    requested = str(grand_prix).strip()
+    alias = CIRCUIT_ALIASES.get(requested.lower())
+    event = fastf1.get_event(year, alias or requested)
+
+    # An alias is an explicit, curated mapping, so it needs no similarity check --
+    # "Interlagos" is correctly the Sao Paulo Grand Prix even though the two
+    # strings share no words. The guard below exists only for names that went
+    # through FastF1's fuzzy matching unaided.
+    if alias is not None:
+        return event
+
+    haystack = " ".join(
+        str(event.get(field, "")).lower()
+        for field in ("EventName", "OfficialEventName", "Location", "Country")
+    )
+    # Accept if any meaningful word of the request appears in the resolved event.
+    words = [w for w in requested.lower().replace("-", " ").split() if len(w) > 3]
+    if words and not any(word in haystack for word in words):
+        raise ValueError(
+            f"{requested!r} resolved to {event['EventName']!r} at "
+            f"{event['Location']}, {event['Country']} for {year}, which does not "
+            f"match the request. FastF1 matches event names by similarity and "
+            f"substitutes its best guess silently. Use the official event name, "
+            f"a round number, or add an entry to CIRCUIT_ALIASES."
+        )
+    return event
+
+
 def load_session(
     year: int,
     grand_prix: str | int,
@@ -127,7 +226,8 @@ def load_session(
 
     Args:
         year: Season, e.g. 2024.
-        grand_prix: Event name ("Monza") or round number.
+        grand_prix: Event name ("Monza", "Italian Grand Prix") or round number.
+            Resolved through `resolve_event`, which refuses a silent mismatch.
         session: "FP1", "FP2", "FP3", "Q", "S" or "R".
         cache: Cache directory. See `configure_cache`.
         telemetry: Whether to load car and position telemetry as well. Adds tens
@@ -136,11 +236,15 @@ def load_session(
 
     Returns:
         The loaded `fastf1.core.Session`.
+
+    Raises:
+        ValueError: If the event name does not resolve to a matching event.
     """
     import fastf1
 
     configure_cache(cache)
-    loaded = fastf1.get_session(year, grand_prix, session)
+    event = resolve_event(year, grand_prix)
+    loaded = fastf1.get_session(year, int(event["RoundNumber"]), session)
     loaded.load(laps=True, telemetry=telemetry, weather=True, messages=False)
     return loaded
 

@@ -1,0 +1,88 @@
+{
+  "experiment": "exp04_energy_clock",
+  "generated_at": "2026-09-04T19:59:42.090479+00:00",
+  "session": "2024 Interlagos R",
+  "n_stints": 4,
+  "energy_clock_wins": 1,
+  "mean_r2_gain": -0.000763541220244135,
+  "mean_energy_cv": 0.02337108207646464,
+  "verdict": "no meaningful difference",
+  "stints": [
+    {
+      "driver": "HUL",
+      "run_id": 15,
+      "compound": "HARD",
+      "laps": 56,
+      "age_slope": 0.07669535201640369,
+      "age_r2": 0.8659267716329777,
+      "energy_slope": 0.07678015414337284,
+      "energy_r2": 0.8651284559106429,
+      "r2_gain": -0.000798315722334797,
+      "mean_energy_mj": 168.13933479530075,
+      "energy_cv": 0.030295155349108725,
+      "thermal_regimes": {
+        "overheating": 56
+      },
+      "mean_fraction_in_window": 0.0044825298488269365,
+      "front_rear_ratio": 0.46450744295570956,
+      "left_right_ratio": 0.5890479131420177
+    },
+    {
+      "driver": "SAR",
+      "run_id": 36,
+      "compound": "HARD",
+      "laps": 48,
+      "age_slope": 0.09180400564481003,
+      "age_r2": 0.7402278303025813,
+      "energy_slope": 0.09176778478310285,
+      "energy_r2": 0.7377826873939866,
+      "r2_gain": -0.0024451429085947662,
+      "mean_energy_mj": 167.30399461397295,
+      "energy_cv": 0.022579642476616348,
+      "thermal_regimes": {
+        "overheating": 48
+      },
+      "mean_fraction_in_window": 0.004274787767406171,
+      "front_rear_ratio": 0.4652131044513143,
+      "left_right_ratio": 0.5889192773290152
+    },
+    {
+      "driver": "LEC",
+      "run_id": 17,
+      "compound": "HARD",
+      "laps": 47,
+      "age_slope": 0.06816396854764216,
+      "age_r2": 0.928144018726549,
+      "energy_slope": 0.06808184107643493,
+      "energy_r2": 0.9283560808015999,
+      "r2_gain": 0.0002120620750509783,
+      "mean_energy_mj": 175.4444572444235,
+      "energy_cv": 0.022466917011344918,
+      "thermal_regimes": {
+        "overheating": 47
+      },
+      "mean_fraction_in_window": 0.004383781019389328,
+      "front_rear_ratio": 0.46443186980800527,
+      "left_right_ratio": 0.5956940236308388
+    },
+    {
+      "driver": "VER",
+      "run_id": 43,
+      "compound": "HARD",
+      "laps": 44,
+      "age_slope": 0.08670789288231331,
+      "age_r2": 0.9724915449858241,
+      "energy_slope": 0.08660107461491373,
+      "energy_r2": 0.9724687766607262,
+      "r2_gain": -2.27683250979549e-05,
+      "mean_energy_mj": 172.06453357384623,
+      "energy_cv": 0.018142613468788586,
+      "thermal_regimes": {
+        "overheating": 44
+      },
+      "mean_fraction_in_window": 0.004608668569460581,
+      "front_rear_ratio": 0.4646918516103044,
+      "left_right_ratio": 0.5944247178200953
+    }
+  ]
+}
