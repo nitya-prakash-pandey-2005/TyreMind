@@ -41,6 +41,23 @@ interface Recovery {
   }
 }
 
+interface ModelLadder {
+  lap_time_prediction: {
+    model: string
+    crps: number
+    mae: number
+    coverage_95: number
+    bias_drift: number
+  }[]
+  degradation_recovery: {
+    model: string
+    rate_mae: number
+    rate_bias: number
+    coverage: number
+  }[]
+  models_without_degradation_parameter: string[]
+}
+
 interface PracticeToRace {
   overall: {
     n_events: number
@@ -76,6 +93,7 @@ export function SciencePanel({ sessionId }: { sessionId: string }) {
 
   const recovery = experiments['exp01_ground_truth_recovery'] as Recovery | undefined
   const transfer = experiments['exp03_practice_to_race'] as PracticeToRace | undefined
+  const ladder = experiments['exp05_model_ladder'] as ModelLadder | undefined
 
   return (
     <div className="space-y-3">
@@ -252,6 +270,8 @@ export function SciencePanel({ sessionId }: { sessionId: string }) {
         )}
       </Panel>
 
+      {ladder && <ModelLadderPanel ladder={ladder} />}
+
       {summary && (
         <Panel title="This session's fit" aside="diagnostics">
           <div className="grid grid-cols-2 gap-5 sm:grid-cols-5">
@@ -355,6 +375,137 @@ function Identifiability() {
             </p>
           </div>
         ))}
+      </div>
+    </Panel>
+  )
+}
+
+/**
+ * Two tables that disagree, which is the finding.
+ *
+ * A model can top the lap-time table while having nothing to say about tyres.
+ * Showing only the table we win would misrepresent what was measured.
+ */
+function ModelLadderPanel({ ladder }: { ladder: ModelLadder }) {
+  const noParameter = new Set(ladder.models_without_degradation_parameter)
+  const bestLapTime = ladder.lap_time_prediction[0]?.model
+  const bestRate = ladder.degradation_recovery[0]?.model
+
+  return (
+    <Panel title="Against every reasonable alternative" aside="identical chronological folds">
+      <p className="mb-4 max-w-[74ch] text-[12.5px] leading-relaxed text-ink-dim">
+        A state-space model is more complicated than a regression, so it has to
+        earn that on the same data with the same validation. Two things are
+        scored, and they disagree — which is the point.
+      </p>
+
+      <div className="grid gap-5 lg:grid-cols-2">
+        <div>
+          <div className="mb-2 text-[11px] text-ink-faint">
+            Predicting lap times (4 real races)
+          </div>
+          <table className="w-full text-[11.5px]">
+            <thead>
+              <tr className="border-b border-line text-[10px] text-ink-faint">
+                <th className="py-1.5 text-left font-normal">model</th>
+                <th className="text-right font-normal">CRPS</th>
+                <th className="text-right font-normal">cover</th>
+                <th className="text-right font-normal">drift</th>
+              </tr>
+            </thead>
+            <tbody className="num">
+              {ladder.lap_time_prediction.map((row) => (
+                <tr key={row.model} className="border-b border-line/50">
+                  <td
+                    className="py-1.5 text-left font-sans"
+                    style={{
+                      color:
+                        row.model === bestLapTime ? 'var(--color-ink)' : 'var(--color-ink-dim)',
+                    }}
+                  >
+                    {row.model}
+                  </td>
+                  <td className="text-right">{row.crps.toFixed(3)}</td>
+                  <td className="text-right text-ink-dim">
+                    {(row.coverage_95 * 100).toFixed(0)}%
+                  </td>
+                  <td
+                    className="text-right"
+                    style={{
+                      color:
+                        Math.abs(row.bias_drift) < 0.2
+                          ? 'var(--color-good)'
+                          : 'var(--color-ink-faint)',
+                    }}
+                  >
+                    {signed(row.bias_drift, 2)}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <div>
+          <div className="mb-2 text-[11px] text-ink-faint">
+            Recovering a known degradation rate (synthetic)
+          </div>
+          <table className="w-full text-[11.5px]">
+            <thead>
+              <tr className="border-b border-line text-[10px] text-ink-faint">
+                <th className="py-1.5 text-left font-normal">model</th>
+                <th className="text-right font-normal">error</th>
+                <th className="text-right font-normal">bias</th>
+                <th className="text-right font-normal">cover</th>
+              </tr>
+            </thead>
+            <tbody className="num">
+              {ladder.degradation_recovery.map((row) => (
+                <tr key={row.model} className="border-b border-line/50">
+                  <td
+                    className="py-1.5 text-left font-sans"
+                    style={{
+                      color: row.model === bestRate ? 'var(--color-alert)' : 'var(--color-ink-dim)',
+                    }}
+                  >
+                    {row.model}
+                  </td>
+                  <td className="text-right">{row.rate_mae.toFixed(4)}</td>
+                  <td className="text-right text-ink-dim">{signed(row.rate_bias, 4)}</td>
+                  <td className="text-right text-ink-dim">
+                    {(row.coverage * 100).toFixed(0)}%
+                  </td>
+                </tr>
+              ))}
+              {[...noParameter].map((model) => (
+                <tr key={model} className="border-b border-line/50">
+                  <td className="py-1.5 text-left font-sans text-ink-faint">{model}</td>
+                  <td colSpan={3} className="text-right text-[10.5px] text-ink-faint">
+                    no degradation parameter
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div className="mt-4 border-l-2 border-alert pl-3.5">
+        <div className="mb-1 text-[11px] font-semibold text-alert">
+          The best lap-time predictor cannot answer the question
+        </div>
+        <p className="max-w-[70ch] text-[12px] leading-relaxed text-ink-dim">
+          <strong className="text-ink">{bestLapTime}</strong> predicts lap times
+          better than we do. It has no parameter meaning &ldquo;degradation rate&rdquo;, so
+          there is nothing to hand an engineer and nothing to carry from Friday to
+          Sunday. It is also badly overconfident.
+        </p>
+        <p className="mt-1.5 max-w-[70ch] text-[12px] leading-relaxed text-ink-dim">
+          <strong className="text-ink">Drift</strong> is how much a model&rsquo;s error grows
+          as each fold forecasts further past its training window. TyreMind is the
+          only model tested whose error does not grow — which is what encoding fuel
+          as physics buys, rather than learning it as a pattern.
+        </p>
       </div>
     </Panel>
   )
