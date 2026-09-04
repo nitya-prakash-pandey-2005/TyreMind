@@ -1,6 +1,6 @@
 {
   "experiment": "exp01_ground_truth_recovery",
-  "generated_at": "2026-09-04T09:55:28.167416+00:00",
+  "generated_at": "2026-09-04T09:59:11.107430+00:00",
   "n_seeds": 25,
   "summary": {
     "per_compound": {
@@ -45,7 +45,7 @@
       "naive_bias": -0.0965606091861857,
       "error_reduction_pct": 95.46068289946541,
       "interval_coverage_95": 1.0,
-      "mean_fit_seconds": 9.07943934799987,
+      "mean_fit_seconds": 8.82897476800048,
       "convergence_rate": 1.0
     }
   },
@@ -54,7 +54,7 @@
       "seed": 1000,
       "n_laps": 657,
       "converged": true,
-      "fit_seconds": 4.985277200001292,
+      "fit_seconds": 5.515967300001648,
       "loglik": -124.28841257757078,
       "per_compound": {
         "SOFT": {
@@ -103,7 +103,7 @@
       "seed": 1001,
       "n_laps": 666,
       "converged": true,
-      "fit_seconds": 5.295905400002084,
+      "fit_seconds": 4.420211999997264,
       "loglik": -134.36785148108132,
       "per_compound": {
         "SOFT": {
@@ -152,7 +152,7 @@
       "seed": 1002,
       "n_laps": 649,
       "converged": true,
-      "fit_seconds": 6.6103431999945315,
+      "fit_seconds": 6.043515199999092,
       "loglik": -133.25584708308833,
       "per_compound": {
         "SOFT": {
@@ -201,7 +201,7 @@
       "seed": 1003,
       "n_laps": 660,
       "converged": true,
-      "fit_seconds": 6.48330989999522,
+      "fit_seconds": 6.617373600005521,
       "loglik": -186.4511055488911,
       "per_compound": {
         "SOFT": {
@@ -250,7 +250,7 @@
       "seed": 1004,
       "n_laps": 698,
       "converged": true,
-      "fit_seconds": 9.375761800001783,
+      "fit_seconds": 9.59493449999718,
       "loglik": -123.3780832673357,
       "per_compound": {
         "SOFT": {
@@ -299,7 +299,7 @@
       "seed": 1005,
       "n_laps": 650,
       "converged": true,
-      "fit_seconds": 7.987195200003043,
+      "fit_seconds": 7.71307880000677,
       "loglik": -88.93567808079555,
       "per_compound": {
         "SOFT": {
@@ -348,7 +348,7 @@
       "seed": 1006,
       "n_laps": 646,
       "converged": true,
-      "fit_seconds": 7.85313540000061,
+      "fit_seconds": 8.744176000000152,
       "loglik": -192.12998948328078,
       "per_compound": {
         "SOFT": {
@@ -397,7 +397,7 @@
       "seed": 1007,
       "n_laps": 689,
       "converged": true,
-      "fit_seconds": 8.316022500002873,
+      "fit_seconds": 10.744630200002575,
       "loglik": -164.60681729518598,
       "per_compound": {
         "SOFT": {
@@ -446,7 +446,7 @@
       "seed": 1008,
       "n_laps": 675,
       "converged": true,
-      "fit_seconds": 10.169625599999563,
+      "fit_seconds": 9.195093399997859,
       "loglik": -126.45881761692146,
       "per_compound": {
         "SOFT": {
@@ -495,7 +495,7 @@
       "seed": 1009,
       "n_laps": 656,
       "converged": true,
-      "fit_seconds": 10.655057800002396,
+      "fit_seconds": 8.918111999999383,
       "loglik": -129.14580228118518,
       "per_compound": {
         "SOFT": {
@@ -544,7 +544,7 @@
       "seed": 1010,
       "n_laps": 622,
       "converged": true,
-      "fit_seconds": 13.37182710000343,
+      "fit_seconds": 11.563891799996782,
       "loglik": -180.99791555745153,
       "per_compound": {
         "SOFT": {
@@ -593,7 +593,7 @@
       "seed": 1011,
       "n_laps": 683,
       "converged": true,
-      "fit_seconds": 8.256942200001504,
+      "fit_seconds": 7.888173899998947,
       "loglik": -158.1203539439598,
       "per_compound": {
         "SOFT": {
@@ -642,7 +642,7 @@
       "seed": 1012,
       "n_laps": 650,
       "converged": true,
-      "fit_seconds": 8.63695000000007,
+      "fit_seconds": 10.834533300003386,
       "loglik": -140.21127655810676,
       "per_compound": {
         "SOFT": {
@@ -691,7 +691,7 @@
       "seed": 1013,
       "n_laps": 687,
       "converged": true,
-      "fit_seconds": 9.076686499996867,
+      "fit_seconds": 9.943186999997124,
       "loglik": -131.48030748157845,
       "per_compound": {
         "SOFT": {
@@ -740,7 +740,7 @@
       "seed": 1014,
       "n_laps": 676,
       "converged": true,
-      "fit_seconds": 8.559587499999907,
+      "fit_seconds": 8.547802600005525,
       "loglik": -144.5754502630378,
       "per_compound": {
         "SOFT": {
@@ -789,7 +789,7 @@
       "seed": 1015,
       "n_laps": 711,
       "converged": true,
-      "fit_seconds": 12.482941099995514,
+      "fit_seconds": 11.87348679999559,
       "loglik": -138.19851168476717,
       "per_compound": {
         "SOFT": {
@@ -838,7 +838,7 @@
       "seed": 1016,
       "n_laps": 641,
       "converged": true,
-      "fit_seconds": 10.331202100001974,
+      "fit_seconds": 9.620997400001215,
       "loglik": -185.6749137023928,
       "per_compound": {
         "SOFT": {
@@ -887,7 +887,7 @@
       "seed": 1017,
       "n_laps": 651,
       "converged": true,
-      "fit_seconds": 6.6582975999990595,
+      "fit_seconds": 5.2015123999954085,
       "loglik": -92.18254145692525,
       "per_compound": {
         "SOFT": {
@@ -936,7 +936,7 @@
       "seed": 1018,
       "n_laps": 646,
       "converged": true,
-      "fit_seconds": 9.86307370000577,
+      "fit_seconds": 8.682662200000777,
       "loglik": -197.11033309558408,
       "per_compound": {
         "SOFT": {
@@ -985,7 +985,7 @@
       "seed": 1019,
       "n_laps": 670,
       "converged": true,
-      "fit_seconds": 10.822405999999319,
+      "fit_seconds": 11.30068819999724,
       "loglik": -158.59331340170704,
       "per_compound": {
         "SOFT": {
@@ -1034,7 +1034,7 @@
       "seed": 1020,
       "n_laps": 643,
       "converged": true,
-      "fit_seconds": 8.145025500001793,
+      "fit_seconds": 8.01626060000126,
       "loglik": -121.47533923703423,
       "per_compound": {
         "SOFT": {
@@ -1083,7 +1083,7 @@
       "seed": 1021,
       "n_laps": 673,
       "converged": true,
-      "fit_seconds": 14.319309499995143,
+      "fit_seconds": 12.286921800005075,
       "loglik": -139.33802169004846,
       "per_compound": {
         "SOFT": {
@@ -1132,7 +1132,7 @@
       "seed": 1022,
       "n_laps": 664,
       "converged": true,
-      "fit_seconds": 8.193244699999923,
+      "fit_seconds": 8.061803100004909,
       "loglik": -163.75171810805563,
       "per_compound": {
         "SOFT": {
@@ -1181,7 +1181,7 @@
       "seed": 1023,
       "n_laps": 634,
       "converged": true,
-      "fit_seconds": 6.585637999996834,
+      "fit_seconds": 6.291855499999656,
       "loglik": -162.75029045481529,
       "per_compound": {
         "SOFT": {
@@ -1230,7 +1230,7 @@
       "seed": 1024,
       "n_laps": 692,
       "converged": true,
-      "fit_seconds": 13.95121819999622,
+      "fit_seconds": 13.103499600001669,
       "loglik": -129.13469430363668,
       "per_compound": {
         "SOFT": {
