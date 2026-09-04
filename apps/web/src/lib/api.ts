@@ -242,3 +242,273 @@ export function signed(value: number, digits = 3): string {
 export function fixed(value: number | null | undefined, digits = 3): string {
   return value == null || !Number.isFinite(value) ? '—' : value.toFixed(digits)
 }
+
+// ---------------------------------------------------------------------------
+// Strategy, trust, business value and cross-industry
+// ---------------------------------------------------------------------------
+
+export interface StrategyOption {
+  label: string
+  pit_lap: number | null
+  new_compound: string | null
+  expected_time: number
+  time_sd: number
+  best_case: number
+  downside: number
+  ran_out_of_tyre: number
+  n_sims: number
+}
+
+export interface Distribution {
+  centres: number[]
+  counts: number[]
+  mean: number
+  p10: number
+  p90: number
+}
+
+export interface StrategyResult {
+  recommended: string
+  margin_s: number
+  decision_confidence: number
+  reasons: string[]
+  alternatives: StrategyOption[]
+  state: {
+    current_lap: number
+    total_laps: number
+    laps_remaining: number
+    compound: string
+    tyre_age: number
+    pit_loss_s: number
+  }
+  narration: { text: string; source: string }
+  distributions: Record<string, Distribution>
+}
+
+export interface ConsensusEntry {
+  compound: string
+  estimates: Record<string, { mean: number; sd: number }>
+  consensus: number
+  consensus_sd: number
+  spread: number
+  agreement: number
+  disagreement_flagged: boolean
+  explanation: string
+}
+
+export interface TrustResult {
+  consensus: Record<string, ConsensusEntry>
+  applicability: {
+    applicability: number
+    risk: string
+    reasons: string[]
+    checks: Record<string, Record<string, number>>
+  }
+  regimes: {
+    driver: string
+    run_id: number
+    laps: number
+    regime: string
+    confidence: number
+    meaning: string
+  }[]
+  value_of_information: {
+    signal: string
+    current_uncertainty: number
+    estimated_reduction: number
+    projected_uncertainty: number
+    rationale: string
+  }[]
+}
+
+export interface ValueEstimate {
+  metric: string
+  value: number
+  unit: string
+  derivation: string
+  source_quantity: string
+  confidence: 'measured' | 'estimated' | 'illustrative'
+}
+
+export interface BusinessReport {
+  estimates: ValueEstimate[]
+  caveats: string[]
+}
+
+export interface AssetProfileDto {
+  asset_type: string
+  display_name: string
+  age_unit: string
+  performance_unit: string
+  confounders: string[]
+  typical_life: number
+  performance_threshold: number
+  notes: string
+}
+
+export interface CrossIndustryResult {
+  profiles: AssetProfileDto[]
+  validated_transfer: {
+    dataset: string
+    n_engines_scored: number
+    n_sensors_used: number
+    rul_rmse: number
+    rul_mae: number
+    fraction_early: number
+    estimated_degradation_rate: number
+    note: string
+  } | null
+  fleet_illustration: BusinessReport
+  honest_summary: string
+}
+
+export interface ValidationResult {
+  overall: {
+    n_events: number
+    n_comparisons: number
+    mae: number
+    naive_mae: number | null
+    bias: number
+    coverage_95: number
+  }
+  this_event: unknown
+  all_events: {
+    event: string
+    mae: number
+    naive_mae: number
+    bias: number
+    coverage_95: number
+    comparisons: {
+      compound: string
+      predicted: number
+      predicted_sd: number
+      actual: number
+      error: number
+      covered_95: boolean
+    }[]
+  }[]
+}
+
+export interface HealthTimeline {
+  driver: string
+  run_id: number
+  compound: string
+  rows: {
+    session_lap: number
+    tyre_age: number
+    level: number
+    level_sd: number
+    rate: number
+    rate_sd: number
+    health: number
+  }[]
+  health_anchor_note: string
+}
+
+export interface Narration {
+  text: string
+  source: string
+  facts: Record<string, unknown>
+  rejected_reason: string | null
+}
+
+async function getJson<T>(path: string): Promise<T> {
+  const response = await fetch(path)
+  if (!response.ok) {
+    const body = await response.text()
+    let detail = body
+    try {
+      detail = JSON.parse(body).detail ?? body
+    } catch {
+      /* not JSON */
+    }
+    throw new Error(detail || `${response.status} ${response.statusText}`)
+  }
+  return response.json() as Promise<T>
+}
+
+export const advanced = {
+  strategy: (id: string, driver: string, lap: number, nSims = 5000) =>
+    getJson<StrategyResult>(
+      `/api/session/${id}/strategy?driver=${encodeURIComponent(driver)}&lap=${lap}&n_sims=${nSims}`,
+    ),
+  regret: (id: string, driver: string, lap: number, recommended: number, actual: number) =>
+    getJson<{ regret_s: number; recommended_expected_time: number; actual_expected_time: number }>(
+      `/api/session/${id}/regret?driver=${encodeURIComponent(driver)}&lap=${lap}` +
+        `&recommended_lap=${recommended}&actual_lap=${actual}`,
+    ),
+  trust: (id: string, compound?: string, tyreAge = 20) =>
+    getJson<TrustResult>(
+      `/api/session/${id}/trust?tyre_age=${tyreAge}` +
+        (compound ? `&compound=${encodeURIComponent(compound)}` : ''),
+    ),
+  narrate: (id: string, driver: string, lap: number) =>
+    getJson<{ decomposition: Narration; projection: Narration }>(
+      `/api/session/${id}/narrate?driver=${encodeURIComponent(driver)}&lap=${lap}`,
+    ),
+  business: () => getJson<BusinessReport>('/api/business'),
+  crossIndustry: () => getJson<CrossIndustryResult>('/api/cross-industry'),
+  validation: (id: string) => getJson<ValidationResult>(`/api/session/${id}/validation`),
+  healthTimeline: (id: string, driver: string, runId: number) =>
+    getJson<HealthTimeline>(
+      `/api/session/${id}/health-timeline?driver=${encodeURIComponent(driver)}&run_id=${runId}`,
+    ),
+}
+
+export interface CornerEnergy {
+  circuit: string
+  measured: boolean
+  reason?: string
+  corner_share?: { FL: number; FR: number; RL: number; RR: number }
+  left_side_energy_share?: number
+  front_axle_energy_share?: number
+  peak_lateral_g?: number
+  published_direction?: string
+  predicted_direction?: string
+  n_laps?: number
+}
+
+export function cornerEnergy(circuit: string): Promise<CornerEnergy> {
+  return getJson<CornerEnergy>(`/api/physics/corner-energy?circuit=${encodeURIComponent(circuit)}`)
+}
+
+/**
+ * Resolve a CSS custom property to a concrete colour.
+ *
+ * ECharts draws to canvas and cannot resolve `var(--x)` -- it silently falls back
+ * to its own default palette, which is how every chart in this app ended up
+ * monochrome grey while the surrounding HTML was correctly themed. Anything
+ * handed to a chart has to go through here first.
+ *
+ * @param value A CSS colour, which may be `var(--name)` or already concrete.
+ * @returns A concrete colour string usable by canvas.
+ */
+export function resolveColour(value: string): string {
+  const match = /^var\((--[\w-]+)\)$/.exec(value.trim())
+  if (!match) return value
+  if (typeof window === 'undefined') return FALLBACK_COLOUR[match[1]] ?? '#8fa3ae'
+
+  const resolved = getComputedStyle(document.documentElement)
+    .getPropertyValue(match[1])
+    .trim()
+  return resolved || FALLBACK_COLOUR[match[1]] || '#8fa3ae'
+}
+
+/** Used before the stylesheet is available, and in non-browser contexts. */
+const FALLBACK_COLOUR: Record<string, string> = {
+  '--color-soft': '#e8352e',
+  '--color-medium': '#f5c518',
+  '--color-hard': '#ededed',
+  '--color-alert': '#ff8a5b',
+  '--color-good': '#4bbf8a',
+  '--color-fuel': '#4fa8c5',
+  '--color-track': '#7b8fa1',
+  '--color-traffic': '#b47fd0',
+  '--color-residual': '#5a6b76',
+  '--color-ink-dim': '#8fa3ae',
+}
+
+/** Compound colour, already resolved for canvas rendering. */
+export function compoundColourResolved(compound: string): string {
+  return resolveColour(compoundColour(compound))
+}

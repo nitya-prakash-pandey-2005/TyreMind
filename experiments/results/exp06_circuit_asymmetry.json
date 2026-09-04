@@ -1,6 +1,6 @@
 {
   "experiment": "exp06_circuit_asymmetry",
-  "generated_at": "2026-09-04T20:09:07.312081+00:00",
+  "generated_at": "2026-09-04T20:58:10.031534+00:00",
   "year": 2024,
   "n_circuits": 8,
   "n_correct": 7,
@@ -14,6 +14,12 @@
       "left_side_energy_share": 0.5488222886928623,
       "left_turn_energy_share": 0.21482752836023764,
       "front_axle_energy_share": 0.4659518285429824,
+      "corner_share": {
+        "FL": 0.25738457601260883,
+        "FR": 0.20856725253037356,
+        "RL": 0.29143771268025354,
+        "RR": 0.2426104587767641
+      },
       "net_rotation": -0.6671585308440051,
       "peak_lateral_g": 5.881606516134327,
       "n_laps": 12
@@ -26,6 +32,12 @@
       "left_side_energy_share": 0.5890583332899144,
       "left_turn_energy_share": 0.29464763554810497,
       "front_axle_energy_share": 0.46409229816309255,
+      "corner_share": {
+        "FL": 0.27657847966797827,
+        "FR": 0.18751381849511417,
+        "RL": 0.31247985362193603,
+        "RR": 0.22342784821497141
+      },
       "net_rotation": -0.6876206427068319,
       "peak_lateral_g": 6.966232976575074,
       "n_laps": 12
@@ -38,6 +50,12 @@
       "left_side_energy_share": 0.5450242428599754,
       "left_turn_energy_share": 0.35404210078543735,
       "front_axle_energy_share": 0.46218004741462665,
+      "corner_share": {
+        "FL": 0.25360112251114325,
+        "FR": 0.20857892490348348,
+        "RL": 0.2914231203488322,
+        "RR": 0.24639683223654107
+      },
       "net_rotation": -0.7919726439722332,
       "peak_lateral_g": 6.707141351150759,
       "n_laps": 12
@@ -50,6 +68,12 @@
       "left_side_energy_share": 0.5815169708674928,
       "left_turn_energy_share": 0.25882373251818314,
       "front_axle_energy_share": 0.46456166972152996,
+      "corner_share": {
+        "FL": 0.27304162604043886,
+        "FR": 0.1915200436810912,
+        "RL": 0.308475344827054,
+        "RR": 0.226962985451416
+      },
       "net_rotation": -0.5236440074718584,
       "peak_lateral_g": 6.834939824433152,
       "n_laps": 12
@@ -62,20 +86,14 @@
       "left_side_energy_share": 0.45459538398570304,
       "left_turn_energy_share": 0.7462790985744623,
       "front_axle_energy_share": 0.459795197824739,
+      "corner_share": {
+        "FL": 0.2071987887024138,
+        "FR": 0.2525964091223252,
+        "RL": 0.24739659528328917,
+        "RR": 0.2928082068919718
+      },
       "net_rotation": 0.7489697081445819,
       "peak_lateral_g": 4.717908497973277,
-      "n_laps": 12
-    },
-    {
-      "circuit": "Austin",
-      "published_direction": "anti-clockwise",
-      "predicted_direction": "clockwise",
-      "correct": false,
-      "left_side_energy_share": 0.5112038642593434,
-      "left_turn_energy_share": 0.4617788440133847,
-      "front_axle_energy_share": 0.46548601649755134,
-      "net_rotation": 2.48329433786997,
-      "peak_lateral_g": 6.871485798376715,
       "n_laps": 12
     },
     {
@@ -86,6 +104,12 @@
       "left_side_energy_share": 0.4808279155206297,
       "left_turn_energy_share": 0.6005465032313899,
       "front_axle_energy_share": 0.46888161673149736,
+      "corner_share": {
+        "FL": 0.22485248625735024,
+        "FR": 0.2440291304741472,
+        "RL": 0.2559754292632795,
+        "RR": 0.27514295400522304
+      },
       "net_rotation": 1.406297438020368,
       "peak_lateral_g": 6.897534528093002,
       "n_laps": 12
@@ -98,8 +122,32 @@
       "left_side_energy_share": 0.4729713329496032,
       "left_turn_energy_share": 0.6094667320196338,
       "front_axle_energy_share": 0.46913271306205373,
+      "corner_share": {
+        "FL": 0.22104759384944359,
+        "FR": 0.2480851192126101,
+        "RL": 0.2519237391001595,
+        "RR": 0.2789435478377868
+      },
       "net_rotation": 1.3063772481769607,
       "peak_lateral_g": 5.777849991894734,
+      "n_laps": 12
+    },
+    {
+      "circuit": "Austin",
+      "published_direction": "anti-clockwise",
+      "predicted_direction": "clockwise",
+      "correct": false,
+      "left_side_energy_share": 0.5112038642593434,
+      "left_turn_energy_share": 0.4617788440133847,
+      "front_axle_energy_share": 0.46548601649755134,
+      "corner_share": {
+        "FL": 0.23834082760407407,
+        "FR": 0.22714518889347723,
+        "RL": 0.2728630366552694,
+        "RR": 0.2616509468471793
+      },
+      "net_rotation": 2.48329433786997,
+      "peak_lateral_g": 6.871485798376715,
       "n_laps": 12
     }
   ]

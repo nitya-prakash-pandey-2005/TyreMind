@@ -98,6 +98,10 @@ def analyse_lap(telemetry, params: VehicleParameters) -> dict | None:
     turning = left_turn + right_turn
 
     return {
+        # Per-corner shares, so downstream consumers show measured values rather
+        # than reconstructing four numbers from two aggregate ratios (which is
+        # underdetermined, and would mean inventing the difference).
+        "corner_share": {k: v / total for k, v in energy.items()},
         "left_side_energy_share": (energy["FL"] + energy["RL"]) / total,
         "front_axle_energy_share": (energy["FL"] + energy["FR"]) / total,
         "left_turn_energy_share": left_turn / turning if turning > 0 else float("nan"),
@@ -170,6 +174,10 @@ def main() -> None:
                 "front_axle_energy_share": float(
                     np.mean([a["front_axle_energy_share"] for a in analyses])
                 ),
+                "corner_share": {
+                    corner: float(np.mean([a["corner_share"][corner] for a in analyses]))
+                    for corner in ("FL", "FR", "RL", "RR")
+                },
                 "net_rotation": rotation,
                 "peak_lateral_g": float(np.mean([a["peak_lateral_g"] for a in analyses])),
                 "n_laps": len(analyses),

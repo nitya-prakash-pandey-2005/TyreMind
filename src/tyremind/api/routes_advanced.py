@@ -48,6 +48,11 @@ store = SessionStore()
 
 EXPERIMENTS_DIR = Path("experiments/results")
 
+#: Perturbed-prior fits, cached per session. Each one is a full re-fit taking a
+#: few seconds, they are identical on every request, and without this the trust
+#: panel leaves the UI blank for fifteen seconds each time it is opened.
+_PERTURBATION_CACHE: dict[tuple[str, str], dict[str, tuple[float, float]]] = {}
+
 #: Where a compound's degradation typically starts accelerating, as a fraction of
 #: the oldest age observed for it. Used only to give the simulator a cliff point
 #: when the session itself does not contain one.
@@ -244,11 +249,18 @@ def trust(
 
     estimates: dict[str, dict[str, tuple[float, float]]] = {}
     for name, priors in perturbations.items():
-        try:
-            fitted = loaded.fit if name == "baseline" else fit_tyre_ssm(lap_table, priors=priors)
-            estimates[name] = fitted.compound_rates()
-        except Exception:  # noqa: BLE001 - a failed perturbation is data
-            logger.warning("perturbation %s failed for %s", name, session_id)
+        if name == "baseline":
+            estimates[name] = loaded.fit.compound_rates()
+            continue
+
+        key = (session_id, name)
+        if key not in _PERTURBATION_CACHE:
+            try:
+                _PERTURBATION_CACHE[key] = fit_tyre_ssm(lap_table, priors=priors).compound_rates()
+            except Exception:  # noqa: BLE001 - a failed perturbation is data, not a crash
+                logger.warning("perturbation %s failed for %s", name, session_id)
+                continue
+        estimates[name] = _PERTURBATION_CACHE[key]
 
     consensus = build_consensus(estimates) if len(estimates) >= 2 else {}
     applicability = assess_applicability(lap_table, compound=compound, tyre_age=tyre_age)
@@ -425,6 +437,50 @@ def health_timeline(session_id: str, driver: str, run_id: int) -> dict:
     }
 
 
+def corner_energy(circuit: str) -> dict:
+    """Measured per-corner frictional energy share for a circuit.
+
+    Read from `exp06_circuit_asymmetry`, which computes it from position
+    telemetry. Returns `measured: false` when a circuit has not been analysed,
+    so the dashboard can say so rather than showing an even split as if it were
+    a result.
+    """
+    path = EXPERIMENTS_DIR / "exp06_circuit_asymmetry.json"
+    if not path.exists():
+        return {
+            "circuit": circuit,
+            "measured": False,
+            "reason": "physics validation has not been run (experiments/exp06_circuit_asymmetry.py)",
+        }
+
+    data = json.loads(path.read_text())
+    match = next(
+        (c for c in data.get("circuits", []) if c["circuit"].lower() == circuit.lower()), None
+    )
+    if not match or "corner_share" not in match:
+        analysed = [c["circuit"] for c in data.get("circuits", [])]
+        return {
+            "circuit": circuit,
+            "measured": False,
+            "reason": (
+                f"{circuit} has not been analysed. Circuits with telemetry results: "
+                f"{', '.join(analysed) if analysed else 'none'}."
+            ),
+        }
+
+    return {
+        "circuit": circuit,
+        "measured": True,
+        "corner_share": match["corner_share"],
+        "left_side_energy_share": match["left_side_energy_share"],
+        "front_axle_energy_share": match["front_axle_energy_share"],
+        "peak_lateral_g": match["peak_lateral_g"],
+        "published_direction": match["published_direction"],
+        "predicted_direction": match["predicted_direction"],
+        "n_laps": match["n_laps"],
+    }
+
+
 def register(app: FastAPI) -> None:
     """Attach these routes to the application.
 
@@ -442,3 +498,4 @@ def register(app: FastAPI) -> None:
     app.get("/api/cross-industry")(cross_industry)
     app.get("/api/session/{session_id}/validation")(validation)
     app.get("/api/session/{session_id}/health-timeline")(health_timeline)
+    app.get("/api/physics/corner-energy")(corner_energy)

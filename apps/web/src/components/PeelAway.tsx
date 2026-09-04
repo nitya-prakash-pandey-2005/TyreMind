@@ -13,7 +13,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import ReactECharts from 'echarts-for-react'
 import type { DecompositionRow } from '../lib/api'
-import { compoundColour } from '../lib/api'
+import { compoundColourResolved } from '../lib/api'
 
 /** Peel order: largest confounder first, so each step visibly changes the shape. */
 const STEPS = [
@@ -60,7 +60,7 @@ export function PeelAway({
     [rows],
   )
 
-  const colour = compoundColour(compound)
+  const colour = compoundColourResolved(compound)
   const atEnd = step === STEPS.length - 1
 
   const option = {
@@ -145,9 +145,11 @@ export function PeelAway({
         {atEnd ? (
           <>
             With fuel, track evolution and traffic taken out, what is left is the tyre.
-            The dashed line is the model&rsquo;s estimate of that curve; the solid line is
-            what the stint actually did once the confounders are removed. They coincide
-            because the confounders are exactly what the difference was.
+            The dashed line is the model&rsquo;s estimate of the degradation curve; the
+            solid line is the measured lap times with the confounders removed. The gap
+            between them is lap-to-lap driver noise the model does not try to explain --
+            they track each other, they do not coincide, and a model claiming they did
+            would be fitting the noise.
           </>
         ) : (
           <>
