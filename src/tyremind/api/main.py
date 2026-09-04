@@ -13,6 +13,7 @@ should be protecting against.
 from __future__ import annotations
 
 import asyncio
+import contextlib
 import json
 import logging
 from pathlib import Path
@@ -368,10 +369,10 @@ async def replay_session(websocket: WebSocket, session_id: str) -> None:
         logger.info("replay client disconnected from %s", session_id)
     except Exception as exc:  # noqa: BLE001
         logger.exception("replay of %s failed", session_id)
-        try:
+        # The client may already be gone, which is not an error worth raising
+        # from inside an exception handler.
+        with contextlib.suppress(WebSocketDisconnect, RuntimeError):
             await websocket.send_json({"type": "error", "detail": str(exc)})
-        except (WebSocketDisconnect, RuntimeError):
-            pass
 
 
 # The built dashboard is mounted last so that it does not shadow /api routes.

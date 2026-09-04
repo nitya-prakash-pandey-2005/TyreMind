@@ -133,12 +133,22 @@ away.
 | Pooled regression (ridge) | 0.813 | 79% | +0.663 |
 | TyreMind state-space | 0.949 | 73% | **−0.136** |
 | Naive | 1.119 | 69% | +1.280 |
+| Fuel-corrected regression | 1.120 | 69% | +1.293 |
+| Neural network (MLP) | 1.643 | 69% | −3.324 |
 
 **LightGBM predicts lap times better than we do, and cannot answer the
-question.** It has no degradation parameter. It is also the second-worst
-extrapolator: bias drift measures how much a model's error grows as it forecasts
-further past its training window, and TyreMind is the only rung whose error does
-not grow.
+question.** Neither it nor the neural network has a parameter meaning
+"degradation rate", so there is nothing to hand an engineer and nothing to carry
+from Friday to Sunday.
+
+Bias drift measures how much a model's error grows as it forecasts further past
+its training window. TyreMind is the only rung whose error does not grow. The MLP
+is the most unstable of all at −3.324 — its bias swings wildly between folds,
+which is what unconstrained extrapolation looks like.
+
+The MLP was tuned before being compared (five configurations on held-out folds;
+disabling early stopping, which was validating on ~30 rows, was worth roughly a
+full second of CRPS). Beating a badly-configured competitor would prove nothing.
 
 ### Sensitivity to the assumptions
 

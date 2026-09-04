@@ -12,7 +12,6 @@ import logging
 from pathlib import Path
 
 import numpy as np
-import pandas as pd
 from fastapi import FastAPI, HTTPException
 
 from tyremind.api.store import SessionStore

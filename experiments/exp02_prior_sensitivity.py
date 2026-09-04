@@ -26,6 +26,7 @@ Writes experiments/results/exp02_prior_sensitivity.json.
 from __future__ import annotations
 
 import argparse
+import contextlib
 import json
 import warnings
 from datetime import UTC, datetime
@@ -93,10 +94,9 @@ def run_session(lap_table: pd.DataFrame) -> dict[str, dict[str, tuple[float, flo
     drivers = sorted(lap_table["driver"].unique())
     half = lap_table[lap_table["driver"].isin(drivers[: max(2, len(drivers) // 2)])]
     if half["run_id"].nunique() >= 3:
-        try:
+        # A variant that fails to converge is data about the variant, not a crash.
+        with contextlib.suppress(Exception):
             out["half the field"] = fit_tyre_ssm(half).compound_rates()
-        except Exception:  # noqa: BLE001
-            pass
 
     # Filtered rather than smoothed: what was knowable in real time.
     try:

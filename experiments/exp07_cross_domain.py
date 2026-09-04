@@ -112,7 +112,6 @@ def main() -> None:
     fit = fit_tyre_ssm(lap_table, priors=priors)
     print(f"  converged={fit.converged}  loglik={fit.loglik:.1f}  states={fit.index.size}")
 
-    degradation = fit.degradation()
     rates = {c: r for c, (r, _) in fit.compound_rates().items()}
     mean_rate = float(np.mean(list(rates.values()))) if rates else float("nan")
     print(f"  estimated degradation rate: {mean_rate:.5f} health units per cycle")

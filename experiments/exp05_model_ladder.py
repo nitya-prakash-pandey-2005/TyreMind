@@ -25,7 +25,7 @@ import pandas as pd
 
 from tyremind.data.synthetic import SessionConfig, generate_session
 from tyremind.models.baselines import model_ladder
-from tyremind.models.evaluation import evaluate_ladder, ladder_table, score_rate_recovery
+from tyremind.models.evaluation import evaluate_ladder, score_rate_recovery
 
 RESULTS = Path(__file__).parent / "results" / "exp05_model_ladder.json"
 DEMO_DIR = Path("data/demo")

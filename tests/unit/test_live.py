@@ -19,7 +19,7 @@ import numpy as np
 import pytest
 
 from tyremind.data.synthetic import SessionConfig, generate_session
-from tyremind.models.ssm.tyre_ssm import TyreSSMHyper, fit_tyre_ssm
+from tyremind.models.ssm.tyre_ssm import fit_tyre_ssm
 from tyremind.stream.live import LapObservation, LiveTyreMonitor, replay
 
 

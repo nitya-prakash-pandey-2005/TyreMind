@@ -374,6 +374,97 @@ class GradientBoosted(DegradationModel):
         return mean, np.maximum(spread, 1e-3)
 
 
+class NeuralNetwork(DegradationModel):
+    """A multi-layer perceptron on the same engineered features.
+
+    Included because "have you tried deep learning" is the first question any
+    modelling choice has to answer, and answering it with a measurement beats
+    answering it with an opinion.
+
+    A scikit-learn MLP rather than a torch model: on a few hundred laps with six
+    features, network *depth* is not the binding constraint -- data is. A larger
+    architecture would change the answer only by overfitting harder, and it would
+    add a two-gigabyte dependency to a project whose demo has to run offline.
+
+    Like gradient boosting, it has no parameter meaning "degradation rate", so
+    `compound_rates` stays empty. Prediction intervals come from the ensemble
+    spread across differently-seeded networks, which captures model uncertainty
+    but not observation noise -- so its intervals are expected to be too narrow,
+    and the benchmark measures how much.
+    """
+
+    name = "Neural network (MLP)"
+
+    FEATURES = GradientBoosted.FEATURES
+
+    def __init__(self, n_models: int = 5, **params) -> None:
+        # Chosen by comparing five configurations on held-out folds, because
+        # beating a badly-tuned network would prove nothing. Early stopping is
+        # OFF deliberately: it holds out 10% for validation, which on a few
+        # hundred laps is ~30 rows, and stopping on that is noise -- it cost
+        # roughly a full second of CRPS. Strong L2 (alpha=10) does the
+        # regularising instead.
+        self._params = {
+            "hidden_layer_sizes": (48, 24),
+            "activation": "relu",
+            "max_iter": 2000,
+            "early_stopping": False,
+            "alpha": 10.0,
+            **params,
+        }
+        self._n_models = n_models
+        self._models: list = []
+        self._scaler = None
+        self._compound_codes: dict[str, int] = {}
+        self._driver_codes: dict[str, int] = {}
+        self._origin: float | None = None
+        self._residual_sd = 1.0
+
+    def _features(self, lap_table: pd.DataFrame) -> np.ndarray:
+        df = _design(lap_table, self._origin)
+        df["compound_code"] = df["compound"].map(self._compound_codes).fillna(-1).astype(float)
+        df["driver_code"] = df["driver"].map(self._driver_codes).fillna(-1).astype(float)
+        return df[self.FEATURES].to_numpy(dtype=float)
+
+    def fit(self, lap_table: pd.DataFrame) -> NeuralNetwork:
+        from sklearn.neural_network import MLPRegressor
+        from sklearn.preprocessing import StandardScaler
+
+        self._origin = float(lap_table["session_lap"].min())
+        self._compound_codes = {
+            c: i for i, c in enumerate(sorted(lap_table["compound"].unique()))
+        }
+        self._driver_codes = {d: i for i, d in enumerate(sorted(lap_table["driver"].unique()))}
+
+        X = self._features(lap_table)
+        y = lap_table["lap_time"].to_numpy(dtype=float)
+
+        # Scaling is not optional for an MLP: lap times are ~90 and tyre age ~20,
+        # and without it the optimiser spends its budget on the scale difference.
+        self._scaler = StandardScaler().fit(X)
+        Xs = self._scaler.transform(X)
+
+        self._models = [
+            MLPRegressor(random_state=seed, **self._params).fit(Xs, y)
+            for seed in range(self._n_models)
+        ]
+
+        predictions = np.mean([m.predict(Xs) for m in self._models], axis=0)
+        self._residual_sd = float(np.std(y - predictions))
+        return self
+
+    def predict(self, lap_table: pd.DataFrame) -> tuple[np.ndarray, np.ndarray]:
+        if not self._models:
+            raise RuntimeError("fit() must be called before predict()")
+        Xs = self._scaler.transform(self._features(lap_table))
+        stacked = np.array([m.predict(Xs) for m in self._models])
+        mean = stacked.mean(axis=0)
+        # Ensemble disagreement plus in-sample residual scatter. The first is
+        # epistemic, the second stands in for aleatoric; neither is a posterior.
+        spread = np.sqrt(stacked.var(axis=0) + self._residual_sd**2)
+        return mean, np.maximum(spread, 1e-3)
+
+
 class TyreStateModel(DegradationModel):
     """The TyreMind state-space model, wrapped for the benchmark harness."""
 
@@ -474,5 +565,6 @@ def model_ladder() -> list[DegradationModel]:
         FuelCorrectedModel(),
         PooledRegression(),
         GradientBoosted(),
+        NeuralNetwork(),
         TyreStateModel(),
     ]

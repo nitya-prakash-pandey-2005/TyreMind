@@ -74,8 +74,10 @@ def _brute_force_loglik(model: StateSpaceModel, obs: Observations) -> float:
         tj = int(obs.t_index[j])
         for k in range(obs.n_obs):
             tk = int(obs.t_index[k])
-            # Cov(x_s, x_t) = V[s] Phi(s, t)' for s <= t.
-            if tj <= tk:
+            # Cov(x_s, x_t) = V[s] Phi(s, t)' for s <= t. Written as an
+            # if/else rather than a ternary because the ordering convention
+            # is the substance of the line.
+            if tj <= tk:  # noqa: SIM108
                 cross = V[tj] @ Phi[tj, tk].T
             else:
                 cross = (V[tk] @ Phi[tk, tj].T).T

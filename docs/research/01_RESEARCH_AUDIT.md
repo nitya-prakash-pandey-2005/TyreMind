@@ -125,7 +125,7 @@ the answer moves when those priors move.
 | Cross-domain transfer | YELLOW | Built on NASA C-MAPSS with real ground truth. |
 | **Full Pacejka identification** | **RED** | **Cut.** Slip angle and slip ratio are not observable from public telemetry. Identifying a production Pacejka set would have consumed the build and produced parameters no data could constrain. |
 | **PyMC / Stan** | **RED** | **Cut.** Windows compile risk, and no incremental mode — which would have made the real-time claim impossible. |
-| **Neural state-space / TFT** | **RED** | **Cut.** Public data cannot support a model that would beat a six-parameter linear SSM, and LightGBM already demonstrates the point about flexible models (§7). |
+| **Neural state-space / TFT** | **RED** | **Cut** as originally specified. A tuned multi-layer perceptron was added to the ladder instead, so the "have you tried deep learning" question is answered by measurement rather than opinion — see §7. A torch model would add a 2 GB dependency to an offline demo and change the answer only by overfitting harder: on a few hundred laps with six features, data is the binding constraint, not depth. |
 
 ---
 
@@ -181,9 +181,16 @@ It also:
   state-space model — the only rung whose error does not grow as it forecasts
   further past its training window.
 
-That last one is the physics-informed argument demonstrated rather than asserted:
-encoding fuel as physics lets the model extrapolate it; learning fuel as a
-pattern does not.
+A tuned MLP finishes last on lap-time prediction (CRPS 1.643) and has the *most
+unstable* extrapolation of any rung, with bias drift of −3.324 — its error swings
+by more than three seconds between folds. It was tuned first, across five
+configurations on held-out folds, because beating a badly-configured competitor
+would prove nothing.
+
+That last column is the physics-informed argument demonstrated rather than
+asserted: encoding fuel as physics lets a model extrapolate it; learning fuel as
+a pattern does not, and the more flexible the learner, the worse the
+extrapolation behaves.
 
 ---
 

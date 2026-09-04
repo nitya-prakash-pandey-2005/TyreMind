@@ -29,11 +29,11 @@ architecture rather than evidence.
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
-from enum import Enum
+from dataclasses import dataclass
+from enum import StrEnum
 
 
-class Confounder(str, Enum):
+class Confounder(StrEnum):
     """A cause of observed performance change that is not degradation.
 
     Naming these is the whole design. Every one is something that moves the
