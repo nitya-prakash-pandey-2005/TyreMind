@@ -1,0 +1,1254 @@
+{
+  "experiment": "exp02_prior_sensitivity",
+  "generated_at": "2026-09-04T20:51:37.310949+00:00",
+  "variants": {
+    "baseline": "Default priors, as documented in configs/physics.yaml.",
+    "fuel prior +1sd": "What if fuel burn-off costs more lap time than we assumed?",
+    "fuel prior -1sd": "What if it costs less?",
+    "track prior +1sd": "What if the track rubbers in more than we assumed?",
+    "track prior -1sd": "What if it rubbers in less?",
+    "wide priors": "What if we are much less confident in both physical assumptions?"
+  },
+  "synthetic_summary": [
+    {
+      "variant": "track prior -1sd",
+      "mae": 0.002288956929525426,
+      "bias": 1.6315192105454773e-05,
+      "mean_sd": 0.017008371144956267,
+      "coverage": 1.0
+    },
+    {
+      "variant": "baseline",
+      "mae": 0.0046511027024913176,
+      "bias": 0.004296440095071836,
+      "mean_sd": 0.01712182358193017,
+      "coverage": 1.0
+    },
+    {
+      "variant": "live (filtered)",
+      "mae": 0.0046511027024913176,
+      "bias": 0.004296440095071836,
+      "mean_sd": 0.01712182358193017,
+      "coverage": 1.0
+    },
+    {
+      "variant": "wide priors",
+      "mae": 0.005547674930266973,
+      "bias": 0.005336114308402776,
+      "mean_sd": 0.03164966334152538,
+      "coverage": 1.0
+    },
+    {
+      "variant": "half the field",
+      "mae": 0.00730435957232625,
+      "bias": 0.005558924272381413,
+      "mean_sd": 0.01771399996149487,
+      "coverage": 1.0
+    },
+    {
+      "variant": "track prior +1sd",
+      "mae": 0.009093391637445965,
+      "bias": 0.009093391637445965,
+      "mean_sd": 0.017229219784525112,
+      "coverage": 1.0
+    },
+    {
+      "variant": "fuel prior -1sd",
+      "mae": 0.01134659260615626,
+      "bias": -0.01134659260615626,
+      "mean_sd": 0.017115041433556154,
+      "coverage": 1.0
+    },
+    {
+      "variant": "fuel prior +1sd",
+      "mae": 0.01994160365417826,
+      "bias": 0.01994160365417826,
+      "mean_sd": 0.017120323980141693,
+      "coverage": 1.0
+    }
+  ],
+  "synthetic_detail": [
+    {
+      "seed": 7000,
+      "variant": "baseline",
+      "compound": "SOFT",
+      "true_rate": 0.115,
+      "estimate": 0.12153055137276407,
+      "sd": 0.017100199571552694,
+      "error": 0.006530551372764065,
+      "covered": true
+    },
+    {
+      "seed": 7000,
+      "variant": "baseline",
+      "compound": "MEDIUM",
+      "true_rate": 0.072,
+      "estimate": 0.07696338565390261,
+      "sd": 0.016702461015229184,
+      "error": 0.004963385653902613,
+      "covered": true
+    },
+    {
+      "seed": 7000,
+      "variant": "baseline",
+      "compound": "HARD",
+      "true_rate": 0.041,
+      "estimate": 0.04211916773534691,
+      "sd": 0.016819048339659564,
+      "error": 0.0011191677353469057,
+      "covered": true
+    },
+    {
+      "seed": 7000,
+      "variant": "fuel prior +1sd",
+      "compound": "SOFT",
+      "true_rate": 0.115,
+      "estimate": 0.13716691264105382,
+      "sd": 0.017098675853709038,
+      "error": 0.022166912641053818,
+      "covered": true
+    },
+    {
+      "seed": 7000,
+      "variant": "fuel prior +1sd",
+      "compound": "MEDIUM",
+      "true_rate": 0.072,
+      "estimate": 0.09260879871307597,
+      "sd": 0.016701382064379378,
+      "error": 0.02060879871307597,
+      "covered": true
+    },
+    {
+      "seed": 7000,
+      "variant": "fuel prior +1sd",
+      "compound": "HARD",
+      "true_rate": 0.041,
+      "estimate": 0.0577668078137699,
+      "sd": 0.016818078685975197,
+      "error": 0.0167668078137699,
+      "covered": true
+    },
+    {
+      "seed": 7000,
+      "variant": "fuel prior -1sd",
+      "compound": "SOFT",
+      "true_rate": 0.115,
+      "estimate": 0.10589556761382395,
+      "sd": 0.017101965408516835,
+      "error": -0.009104432386176059,
+      "covered": true
+    },
+    {
+      "seed": 7000,
+      "variant": "fuel prior -1sd",
+      "compound": "MEDIUM",
+      "true_rate": 0.072,
+      "estimate": 0.06131958197702681,
+      "sd": 0.016703766648117162,
+      "error": -0.010680418022973183,
+      "covered": true
+    },
+    {
+      "seed": 7000,
+      "variant": "fuel prior -1sd",
+      "compound": "HARD",
+      "true_rate": 0.041,
+      "estimate": 0.026473046760695024,
+      "sd": 0.016820217733665505,
+      "error": -0.014526953239304977,
+      "covered": true
+    },
+    {
+      "seed": 7000,
+      "variant": "track prior +1sd",
+      "compound": "SOFT",
+      "true_rate": 0.115,
+      "estimate": 0.1273200037371626,
+      "sd": 0.017268691684762763,
+      "error": 0.012320003737162591,
+      "covered": true
+    },
+    {
+      "seed": 7000,
+      "variant": "track prior +1sd",
+      "compound": "MEDIUM",
+      "true_rate": 0.072,
+      "estimate": 0.08219185172490312,
+      "sd": 0.01683144926110531,
+      "error": 0.010191851724903125,
+      "covered": true
+    },
+    {
+      "seed": 7000,
+      "variant": "track prior +1sd",
+      "compound": "HARD",
+      "true_rate": 0.041,
+      "estimate": 0.04700136301208936,
+      "sd": 0.01693648417847134,
+      "error": 0.00600136301208936,
+      "covered": true
+    },
+    {
+      "seed": 7000,
+      "variant": "track prior -1sd",
+      "compound": "SOFT",
+      "true_rate": 0.115,
+      "estimate": 0.1162963212438149,
+      "sd": 0.017049583706198395,
+      "error": 0.0012963212438149019,
+      "covered": true
+    },
+    {
+      "seed": 7000,
+      "variant": "track prior -1sd",
+      "compound": "MEDIUM",
+      "true_rate": 0.072,
+      "estimate": 0.07261918644507552,
+      "sd": 0.016696980493466206,
+      "error": 0.0006191864450755258,
+      "covered": true
+    },
+    {
+      "seed": 7000,
+      "variant": "track prior -1sd",
+      "compound": "HARD",
+      "true_rate": 0.041,
+      "estimate": 0.03816683515057111,
+      "sd": 0.016817479869939485,
+      "error": -0.0028331648494288944,
+      "covered": true
+    },
+    {
+      "seed": 7000,
+      "variant": "wide priors",
+      "compound": "SOFT",
+      "true_rate": 0.115,
+      "estimate": 0.12286639531829431,
+      "sd": 0.0315955632139442,
+      "error": 0.007866395318294306,
+      "covered": true
+    },
+    {
+      "seed": 7000,
+      "variant": "wide priors",
+      "compound": "MEDIUM",
+      "true_rate": 0.072,
+      "estimate": 0.0780154731627332,
+      "sd": 0.03134560706343337,
+      "error": 0.006015473162733209,
+      "covered": true
+    },
+    {
+      "seed": 7000,
+      "variant": "wide priors",
+      "compound": "HARD",
+      "true_rate": 0.041,
+      "estimate": 0.04296500639536824,
+      "sd": 0.03140395862148956,
+      "error": 0.0019650063953682365,
+      "covered": true
+    },
+    {
+      "seed": 7000,
+      "variant": "half the field",
+      "compound": "SOFT",
+      "true_rate": 0.115,
+      "estimate": 0.12366025378936163,
+      "sd": 0.017897734213393416,
+      "error": 0.008660253789361624,
+      "covered": true
+    },
+    {
+      "seed": 7000,
+      "variant": "half the field",
+      "compound": "MEDIUM",
+      "true_rate": 0.072,
+      "estimate": 0.07920914380306275,
+      "sd": 0.016859884423049937,
+      "error": 0.007209143803062756,
+      "covered": true
+    },
+    {
+      "seed": 7000,
+      "variant": "half the field",
+      "compound": "HARD",
+      "true_rate": 0.041,
+      "estimate": 0.048321259865166166,
+      "sd": 0.017406452099049084,
+      "error": 0.0073212598651661645,
+      "covered": true
+    },
+    {
+      "seed": 7000,
+      "variant": "live (filtered)",
+      "compound": "SOFT",
+      "true_rate": 0.115,
+      "estimate": 0.12153055137276407,
+      "sd": 0.017100199571552694,
+      "error": 0.006530551372764065,
+      "covered": true
+    },
+    {
+      "seed": 7000,
+      "variant": "live (filtered)",
+      "compound": "MEDIUM",
+      "true_rate": 0.072,
+      "estimate": 0.07696338565390261,
+      "sd": 0.016702461015229184,
+      "error": 0.004963385653902613,
+      "covered": true
+    },
+    {
+      "seed": 7000,
+      "variant": "live (filtered)",
+      "compound": "HARD",
+      "true_rate": 0.041,
+      "estimate": 0.04211916773534691,
+      "sd": 0.016819048339659564,
+      "error": 0.0011191677353469057,
+      "covered": true
+    },
+    {
+      "seed": 7001,
+      "variant": "baseline",
+      "compound": "SOFT",
+      "true_rate": 0.115,
+      "estimate": 0.12125660120805211,
+      "sd": 0.016893753879581815,
+      "error": 0.006256601208052104,
+      "covered": true
+    },
+    {
+      "seed": 7001,
+      "variant": "baseline",
+      "compound": "MEDIUM",
+      "true_rate": 0.072,
+      "estimate": 0.0698720243554831,
+      "sd": 0.016872500619862733,
+      "error": -0.0021279756445168885,
+      "covered": true
+    },
+    {
+      "seed": 7001,
+      "variant": "baseline",
+      "compound": "HARD",
+      "true_rate": 0.041,
+      "estimate": 0.042188765550623064,
+      "sd": 0.017245573871071975,
+      "error": 0.0011887655506230624,
+      "covered": true
+    },
+    {
+      "seed": 7001,
+      "variant": "fuel prior +1sd",
+      "compound": "SOFT",
+      "true_rate": 0.115,
+      "estimate": 0.13691860217191434,
+      "sd": 0.016892926831281498,
+      "error": 0.02191860217191434,
+      "covered": true
+    },
+    {
+      "seed": 7001,
+      "variant": "fuel prior +1sd",
+      "compound": "MEDIUM",
+      "true_rate": 0.072,
+      "estimate": 0.08552339577540756,
+      "sd": 0.016871716253903105,
+      "error": 0.013523395775407565,
+      "covered": true
+    },
+    {
+      "seed": 7001,
+      "variant": "fuel prior +1sd",
+      "compound": "HARD",
+      "true_rate": 0.041,
+      "estimate": 0.05784177884659723,
+      "sd": 0.017245003572704806,
+      "error": 0.01684177884659723,
+      "covered": true
+    },
+    {
+      "seed": 7001,
+      "variant": "fuel prior -1sd",
+      "compound": "SOFT",
+      "true_rate": 0.115,
+      "estimate": 0.10559541174957847,
+      "sd": 0.016894139369797112,
+      "error": -0.009404588250421536,
+      "covered": true
+    },
+    {
+      "seed": 7001,
+      "variant": "fuel prior -1sd",
+      "compound": "MEDIUM",
+      "true_rate": 0.072,
+      "estimate": 0.05421285387829813,
+      "sd": 0.016872889548678684,
+      "error": -0.017787146121701868,
+      "covered": true
+    },
+    {
+      "seed": 7001,
+      "variant": "fuel prior -1sd",
+      "compound": "HARD",
+      "true_rate": 0.041,
+      "estimate": 0.026531803218869002,
+      "sd": 0.017245837114293384,
+      "error": -0.014468196781131,
+      "covered": true
+    },
+    {
+      "seed": 7001,
+      "variant": "track prior +1sd",
+      "compound": "SOFT",
+      "true_rate": 0.115,
+      "estimate": 0.12588391393720896,
+      "sd": 0.017024574339514924,
+      "error": 0.010883913937208958,
+      "covered": true
+    },
+    {
+      "seed": 7001,
+      "variant": "track prior +1sd",
+      "compound": "MEDIUM",
+      "true_rate": 0.072,
+      "estimate": 0.07456190650667631,
+      "sd": 0.017006966811899532,
+      "error": 0.0025619065066763147,
+      "covered": true
+    },
+    {
+      "seed": 7001,
+      "variant": "track prior +1sd",
+      "compound": "HARD",
+      "true_rate": 0.041,
+      "estimate": 0.0466994211858461,
+      "sd": 0.01736767630474522,
+      "error": 0.005699421185846099,
+      "covered": true
+    },
+    {
+      "seed": 7001,
+      "variant": "track prior -1sd",
+      "compound": "SOFT",
+      "true_rate": 0.115,
+      "estimate": 0.11713179427661577,
+      "sd": 0.01675769447458685,
+      "error": 0.0021317942766157644,
+      "covered": true
+    },
+    {
+      "seed": 7001,
+      "variant": "track prior -1sd",
+      "compound": "MEDIUM",
+      "true_rate": 0.072,
+      "estimate": 0.06566485084427215,
+      "sd": 0.0167378078782052,
+      "error": -0.0063351491557278455,
+      "covered": true
+    },
+    {
+      "seed": 7001,
+      "variant": "track prior -1sd",
+      "compound": "HARD",
+      "true_rate": 0.041,
+      "estimate": 0.03814059667533258,
+      "sd": 0.01710551768895888,
+      "error": -0.0028594033246674214,
+      "covered": true
+    },
+    {
+      "seed": 7001,
+      "variant": "wide priors",
+      "compound": "SOFT",
+      "true_rate": 0.115,
+      "estimate": 0.12200758653300822,
+      "sd": 0.031481003346935856,
+      "error": 0.007007586533008217,
+      "covered": true
+    },
+    {
+      "seed": 7001,
+      "variant": "wide priors",
+      "compound": "MEDIUM",
+      "true_rate": 0.072,
+      "estimate": 0.07073063626881482,
+      "sd": 0.031459404024268146,
+      "error": -0.0012693637311851774,
+      "covered": true
+    },
+    {
+      "seed": 7001,
+      "variant": "wide priors",
+      "compound": "HARD",
+      "true_rate": 0.041,
+      "estimate": 0.042859147696259134,
+      "sd": 0.03169367843698922,
+      "error": 0.0018591476962591322,
+      "covered": true
+    },
+    {
+      "seed": 7001,
+      "variant": "half the field",
+      "compound": "SOFT",
+      "true_rate": 0.115,
+      "estimate": 0.12459796893984278,
+      "sd": 0.01744451844093025,
+      "error": 0.009597968939842771,
+      "covered": true
+    },
+    {
+      "seed": 7001,
+      "variant": "half the field",
+      "compound": "MEDIUM",
+      "true_rate": 0.072,
+      "estimate": 0.06198449148443566,
+      "sd": 0.017699751216430505,
+      "error": -0.010015508515564334,
+      "covered": true
+    },
+    {
+      "seed": 7001,
+      "variant": "half the field",
+      "compound": "HARD",
+      "true_rate": 0.041,
+      "estimate": 0.04402695342268587,
+      "sd": 0.018360005601799966,
+      "error": 0.0030269534226858713,
+      "covered": true
+    },
+    {
+      "seed": 7001,
+      "variant": "live (filtered)",
+      "compound": "SOFT",
+      "true_rate": 0.115,
+      "estimate": 0.12125660120805211,
+      "sd": 0.016893753879581815,
+      "error": 0.006256601208052104,
+      "covered": true
+    },
+    {
+      "seed": 7001,
+      "variant": "live (filtered)",
+      "compound": "MEDIUM",
+      "true_rate": 0.072,
+      "estimate": 0.0698720243554831,
+      "sd": 0.016872500619862733,
+      "error": -0.0021279756445168885,
+      "covered": true
+    },
+    {
+      "seed": 7001,
+      "variant": "live (filtered)",
+      "compound": "HARD",
+      "true_rate": 0.041,
+      "estimate": 0.042188765550623064,
+      "sd": 0.017245573871071975,
+      "error": 0.0011887655506230624,
+      "covered": true
+    },
+    {
+      "seed": 7002,
+      "variant": "baseline",
+      "compound": "SOFT",
+      "true_rate": 0.115,
+      "estimate": 0.12184227703180489,
+      "sd": 0.017796128406426057,
+      "error": 0.006842277031804886,
+      "covered": true
+    },
+    {
+      "seed": 7002,
+      "variant": "baseline",
+      "compound": "MEDIUM",
+      "true_rate": 0.072,
+      "estimate": 0.07552201398799234,
+      "sd": 0.01790868451985826,
+      "error": 0.003522013987992345,
+      "covered": true
+    },
+    {
+      "seed": 7002,
+      "variant": "baseline",
+      "compound": "HARD",
+      "true_rate": 0.041,
+      "estimate": 0.0457266052347592,
+      "sd": 0.017793443443745696,
+      "error": 0.0047266052347592,
+      "covered": true
+    },
+    {
+      "seed": 7002,
+      "variant": "fuel prior +1sd",
+      "compound": "SOFT",
+      "true_rate": 0.115,
+      "estimate": 0.13746837768463185,
+      "sd": 0.017792878831057842,
+      "error": 0.02246837768463185,
+      "covered": true
+    },
+    {
+      "seed": 7002,
+      "variant": "fuel prior +1sd",
+      "compound": "MEDIUM",
+      "true_rate": 0.072,
+      "estimate": 0.09114637300334152,
+      "sd": 0.01790527817087109,
+      "error": 0.01914637300334153,
+      "covered": true
+    },
+    {
+      "seed": 7002,
+      "variant": "fuel prior +1sd",
+      "compound": "HARD",
+      "true_rate": 0.041,
+      "estimate": 0.061349544527065945,
+      "sd": 0.017789649251236512,
+      "error": 0.020349544527065944,
+      "covered": true
+    },
+    {
+      "seed": 7002,
+      "variant": "fuel prior -1sd",
+      "compound": "SOFT",
+      "true_rate": 0.115,
+      "estimate": 0.10621173063460124,
+      "sd": 0.017793846069481836,
+      "error": -0.008788269365398768,
+      "covered": true
+    },
+    {
+      "seed": 7002,
+      "variant": "fuel prior -1sd",
+      "compound": "MEDIUM",
+      "true_rate": 0.072,
+      "estimate": 0.05989550101407662,
+      "sd": 0.017906377521535892,
+      "error": -0.012104498985923376,
+      "covered": true
+    },
+    {
+      "seed": 7002,
+      "variant": "fuel prior -1sd",
+      "compound": "HARD",
+      "true_rate": 0.041,
+      "estimate": 0.03009548433998747,
+      "sd": 0.01779083892538179,
+      "error": -0.01090451566001253,
+      "covered": true
+    },
+    {
+      "seed": 7002,
+      "variant": "track prior +1sd",
+      "compound": "SOFT",
+      "true_rate": 0.115,
+      "estimate": 0.12676629562207659,
+      "sd": 0.01787838211669751,
+      "error": 0.01176629562207658,
+      "covered": true
+    },
+    {
+      "seed": 7002,
+      "variant": "track prior +1sd",
+      "compound": "MEDIUM",
+      "true_rate": 0.072,
+      "estimate": 0.08054084260027768,
+      "sd": 0.018000670979924676,
+      "error": 0.008540842600277682,
+      "covered": true
+    },
+    {
+      "seed": 7002,
+      "variant": "track prior +1sd",
+      "compound": "HARD",
+      "true_rate": 0.041,
+      "estimate": 0.050691002162752796,
+      "sd": 0.01790954264223028,
+      "error": 0.009691002162752795,
+      "covered": true
+    },
+    {
+      "seed": 7002,
+      "variant": "track prior -1sd",
+      "compound": "SOFT",
+      "true_rate": 0.115,
+      "estimate": 0.11696927584045426,
+      "sd": 0.017560590385020707,
+      "error": 0.0019692758404542543,
+      "covered": true
+    },
+    {
+      "seed": 7002,
+      "variant": "track prior -1sd",
+      "compound": "MEDIUM",
+      "true_rate": 0.072,
+      "estimate": 0.07050932886495556,
+      "sd": 0.017658066949798098,
+      "error": -0.001490671135044433,
+      "covered": true
+    },
+    {
+      "seed": 7002,
+      "variant": "track prior -1sd",
+      "compound": "HARD",
+      "true_rate": 0.041,
+      "estimate": 0.04088253804034877,
+      "sd": 0.017537999375603908,
+      "error": -0.00011746195965123274,
+      "covered": true
+    },
+    {
+      "seed": 7002,
+      "variant": "wide priors",
+      "compound": "SOFT",
+      "true_rate": 0.115,
+      "estimate": 0.12209717345307129,
+      "sd": 0.03222752083010505,
+      "error": 0.007097173453071287,
+      "covered": true
+    },
+    {
+      "seed": 7002,
+      "variant": "wide priors",
+      "compound": "MEDIUM",
+      "true_rate": 0.072,
+      "estimate": 0.07584064449823809,
+      "sd": 0.032285326693085696,
+      "error": 0.003840644498238094,
+      "covered": true
+    },
+    {
+      "seed": 7002,
+      "variant": "wide priors",
+      "compound": "HARD",
+      "true_rate": 0.041,
+      "estimate": 0.046188017780544176,
+      "sd": 0.032165010745164445,
+      "error": 0.005188017780544174,
+      "covered": true
+    },
+    {
+      "seed": 7002,
+      "variant": "half the field",
+      "compound": "SOFT",
+      "true_rate": 0.115,
+      "estimate": 0.12423492688655445,
+      "sd": 0.018983000183232773,
+      "error": 0.009234926886554445,
+      "covered": true
+    },
+    {
+      "seed": 7002,
+      "variant": "half the field",
+      "compound": "MEDIUM",
+      "true_rate": 0.072,
+      "estimate": 0.08382285102973841,
+      "sd": 0.01829958438761072,
+      "error": 0.011822851029738415,
+      "covered": true
+    },
+    {
+      "seed": 7002,
+      "variant": "half the field",
+      "compound": "HARD",
+      "true_rate": 0.041,
+      "estimate": 0.040542896715895324,
+      "sd": 0.01707582721900597,
+      "error": -0.00045710328410467765,
+      "covered": true
+    },
+    {
+      "seed": 7002,
+      "variant": "live (filtered)",
+      "compound": "SOFT",
+      "true_rate": 0.115,
+      "estimate": 0.12184227703180489,
+      "sd": 0.017796128406426057,
+      "error": 0.006842277031804886,
+      "covered": true
+    },
+    {
+      "seed": 7002,
+      "variant": "live (filtered)",
+      "compound": "MEDIUM",
+      "true_rate": 0.072,
+      "estimate": 0.07552201398799234,
+      "sd": 0.01790868451985826,
+      "error": 0.003522013987992345,
+      "covered": true
+    },
+    {
+      "seed": 7002,
+      "variant": "live (filtered)",
+      "compound": "HARD",
+      "true_rate": 0.041,
+      "estimate": 0.0457266052347592,
+      "sd": 0.017793443443745696,
+      "error": 0.0047266052347592,
+      "covered": true
+    },
+    {
+      "seed": 7003,
+      "variant": "baseline",
+      "compound": "SOFT",
+      "true_rate": 0.115,
+      "estimate": 0.11989166867636328,
+      "sd": 0.01670088710042135,
+      "error": 0.004891668676363273,
+      "covered": true
+    },
+    {
+      "seed": 7003,
+      "variant": "baseline",
+      "compound": "MEDIUM",
+      "true_rate": 0.072,
+      "estimate": 0.08006258582792222,
+      "sd": 0.0170011350945178,
+      "error": 0.008062585827922228,
+      "covered": true
+    },
+    {
+      "seed": 7003,
+      "variant": "baseline",
+      "compound": "HARD",
+      "true_rate": 0.041,
+      "estimate": 0.04658163450584824,
+      "sd": 0.016628067121234897,
+      "error": 0.00558163450584824,
+      "covered": true
+    },
+    {
+      "seed": 7003,
+      "variant": "fuel prior +1sd",
+      "compound": "SOFT",
+      "true_rate": 0.115,
+      "estimate": 0.13554794445825682,
+      "sd": 0.01670016088806791,
+      "error": 0.02054794445825682,
+      "covered": true
+    },
+    {
+      "seed": 7003,
+      "variant": "fuel prior +1sd",
+      "compound": "MEDIUM",
+      "true_rate": 0.072,
+      "estimate": 0.09571805805057325,
+      "sd": 0.01700054545273836,
+      "error": 0.023718058050573254,
+      "covered": true
+    },
+    {
+      "seed": 7003,
+      "variant": "fuel prior +1sd",
+      "compound": "HARD",
+      "true_rate": 0.041,
+      "estimate": 0.062242650164450915,
+      "sd": 0.0166275919057756,
+      "error": 0.021242650164450913,
+      "covered": true
+    },
+    {
+      "seed": 7003,
+      "variant": "fuel prior -1sd",
+      "compound": "SOFT",
+      "true_rate": 0.115,
+      "estimate": 0.10436080311821787,
+      "sd": 0.01667789667593551,
+      "error": -0.010639196881782137,
+      "covered": true
+    },
+    {
+      "seed": 7003,
+      "variant": "fuel prior -1sd",
+      "compound": "MEDIUM",
+      "true_rate": 0.072,
+      "estimate": 0.0643687293928102,
+      "sd": 0.01696570328654034,
+      "error": -0.007631270607189794,
+      "covered": true
+    },
+    {
+      "seed": 7003,
+      "variant": "fuel prior -1sd",
+      "compound": "HARD",
+      "true_rate": 0.041,
+      "estimate": 0.03088037502814012,
+      "sd": 0.01660701890072979,
+      "error": -0.010119624971859881,
+      "covered": true
+    },
+    {
+      "seed": 7003,
+      "variant": "track prior +1sd",
+      "compound": "SOFT",
+      "true_rate": 0.115,
+      "estimate": 0.12458877762443812,
+      "sd": 0.01678413750608656,
+      "error": 0.009588777624438119,
+      "covered": true
+    },
+    {
+      "seed": 7003,
+      "variant": "track prior +1sd",
+      "compound": "MEDIUM",
+      "true_rate": 0.072,
+      "estimate": 0.08431775249144381,
+      "sd": 0.017059704799641164,
+      "error": 0.012317752491443817,
+      "covered": true
+    },
+    {
+      "seed": 7003,
+      "variant": "track prior +1sd",
+      "compound": "HARD",
+      "true_rate": 0.041,
+      "estimate": 0.05055756904447614,
+      "sd": 0.016682356789222048,
+      "error": 0.00955756904447614,
+      "covered": true
+    },
+    {
+      "seed": 7003,
+      "variant": "track prior -1sd",
+      "compound": "SOFT",
+      "true_rate": 0.115,
+      "estimate": 0.1159781445912711,
+      "sd": 0.016633026603843394,
+      "error": 0.0009781445912711018,
+      "covered": true
+    },
+    {
+      "seed": 7003,
+      "variant": "track prior -1sd",
+      "compound": "MEDIUM",
+      "true_rate": 0.072,
+      "estimate": 0.07650508331230635,
+      "sd": 0.016954171370878776,
+      "error": 0.004505083312306354,
+      "covered": true
+    },
+    {
+      "seed": 7003,
+      "variant": "track prior -1sd",
+      "compound": "HARD",
+      "true_rate": 0.041,
+      "estimate": 0.043331827020247383,
+      "sd": 0.016591534942975328,
+      "error": 0.0023318270202473818,
+      "covered": true
+    },
+    {
+      "seed": 7003,
+      "variant": "wide priors",
+      "compound": "SOFT",
+      "true_rate": 0.115,
+      "estimate": 0.12215999303468063,
+      "sd": 0.03135612789430255,
+      "error": 0.007159993034680623,
+      "covered": true
+    },
+    {
+      "seed": 7003,
+      "variant": "wide priors",
+      "compound": "MEDIUM",
+      "true_rate": 0.072,
+      "estimate": 0.08200601072056923,
+      "sd": 0.031503789307316295,
+      "error": 0.010006010720569239,
+      "covered": true
+    },
+    {
+      "seed": 7003,
+      "variant": "wide priors",
+      "compound": "HARD",
+      "true_rate": 0.041,
+      "estimate": 0.04829728683925197,
+      "sd": 0.031278969921270126,
+      "error": 0.007297286839251967,
+      "covered": true
+    },
+    {
+      "seed": 7003,
+      "variant": "half the field",
+      "compound": "SOFT",
+      "true_rate": 0.115,
+      "estimate": 0.11911847457000103,
+      "sd": 0.017388751730742107,
+      "error": 0.0041184745700010295,
+      "covered": true
+    },
+    {
+      "seed": 7003,
+      "variant": "half the field",
+      "compound": "MEDIUM",
+      "true_rate": 0.072,
+      "estimate": 0.08459762833324852,
+      "sd": 0.01782229645365376,
+      "error": 0.012597628333248526,
+      "covered": true
+    },
+    {
+      "seed": 7003,
+      "variant": "half the field",
+      "compound": "HARD",
+      "true_rate": 0.041,
+      "estimate": 0.04459024242858438,
+      "sd": 0.017330193569039972,
+      "error": 0.0035902424285843768,
+      "covered": true
+    },
+    {
+      "seed": 7003,
+      "variant": "live (filtered)",
+      "compound": "SOFT",
+      "true_rate": 0.115,
+      "estimate": 0.11989166867636328,
+      "sd": 0.01670088710042135,
+      "error": 0.004891668676363273,
+      "covered": true
+    },
+    {
+      "seed": 7003,
+      "variant": "live (filtered)",
+      "compound": "MEDIUM",
+      "true_rate": 0.072,
+      "estimate": 0.08006258582792222,
+      "sd": 0.0170011350945178,
+      "error": 0.008062585827922228,
+      "covered": true
+    },
+    {
+      "seed": 7003,
+      "variant": "live (filtered)",
+      "compound": "HARD",
+      "true_rate": 0.041,
+      "estimate": 0.04658163450584824,
+      "sd": 0.016628067121234897,
+      "error": 0.00558163450584824,
+      "covered": true
+    }
+  ],
+  "real_sessions": [
+    {
+      "session": "2024-monza-R",
+      "compound": "HARD",
+      "estimates": {
+        "baseline": {
+          "mean": 0.07405077381517502,
+          "sd": 0.018144990504873802
+        },
+        "fuel prior +1sd": {
+          "mean": 0.0897736744316216,
+          "sd": 0.01814424483582469
+        },
+        "fuel prior -1sd": {
+          "mean": 0.058324413907716165,
+          "sd": 0.01814444157866408
+        },
+        "track prior +1sd": {
+          "mean": 0.07451492663142772,
+          "sd": 0.018151142248112245
+        },
+        "track prior -1sd": {
+          "mean": 0.07358290056848327,
+          "sd": 0.018139370714158654
+        },
+        "wide priors": {
+          "mean": 0.07658077825595534,
+          "sd": 0.03225421719464749
+        },
+        "half the field": {
+          "mean": 0.062461479309402254,
+          "sd": 0.01934194685015174
+        },
+        "live (filtered)": {
+          "mean": 0.07405077381517502,
+          "sd": 0.018144990504873802
+        }
+      },
+      "consensus": 0.07274376446051257,
+      "consensus_sd": 0.0067638254867312874,
+      "spread": 0.03144926052390543,
+      "agreement": 0.4203742040998719,
+      "disagreement_flagged": true,
+      "explanation": "The methods disagree about hard: fuel prior -1sd says 0.058 s/lap and fuel prior +1sd says 0.090 s/lap, a spread of 0.031. Treat any strategy call that depends on this number as unsupported until more laps are in."
+    },
+    {
+      "session": "2024-monza-R",
+      "compound": "MEDIUM",
+      "estimates": {
+        "baseline": {
+          "mean": 0.11289363190544831,
+          "sd": 0.022923643379130245
+        },
+        "fuel prior +1sd": {
+          "mean": 0.12852033613662267,
+          "sd": 0.0229235402259958
+        },
+        "fuel prior -1sd": {
+          "mean": 0.09726563904257354,
+          "sd": 0.022924009776581978
+        },
+        "track prior +1sd": {
+          "mean": 0.11528343850941197,
+          "sd": 0.022941328942057033
+        },
+        "track prior -1sd": {
+          "mean": 0.11051825270922655,
+          "sd": 0.02291079099726795
+        },
+        "wide priors": {
+          "mean": 0.11642695679823425,
+          "sd": 0.03510721403772092
+        },
+        "half the field": {
+          "mean": 0.09794860025077191,
+          "sd": 0.029616367248112004
+        },
+        "live (filtered)": {
+          "mean": 0.11289363190544831,
+          "sd": 0.022923643379130245
+        }
+      },
+      "consensus": 0.11183459365948817,
+      "consensus_sd": 0.008648878388805738,
+      "spread": 0.03125469709404913,
+      "agreement": 0.5057525928299514,
+      "disagreement_flagged": false,
+      "explanation": "Four independent methods put medium degradation within 0.031 s/lap of each other. That agreement is evidence the number describes the tyre rather than the method."
+    },
+    {
+      "session": "2024-zandvoort-R",
+      "compound": "HARD",
+      "estimates": {
+        "baseline": {
+          "mean": 0.08694645290898234,
+          "sd": 0.01699641216566884
+        },
+        "fuel prior +1sd": {
+          "mean": 0.10246595049395738,
+          "sd": 0.01699573996729415
+        },
+        "fuel prior -1sd": {
+          "mean": 0.07159974172675368,
+          "sd": 0.017006292837343315
+        },
+        "track prior +1sd": {
+          "mean": 0.08869946671325754,
+          "sd": 0.016995654088630477
+        },
+        "track prior -1sd": {
+          "mean": 0.08534760247671559,
+          "sd": 0.01701592320324524
+        },
+        "wide priors": {
+          "mean": 0.08380260447816201,
+          "sd": 0.03119405265064537
+        },
+        "half the field": {
+          "mean": 0.08518951612225074,
+          "sd": 0.01758620697953658
+        },
+        "live (filtered)": {
+          "mean": 0.08694645290898234,
+          "sd": 0.01699641216566884
+        }
+      },
+      "consensus": 0.08663866700994106,
+      "consensus_sd": 0.0063220665236709,
+      "spread": 0.030866208767203696,
+      "agreement": 0.40342791787313154,
+      "disagreement_flagged": true,
+      "explanation": "The methods disagree about hard: fuel prior -1sd says 0.072 s/lap and fuel prior +1sd says 0.102 s/lap, a spread of 0.031. Treat any strategy call that depends on this number as unsupported until more laps are in."
+    },
+    {
+      "session": "2024-zandvoort-R",
+      "compound": "MEDIUM",
+      "estimates": {
+        "baseline": {
+          "mean": 0.0941824585961809,
+          "sd": 0.01777712896013411
+        },
+        "fuel prior +1sd": {
+          "mean": 0.10973221149602484,
+          "sd": 0.017776467798806157
+        },
+        "fuel prior -1sd": {
+          "mean": 0.07884046928995543,
+          "sd": 0.017789246296704992
+        },
+        "track prior +1sd": {
+          "mean": 0.0960655747696926,
+          "sd": 0.017776332765594986
+        },
+        "track prior -1sd": {
+          "mean": 0.09248547250300719,
+          "sd": 0.01780156720440864
+        },
+        "wide priors": {
+          "mean": 0.09103716284763282,
+          "sd": 0.03169593813960599
+        },
+        "half the field": {
+          "mean": 0.09171612854843816,
+          "sd": 0.018885637683387333
+        },
+        "live (filtered)": {
+          "mean": 0.0941824585961809,
+          "sd": 0.01777712896013411
+        }
+      },
+      "consensus": 0.09379978992362195,
+      "consensus_sd": 0.006626672365037968,
+      "spread": 0.03089174220606941,
+      "agreement": 0.419552781330448,
+      "disagreement_flagged": true,
+      "explanation": "The methods disagree about medium: fuel prior -1sd says 0.079 s/lap and fuel prior +1sd says 0.110 s/lap, a spread of 0.031. Treat any strategy call that depends on this number as unsupported until more laps are in."
+    },
+    {
+      "session": "2024-zandvoort-R",
+      "compound": "SOFT",
+      "estimates": {
+        "baseline": {
+          "mean": 0.11490253044353646,
+          "sd": 0.021908754488387812
+        },
+        "fuel prior +1sd": {
+          "mean": 0.130380564624317,
+          "sd": 0.02190998691092325
+        },
+        "fuel prior -1sd": {
+          "mean": 0.09960952991957162,
+          "sd": 0.02191556861641702
+        },
+        "track prior +1sd": {
+          "mean": 0.11669793233351092,
+          "sd": 0.02190960184583326
+        },
+        "track prior -1sd": {
+          "mean": 0.11327205659845081,
+          "sd": 0.021925560093982943
+        },
+        "wide priors": {
+          "mean": 0.1117686493230635,
+          "sd": 0.03407693400156378
+        },
+        "half the field": {
+          "mean": 0.1148823019463814,
+          "sd": 0.025436598823587755
+        },
+        "live (filtered)": {
+          "mean": 0.11490253044353646,
+          "sd": 0.021908754488387812
+        }
+      },
+      "consensus": 0.1147696748207142,
+      "consensus_sd": 0.008191774503325587,
+      "spread": 0.030771034704745376,
+      "agreement": 0.49553099351931384,
+      "disagreement_flagged": true,
+      "explanation": "The methods disagree about soft: fuel prior -1sd says 0.100 s/lap and fuel prior +1sd says 0.130 s/lap, a spread of 0.031. Treat any strategy call that depends on this number as unsupported until more laps are in."
+    }
+  ]
+}

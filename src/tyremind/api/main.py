@@ -56,6 +56,12 @@ app.add_middleware(
 
 store = SessionStore()
 
+# Strategy, trust, business-value and cross-industry routes. Registered before
+# the dashboard catch-all so /api paths are never shadowed by it.
+from tyremind.api import routes_advanced  # noqa: E402
+
+routes_advanced.register(app)
+
 
 @app.get("/api/health")
 def health() -> dict:
