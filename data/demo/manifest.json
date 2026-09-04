@@ -1,0 +1,66 @@
+[
+  {
+    "session_id": "2024-monza-FP2",
+    "year": 2024,
+    "grand_prix": "Monza",
+    "session": "FP2",
+    "label": "2024 Monza - FP2",
+    "cached": false
+  },
+  {
+    "session_id": "2024-monza-R",
+    "year": 2024,
+    "grand_prix": "Monza",
+    "session": "R",
+    "label": "2024 Monza - R",
+    "cached": false
+  },
+  {
+    "session_id": "2024-silverstone-FP2",
+    "year": 2024,
+    "grand_prix": "Silverstone",
+    "session": "FP2",
+    "label": "2024 Silverstone - FP2",
+    "cached": false
+  },
+  {
+    "session_id": "2024-silverstone-R",
+    "year": 2024,
+    "grand_prix": "Silverstone",
+    "session": "R",
+    "label": "2024 Silverstone - R",
+    "cached": false
+  },
+  {
+    "session_id": "2024-zandvoort-FP2",
+    "year": 2024,
+    "grand_prix": "Zandvoort",
+    "session": "FP2",
+    "label": "2024 Zandvoort - FP2",
+    "cached": false
+  },
+  {
+    "session_id": "2024-zandvoort-R",
+    "year": 2024,
+    "grand_prix": "Zandvoort",
+    "session": "R",
+    "label": "2024 Zandvoort - R",
+    "cached": false
+  },
+  {
+    "session_id": "2024-barcelona-FP2",
+    "year": 2024,
+    "grand_prix": "Barcelona",
+    "session": "FP2",
+    "label": "2024 Barcelona - FP2",
+    "cached": false
+  },
+  {
+    "session_id": "2024-barcelona-R",
+    "year": 2024,
+    "grand_prix": "Barcelona",
+    "session": "R",
+    "label": "2024 Barcelona - R",
+    "cached": false
+  }
+]

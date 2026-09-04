@@ -1,0 +1,129 @@
+@import 'tailwindcss';
+
+/* ---------------------------------------------------------------------------
+   TyreMind design tokens
+
+   One rule governs the palette: the tyre is the only warm thing on screen.
+   Every confounder -- fuel, track, traffic, residual -- is cool and recessive,
+   so the eye lands on the tyre contribution without being told to. The tyre
+   itself takes the real Pirelli compound colour, which race engineers already
+   read fluently, so the accent carries data rather than decoration.
+
+   Panels separate by surface value, the way an instrument does. No shadows,
+   no gradient washes.
+--------------------------------------------------------------------------- */
+
+@theme {
+  --color-ground: #0e1418;
+  --color-surface: #151d23;
+  --color-raised: #1d272e;
+  --color-line: #26343d;
+  --color-line-bright: #354753;
+
+  --color-ink: #e4eaed;
+  --color-ink-dim: #8fa3ae;
+  --color-ink-faint: #5d6f7a;
+
+  /* Compounds. Pirelli's own bands. */
+  --color-soft: #e8352e;
+  --color-medium: #f5c518;
+  --color-hard: #ededed;
+  --color-intermediate: #43b02a;
+  --color-wet: #2b6ce8;
+
+  /* Confounders, deliberately cool so the tyre reads warm against them. */
+  --color-fuel: #4fa8c5;
+  --color-track: #7b8fa1;
+  --color-traffic: #b47fd0;
+  --color-residual: #5a6b76;
+
+  --color-alert: #ff8a5b;
+  --color-good: #4bbf8a;
+
+  --font-sans: 'Archivo', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+@font-face {
+  font-family: 'Archivo';
+  src: url('https://fonts.gstatic.com/s/archivo/v25/k3k6o8UDI-1M0wlSV9XAw6lQkqWY8Q82sJaRE-NWIDdgffTTNDJp8B1oJ0vyVQ.woff2')
+    format('woff2');
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('https://fonts.gstatic.com/s/jetbrainsmono/v24/tDbY2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8yKxjPVmUsaaDhw.woff2')
+    format('woff2');
+  font-weight: 100 800;
+  font-display: swap;
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  background: var(--color-ground);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-synthesis-weight: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Numerals only. Labels stay in the sans face -- monospace here is for column
+   alignment of lap times, which is functional, not styling. */
+.num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'zero' 1;
+}
+
+.hairline {
+  border-color: var(--color-line);
+}
+
+/* The uncertainty beam. Every estimate in the product is drawn as an interval
+   with a gradient falloff and a hard tick at the mean, never printed as a bare
+   number with a plus-or-minus appended. Seeing the spread is the point. */
+.beam {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    color-mix(in oklab, var(--beam-color) 45%, transparent) 22%,
+    color-mix(in oklab, var(--beam-color) 78%, transparent) 50%,
+    color-mix(in oklab, var(--beam-color) 45%, transparent) 78%,
+    transparent 100%
+  );
+}
+
+*:focus-visible {
+  outline: 2px solid var(--color-alert);
+  outline-offset: 2px;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-ground);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-line);
+  border-radius: 0;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-line-bright);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

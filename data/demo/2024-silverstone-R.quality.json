@@ -1,0 +1,23 @@
+{
+  "session_name": "British Grand Prix Race",
+  "total_laps": 960,
+  "exclusions": {
+    "pit_in_out_lap": 92,
+    "flagged_inaccurate": 18,
+    "wet_compound": 188,
+    "slow_lap_safety_car_or_traffic": 37,
+    "run_too_short": 7
+  },
+  "retained_laps": 618,
+  "n_drivers": 19,
+  "n_runs": 37,
+  "compounds": {
+    "MEDIUM": 426,
+    "SOFT": 153,
+    "HARD": 39
+  },
+  "median_lap_time": 92.3125,
+  "longest_run": 23,
+  "retention_rate": 0.64375,
+  "quality_score": 100.0
+}

@@ -1,0 +1,21 @@
+{
+  "session_name": "Dutch Grand Prix Race",
+  "total_laps": 1426,
+  "exclusions": {
+    "pit_in_out_lap": 53,
+    "flagged_inaccurate": 19,
+    "slow_lap_safety_car_or_traffic": 4
+  },
+  "retained_laps": 1350,
+  "n_drivers": 20,
+  "n_runs": 46,
+  "compounds": {
+    "HARD": 776,
+    "MEDIUM": 470,
+    "SOFT": 104
+  },
+  "median_lap_time": 76.304,
+  "longest_run": 56,
+  "retention_rate": 0.9467040673211781,
+  "quality_score": 100.0
+}

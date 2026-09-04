@@ -1,0 +1,21 @@
+{
+  "session_name": "Italian Grand Prix Race",
+  "total_laps": 1008,
+  "exclusions": {
+    "pit_in_out_lap": 61,
+    "flagged_inaccurate": 20,
+    "slow_lap_safety_car_or_traffic": 2,
+    "run_too_short": 4
+  },
+  "retained_laps": 921,
+  "n_drivers": 20,
+  "n_runs": 48,
+  "compounds": {
+    "HARD": 685,
+    "MEDIUM": 236
+  },
+  "median_lap_time": 84.853,
+  "longest_run": 41,
+  "retention_rate": 0.9136904761904762,
+  "quality_score": 100.0
+}

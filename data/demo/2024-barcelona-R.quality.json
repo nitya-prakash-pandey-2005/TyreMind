@@ -1,0 +1,21 @@
+{
+  "session_name": "Spanish Grand Prix Race",
+  "total_laps": 1310,
+  "exclusions": {
+    "pit_in_out_lap": 85,
+    "flagged_inaccurate": 19,
+    "slow_lap_safety_car_or_traffic": 2
+  },
+  "retained_laps": 1204,
+  "n_drivers": 20,
+  "n_runs": 62,
+  "compounds": {
+    "SOFT": 458,
+    "MEDIUM": 401,
+    "HARD": 345
+  },
+  "median_lap_time": 80.666,
+  "longest_run": 36,
+  "retention_rate": 0.9190839694656489,
+  "quality_score": 100.0
+}

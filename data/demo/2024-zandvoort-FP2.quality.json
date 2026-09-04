@@ -1,0 +1,22 @@
+{
+  "session_name": "Dutch Grand Prix Practice 2",
+  "total_laps": 589,
+  "exclusions": {
+    "no_lap_time": 66,
+    "pit_in_out_lap": 97,
+    "slow_lap_safety_car_or_traffic": 94,
+    "run_too_short": 63
+  },
+  "retained_laps": 269,
+  "n_drivers": 18,
+  "n_runs": 30,
+  "compounds": {
+    "SOFT": 111,
+    "MEDIUM": 105,
+    "HARD": 53
+  },
+  "median_lap_time": 76.506,
+  "longest_run": 15,
+  "retention_rate": 0.4567062818336163,
+  "quality_score": 92.83531409168081
+}

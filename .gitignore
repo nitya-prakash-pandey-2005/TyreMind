@@ -26,7 +26,9 @@ data/external/
 cache/
 fastf1_cache/
 *.parquet
+# Demo cache IS committed: the offline demo must work on a fresh clone.
 !data/demo/*.parquet
+!data/demo/*.json
 
 # ---- node ----
 node_modules/

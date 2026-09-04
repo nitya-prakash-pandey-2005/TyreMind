@@ -1,0 +1,21 @@
+{
+  "session_name": "Italian Grand Prix Practice 2",
+  "total_laps": 454,
+  "exclusions": {
+    "no_lap_time": 99,
+    "pit_in_out_lap": 84,
+    "slow_lap_safety_car_or_traffic": 53,
+    "run_too_short": 75
+  },
+  "retained_laps": 143,
+  "n_drivers": 17,
+  "n_runs": 18,
+  "compounds": {
+    "MEDIUM": 132,
+    "SOFT": 11
+  },
+  "median_lap_time": 85.918,
+  "longest_run": 12,
+  "retention_rate": 0.31497797356828194,
+  "quality_score": 85.74889867841411
+}
