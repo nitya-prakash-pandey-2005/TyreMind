@@ -1,9 +1,9 @@
-# Optional: only needed for the neural challenger model (M6) and LLM narration.
-# The full system runs without these.
+# Optional. The dashboard, the API and every experiment run without these.
 -r requirements.txt
-torch>=2.2
+
+# LLM narration. Without a key, narration falls back to deterministic templates
+# with every number computed before the text is written.
 google-genai>=0.3
 
 # MCP server: exposes TyreMind's estimator as tools an AI agent can call.
-# Optional -- the dashboard and every experiment run without it.
 mcp>=2.0

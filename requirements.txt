@@ -1,33 +1,25 @@
 # ---- TyreMind core scientific stack (Python 3.11) ----
+#
+# Everything listed here is either imported by the package or needed by it at
+# run time. Two entries are the latter: pyarrow is pandas' Parquet engine, and
+# websockets backs the lap-by-lap replay stream. Nothing is listed speculatively.
+
 numpy>=1.26,<2.2
 scipy>=1.11
 pandas>=2.1
-pyarrow>=15.0
+pyarrow>=15.0          # pandas Parquet engine — the cached sessions are Parquet
 
-# Data source: F1 timing + telemetry
+# Data source: F1 timing + telemetry. Pulls requests and requests-cache itself.
 fastf1>=3.4
-requests>=2.31
-requests-cache>=1.1
 
-# Modelling
+# Modelling. scikit-learn provides the MLP challenger and the retrieval index's
+# TF-IDF/SVD; lightgbm is the gradient-boosted challenger in the model ladder.
 scikit-learn>=1.4
-statsmodels>=0.14
 lightgbm>=4.3
-
-# Analytics store
-duckdb>=0.10
 
 # API / serving
 fastapi>=0.110
 uvicorn[standard]>=0.29
 pydantic>=2.6
-pydantic-settings>=2.2
-websockets>=12.0
-python-dotenv>=1.0
-
-# Config
-pyyaml>=6.0
-
-# CLI / logging
-typer>=0.12
-rich>=13.7
+websockets>=12.0       # uvicorn's WebSocket support, used by /ws/replay
+python-dotenv>=1.0     # loads .env so an optional API key is picked up

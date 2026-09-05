@@ -115,6 +115,32 @@ environment:
     epistemic: measured
     value: 9.81
 
+track:
+  # Track evolution: the circuit gains grip as rubber goes down, and every car
+  # speeds up together. THE SECOND most important prior in the system.
+  #
+  # It matters for a reason that is not obvious. Shifting every degradation rate
+  # by c and the track slope by -c leaves a difference that is constant WITHIN a
+  # run -- exactly what the run intercept absorbs -- so the two are structurally
+  # indistinguishable without an informative prior here. See docs/research/
+  # 01_RESEARCH_AUDIT.md section 3.2 for the derivation.
+  total_gain_s:
+    epistemic: prior
+    value: 0.90
+    sd: 0.45
+    source: "Typical lap-time gain over a dry session as the racing line rubbers in.
+              Deliberately wide: exp02_prior_sensitivity measures the cost of being
+              wrong at +/-1 sd (bias moves ~0.0045 s/lap per sd, monotone)."
+
+  saturation_rate_per_lap:
+    epistemic: prior
+    value: 0.055
+    sd: null
+    source: "Shape k in the saturating basis A*(1 - exp(-k*lap)). Rubber deposition
+              genuinely saturates, so a saturating curve is the physically correct
+              form as well as the identifying one. Estimated, not fixed: this is the
+              optimiser's starting value."
+
 tyre:
   # Pirelli slick range. C1 hardest -> C5 softest. C6 existed in 2025 only
   # and was dropped for 2026 (insufficient delta to C5).

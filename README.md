@@ -6,7 +6,7 @@
 
 **Observed performance is not the same thing as tyre degradation.**
 
-![Python](https://img.shields.io/badge/python-3.11%2B-1d7d9c?style=flat-square)
+![Python](https://img.shields.io/badge/python-3.11%20%E2%80%93%203.13-1d7d9c?style=flat-square)
 ![Tests](https://img.shields.io/badge/tests-97%20passing-1f8a5c?style=flat-square)
 ![Offline](https://img.shields.io/badge/runs-fully%20offline-c4501f?style=flat-square)
 ![Licence](https://img.shields.io/badge/licence-MIT-6b7780?style=flat-square)
@@ -15,7 +15,7 @@
 pip install -r requirements.txt && pip install -e . && python -m tyremind.serve
 ```
 
-Python 3.11+ &nbsp;·&nbsp; no Node, no network, no API key
+Python 3.11–3.13 &nbsp;·&nbsp; no Node, no network, no API key
 
 [**Run it**](#run-it) &nbsp;·&nbsp;
 [Results](#results) &nbsp;·&nbsp;
@@ -223,8 +223,10 @@ See [`docs/model_card.md`](docs/model_card.md) and
 
 ## Run it
 
-**Python 3.11 or newer, and nothing else.** The dashboard ships built, eight
-sessions ship cached, and no step needs a network connection.
+**Python 3.11 to 3.13, and nothing else.** The dashboard ships built, eight
+sessions ship cached, and no step needs a network connection. Verified on a clean
+3.11 install; 3.14 is excluded because numpy has no wheel for it yet and produces
+an install that succeeds and then fails to import.
 
 ```bash
 git clone https://github.com/nitya-prakash-pandey-2005/TyreMind.git
@@ -394,6 +396,7 @@ afterwards. The rest are fully offline.
 |---|---|
 | `ModuleNotFoundError: No module named 'tyremind'` | `pip install -e .` was skipped, or the virtualenv is not active |
 | `ModuleNotFoundError: No module named 'fastf1'` (or numpy, pandas…) | `pip install -r requirements.txt` was skipped — `pip install -e .` alone installs no dependencies |
+| `OverflowError: cannot convert longdouble infinity to integer` on `import numpy` | You are on Python 3.14. numpy has no wheel for it and installs a broken build. Use 3.11–3.13; `pyproject.toml` now refuses 3.14 outright |
 | `Dashboard not built. The API will run without it.` | `apps/web/dist/` is missing. It is committed, so this means a partial clone — or run `npm --prefix apps/web run build` |
 | `[Errno 10048] address already in use` | Something else holds port 8077. Use `--port 9000` |
 | `No sessions are cached` | `data/demo/` is missing. It is committed; with network access, `python scripts/build_demo.py` rebuilds it |

@@ -1,7 +1,5 @@
 -r requirements.txt
 pytest>=8.0
 pytest-cov>=4.1
-hypothesis>=6.100
-ruff>=0.4
-black>=24.3
+ruff>=0.4              # lint and format
 mypy>=1.9

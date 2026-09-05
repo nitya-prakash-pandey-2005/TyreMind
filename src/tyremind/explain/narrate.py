@@ -18,6 +18,7 @@ number on a pit wall is worse than no explanation at all.
 
 from __future__ import annotations
 
+import contextlib
 import os
 import re
 from dataclasses import dataclass, field
@@ -207,6 +208,14 @@ def rewrite_with_llm(narration: Narration, *, model: str = "gemini-2.0-flash") -
     Returns:
         A Narration. `source` says whether the language model was used.
     """
+    # Load .env if present. Without this the documented workflow -- copy
+    # .env.example, paste a key -- silently does nothing, and narration falls
+    # back to templates with no indication that the key was never read.
+    with contextlib.suppress(ImportError):
+        from dotenv import load_dotenv
+
+        load_dotenv()
+
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
         return narration

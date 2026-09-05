@@ -6,7 +6,11 @@ build-backend = "setuptools.build_meta"
 name = "tyremind"
 version = "0.1.0"
 description = "Causal Tyre Intelligence — latent tyre-state estimation from confounded vehicle telemetry"
-requires-python = ">=3.11"
+# Upper bound is deliberate. numpy 2.1.x declares >=3.10 but ships no cp314
+# wheel, so on Python 3.14 pip reports a successful install and numpy then
+# fails to import ("cannot convert longdouble infinity to integer"). Better
+# for pip to refuse than for the failure to surface at first import.
+requires-python = ">=3.11,<3.14"
 readme = "README.md"
 
 [tool.setuptools.packages.find]
@@ -29,10 +33,6 @@ src = ["src", "tests"]
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "SIM"]
 ignore = ["E501"]
-
-[tool.black]
-line-length = 100
-target-version = ["py311"]
 
 [tool.mypy]
 python_version = "3.11"
