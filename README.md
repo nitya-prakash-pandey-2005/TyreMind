@@ -224,6 +224,24 @@ docs/         research audit, model card, limitations, demo guide
 | [Judge questions](docs/JUDGE_QUESTIONS.md) | Anticipated questions, honest answers |
 | [Integrations](docs/INTEGRATIONS.md) | MCP and RAG — what each is for, and its limits |
 
+### Presentation material
+
+| | |
+|---|---|
+| [**Technical dossier**](docs/pitch/TyreMind_Technical_Dossier.pdf) (PDF, 36pp) | The complete argument: problem, prior art, identifiability derivation, model, physics, architecture, all seven experiments, uniqueness matrix, limitations, industry impact, scaling, roadmap, references |
+| [**Pitch deck**](docs/pitch/TyreMind_Pitch_Deck.pdf) (PDF, 24 slides, 16:9) | The same argument at presentation pace |
+
+Both are generated from the HTML sources beside them, so they are regenerated
+rather than edited:
+
+```bash
+chrome --headless --no-pdf-header-footer   --print-to-pdf=docs/pitch/TyreMind_Technical_Dossier.pdf   docs/pitch/dossier.html
+```
+
+Every figure in both documents is read from a committed result file under
+`experiments/results/`. Nothing is typed by hand, so regenerating the experiments
+regenerates the claims.
+
 ---
 
 ## Licence

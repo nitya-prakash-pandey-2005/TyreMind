@@ -1,0 +1,2306 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>TyreMind — Technical Dossier</title>
+<style>
+/* ---------------------------------------------------------------------------
+   TyreMind technical dossier — print stylesheet.
+
+   The document borrows the product's own data encoding as its visual system:
+   the tyre is the only warm thing on the page, every confounder is cool and
+   recessive. A reader who moves from this PDF to the running application sees
+   the same colours mean the same things.
+
+   Type is DIN-derived (Bahnschrift) for structure and Cambria for reading,
+   because this is a measurement report rather than a brochure. Numerals are
+   monospaced and tabular throughout, so columns of lap times align the way they
+   do on a timing sheet.
+--------------------------------------------------------------------------- */
+
+@page { size: A4; margin: 18mm 16mm 16mm 16mm; }
+
+:root {
+  --paper:    #ffffff;
+  --panel:    #f2f4f5;
+  --panel-2:  #e7ecee;
+  --ink:      #111a20;
+  --ink-2:    #3f5058;
+  --ink-3:    #6c7f88;
+  --rule:     #c9d2d7;
+  --rule-2:   #a7b4bb;
+
+  /* The tyre. The only warm value in the document. */
+  --tyre:     #c0392b;
+  --tyre-pale:#f7e4e1;
+
+  /* Confounders, cool by rule. */
+  --fuel:     #1d7d9c;
+  --track:    #5a6f80;
+  --traffic:  #7f4aa0;
+  --good:     #1f7a55;
+
+  --sans: "Bahnschrift", "DIN Alternate", "Segoe UI", Helvetica, Arial, sans-serif;
+  --serif: "Cambria", "Charter", Georgia, "Times New Roman", serif;
+  --mono: "Consolas", "Cascadia Mono", "SFMono-Regular", "Courier New", monospace;
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 10.2pt;
+  line-height: 1.52;
+  hyphens: auto;
+}
+
+/* Structure ---------------------------------------------------------------- */
+
+.page-break { break-before: page; }
+section { break-inside: auto; }
+
+h1, h2, h3, h4 { font-family: var(--sans); font-weight: 600; margin: 0; }
+
+h2 {
+  font-size: 17pt;
+  line-height: 1.12;
+  letter-spacing: -0.008em;
+  margin: 0 0 2mm;
+  break-after: avoid;
+}
+h3 {
+  font-size: 11.6pt;
+  margin: 7mm 0 1.5mm;
+  break-after: avoid;
+  color: var(--ink);
+}
+h4 {
+  font-size: 9.6pt;
+  margin: 5mm 0 1mm;
+  break-after: avoid;
+  color: var(--ink-2);
+}
+
+p { margin: 0 0 2.6mm; }
+p + p { margin-top: -0.4mm; }
+
+strong { font-weight: 700; }
+em { font-style: italic; }
+
+ul, ol { margin: 0 0 3mm; padding-left: 5.5mm; }
+li { margin-bottom: 1.1mm; }
+
+a { color: var(--fuel); text-decoration: none; }
+
+/* The section number is a genuine sequence in a numbered technical report,
+   not decoration bolted onto unordered content. */
+.sec-head {
+  display: flex;
+  align-items: baseline;
+  gap: 4mm;
+  border-top: 1.6pt solid var(--ink);
+  padding-top: 2.5mm;
+  margin: 0 0 4mm;
+  break-after: avoid;
+}
+.sec-no {
+  font-family: var(--mono);
+  font-size: 10pt;
+  color: var(--tyre);
+  flex: none;
+  padding-top: 1.2mm;
+}
+.sec-head .kicker {
+  font-family: var(--sans);
+  font-size: 8pt;
+  color: var(--ink-3);
+  margin-top: 1mm;
+}
+
+/* Provenance stamp: every table and figure says which file its numbers came
+   from. This document's whole argument is that claims are checkable, so the
+   check has to be one line away, not one document away. */
+.prov {
+  font-family: var(--mono);
+  font-size: 6.8pt;
+  color: var(--ink-3);
+  letter-spacing: 0.01em;
+  margin: 1mm 0 4mm;
+}
+.prov::before { content: "source  "; color: var(--rule-2); }
+
+/* Tables ------------------------------------------------------------------- */
+
+table { width: 100%; border-collapse: collapse; margin: 2mm 0 0; font-size: 8.6pt; }
+thead th {
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 7.6pt;
+  text-align: left;
+  color: var(--ink-2);
+  border-bottom: 1pt solid var(--ink);
+  padding: 1.4mm 2mm 1.2mm 0;
+  vertical-align: bottom;
+}
+td { padding: 1.5mm 2mm 1.5mm 0; border-bottom: 0.5pt solid var(--rule); vertical-align: top; }
+tbody tr:last-child td { border-bottom: 1pt solid var(--rule-2); }
+td.n, th.n { text-align: right; font-family: var(--mono); font-size: 8.2pt; font-variant-numeric: tabular-nums; padding-right: 0; }
+th.n { font-family: var(--sans); }
+tr.hl td { background: var(--tyre-pale); }
+tr.hl td:first-child { font-weight: 700; }
+.win { color: var(--tyre); font-weight: 700; }
+.dim { color: var(--ink-3); }
+
+/* Panels ------------------------------------------------------------------- */
+
+.panel {
+  background: var(--panel);
+  border-left: 2.5pt solid var(--rule-2);
+  padding: 3mm 4mm 2.4mm;
+  margin: 3mm 0 4mm;
+  break-inside: avoid;
+}
+.panel.tyre  { border-left-color: var(--tyre); }
+.panel.warn  { border-left-color: var(--traffic); background: #f4eff7; }
+.panel.good  { border-left-color: var(--good); background: #edf5f1; }
+.panel h4 { margin-top: 0; }
+.panel p:last-child { margin-bottom: 0; }
+
+.eq {
+  font-family: var(--mono);
+  font-size: 8.2pt;
+  line-height: 1.6;
+  background: var(--panel);
+  border: 0.5pt solid var(--rule);
+  padding: 3mm 4mm;
+  margin: 2.5mm 0 3.5mm;
+  white-space: pre;
+  overflow-x: auto;
+  break-inside: avoid;
+}
+.eq .c { color: var(--ink-3); }
+.eq .t { color: var(--tyre); }
+
+code { font-family: var(--mono); font-size: 0.9em; }
+
+/* Figures ------------------------------------------------------------------ */
+
+figure { margin: 3mm 0 4mm; break-inside: avoid; }
+figure svg { width: 100%; height: auto; display: block; }
+figcaption {
+  font-family: var(--sans);
+  font-size: 7.6pt;
+  color: var(--ink-2);
+  margin-top: 1.6mm;
+  line-height: 1.4;
+}
+figcaption b { color: var(--ink); font-weight: 600; }
+
+/* Grids -------------------------------------------------------------------- */
+
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 6mm; }
+.three { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5mm; }
+.stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4mm; margin: 3mm 0 4mm; }
+.stat { border-top: 1.2pt solid var(--ink); padding-top: 1.6mm; }
+.stat .v {
+  font-family: var(--mono);
+  font-size: 15pt;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+.stat.key .v { color: var(--tyre); }
+.stat .l { font-family: var(--sans); font-size: 7.4pt; color: var(--ink-2); margin-top: 1.2mm; line-height: 1.3; }
+.stat .s { font-family: var(--sans); font-size: 6.8pt; color: var(--ink-3); margin-top: 0.6mm; }
+
+/* Cover -------------------------------------------------------------------- */
+
+.cover { height: 251mm; display: flex; flex-direction: column; }
+.cover .top { flex: none; }
+.cover .mid { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+.cover .bot { flex: none; }
+
+.wordmark {
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 30pt;
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+.wordmark span { color: var(--tyre); }
+
+.cover-claim {
+  font-family: var(--serif);
+  font-size: 19pt;
+  line-height: 1.28;
+  margin: 0 0 6mm;
+  max-width: 150mm;
+}
+.cover-claim b { color: var(--tyre); font-weight: 700; }
+
+.meta-grid { display: grid; grid-template-columns: 34mm 1fr; gap: 1.2mm 5mm; font-size: 8.4pt; }
+.meta-grid dt { font-family: var(--sans); font-size: 7.4pt; color: var(--ink-3); padding-top: 0.6mm; }
+.meta-grid dd { margin: 0; }
+
+.toc { columns: 2; column-gap: 8mm; font-size: 8.6pt; }
+.toc div { break-inside: avoid; margin-bottom: 1.1mm; display: flex; gap: 3mm; }
+.toc .n { font-family: var(--mono); color: var(--tyre); flex: none; width: 6mm; }
+
+/* Running foot ------------------------------------------------------------- */
+.foot {
+  font-family: var(--sans);
+  font-size: 7pt;
+  color: var(--ink-3);
+  border-top: 0.5pt solid var(--rule);
+  padding-top: 1.5mm;
+  margin-top: 6mm;
+}
+</style>
+</head>
+<body>
+
+<!-- ====================================================================== -->
+<!-- COVER                                                                   -->
+<!-- ====================================================================== -->
+<section class="cover">
+  <div class="top">
+    <div class="wordmark">TYRE<span>MIND</span></div>
+    <div style="font-family:var(--sans);font-size:9pt;color:var(--ink-2);margin-top:1.5mm;letter-spacing:0.01em">
+      Causal tyre intelligence · Technical dossier
+    </div>
+  </div>
+
+  <div class="mid">
+    <p class="cover-claim">
+      Every published tyre model is graded on how well it predicts lap times.
+      None of them checks whether the <b>reason</b> it gives for those lap times
+      is the right one. On real 2024 races, the standard method reports that
+      tyres get <b>faster</b> the longer they run.
+    </p>
+    <p style="font-size:11pt;line-height:1.5;max-width:150mm;color:var(--ink-2)">
+      TyreMind is built around that gap. It characterises why separating tyre wear
+      from fuel burn, track evolution and traffic is structurally hard — three
+      collinearities, two of which no amount of data can resolve — builds an
+      estimator that handles them, and then tests the attribution against a truth
+      it controls. Recovering a hidden degradation rate, its error is
+      <b style="color:var(--tyre)">0.0044&nbsp;s/lap</b> against the standard
+      method's <b>0.0966</b>.
+    </p>
+  </div>
+
+  <div class="bot">
+    <div class="stat-row" style="margin-bottom:8mm">
+      <div class="stat key"><div class="v">95.5%</div><div class="l">Error reduction recovering a known rate</div><div class="s">25 synthetic sessions, 75 comparisons</div></div>
+      <div class="stat"><div class="v">0.22<span style="font-size:8pt"> ms</span></div><div class="l">Per-lap update, live</div><div class="s">flat in session length, 921 laps</div></div>
+      <div class="stat"><div class="v">7<span style="font-size:8pt"> / 8</span></div><div class="l">Circuits whose rotation the physics recovered</div><div class="s">never told the answer</div></div>
+      <div class="stat"><div class="v">26.5</div><div class="l">RUL RMSE on NASA turbofans, same estimator</div><div class="s">no tyre-specific code</div></div>
+    </div>
+
+    <dl class="meta-grid">
+      <dt>Challenge</dt><dd>TrackShift Innovation Challenge — Problem 3, AI Motorsport Intelligence</dd>
+      <dt>Brief</dt><dd>Isolate true tyre wear rates from confounding practice variables; validate predicted wear against actual race-day pace</dd>
+      <dt>Repository</dt><dd><code>github.com/nitya-prakash-pandey-2005/TyreMind</code></dd>
+      <dt>Scale</dt><dd>13,008 lines of Python · 6,504 lines of TypeScript · 97 tests · 24 API endpoints · 7 recorded experiments</dd>
+      <dt>Status</dt><dd>Runs fully offline. Every figure in this document is read from a committed result file, not typed by hand.</dd>
+    </dl>
+
+    <div class="foot" style="margin-top:6mm">
+      This document states what TyreMind does not do as prominently as what it does.
+      A section on limitations, failure modes and the competitor that beats us appears before the commercial case, not after it.
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================================== -->
+<!-- CONTENTS                                                                -->
+<!-- ====================================================================== -->
+<section class="page-break">
+  <div class="sec-head">
+    <div class="sec-no">00</div>
+    <div><h2>Contents</h2></div>
+  </div>
+
+  <div class="toc">
+    <div><span class="n">01</span><span>The problem, stated precisely</span></div>
+    <div><span class="n">02</span><span>What already exists, and what it leaves open</span></div>
+    <div><span class="n">03</span><span>Identifiability: the actual hard part</span></div>
+    <div><span class="n">04</span><span>The model</span></div>
+    <div><span class="n">05</span><span>Why a Kalman filter and not a sampler</span></div>
+    <div><span class="n">06</span><span>The physics layer</span></div>
+    <div><span class="n">07</span><span>System architecture</span></div>
+    <div><span class="n">08</span><span>Evidence: seven experiments</span></div>
+    <div><span class="n">09</span><span>What we did beyond each paper</span></div>
+    <div><span class="n">10</span><span>The uniqueness matrix</span></div>
+    <div><span class="n">11</span><span>Limitations, failure modes, and where we lose</span></div>
+    <div><span class="n">12</span><span>Engineering quality and verification</span></div>
+    <div><span class="n">13</span><span>Impact on motorsport, and how a team adopts it</span></div>
+    <div><span class="n">14</span><span>Beyond racing: the same estimator elsewhere</span></div>
+    <div><span class="n">15</span><span>Scaling to production</span></div>
+    <div><span class="n">16</span><span>Commercial model and market</span></div>
+    <div><span class="n">17</span><span>Roadmap</span></div>
+    <div><span class="n">18</span><span>References</span></div>
+  </div>
+
+  <div class="panel tyre" style="margin-top:8mm">
+    <h4>How to read this document in ninety seconds</h4>
+    <p>
+      Section <b>03</b> is the intellectual core: the algebra showing why this
+      problem is hard in a way the brief does not say. Section <b>08</b> is the
+      evidence. Section <b>10</b> is the one-page answer to "what is actually new
+      here". Section <b>11</b> is where we say what is wrong with it, including a
+      competitor that beats us on the metric everyone else reports.
+    </p>
+  </div>
+
+  <h3>A note on numbers</h3>
+  <p>
+    Every quantity in this dossier carries a provenance stamp naming the file it
+    came from. Those files are committed to the repository and regenerated by
+    running the experiment scripts. Nothing here was rounded into a better story;
+    where a result is unflattering — a failed hypothesis, a systematic bias, a
+    model that beats ours — it appears with the same weight as the results that help.
+  </p>
+  <p>
+    That is not modesty. Tyre degradation is used to make pit-stop decisions worth
+    championship points, and a tool that cannot state its own error bars has no
+    business in that room.
+  </p>
+</section>
+
+<!-- ====================================================================== -->
+<!-- 01 PROBLEM                                                              -->
+<!-- ====================================================================== -->
+<section class="page-break">
+  <div class="sec-head">
+    <div class="sec-no">01</div>
+    <div>
+      <h2>The problem, stated precisely</h2>
+      <div class="kicker">Why "watch the lap times climb" is not merely imprecise but wrong-signed</div>
+    </div>
+  </div>
+
+  <p>
+    A Formula 1 team needs one number to decide when to pit: how much slower the
+    car gets per lap because of the tyre. The obvious way to measure it is to fit
+    a line through lap time against tyre age over a stint.
+  </p>
+
+  <p>
+    That method does not merely add noise. It returns the wrong sign. Over a stint
+    the car burns roughly 2.7&nbsp;kg of fuel per lap, and each kilogram is worth
+    about 0.030&nbsp;s of lap time, so the car gets <em>faster</em> by around
+    0.081&nbsp;s/lap from fuel alone. Meanwhile the circuit itself gains grip as
+    rubber goes down, worth close to a second over a session. Both effects move
+    lap time smoothly with lap number — exactly like degradation, and in the
+    opposite direction, and often larger.
+  </p>
+
+  <div class="stat-row">
+    <div class="stat"><div class="v">&minus;0.004</div><div class="l">Naive degradation, HARD, Monza 2024 race</div><div class="s">s/lap &mdash; tyre getting faster</div></div>
+    <div class="stat"><div class="v">&minus;0.034</div><div class="l">Naive degradation, MEDIUM, same race</div><div class="s">s/lap &mdash; also impossible</div></div>
+    <div class="stat key"><div class="v">0.074</div><div class="l">TyreMind, HARD, same laps</div><div class="s">&plusmn;0.018 s/lap</div></div>
+    <div class="stat key"><div class="v">0.113</div><div class="l">TyreMind, MEDIUM, same laps</div><div class="s">&plusmn;0.023 s/lap</div></div>
+  </div>
+  <div class="prov">live API, /api/session/2024-monza-R · 921 laps, 20 cars</div>
+
+  <p>
+    A negative degradation rate is not a subtle miscalibration that a practitioner
+    can mentally correct. It is a claim that tyres improve with use, and it is what
+    the standard method actually reports on real Grand Prix data. The confounders
+    are not a nuisance term around the signal; on a race stint they are
+    <em>larger</em> than the signal.
+  </p>
+
+  <h3>What the brief asks, and what that implies</h3>
+  <p>
+    The brief asks to "strip out external noise from practice sessions to generate
+    clean tyre performance degradation curves", and to validate predicted wear
+    against actual race-day pace. Read carefully, that is not a prediction problem.
+    It is an <strong>attribution</strong> problem: of the observed change in lap
+    time, how much was the tyre?
+  </p>
+
+  <div class="panel tyre">
+    <h4>The distinction that organises everything that follows</h4>
+    <p>
+      Fuel burn-off, track evolution and tyre degradation all move lap time
+      smoothly with lap number. <strong>Many wrong decompositions sum to the same
+      right total.</strong> A model can predict lap times almost perfectly while
+      attributing the change to entirely the wrong cause — and no lap-time metric
+      will notice, because the total is right.
+    </p>
+    <p style="margin-top:2mm">
+      Every model we surveyed is validated on lap-time prediction error. So the
+      failure that matters in this brief is precisely the failure the field's
+      standard metric cannot see.
+    </p>
+  </div>
+
+  <h3>Who needs the answer, and what changes when they have it</h3>
+  <table>
+    <thead><tr><th style="width:26%">Decision</th><th style="width:37%">Made today with</th><th>What a clean degradation rate changes</th></tr></thead>
+    <tbody>
+      <tr><td>Pit lap</td><td>A fitted slope from Friday practice, adjusted by engineering judgement and a fuel correction of unstated confidence</td><td>The slope arrives with an interval whose width came from a stated identifiability argument, so the strategy simulation can propagate it instead of assuming it away</td></tr>
+      <tr><td>One stop or two</td><td>Compound deltas from practice, often statistically indistinguishable when fitted per driver</td><td>Pooling the whole field separates compounds that a single-car fit cannot</td></tr>
+      <tr><td>Undercut or hold</td><td>Gap and pace deltas, tyre state inferred by eye</td><td>Live per-car degradation updating every lap, with the interval collapsing visibly as evidence accumulates</td></tr>
+      <tr><td>Set allocation across a weekend</td><td>Historical rules of thumb per circuit</td><td>Per-corner energy from the circuit's own racing line, which explains why the same compound behaves differently between circuits</td></tr>
+    </tbody>
+  </table>
+  <div class="prov">docs/DEMO_STORY.md · docs/model_card.md §intended use</div>
+</section>
+
+<!-- ====================================================================== -->
+<!-- 02 PRIOR ART                                                            -->
+<!-- ====================================================================== -->
+<section class="page-break">
+  <div class="sec-head">
+    <div class="sec-no">02</div>
+    <div>
+      <h2>What already exists, and what it leaves open</h2>
+      <div class="kicker">Surveyed before implementation, so that rebuilding someone else's result could be ruled out deliberately</div>
+    </div>
+  </div>
+
+  <p>
+    "AI predicts tyre degradation" describes work that is published, peer-reviewed
+    and in some cases running live at Grands Prix. The first output of this project
+    was a research audit written <em>before</em> any modelling code, whose purpose
+    was to find what was genuinely unaddressed rather than to justify a plan
+    already made.
+  </p>
+
+  <table>
+    <thead><tr><th style="width:23%">Work</th><th style="width:39%">What it does</th><th>What it leaves open</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><b>Cappello &amp; Hoegh</b><br><span class="dim">arXiv:2512.00640, Nov&nbsp;2025</span></td>
+        <td>Bayesian state-space model of F1 tyre degradation. Lap time as a function of fuel mass and latent tyre pace; pit stops as state resets; compound-specific rates; skewed-<i>t</i> observations; FastF1 data.</td>
+        <td><b>Single driver, single race.</b> No traffic, no track evolution, no telemetry, no physics. Reports compounds as statistically indistinguishable — a statistical power problem that pooling across the field addresses directly.</td>
+      </tr>
+      <tr>
+        <td><b>Pitwall</b><br><span class="dim">arXiv:2607.06495, 2026</span></td>
+        <td>Calibrated Monte Carlo race simulator (2,000 sims, fitted on 191k green laps) plus an LLM briefing layer gated on verified claims. Ran live at the 2026 Austrian and British Grands Prix.</td>
+        <td>Own stated gaps: <b>no car telemetry</b>, fuel mass approximate, tyre thermals absorbed into noise. Predicts race <i>outcomes</i>; does not attribute observed pace to causes.</td>
+      </tr>
+      <tr>
+        <td><b>Explainable tyre energy</b><br><span class="dim">arXiv:2501.04067</span></td>
+        <td>XGBoost and deep models predicting tyre energy, with SHAP attributions and counterfactual explanations.</td>
+        <td>Uses <b>private Mercedes-AMG telemetry</b>. Not reproducible from public data by anyone outside the team.</td>
+      </tr>
+      <tr>
+        <td><b>MegaRide / thermodynamic wear</b><br><span class="dim">S0043164824000565</span></td>
+        <td>Tyre wear model fusing rubber viscoelasticity, road roughness and thermodynamics. State of the art in physical fidelity.</td>
+        <td>Commercial; requires rig and finite-element data that public sources do not contain.</td>
+      </tr>
+      <tr>
+        <td><b>Heilmeier et&nbsp;al.</b><br><span class="dim">TUMFTM/race-simulation</span></td>
+        <td>Open-source race simulator and pit-stop optimisation. The reference implementation in the field.</td>
+        <td>Takes a degradation rate as <b>given</b>. The number this project produces is that simulator's most important input.</td>
+      </tr>
+      <tr>
+        <td><b>Rubber wear review</b><br><span class="dim">PMC12915245</span></td>
+        <td>Survey of tyre wear modelling. Archard as baseline; energy-based formulations as the better-supported family.</td>
+        <td>Confirms that a constant Archard coefficient is inadequate for rubber and that temperature belongs inside the coefficient — which shaped our wear model.</td>
+      </tr>
+      <tr>
+        <td><b>Multilevel F1 performance models</b><br><span class="dim">Bristol / White Rose, 1950&ndash;2014</span></td>
+        <td>Hierarchical modelling of driver and constructor contributions to race outcome.</td>
+        <td>Establishes pooling in motorsport, but not applied to tyre degradation, and does not use pit stagger as identifying variation.</td>
+      </tr>
+      <tr>
+        <td><b>NASA C-MAPSS</b><br><span class="dim">PCoE repository</span></td>
+        <td>Turbofan run-to-failure benchmark with published remaining-life labels; a large comparable literature.</td>
+        <td>Not motorsport — which is exactly why we use it: it supplies the ground truth F1 cannot.</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="prov">docs/research/01_RESEARCH_AUDIT.md §1</div>
+
+  <div class="panel">
+    <h4>Conclusion of the audit</h4>
+    <p>
+      Degradation prediction and race simulation are solved-enough problems.
+      Rebuilding either was ruled out. What no surveyed work does is test whether
+      the decomposition it reports is <em>correct</em> — and that is the thing the
+      brief actually asks for.
+    </p>
+  </div>
+
+  <h3>Why the gap has survived</h3>
+  <p>
+    Not because the field is careless. The gap exists because testing attribution
+    requires a ground truth that motorsport cannot supply. Public F1 data contains
+    no measured tread depth, no rubber mass, no wear sensor. There is no column to
+    score an attribution against, so the field scores what it can measure: the lap
+    time. The metric is not wrong, it is simply blind to the failure mode that
+    matters here.
+  </p>
+  <p>
+    TyreMind's response is to manufacture the missing ground truth in two
+    directions at once. <strong>Synthetically</strong>, by generating sessions
+    where the true degradation rate is set by us and buried under realistic
+    confounding, so recovery can be measured per cause. And
+    <strong>cross-domain</strong>, on NASA's turbofan benchmark, where run-to-failure
+    labels do exist and the identical estimator can be scored against them.
+  </p>
+</section>
+
+<!-- ====================================================================== -->
+<!-- 03 IDENTIFIABILITY                                                      -->
+<!-- ====================================================================== -->
+<section class="page-break">
+  <div class="sec-head">
+    <div class="sec-no">03</div>
+    <div>
+      <h2>Identifiability: the actual hard part</h2>
+      <div class="kicker">Three collinearities. Only the first is in the brief. Two cannot be resolved by any amount of data.</div>
+    </div>
+  </div>
+
+  <p>
+    Working through the algebra before building revealed that this problem has a
+    specific structural difficulty, and that most of it is invisible until you
+    write the equations down. What follows is the derivation, the resolution
+    chosen for each case, and — stated plainly — whether that resolution came from
+    evidence or from assumption.
+  </p>
+
+  <h3>3.1 &nbsp; Fuel against degradation, within a run</h3>
+  <p>
+    Both are linear in laps completed. Fuel makes the car faster at roughly
+    0.030&nbsp;s/kg &times; 2.7&nbsp;kg/lap &asymp; <b>0.081&nbsp;s/lap</b>; the
+    tyre makes it slower by an unknown amount. Within one run these are not
+    separable at all — not poorly separable, <em>not separable</em>.
+  </p>
+  <p>
+    The unknown <em>starting</em> fuel mass is irrelevant, because it shifts the
+    run's intercept and a run-level effect absorbs it. Only the slope matters, and
+    the slope is exactly confounded.
+  </p>
+  <div class="panel">
+    <h4>Resolution — by assumption</h4>
+    <p>
+      Pin the fuel coefficient with an informative physical prior
+      (0.030&nbsp;&plusmn;&nbsp;0.005&nbsp;s/kg; 2.7&nbsp;&plusmn;&nbsp;0.3&nbsp;kg/lap)
+      and carry its uncertainty as state, so it <em>widens every published
+      interval</em> rather than being silently assumed away.
+    </p>
+  </div>
+  <p>
+    <b>Verified empirically.</b> On 25 synthetic sessions the naive estimator's
+    bias is &minus;0.0966&nbsp;s/lap — almost exactly the fuel slope, in the
+    direction theory predicts. The collinearity shows up as a measured quantity,
+    not as an argument.
+  </p>
+
+  <h3>3.2 &nbsp; Track evolution against a uniform shift in degradation</h3>
+  <p>
+    <b>Not anticipated.</b> This one was found by diagnosing a stubborn
+    &minus;0.013&nbsp;s/lap bias that survived removing the cliff, scrubbed sets
+    and traffic from the generator — which is to say, it was found the hard way.
+  </p>
+  <p>
+    Shift every degradation rate by <i>c</i> and the track-evolution slope by
+    <i>&minus;c</i>. For a lap at session lap <i>L</i> with tyre age
+    <i>a = a<sub>0</sub> + (L &minus; L<sub>0</sub>)</i>:
+  </p>
+  <div class="eq"><span class="t">degradation moves by</span>  +c·(a₀ + L − L₀)
+<span class="t">track       moves by</span>  −c·L
+<span class="c">─────────────────────────────────────────</span>
+<span class="t">net</span>                    c·(a₀ − L₀)   <span class="c">← constant WITHIN a run</span></div>
+  <p>
+    A constant within a run is exactly what the run intercept absorbs. The two are
+    structurally indistinguishable, and — this is the part that took a day to
+    accept — scrubbed sets do not help, because the difference is still constant
+    within the run.
+  </p>
+  <div class="panel">
+    <h4>Resolution — by assumption, but a physically correct one</h4>
+    <p>
+      Model track evolution parametrically as a saturating curve
+      <code>A·(1 &minus; exp(&minus;kL))</code> with an informative prior on the
+      amplitude, rather than as a free random walk. Rubber deposition genuinely
+      saturates, so this is the more physically correct model as well as the
+      identifying one. <b>Bias fell from &minus;0.013 to +0.0012&nbsp;s/lap.</b>
+    </p>
+  </div>
+
+  <h3>3.3 &nbsp; Tyre age against session lap, within a run</h3>
+  <p>
+    They advance together. A single car cannot distinguish an ageing tyre from a
+    changing session — the two variables are the same variable plus a constant.
+  </p>
+  <div class="panel good">
+    <h4>Resolution — by evidence, and it is free</h4>
+    <p>
+      Fit the whole field at once. Cars change tyres on different laps, so at any
+      session lap the grid spans a wide range of tyre ages. <b>Pit stagger is a
+      natural experiment</b> requiring no prior — only the whole grid instead of
+      one car. This is the structural difference from Cappello &amp; Hoegh, who
+      model one driver, and it is why they find compounds statistically
+      indistinguishable where we separate them.
+    </p>
+  </div>
+
+  <h3>What this costs, quantified</h3>
+  <p>
+    Two of three are resolved by assumption. That is a real weakness and it is
+    measured rather than described: experiment 02 re-fits everything under
+    perturbed priors and reports how far the answer moves.
+  </p>
+
+  <table>
+    <thead><tr><th>Variant</th><th>What it asks</th><th class="n">Rate MAE</th><th class="n">Bias</th><th class="n">Mean sd</th><th class="n">Coverage</th></tr></thead>
+    <tbody>
+      <tr><td>track prior &minus;1sd</td><td>What if the track rubbers in less?</td><td class="n">0.0023</td><td class="n">+0.0000</td><td class="n">0.017</td><td class="n">100%</td></tr>
+      <tr class="hl"><td>baseline</td><td>Priors as documented</td><td class="n">0.0047</td><td class="n">+0.0043</td><td class="n">0.017</td><td class="n">100%</td></tr>
+      <tr><td>live (filtered)</td><td>Forward-only, no future data</td><td class="n">0.0047</td><td class="n">+0.0043</td><td class="n">0.017</td><td class="n">100%</td></tr>
+      <tr><td>wide priors</td><td>Much less confident in both assumptions</td><td class="n">0.0055</td><td class="n">+0.0053</td><td class="n">0.032</td><td class="n">100%</td></tr>
+      <tr><td>half the field</td><td>Give up half the pit stagger</td><td class="n">0.0073</td><td class="n">+0.0056</td><td class="n">0.018</td><td class="n">100%</td></tr>
+      <tr><td>track prior +1sd</td><td>What if it rubbers in more?</td><td class="n">0.0091</td><td class="n">+0.0091</td><td class="n">0.017</td><td class="n">100%</td></tr>
+      <tr><td>fuel prior &minus;1sd</td><td>What if fuel costs less lap time?</td><td class="n">0.0113</td><td class="n">&minus;0.0113</td><td class="n">0.017</td><td class="n">100%</td></tr>
+      <tr><td>fuel prior +1sd</td><td>What if it costs more?</td><td class="n">0.0199</td><td class="n">+0.0199</td><td class="n">0.017</td><td class="n">100%</td></tr>
+    </tbody>
+  </table>
+  <div class="prov">experiments/results/exp02_prior_sensitivity.json</div>
+
+  <p>
+    Three readings matter here. First, <b>the worst case is still five times
+    better than the naive method</b> (0.0199 against 0.0966), so the assumptions
+    carry the answer but do not carry it alone. Second, <b>wide priors double the
+    posterior standard deviation</b> (0.017&nbsp;&rarr;&nbsp;0.032) — being less
+    sure produces wider intervals rather than a different answer, which is the
+    behaviour you want and not the behaviour you get for free. Third, <b>coverage
+    holds at 100% throughout</b>: even when the prior is wrong, the interval still
+    contains the truth.
+  </p>
+
+  <div class="panel warn">
+    <h4>The honest framing</h4>
+    <p>
+      A team with real fuel telemetry should replace our fuel prior with their own
+      measurement. The architecture supports it directly — the coefficient is a
+      state with a settable prior — and doing so would remove the single largest
+      assumption in the method. We say this in the product, not only here.
+    </p>
+  </div>
+</section>
+
+<!-- ====================================================================== -->
+<!-- 04 MODEL                                                                -->
+<!-- ====================================================================== -->
+<section class="page-break">
+  <div class="sec-head">
+    <div class="sec-no">04</div>
+    <div>
+      <h2>The model</h2>
+      <div class="kicker">A hierarchical linear-Gaussian state-space model in tyre age, fitted across the whole grid</div>
+    </div>
+  </div>
+
+  <p>For driver <i>d</i> on session lap <i>t</i>, running tyre set <i>r</i>:</p>
+
+  <div class="eq">y[d,t] = alpha[r]            <span class="c">run intercept: car pace, setup, starting fuel mass</span>
+       − A · g(t)           <span class="c">track evolution, shared across the whole field</span>
+       + theta[t]           <span class="c">residual track wobble, tightly bounded</span>
+       <span class="t">+ s[d,t]             latent tyre performance loss   ← the deliverable</span>
+       − phi_kappa · L[d,t] <span class="c">fuel burn-off, L = laps completed this run</span>
+       + gamma · TI[d,t]    <span class="c">traffic index</span>
+       + eps                <span class="c">observation noise, heavy-tailed</span>
+
+with  g(t) = 1 − exp(−k·t)</div>
+
+  <p>
+    The latent tyre state evolves as a <b>local linear trend in tyre age</b>, not
+    in session lap:
+  </p>
+
+  <div class="eq">s[d, a+da]    = s[d,a] + da · rate[d,a] + noise
+rate[d, a+da] = rate[d,a] + noise</div>
+
+  <p>
+    <code>rate</code> is the reported quantity: instantaneous degradation in
+    seconds per lap. Choosing tyre age as the evolution index rather than session
+    lap is what makes a pit stop a state reset instead of a discontinuity to be
+    modelled.
+  </p>
+
+  <div class="panel tyre">
+    <h4>A cliff needs no special machinery</h4>
+    <p>
+      Because the rate is itself a free state, degradation that accelerates simply
+      appears as <code>rate</code> rising. The same structure represents a plateau
+      or a recovery. <b>Nothing in the model assumes a cliff exists</b> — which
+      matters, because not every tyre has one, and a model with a hard-coded cliff
+      term will find one whether or not it is there.
+    </p>
+  </div>
+
+  <h3>The hierarchy</h3>
+  <p>At each tyre change, a stint's degradation rate is drawn around its compound's pooled baseline:</p>
+  <div class="eq">rate[new stint] ~ N( compound_baseline[c], stint_rate_sd² )</div>
+  <p>
+    <code>stint_rate_sd</code> is estimated, so the data chooses how far individual
+    stints shrink towards their compound mean. This is what pools evidence across
+    the whole grid, and it is the direct answer to Cappello and Hoegh finding
+    compounds statistically indistinguishable from a single driver: with twenty
+    cars the compound baseline is estimated from an order of magnitude more
+    evidence.
+  </p>
+
+  <h3>Coefficients as states</h3>
+  <p>
+    <code>phi_kappa</code>, <code>gamma</code>, the track amplitude and the
+    per-compound baseline rates are represented as states with <b>zero process
+    noise</b> rather than as free parameters in the optimiser.
+  </p>
+  <p>
+    For a constant, "state with no process noise" <em>is</em> the Bayesian
+    posterior. The consequence that matters: physical priors enter as
+    <code>P0</code>, and the filter propagates their uncertainty into the tyre
+    posterior automatically. The width of the fuel prior widens every degradation
+    interval, with no bootstrap and no second pass. This is why section 03's
+    sensitivity table shows posterior standard deviation responding to prior width
+    — it is a property of the construction, not a feature added afterwards.
+  </p>
+
+  <h3>The traffic index</h3>
+  <p>
+    Traffic is the one confounder measured from data rather than assumed, because
+    it varies independently of tyre age. For each lap the index finds the nearest
+    preceding lap by a <em>different</em> driver, sorted by global session start
+    time, and saturates the gap between 0.4 and 2.0 seconds.
+  </p>
+  <p>
+    An earlier version grouped by lap number and produced an index of exactly
+    zero everywhere. In a practice session two drivers' "lap 5" can be twenty
+    minutes apart; only wall-clock ordering identifies who was actually behind whom.
+    The bug is recorded in section 12 because it is the kind that produces a clean
+    fit and a wrong answer.
+  </p>
+</section>
+
+<!-- ====================================================================== -->
+<!-- 05 KALMAN                                                               -->
+<!-- ====================================================================== -->
+<section>
+  <div class="sec-head">
+    <div class="sec-no">05</div>
+    <div>
+      <h2>Why a Kalman filter and not a sampler</h2>
+      <div class="kicker">The choice that makes the real-time claim possible at all</div>
+    </div>
+  </div>
+
+  <p>
+    Conditional on the variance hyperparameters the model is linear-Gaussian, so
+    the marginal likelihood is available in closed form through the prediction
+    error decomposition. That buys three things a sampler does not.
+  </p>
+
+  <div class="three">
+    <div>
+      <h4>1 &nbsp;An exact likelihood</h4>
+      <p style="font-size:9.4pt">
+        Usable directly for hyperparameter estimation — L-BFGS-B over six
+        log-variances — and for model comparison. No effective sample size, no
+        convergence diagnostic standing between the model and a number.
+      </p>
+    </div>
+    <div>
+      <h4>2 &nbsp;Analytic posteriors</h4>
+      <p style="font-size:9.4pt">
+        For every state, including the coefficients. No sampling error. An
+        interval reported at 0.018 s/lap is that width because the algebra says
+        so, not because a chain happened to explore that far.
+      </p>
+    </div>
+    <div>
+      <h4>3 &nbsp;An incremental mode</h4>
+      <p style="font-size:9.4pt">
+        The forward pass alone <em>is</em> the real-time estimator. A sampler has
+        no such mode, and re-running one every lap is not an option on a pit wall.
+        Measured: <b>0.22 ms per lap</b>, flat in session length.
+      </p>
+    </div>
+  </div>
+
+  <div class="panel tyre">
+    <h4>The architectural consequence, which is the actual novelty here</h4>
+    <p>
+      Kalman filtering is decades old and real-time race analytics already exist.
+      What is worth defending is that <b>the same estimator serves both modes</b>.
+      The retrospective curve an engineer studies on Friday evening and the live
+      number on the pit wall on Sunday are produced by one model, not by a fast
+      approximation of a slow one. Filtered (live) and smoothed (retrospective)
+      estimates are kept strictly separate in the code and in the interface, and
+      the live estimate converges to within <b>0.003 s/lap</b> of the
+      retrospective answer.
+    </p>
+  </div>
+
+  <h3>Numerical implementation</h3>
+  <table>
+    <thead><tr><th style="width:30%">Technique</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr><td><b>Sequential scalar updates</b><br><span class="dim">Durbin &amp; Koopman 2012, §6.4</span></td><td>No matrix inverse is ever formed; cost falls from O(n³) to O(n²) per observation. It is also what makes true online operation possible — one lap arrives, one scalar update runs.</td></tr>
+      <tr><td><b>A batched per-step path</b></td><td>Used for fitting. Mathematically identical, pinned by test to 1e&minus;9, but issuing far fewer NumPy calls. At several hundred likelihood evaluations per fit, interpreter dispatch dominates the arithmetic.</td></tr>
+      <tr><td><b>A structured transition</b></td><td>The transition matrix is identity everywhere except two rows per car, so propagation is done by row operations in O(n²) instead of a dense O(n³) product. Roughly a hundredfold difference at a full grid.</td></tr>
+      <tr><td><b>Forced symmetry</b></td><td>After each rank-1 downdate. Left alone, mantissa-level asymmetry accumulates over a few thousand updates until an eigenvalue goes negative and the log-likelihood silently becomes NaN.</td></tr>
+    </tbody>
+  </table>
+  <div class="prov">src/tyremind/models/ssm/kalman.py · docs/research/05_STATISTICAL_ARCHITECTURE.md</div>
+  <p style="margin-top:3mm">
+    Together these took a session fit from 25&nbsp;s to 5.8&nbsp;s with identical
+    results — verified identical, not assumed identical.
+  </p>
+
+  <h3>Verification of the recursion itself</h3>
+  <p>
+    The recursive likelihood is checked against an <b>independently constructed
+    joint multivariate normal</b> over all observations, agreeing to 1e&minus;9.
+  </p>
+  <p>
+    That test exists because a Kalman recursion that is subtly wrong does not
+    crash. It returns a plausible number and quietly biases every hyperparameter
+    downstream. A second, structurally different route to the same quantity was
+    necessary rather than nice to have.
+  </p>
+</section>
+
+<!-- ====================================================================== -->
+<!-- 06 PHYSICS                                                              -->
+<!-- ====================================================================== -->
+<section class="page-break">
+  <div class="sec-head">
+    <div class="sec-no">06</div>
+    <div>
+      <h2>The physics layer</h2>
+      <div class="kicker">What public telemetry supports, what it does not, and a check that is not circular</div>
+    </div>
+  </div>
+
+  <p>Every function in the physics package states which side of a line it sits on.</p>
+
+  <div class="three">
+    <div class="panel good" style="margin:0">
+      <h4>Recovered from data</h4>
+      <p style="font-size:9pt">Speed, longitudinal acceleration, path curvature, lateral acceleration, distance. No vehicle model involved.</p>
+    </div>
+    <div class="panel" style="margin:0">
+      <h4>Model-derived</h4>
+      <p style="font-size:9pt">Normal load per corner, frictional power, energy exposure, thermal state. Only as good as the parameters in <code>configs/physics.yaml</code>.</p>
+    </div>
+    <div class="panel warn" style="margin:0">
+      <h4>Not available at any price</h4>
+      <p style="font-size:9pt">Slip angle, slip ratio, contact patch pressure, tyre temperature, tread depth. Functions returning a proxy carry <code>_proxy</code> in the name.</p>
+    </div>
+  </div>
+
+  <h3>Curvature, the quantity that unlocks the rest</h3>
+  <p>Position telemetry gives X/Y at 4&ndash;10&nbsp;Hz. The parametric curvature formula</p>
+  <div class="eq">kappa = (x' y'' − y' x'') / (x'² + y'²)^(3/2)</div>
+  <p>
+    is <b>signed</b>: positive is a left-hand turn, negative a right-hand one. That
+    sign is what makes left/right tyre asymmetry recoverable at all, and it is
+    what the validation in this section rests on.
+  </p>
+  <p>
+    Second derivatives amplify noise brutally, so coordinates are smoothed over
+    seven samples first — roughly one to two seconds, which preserves corners while
+    killing jitter. It is a real trade-off: too short and straights sprout phantom
+    corners, too long and genuine direction changes flatten into one.
+  </p>
+
+  <h3>From curvature to load</h3>
+  <div class="eq">a_y     = v² · kappa                              <span class="c">pure kinematics, no tyre model</span>
+F_down  = ½ · rho · ClA · v²                     <span class="c">aerodynamic load</span>
+long.   = m · a_x · h / wheelbase                <span class="c">braking loads the front</span>
+lat.    = m · a_y · h / track_width              <span class="c">cornering loads the outside</span></div>
+  <p>
+    Lateral acceleration is the most physically trustworthy derived quantity
+    available from public data — straight from kinematics, no assumption about
+    grip. It is clipped at 7&nbsp;g and zeroed below 8&nbsp;m/s, because positional
+    glitches otherwise produce impossible loads that propagate into every
+    downstream figure.
+  </p>
+
+  <div class="panel warn">
+    <h4>Frictional power is explicitly a proxy — the weakest link, named as such</h4>
+    <p>
+      True frictional power is <code>mu · F_normal · v_slip</code>, and slip
+      velocity is not observable without wheel-speed sensors. Slip is approximated
+      as proportional to demanded acceleration: a tyre asked for more grip is
+      slipping more. What survives that approximation is the <em>relative</em>
+      ordering — which corner worked hardest, which lap was more demanding, which
+      circuit puts more through the rubber — because the unknown constant of
+      proportionality divides out of every comparison the platform actually makes.
+      Absolute values in watts are meaningless and are never reported.
+    </p>
+  </div>
+
+  <h3>Thermal model: two states, because the distinction is the point</h3>
+  <div class="eq">C_s dTs/dt = Q_friction − k_sb(Ts−Tb) − h(v)(Ts−T_air) − k_road(Ts−T_track)
+C_b dTb/dt = k_sb(Ts−Tb) − h_b(Tb−T_air)</div>
+  <p>
+    A driver can drop surface temperature in one cool-down lap, but an overheated
+    carcass stays overheated — and that is what ends stints. These are
+    <b>estimated states, not measurements</b>: the coefficients are calibrated so
+    their output correlates with observed degradation, not against any temperature
+    sensor, because there is none. Absolute degrees are not trustworthy; the
+    relative structure is what the degradation model consumes.
+  </p>
+
+  <h3>Wear: why not Archard, and why not Arrhenius</h3>
+  <p>
+    Archard (<code>V = K·F_N·L/H</code>) is retained as a documented baseline for
+    the ablation. It is used because it is simple, not because it is right for
+    rubber: a constant coefficient, blind to viscoelasticity, roughness and
+    temperature. The rubber wear review says as much explicitly. The energy
+    formulation <code>dW/dt = K(T, compound)·P_friction</code> replaces it, and the
+    coefficient is where temperature enters.
+  </p>
+
+  <div class="panel tyre">
+    <h4>The bidirectional detail that a standard model cannot represent</h4>
+    <p>
+      The wear multiplier rises on <b>both sides</b> of the working window. Too
+      cold, and stiff rubber cannot generate grip through hysteresis, so the driver
+      slides it and tears the surface — this is graining. Too hot, and rubber
+      softens past its useful range and abrades and blisters — this is thermal
+      degradation.
+    </p>
+    <p style="margin-top:2mm">
+      An <b>Arrhenius form is the textbook choice and is wrong here</b>, because it
+      is monotone in temperature and so cannot represent the cold side at all —
+      half of real tyre behaviour. A symmetric quadratic penalty around the window
+      is the simplest form with the right shape, and public data cannot justify
+      anything more elaborate. A test guards this specifically, so a future
+      "simplification" to Arrhenius fails CI rather than passing silently.
+    </p>
+  </div>
+
+  <h3>Independent validation: recovering circuit geometry never given to the code</h3>
+  <p>
+    The whole chain — GPS to curvature to lateral g to per-corner load — needed a
+    check that was not circular. A clockwise circuit is mostly right-hand corners,
+    and cornering right throws load onto the <em>left</em> tyres. So a clockwise
+    circuit must show a left-side energy share above 50%. Rotation direction is
+    published fact and is never given to any code under test.
+  </p>
+
+  <table>
+    <thead><tr><th>Circuit</th><th>Published</th><th class="n">Left-turn energy</th><th class="n">Left-side load</th><th style="width:12%">Correct</th></tr></thead>
+    <tbody>
+      <tr><td>Monza</td><td>clockwise</td><td class="n">21.5%</td><td class="n">54.9%</td><td style="color:var(--good)">yes</td></tr>
+      <tr><td>Barcelona</td><td>clockwise</td><td class="n">25.9%</td><td class="n">58.2%</td><td style="color:var(--good)">yes</td></tr>
+      <tr><td>Zandvoort</td><td>clockwise</td><td class="n">29.5%</td><td class="n">58.9%</td><td style="color:var(--good)">yes</td></tr>
+      <tr><td>Silverstone</td><td>clockwise</td><td class="n">35.4%</td><td class="n">54.5%</td><td style="color:var(--good)">yes</td></tr>
+      <tr class="hl"><td>Austin</td><td>anti-clockwise</td><td class="n">46.2%</td><td class="n">51.1%</td><td class="win">no</td></tr>
+      <tr><td>Imola</td><td>anti-clockwise</td><td class="n">60.1%</td><td class="n">48.1%</td><td style="color:var(--good)">yes</td></tr>
+      <tr><td>Singapore</td><td>anti-clockwise</td><td class="n">60.9%</td><td class="n">47.3%</td><td style="color:var(--good)">yes</td></tr>
+      <tr><td>Interlagos</td><td>anti-clockwise</td><td class="n">74.6%</td><td class="n">45.5%</td><td style="color:var(--good)">yes</td></tr>
+    </tbody>
+  </table>
+  <div class="prov">experiments/results/exp06_circuit_asymmetry.json · 8 circuits, 2024</div>
+
+  <p style="margin-top:3mm">
+    <b>Seven of eight.</b> Austin misses at 46.2% and is reported as a miss —
+    genuinely borderline, because COTA's esses alternate direction, so the circuit
+    really is close to balanced. Recovering this requires curvature sign, load
+    transfer and energy integration to all be correct <em>simultaneously</em>; it
+    is the strongest available check that the physics layer computes what it claims.
+  </p>
+</section>
+
+<!-- ====================================================================== -->
+<!-- 07 ARCHITECTURE                                                         -->
+<!-- ====================================================================== -->
+<section class="page-break">
+  <div class="sec-head">
+    <div class="sec-no">07</div>
+    <div>
+      <h2>System architecture</h2>
+      <div class="kicker">One estimator, two modes, four consumers</div>
+    </div>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 900 640" xmlns="http://www.w3.org/2000/svg" font-family="Bahnschrift, Segoe UI, sans-serif">
+      <defs>
+        <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#6c7f88"/>
+        </marker>
+        <marker id="art" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#c0392b"/>
+        </marker>
+      </defs>
+
+      <!-- Lane labels -->
+      <g font-size="10" fill="#a7b4bb" letter-spacing="1.2">
+        <text x="0" y="14">SOURCES</text>
+        <text x="0" y="124">INGESTION &amp; QUALITY</text>
+        <text x="0" y="248">PHYSICS</text>
+        <text x="0" y="330">ESTIMATOR</text>
+        <text x="0" y="470">DECISION LAYER</text>
+        <text x="0" y="580">SURFACES</text>
+      </g>
+
+      <!-- Sources -->
+      <g>
+        <rect x="0" y="22" width="150" height="46" fill="#f2f4f5" stroke="#c9d2d7"/>
+        <text x="10" y="41" font-size="12" fill="#111a20">FastF1 / F1 timing</text>
+        <text x="10" y="57" font-size="9.5" fill="#6c7f88">laps, stints, compounds</text>
+
+        <rect x="163" y="22" width="150" height="46" fill="#f2f4f5" stroke="#c9d2d7"/>
+        <text x="173" y="41" font-size="12" fill="#111a20">Position telemetry</text>
+        <text x="173" y="57" font-size="9.5" fill="#6c7f88">X / Y / Z at 4–10 Hz</text>
+
+        <rect x="326" y="22" width="150" height="46" fill="#f2f4f5" stroke="#c9d2d7"/>
+        <text x="336" y="41" font-size="12" fill="#111a20">Synthetic generator</text>
+        <text x="336" y="57" font-size="9.5" fill="#6c7f88">known hidden truth</text>
+
+        <rect x="489" y="22" width="150" height="46" fill="#f2f4f5" stroke="#c9d2d7"/>
+        <text x="499" y="41" font-size="12" fill="#111a20">NASA C-MAPSS</text>
+        <text x="499" y="57" font-size="9.5" fill="#6c7f88">turbofan run-to-failure</text>
+
+        <rect x="652" y="22" width="150" height="46" fill="#ffffff" stroke="#a7b4bb" stroke-dasharray="4 3"/>
+        <text x="662" y="41" font-size="12" fill="#3f5058">Team telemetry</text>
+        <text x="662" y="57" font-size="9.5" fill="#6c7f88">fuel, temps — optional</text>
+      </g>
+
+      <!-- Ingestion -->
+      <g>
+        <rect x="0" y="132" width="390" height="72" fill="#e7ecee" stroke="#a7b4bb"/>
+        <text x="12" y="152" font-size="12.5" fill="#111a20">Quality engine</text>
+        <text x="12" y="169" font-size="9.5" fill="#3f5058">pit / safety-car / wet / short-stint exclusion, every drop counted</text>
+        <text x="12" y="184" font-size="9.5" fill="#3f5058">circuit-alias resolution · session quality score 0–100</text>
+        <text x="12" y="199" font-size="9.5" fill="#6c7f88">454 raw laps → 143 usable at Monza FP2</text>
+
+        <rect x="403" y="132" width="236" height="72" fill="#e7ecee" stroke="#a7b4bb"/>
+        <text x="415" y="152" font-size="12.5" fill="#111a20">Traffic index</text>
+        <text x="415" y="169" font-size="9.5" fill="#3f5058">nearest preceding lap by a different</text>
+        <text x="415" y="184" font-size="9.5" fill="#3f5058">driver, ordered by wall clock</text>
+        <text x="415" y="199" font-size="9.5" fill="#6c7f88">saturating 0.4–2.0 s gap</text>
+      </g>
+
+      <!-- Physics -->
+      <g>
+        <rect x="0" y="258" width="639" height="52" fill="#f2f4f5" stroke="#c9d2d7"/>
+        <text x="12" y="277" font-size="12.5" fill="#111a20">Physics chain</text>
+        <text x="12" y="295" font-size="9.5" fill="#3f5058">curvature → lateral g → aero + load transfer → per-corner frictional energy → two-state thermal → energy-based wear</text>
+      </g>
+
+      <!-- Estimator -->
+      <g>
+        <rect x="0" y="340" width="639" height="106" fill="#f7e4e1" stroke="#c0392b" stroke-width="1.6"/>
+        <text x="12" y="361" font-size="13.5" fill="#c0392b" font-weight="600">Hierarchical linear-Gaussian state-space model</text>
+        <text x="12" y="379" font-size="10" fill="#111a20">whole-field pooling · local linear trend in tyre age · coefficients as zero-process-noise states</text>
+
+        <rect x="12" y="390" width="196" height="44" fill="#ffffff" stroke="#c9d2d7"/>
+        <text x="22" y="407" font-size="11" fill="#111a20">Kalman filter</text>
+        <text x="22" y="423" font-size="9.5" fill="#6c7f88">FILTERED — live, 0.22 ms/lap</text>
+
+        <rect x="220" y="390" width="196" height="44" fill="#ffffff" stroke="#c9d2d7"/>
+        <text x="230" y="407" font-size="11" fill="#111a20">RTS smoother</text>
+        <text x="230" y="423" font-size="9.5" fill="#6c7f88">SMOOTHED — retrospective</text>
+
+        <rect x="428" y="390" width="199" height="44" fill="#ffffff" stroke="#c9d2d7"/>
+        <text x="438" y="407" font-size="11" fill="#111a20">L-BFGS-B on exact loglik</text>
+        <text x="438" y="423" font-size="9.5" fill="#6c7f88">6 log-variances, 5.8 s / session</text>
+      </g>
+
+      <!-- Asset profile sidebar -->
+      <g>
+        <rect x="652" y="258" width="150" height="188" fill="#ffffff" stroke="#a7b4bb"/>
+        <text x="662" y="278" font-size="11.5" fill="#111a20">AssetProfile</text>
+        <text x="662" y="296" font-size="9.5" fill="#3f5058">what counts as age</text>
+        <text x="662" y="311" font-size="9.5" fill="#3f5058">what counts as</text>
+        <text x="662" y="325" font-size="9.5" fill="#3f5058">performance</text>
+        <text x="662" y="340" font-size="9.5" fill="#3f5058">which confounders</text>
+        <text x="662" y="355" font-size="9.5" fill="#3f5058">exist</text>
+        <line x1="662" y1="368" x2="792" y2="368" stroke="#c9d2d7"/>
+        <text x="662" y="386" font-size="9.5" fill="#6c7f88">f1_tyre</text>
+        <text x="662" y="401" font-size="9.5" fill="#6c7f88">turbofan</text>
+        <text x="662" y="416" font-size="9.5" fill="#6c7f88">commercial_tyre</text>
+        <text x="662" y="435" font-size="9" fill="#a7b4bb">one estimator, many assets</text>
+      </g>
+
+      <!-- Decision layer -->
+      <g>
+        <rect x="0" y="480" width="196" height="60" fill="#f2f4f5" stroke="#c9d2d7"/>
+        <text x="10" y="499" font-size="11.5" fill="#111a20">Monte Carlo strategy</text>
+        <text x="10" y="515" font-size="9.5" fill="#3f5058">5,000 races per option</text>
+        <text x="10" y="530" font-size="9.5" fill="#6c7f88">rate sampled per race</text>
+
+        <rect x="208" y="480" width="196" height="60" fill="#f2f4f5" stroke="#c9d2d7"/>
+        <text x="218" y="499" font-size="11.5" fill="#111a20">Trust &amp; applicability</text>
+        <text x="218" y="515" font-size="9.5" fill="#3f5058">extrapolation flags</text>
+        <text x="218" y="530" font-size="9.5" fill="#6c7f88">value of information</text>
+
+        <rect x="416" y="480" width="196" height="60" fill="#f2f4f5" stroke="#c9d2d7"/>
+        <text x="426" y="499" font-size="11.5" fill="#111a20">Decomposition</text>
+        <text x="426" y="515" font-size="9.5" fill="#3f5058">exact arithmetic per lap</text>
+        <text x="426" y="530" font-size="9.5" fill="#6c7f88">template narration</text>
+
+        <rect x="624" y="480" width="178" height="60" fill="#f2f4f5" stroke="#c9d2d7"/>
+        <text x="634" y="499" font-size="11.5" fill="#111a20">Hybrid RAG</text>
+        <text x="634" y="515" font-size="9.5" fill="#3f5058">BM25 + LSA, RRF fused</text>
+        <text x="634" y="530" font-size="9.5" fill="#6c7f88">171 passages, 18 files</text>
+      </g>
+
+      <!-- Surfaces -->
+      <g>
+        <rect x="0" y="590" width="196" height="44" fill="#111a20"/>
+        <text x="10" y="609" font-size="11.5" fill="#ffffff">React dashboard</text>
+        <text x="10" y="625" font-size="9.5" fill="#a7b4bb">9 views, 3D, dark/light</text>
+
+        <rect x="208" y="590" width="196" height="44" fill="#111a20"/>
+        <text x="218" y="609" font-size="11.5" fill="#ffffff">REST API</text>
+        <text x="218" y="625" font-size="9.5" fill="#a7b4bb">24 endpoints, OpenAPI</text>
+
+        <rect x="416" y="590" width="196" height="44" fill="#111a20"/>
+        <text x="426" y="609" font-size="11.5" fill="#ffffff">WebSocket replay</text>
+        <text x="426" y="625" font-size="9.5" fill="#a7b4bb">lap-by-lap live stream</text>
+
+        <rect x="624" y="590" width="178" height="44" fill="#c0392b"/>
+        <text x="634" y="609" font-size="11.5" fill="#ffffff">MCP server</text>
+        <text x="634" y="625" font-size="9.5" fill="#f7e4e1">7 read-only tools</text>
+      </g>
+
+      <!-- Flows -->
+      <g stroke="#6c7f88" stroke-width="1.2" fill="none" marker-end="url(#ar)">
+        <path d="M 75 68 L 75 130"/>
+        <path d="M 238 68 L 238 130"/>
+        <path d="M 401 68 L 401 130"/>
+        <path d="M 564 68 L 480 130"/>
+        <path d="M 727 68 L 727 254"/>
+        <path d="M 195 204 L 195 256"/>
+        <path d="M 521 204 L 521 256"/>
+      </g>
+      <g stroke="#c0392b" stroke-width="1.6" fill="none" marker-end="url(#art)">
+        <path d="M 319 310 L 319 337"/>
+        <path d="M 98 446 L 98 477"/>
+        <path d="M 306 446 L 306 477"/>
+        <path d="M 514 446 L 514 477"/>
+        <path d="M 640 446 L 700 477"/>
+      </g>
+      <g stroke="#6c7f88" stroke-width="1.2" fill="none" marker-end="url(#ar)">
+        <path d="M 98 540 L 98 587"/>
+        <path d="M 306 540 L 306 587"/>
+        <path d="M 514 540 L 514 587"/>
+        <path d="M 713 540 L 713 587"/>
+      </g>
+      <g stroke="#a7b4bb" stroke-width="1" stroke-dasharray="4 3" fill="none" marker-end="url(#ar)">
+        <path d="M 652 352 L 640 352"/>
+      </g>
+    </svg>
+    <figcaption>
+      <b>Figure 1 — System architecture.</b> The single warm block is the estimator; every
+      other stage is cool, following the same encoding as the product interface. Two modes
+      leave that block — filtered for live operation and smoothed for retrospective analysis —
+      and they are never conflated. The <code>AssetProfile</code> to the right is what makes
+      the estimator asset-agnostic: it is a description of what "age" and "performance" mean
+      for a given asset class, and pointing the model at turbofan engines required no change
+      to the model itself. The dashed source at top right is a team's own telemetry, which
+      the architecture accepts as a replacement for its physical priors.
+    </figcaption>
+  </figure>
+
+  <h3>Deployment shape</h3>
+  <p>
+    A single FastAPI process serves the API, the WebSocket replay stream and the
+    built front end, with a session cache warmed at startup. It runs entirely
+    offline: sessions are pre-fetched to a local store, so a demonstration on
+    conference wifi does not depend on conference wifi. The MCP server is a
+    separate entry point over stdio or streamable HTTP, sharing the same estimator
+    code rather than reimplementing it.
+  </p>
+</section>
+
+<!-- ====================================================================== -->
+<!-- 08 EVIDENCE                                                             -->
+<!-- ====================================================================== -->
+<section class="page-break">
+  <div class="sec-head">
+    <div class="sec-no">08</div>
+    <div>
+      <h2>Evidence: seven experiments</h2>
+      <div class="kicker">Including one that failed and one where a competitor wins</div>
+    </div>
+  </div>
+
+  <h3>08.1 &nbsp; Can it recover a rate it was never shown?</h3>
+  <p>
+    The headline result. Twenty-five synthetic sessions were generated with a
+    hidden degradation rate per compound, buried under realistic fuel burn, track
+    evolution, traffic, driver noise, scrubbed sets and a cliff. Neither estimator
+    is told the answer.
+  </p>
+
+  <div class="stat-row">
+    <div class="stat key"><div class="v">0.0044</div><div class="l">TyreMind error</div><div class="s">s/lap MAE, bias +0.0012</div></div>
+    <div class="stat"><div class="v">0.0966</div><div class="l">Naive error</div><div class="s">s/lap MAE, bias &minus;0.0966</div></div>
+    <div class="stat key"><div class="v">95.5%</div><div class="l">Error reduction</div><div class="s">75 comparisons</div></div>
+    <div class="stat"><div class="v">100%</div><div class="l">Interval coverage</div><div class="s">nominal 95% — conservative</div></div>
+  </div>
+
+  <table>
+    <thead><tr><th>Compound</th><th class="n">True rate</th><th class="n">TyreMind MAE</th><th class="n">TyreMind bias</th><th class="n">Naive MAE</th><th class="n">Naive bias</th><th class="n">Reduction</th></tr></thead>
+    <tbody>
+      <tr><td>HARD</td><td class="n">0.041</td><td class="n win">0.0035</td><td class="n">&minus;0.0003</td><td class="n">0.0983</td><td class="n">&minus;0.0983</td><td class="n">96.4%</td></tr>
+      <tr><td>MEDIUM</td><td class="n">0.072</td><td class="n win">0.0039</td><td class="n">+0.0008</td><td class="n">0.0980</td><td class="n">&minus;0.0980</td><td class="n">96.0%</td></tr>
+      <tr><td>SOFT</td><td class="n">0.115</td><td class="n win">0.0057</td><td class="n">+0.0031</td><td class="n">0.0934</td><td class="n">&minus;0.0934</td><td class="n">93.9%</td></tr>
+      <tr class="hl"><td>Overall</td><td class="n">—</td><td class="n">0.0044</td><td class="n">+0.0012</td><td class="n">0.0966</td><td class="n">&minus;0.0966</td><td class="n">95.5%</td></tr>
+    </tbody>
+  </table>
+  <div class="prov">experiments/results/exp01_ground_truth_recovery.json · 25 seeds, 100% convergence, 8.8 s mean fit</div>
+
+  <p style="margin-top:3mm">
+    The single most informative cell in that table is the naive bias:
+    <b>&minus;0.0966 s/lap, almost exactly the fuel slope of 0.081</b>, in the
+    direction theory predicts. That is not a coincidence — it is the first
+    collinearity showing up as a measured quantity. The naive method is not noisy;
+    it is systematically wrong by the size of the confounder it ignores.
+  </p>
+
+  <h3>08.2 &nbsp; Does a Friday curve predict Sunday?</h3>
+  <p>
+    The brief's own validation question. Degradation is estimated from each event's
+    FP2 session and scored against the same event's race. <b>No race data reaches
+    the practice fit.</b> Practice and race differ in fuel load, traffic density,
+    track state and driving style all at once, so this is genuine out-of-distribution
+    transfer rather than a holdout split.
+  </p>
+
+  <div class="stat-row">
+    <div class="stat key"><div class="v">0.0518</div><div class="l">TyreMind error</div><div class="s">s/lap MAE</div></div>
+    <div class="stat"><div class="v">0.1166</div><div class="l">Naive error</div><div class="s">s/lap MAE</div></div>
+    <div class="stat"><div class="v">+0.047</div><div class="l">Systematic bias</div><div class="s">reported, not tuned away</div></div>
+    <div class="stat"><div class="v">90%</div><div class="l">Interval coverage</div><div class="s">10 comparisons</div></div>
+  </div>
+  <div class="prov">experiments/results/exp03_practice_to_race.json · 5 events, 2024, FP2 → race</div>
+
+  <div class="panel warn">
+    <h4>An honest finding, not a clean win</h4>
+    <p>
+      Practice over-predicts race degradation by +0.047&nbsp;s/lap in 9 of 10
+      comparisons. The likely physical cause is that practice race-simulation runs
+      hold high fuel throughout, while a race stint averages lower — putting more
+      load through the tyre on Friday than on Sunday. <b>A bias that is systematic
+      is a far better position than one that is random</b>: it is correctable once
+      its cause is understood, whereas scatter is not. We report it rather than
+      subtracting it, because a correction fitted on five events would flatter these
+      numbers and would not survive the sixth.
+    </p>
+  </div>
+
+  <h3>08.3 &nbsp; Six models, two metrics that disagree</h3>
+  <p>
+    Five competing approaches plus ours, scored on identical expanding-window
+    chronological folds. A random split would let a model see lap 40 while
+    predicting lap 20 of the same stint, and every metric would improve for a
+    reason that does not exist on a Sunday.
+  </p>
+
+  <h4>Lap-time prediction — the metric the field reports</h4>
+  <table>
+    <thead><tr><th>Model</th><th class="n">CRPS</th><th class="n">MAE</th><th class="n">95% coverage</th><th class="n">Bias drift</th><th class="n">Fit time</th></tr></thead>
+    <tbody>
+      <tr><td><b>LightGBM</b></td><td class="n win">0.677</td><td class="n">0.847</td><td class="n">60%</td><td class="n">+0.340</td><td class="n">0.7 s</td></tr>
+      <tr><td>Pooled regression</td><td class="n">0.813</td><td class="n">0.990</td><td class="n">79%</td><td class="n">+0.663</td><td class="n">0.03 s</td></tr>
+      <tr class="hl"><td>TyreMind state-space</td><td class="n">0.949</td><td class="n">1.169</td><td class="n">73%</td><td class="n win">&minus;0.136</td><td class="n">30.1 s</td></tr>
+      <tr><td>Naive (lap time vs tyre age)</td><td class="n">1.119</td><td class="n">1.511</td><td class="n">69%</td><td class="n">+1.280</td><td class="n">0.007 s</td></tr>
+      <tr><td>Fuel-corrected regression</td><td class="n">1.120</td><td class="n">1.511</td><td class="n">69%</td><td class="n">+1.293</td><td class="n">0.010 s</td></tr>
+      <tr><td>Neural network (MLP)</td><td class="n">1.643</td><td class="n">1.997</td><td class="n">69%</td><td class="n">&minus;3.324</td><td class="n">85.6 s</td></tr>
+    </tbody>
+  </table>
+
+  <h4>Degradation recovery — the metric the product exists for</h4>
+  <table>
+    <thead><tr><th>Model</th><th class="n">Rate MAE</th><th class="n">Rate bias</th><th class="n">Coverage</th><th class="n">n</th></tr></thead>
+    <tbody>
+      <tr class="hl"><td>TyreMind state-space</td><td class="n win">0.0047</td><td class="n">+0.0020</td><td class="n">100%</td><td class="n">15</td></tr>
+      <tr><td>Pooled regression</td><td class="n">0.0066</td><td class="n">+0.0002</td><td class="n">73%</td><td class="n">15</td></tr>
+      <tr><td>Fuel-corrected regression</td><td class="n">0.0227</td><td class="n">&minus;0.0202</td><td class="n">47%</td><td class="n">15</td></tr>
+      <tr><td>Naive (lap time vs tyre age)</td><td class="n">0.0737</td><td class="n">&minus;0.0737</td><td class="n">0%</td><td class="n">15</td></tr>
+      <tr><td colspan="5" style="color:var(--traffic)"><b>LightGBM and the MLP cannot appear in this table.</b> Neither has a parameter that means "degradation rate", so there is nothing to score, nothing to report to an engineer, and nothing to carry from Friday to Sunday.</td></tr>
+    </tbody>
+  </table>
+  <div class="prov">experiments/results/exp05_model_ladder.json · 4 real sessions + 5 synthetic seeds, expanding-window folds</div>
+
+  <div class="panel tyre">
+    <h4>The disagreement is the finding</h4>
+    <p>
+      LightGBM wins lap-time prediction and cannot compete on attribution. It is
+      also badly overconfident — 60% coverage on nominal 95% intervals — and
+      <b>cannot extrapolate</b>: bias drift is +0.340 for LightGBM and +1.280 for
+      the naive baseline, against <b>&minus;0.136</b> for the state-space model,
+      the only rung whose error does not grow as it forecasts further past its
+      training window.
+    </p>
+    <p style="margin-top:2mm">
+      A tuned MLP finishes last on lap-time prediction and has the most unstable
+      extrapolation of any rung, with bias drift of &minus;3.324 — its error swings
+      by more than three seconds between folds. It was tuned first, across five
+      configurations on held-out folds, because beating a badly-configured
+      competitor would prove nothing. <b>That last column is the physics-informed
+      argument demonstrated rather than asserted:</b> encoding fuel as physics lets
+      a model extrapolate it; learning fuel as a pattern does not, and the more
+      flexible the learner, the worse the extrapolation behaves.
+    </p>
+  </div>
+
+  <h3>08.4 &nbsp; A hypothesis that failed, and why the failure is useful</h3>
+  <p>
+    <b>Predicted:</b> replacing "tyre age in laps" with "cumulative tyre energy" as
+    the degradation clock would improve transfer between sessions that load the
+    tyre differently — a tyre responds to energy through the contact patch, not to
+    distance.
+  </p>
+  <p>
+    <b>Result: no meaningful difference.</b> Mean R² gain &minus;0.0008 across four
+    stints; the energy clock won once out of four.
+  </p>
+  <p>
+    <b>Why, and this is the useful part:</b> per-lap energy varies by only
+    <b>2.3%</b> within a stint. F1 drivers are extremely consistent, so cumulative
+    energy is very nearly proportional to lap count, and <em>no improvement is
+    possible</em> within a stint. The cross-session version of the hypothesis —
+    whether an energy clock would absorb the +0.047&nbsp;s/lap practice-to-race
+    bias, which is plausibly a fuel-load effect — remains untested and is the
+    obvious next experiment.
+  </p>
+  <div class="prov">experiments/results/exp04_energy_clock.json · 2024 Interlagos race, 4 stints</div>
+
+  <h3>08.5 &nbsp; The same estimator on a different asset class</h3>
+  <p>
+    Formula 1 cannot prove the estimator works, because public F1 data contains no
+    measured tyre wear. NASA's C-MAPSS turbofan benchmark does: engines run to
+    failure with published remaining-life labels and a large body of comparable
+    results. The identical estimator was pointed at it with no tyre-specific code —
+    "laps" became "flight cycles", "lap time" became a health index fused from 12
+    of 21 sensors, and fuel and traffic were switched off because engines have
+    neither.
+  </p>
+
+  <div class="stat-row">
+    <div class="stat key"><div class="v">26.5</div><div class="l">RUL RMSE</div><div class="s">cycles, 40 held-out engines</div></div>
+    <div class="stat"><div class="v">21.1</div><div class="l">RUL MAE</div><div class="s">cycles</div></div>
+    <div class="stat"><div class="v">1,893</div><div class="l">NASA prognostics score</div><div class="s">lower is better</div></div>
+    <div class="stat"><div class="v">32%</div><div class="l">Predicted early</div><div class="s">the safe direction to err</div></div>
+  </div>
+  <div class="prov">experiments/results/exp07_cross_domain.json · FD001, 100 training engines, 125-cycle piecewise-linear RUL cap</div>
+
+  <p>
+    <b>We do not claim to be competitive.</b> Purpose-built deep prognostics models
+    reach 12&ndash;20 cycles RMSE on this dataset. This is a tyre degradation model
+    pointed at jet engines with no retuning, so it demonstrates transfer, not
+    leaderboard performance. What transferred without modification: the latent
+    state model, the fleet-level pooling, the uncertainty machinery, and
+    remaining-life projection to a threshold.
+  </p>
+</section>
+
+<!-- ====================================================================== -->
+<!-- 09 BEYOND THE PAPERS                                                    -->
+<!-- ====================================================================== -->
+<section class="page-break">
+  <div class="sec-head">
+    <div class="sec-no">09</div>
+    <div>
+      <h2>What we did beyond each paper</h2>
+      <div class="kicker">Paper by paper, the specific increment — and where we simply reuse their result</div>
+    </div>
+  </div>
+
+  <table>
+    <thead><tr><th style="width:20%">Source</th><th style="width:26%">What we took from it</th><th>What we added on top</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><b>Cappello &amp; Hoegh</b><br><span class="dim">arXiv:2512.00640</span></td>
+        <td>The state-space framing of F1 tyre degradation; pit stops as state resets; compound-specific rates.</td>
+        <td>
+          <b>Whole-field pooling</b> instead of one driver, which turns pit stagger into identifying variation and separates compounds they report as statistically indistinguishable.
+          <b>Track evolution and traffic added as explicit terms</b> — and the second collinearity that adding track evolution creates, derived and resolved.
+          <b>Attribution tested against known truth</b>, which their lap-time framing cannot do.
+          <b>Coefficients as zero-process-noise states</b>, so physical priors propagate their uncertainty into the reported interval automatically.
+        </td>
+      </tr>
+      <tr>
+        <td><b>Pitwall</b><br><span class="dim">arXiv:2607.06495</span></td>
+        <td>The demonstration that live, calibrated Monte Carlo race simulation is practical; the discipline of gating an LLM layer on verified claims.</td>
+        <td>
+          <b>The degradation rate enters our simulation as a posterior, sampled per simulated race</b>, rather than as a fitted point value — so outcome spread reflects genuine tyre uncertainty, and a strategy that only wins under a confident estimate visibly stops winning.
+          <b>Telemetry-derived physics</b>, which they list as an explicit gap.
+          <b>Attribution of observed pace to causes</b>, which is a different question from predicting outcomes.
+        </td>
+      </tr>
+      <tr>
+        <td><b>Explainable tyre energy</b><br><span class="dim">arXiv:2501.04067</span></td>
+        <td>The idea that tyre energy is the right intermediate quantity, and that explanations should be first-class rather than post-hoc.</td>
+        <td>
+          <b>The same intermediate quantity from public position telemetry</b>, not private team data — so the result is reproducible by anyone.
+          <b>An independent geometric validation</b> of that energy chain: recovering circuit rotation direction on 7 of 8 circuits, never having been told it.
+          <b>A tested negative result</b> on using energy as the degradation clock, with the mechanism (2.3% within-stint variation) that explains it.
+        </td>
+      </tr>
+      <tr>
+        <td><b>Rubber wear review</b><br><span class="dim">PMC12915245</span></td>
+        <td>The finding that a constant Archard coefficient is inadequate for rubber, and that energy-based formulations with temperature inside the coefficient are better supported.</td>
+        <td>
+          <b>A bidirectional temperature multiplier.</b> The literature's Arrhenius form is monotone and therefore cannot represent graining — degradation from a tyre being too <i>cold</i>. We use a symmetric penalty around the working window, which is the simplest form with the correct shape, and guard it with a test so it cannot be silently "simplified" back.
+        </td>
+      </tr>
+      <tr>
+        <td><b>MegaRide</b><br><span class="dim">S0043164824000565</span></td>
+        <td>The physical target: what a full viscoelastic-thermodynamic wear model looks like.</td>
+        <td>
+          <b>An identifiable subset.</b> We deliberately did not attempt what needs rig and FE data. Instead we built the largest physically motivated feature layer that public telemetry can actually constrain, and named every proxy as a proxy.
+        </td>
+      </tr>
+      <tr>
+        <td><b>Heilmeier et&nbsp;al.</b><br><span class="dim">TUMFTM/race-simulation</span></td>
+        <td>The reference architecture for race simulation and pit-stop optimisation. We claim no novelty in simulation.</td>
+        <td>
+          <b>The input they take as given.</b> Their simulator consumes a degradation rate; ours produces one with a defensible interval, and then reports the full pit-lap sweep so a user can see how <i>sharp</i> the optimum is rather than only where it sits.
+        </td>
+      </tr>
+      <tr>
+        <td><b>Durbin &amp; Koopman</b><br><span class="dim">Time Series Analysis by State Space Methods, 2012</span></td>
+        <td>Sequential scalar updates (§6.4), the RTS smoother, the prediction error decomposition.</td>
+        <td>
+          <b>An engineering implementation for this shape of problem:</b> structured sparse transitions exploiting that only two rows per car change, forced symmetry after each downdate, and a batched path pinned to the sequential one at 1e&minus;9 — together taking a fit from 25 s to 5.8 s.
+        </td>
+      </tr>
+      <tr>
+        <td><b>NASA C-MAPSS</b><br><span class="dim">PCoE</span></td>
+        <td>Run-to-failure data with published labels, the 125-cycle piecewise-linear RUL convention, and the asymmetric scoring function.</td>
+        <td>
+          <b>A use it was not designed for:</b> validating that a motorsport model generalises, because motorsport itself supplies no ground truth. The <code>AssetProfile</code> abstraction makes that claim a property of the code rather than a slide.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="prov">docs/research/01_RESEARCH_AUDIT.md · docs/research/08_NOVELTY_ANALYSIS.md</div>
+</section>
+
+<!-- ====================================================================== -->
+<!-- 10 UNIQUENESS                                                           -->
+<!-- ====================================================================== -->
+<section class="page-break">
+  <div class="sec-head">
+    <div class="sec-no">10</div>
+    <div>
+      <h2>The uniqueness matrix</h2>
+      <div class="kicker">What is ours, what is standard, and what is explicitly someone else's</div>
+    </div>
+  </div>
+
+  <table>
+    <thead><tr><th style="width:29%">Capability</th><th style="width:16%">Exists elsewhere?</th><th>The claim, phrased so it survives scrutiny</th></tr></thead>
+    <tbody>
+      <tr class="hl">
+        <td><b>Testing whether the attribution is correct</b></td>
+        <td><b style="color:var(--tyre)">No</b></td>
+        <td>"We test whether the attribution is right, not just whether the prediction is close. On synthetic sessions with a known hidden rate, our error is 0.0044 s/lap against the standard method's 0.0966." <span class="dim">Do not say: that we have validated attribution on real F1 data — public data contains no measured wear, so that test is unavailable to anyone.</span></td>
+      </tr>
+      <tr class="hl">
+        <td><b>The track-evolution collinearity</b></td>
+        <td><b style="color:var(--tyre)">Not found</b></td>
+        <td>"We characterise a second collinearity in this problem and resolve it with a physically motivated basis. It was found by chasing a residual bias, not derived in advance." <span class="dim">Do not say: that we discovered something the field missed. It is a consequence of adding a term others did not model.</span></td>
+      </tr>
+      <tr class="hl">
+        <td><b>Whole-field pooling with pit stagger as identification</b></td>
+        <td>Partially</td>
+        <td>"Pit stagger across the field is a natural experiment that separates tyre age from session lap. A single-driver model cannot use it." Multilevel modelling of F1 performance is established; applying it to degradation with stagger as the identifying variation, we did not find published.</td>
+      </tr>
+      <tr class="hl">
+        <td><b>Per-corner energy from public position telemetry</b></td>
+        <td>Not from public data</td>
+        <td>"Public position telemetry supports a per-corner loading estimate good enough to recover circuit geometry it was never given — 7 of 8 circuits." <span class="dim">Do not say: that we measure tyre loads. Frictional power is a proxy; slip velocity is not observable.</span></td>
+      </tr>
+      <tr>
+        <td>Real-time online estimation</td>
+        <td>Yes — Pitwall runs live</td>
+        <td>"The same estimator serves both modes because it is recursive. An MCMC formulation could not." The novelty is architectural, not the filter. <span class="dim">Do not say: that real-time tyre estimation is new.</span></td>
+      </tr>
+      <tr>
+        <td>Cross-domain transfer with real ground truth</td>
+        <td>C-MAPSS is heavily studied</td>
+        <td>"The identical estimator, with no tyre-specific code, predicts turbofan remaining life at 26.5 cycles RMSE against published labels." Using it to validate a <i>motorsport</i> model's generalisation is the unusual part. <span class="dim">Do not say: that we are competitive on C-MAPSS.</span></td>
+      </tr>
+      <tr>
+        <td>Race strategy simulation</td>
+        <td>Yes, thoroughly</td>
+        <td>"We do not claim novelty in race simulation. What differs is that the degradation rate enters as a distribution and is resampled per race."</td>
+      </tr>
+      <tr>
+        <td>Predicting degradation with a state-space model</td>
+        <td><b>Published, Nov 2025</b></td>
+        <td>Not ours. Cappello &amp; Hoegh.</td>
+      </tr>
+      <tr>
+        <td>Monte Carlo pit-stop optimisation</td>
+        <td><b>Yes</b></td>
+        <td>Not ours. Heilmeier et al.</td>
+      </tr>
+      <tr>
+        <td>LLM-narrated race strategy</td>
+        <td><b>Yes</b></td>
+        <td>Not ours. Pitwall, with a stricter faithfulness protocol than ours.</td>
+      </tr>
+      <tr>
+        <td>Kalman filtering, Archard wear, Pacejka, load transfer</td>
+        <td><b>Textbook</b></td>
+        <td>Not ours. Stated plainly so that what <i>is</i> ours is credible.</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="prov">docs/research/08_NOVELTY_ANALYSIS.md</div>
+
+  <div class="panel tyre" style="margin-top:6mm">
+    <h4>The one-sentence version</h4>
+    <p style="font-size:11.4pt;line-height:1.45">
+      Existing work predicts lap times well and never checks whether the reason it
+      gives is the right one. We characterise why that check is hard — three
+      collinearities, two resolvable only by assumption — build an estimator that
+      handles them, and test it against a truth we control, on a second asset class
+      with real ground truth, and on the practice-to-race transfer the challenge
+      actually asks for.
+    </p>
+  </div>
+
+  <h3>Why a well-funded team has not simply done this</h3>
+  <p>
+    A works team has fuel telemetry, tyre sensors and a rig, so the first
+    collinearity does not bind for them — they measure fuel rather than assuming
+    it. That makes the identification problem <em>less</em> visible from inside a
+    team, not more. The structure of this problem is most apparent exactly where
+    the data is worst, which is where every independent analyst, every junior
+    category, and every customer team without a sensor budget actually sits.
+  </p>
+  <p>
+    That is also why the product's value is not "beat a works team". It is: give
+    everyone without works-team instrumentation an estimate whose error bars are
+    honest, and give a works team a second, structurally different opinion whose
+    assumptions are written down.
+  </p>
+</section>
+
+<!-- ====================================================================== -->
+<!-- 11 LIMITATIONS                                                          -->
+<!-- ====================================================================== -->
+<section class="page-break">
+  <div class="sec-head">
+    <div class="sec-no">11</div>
+    <div>
+      <h2>Limitations, failure modes, and where we lose</h2>
+      <div class="kicker">Placed before the commercial case, deliberately</div>
+    </div>
+  </div>
+
+  <p>
+    A tool used to make pit-stop decisions must be able to say when it should not
+    be trusted. This section exists in the shipped product as a screen, in the
+    repository as a document, and in the MCP server as a tool an agent can call
+    before it repeats one of our numbers.
+  </p>
+
+  <h3>11.1 &nbsp; The assumptions that carry the result</h3>
+  <table>
+    <thead><tr><th>Assumption</th><th class="n">Value</th><th>If it is wrong by one standard deviation</th></tr></thead>
+    <tbody>
+      <tr><td>Fuel effect</td><td class="n">0.030 ± 0.005 s/kg</td><td>Recovered rate moves ~0.020 s/lap</td></tr>
+      <tr><td>Fuel burn rate</td><td class="n">2.7 ± 0.3 kg/lap</td><td>(combined into the above)</td></tr>
+      <tr><td>Track evolution total</td><td class="n">0.90 ± 0.45 s</td><td>Recovered rate moves ~0.009 s/lap</td></tr>
+    </tbody>
+  </table>
+  <p style="margin-top:2.5mm">
+    Even at the worst perturbation tested, error stays at 0.0199 s/lap against the
+    naive method's 0.0966 — but the <em>direction</em> of the answer is ours, not
+    the data's, and that is the correct way to describe it.
+  </p>
+
+  <h3>11.2 &nbsp; Calibration is imperfect, in a specific direction</h3>
+  <p>
+    The synthetic benchmark reports <b>100% interval coverage over 75 comparisons</b>
+    against a nominal 95%. That is not a perfect score — it means the intervals are
+    <b>conservative</b>, wider than strictly necessary. For decision support that is
+    the safer error, but it is a miscalibration and is reported as one.
+    Practice-to-race coverage is 90% over 10 comparisons, closer to nominal but on
+    far too small a sample to conclude much.
+  </p>
+
+  <h3>11.3 &nbsp; Situations where the model should not be trusted</h3>
+  <table>
+    <thead><tr><th style="width:24%">Situation</th><th style="width:38%">What goes wrong</th><th>What the product does about it</th></tr></thead>
+    <tbody>
+      <tr><td><b>Wet or drying track</b></td><td>Wet-compound degradation is a different physical process; the priors do not describe it.</td><td>Wet compounds excluded at ingestion. Silverstone 2024 shows 0.82 s residual noise against Monza's 0.42 s — visible in diagnostics.</td></tr>
+      <tr><td><b>Extrapolating past observed tyre age</b></td><td>The local linear trend extends a straight line into a cliff it cannot see.</td><td>Applicability score decays past the oldest observed age, shown on every projection. Below 50% the interface says the model is extrapolating.</td></tr>
+      <tr><td><b>A compound run only briefly</b></td><td>The estimate is dominated by its prior.</td><td>Lap count per compound shown; <code>assess_trust</code> flags it explicitly.</td></tr>
+      <tr><td><b>Short stints</b></td><td>Under ~5 laps cannot show a trend.</td><td>Runs under 4 laps dropped and counted, never silently.</td></tr>
+      <tr><td><b>Safety car, red flag, VSC</b></td><td>Slow laps corrupt the trend.</td><td>Removed by a robust median-absolute-deviation threshold and counted.</td></tr>
+      <tr><td><b>Single-car analysis</b></td><td>Loses the run-stagger identification entirely.</td><td>Measured: halving the field moves error from 0.0047 to 0.0073.</td></tr>
+      <tr><td><b>Puncture, debris, damage</b></td><td>Represented as smooth degradation; a step change is not in the model.</td><td>Innovation z-scores surfaced in the live monitor — a run of large same-signed innovations means the model is being surprised.</td></tr>
+      <tr><td><b>New circuit, no telemetry analysed</b></td><td>Per-corner energy unavailable.</td><td>The twin says so rather than showing an even split as though it were a result.</td></tr>
+      <tr><td><b>Sprint or heavily disrupted sessions</b></td><td>Too few long runs to support a conclusion.</td><td>Session quality score surfaced; a low score indicates the session cannot support a conclusion.</td></tr>
+    </tbody>
+  </table>
+  <div class="prov">docs/research/13_LIMITATIONS_AND_FAILURE_MODES.md</div>
+
+  <h3>11.4 &nbsp; Things deliberately not built</h3>
+  <div class="two">
+    <div>
+      <table>
+        <thead><tr><th>Not built</th><th>Why</th></tr></thead>
+        <tbody>
+          <tr><td>Full Pacejka identification</td><td>Slip angle and slip ratio are not observable from public telemetry. The parameters would be unconstrained by any available data.</td></tr>
+          <tr><td>MCMC / PyMC / Stan</td><td>No incremental mode, which would have made the real-time claim impossible. The exact likelihood is available in closed form anyway.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <table>
+        <thead><tr><th>Not built</th><th>Why</th></tr></thead>
+        <tbody>
+          <tr><td>Neural state-space / TFT</td><td>Public data cannot support a model that would beat a six-parameter linear SSM. The tuned MLP in the ladder makes the point by measurement.</td></tr>
+          <tr><td>Validated fleet product</td><td>No public dataset pairs tread depth with telematics. Building a fleet claim without one would be dishonest.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <h3>11.5 &nbsp; What would most improve this</h3>
+  <p>In order of estimated uncertainty reduction — these are engineering judgements, not measurements, and the product labels them as such:</p>
+  <ol>
+    <li><b>Tyre surface temperature (&minus;35%).</b> Would separate thermal degradation from mechanical wear, which the model currently absorbs into one rate.</li>
+    <li><b>Actual fuel mass (&minus;30%).</b> Would remove the largest assumption entirely.</li>
+    <li><b>Measured tread depth (&minus;20%).</b> Would let the model estimate physical wear rather than performance loss, making the product's central caveat unnecessary.</li>
+    <li><b>Tyre pressure (&minus;12%).</b> Would explain part of the within-stint variation now treated as noise.</li>
+  </ol>
+
+  <div class="panel warn">
+    <h4>The honest summary</h4>
+    <p>
+      TyreMind separates tyre degradation from its confounders better than the
+      standard method, by a large and measured margin, under assumptions it states
+      and whose cost it quantifies. <b>It does not measure tyre wear.</b> It cannot
+      be validated against real tyre wear, because no such public data exists. It
+      should never be used for a safety decision. And on the narrow task of
+      predicting lap times, a gradient-boosted tree beats it — while being unable to
+      answer the question the product exists to answer.
+    </p>
+  </div>
+</section>
+
+<!-- ====================================================================== -->
+<!-- 12 ENGINEERING                                                          -->
+<!-- ====================================================================== -->
+<section class="page-break">
+  <div class="sec-head">
+    <div class="sec-no">12</div>
+    <div>
+      <h2>Engineering quality and verification</h2>
+      <div class="kicker">Six bugs that produced plausible wrong answers, and the checks that caught them</div>
+    </div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat"><div class="v">13,008</div><div class="l">Lines of Python</div><div class="s">57 modules</div></div>
+    <div class="stat"><div class="v">6,504</div><div class="l">Lines of TypeScript</div><div class="s">19 modules</div></div>
+    <div class="stat"><div class="v">97</div><div class="l">Tests passing</div><div class="s">unit, physics, integration, timing</div></div>
+    <div class="stat"><div class="v">24</div><div class="l">API endpoints</div><div class="s">OpenAPI documented</div></div>
+  </div>
+
+  <p>
+    The following bugs are listed because each was invisible to normal use and
+    caught only by a test or a cross-check. A model that fails loudly is easy. The
+    danger in this domain is a model that fails quietly and confidently, and every
+    entry below is an example of exactly that.
+  </p>
+
+  <table>
+    <thead><tr><th style="width:24%">Bug</th><th style="width:44%">Symptom</th><th>Found by</th></tr></thead>
+    <tbody>
+      <tr><td><b>Falsy-zero on <code>session_lap</code></b></td><td>Track basis pinned at zero, so all track evolution leaked into degradation as a uniform &minus;0.025 s/lap offset. <b>Invisible on real F1 data, which numbers laps from 1</b> — it only appeared on synthetic sessions numbered from 0.</td><td>Live-vs-batch agreement test</td></tr>
+      <tr><td><b>Traffic index identically zero</b></td><td>Grouped by lap number; in practice two drivers' "lap 5" can be twenty minutes apart. The confounder was in the model and contributing nothing.</td><td>Inspecting the fitted coefficient</td></tr>
+      <tr><td><b><code>session_progress</code> recomputed per frame</b></td><td>Chronological test blocks measured progress from their own start. No error, no leak — just wrong by tens of seconds. Made two benchmark rungs look far worse than they are.</td><td>Investigating an implausible 33 s MAE</td></tr>
+      <tr><td><b>Unregularised pooled regression</b></td><td>One Silverstone fold at 176 s MAE while every other fold was under a second.</td><td>Per-fold inspection</td></tr>
+      <tr><td><b><code>include_router</code> silently adding nothing</b></td><td>Eight API endpoints registered zero routes, with no error raised. Every one would have returned 404 in the demo.</td><td>Listing routes after registration</td></tr>
+      <tr><td><b>FastF1 resolving "Interlagos" to Zandvoort</b></td><td>Analysis of an entirely different circuit, with a warning rather than an error.</td><td>Two circuits producing byte-identical energy shares</td></tr>
+      <tr><td><b>Frozen chart clip path</b></td><td>An interrupted entry animation left a line's expanding clip frozen part-way, so a 43-lap stint rendered as 14 laps with the axis still scaled to 43 — indistinguishable from a data bug.</td><td>Reading pixels back from the canvas</td></tr>
+      <tr><td><b>Stale experiment result</b></td><td>A committed result file predated the 125-cycle RUL cap added to its own script, overstating cross-domain error at 56 cycles instead of 26.5.</td><td>Cross-checking a chart against the script that produced it</td></tr>
+    </tbody>
+  </table>
+  <div class="prov">docs/research/13_LIMITATIONS_AND_FAILURE_MODES.md §7 · git history</div>
+
+  <h3>Verification strategy</h3>
+  <div class="three">
+    <div>
+      <h4>Second route to the same number</h4>
+      <p style="font-size:9.4pt">The recursive likelihood is checked against an independently constructed joint multivariate normal, to 1e&minus;9. A structurally different implementation, not a regression snapshot.</p>
+    </div>
+    <div>
+      <h4>Non-circular physical checks</h4>
+      <p style="font-size:9.4pt">Circuit rotation direction is published fact never given to the code. Recovering it requires curvature sign, load transfer and energy integration to all be right at once.</p>
+    </div>
+    <div>
+      <h4>Truth we control</h4>
+      <p style="font-size:9.4pt">The synthetic generator is the oracle. It is the only way to score attribution, and it is why the headline claim is about recovery rather than prediction.</p>
+    </div>
+  </div>
+
+  <h3>Reproducibility</h3>
+  <p>
+    Every experiment is a script under <code>experiments/</code> that writes a JSON
+    result and a log. Every number in this dossier, in the model card and in the
+    running interface is read from one of those files. Regenerating them regenerates
+    the claims. The RAG corpus indexes the same files, so asking the product "how
+    accurate is it" returns the passage from the document, verbatim, with its source.
+  </p>
+</section>
+
+<!-- ====================================================================== -->
+<!-- 13 IMPACT                                                               -->
+<!-- ====================================================================== -->
+<section class="page-break">
+  <div class="sec-head">
+    <div class="sec-no">13</div>
+    <div>
+      <h2>Impact on motorsport, and how a team adopts it</h2>
+      <div class="kicker">Where the value is, who feels it first, and what integration actually costs</div>
+    </div>
+  </div>
+
+  <h3>What a wrong degradation rate costs</h3>
+  <p>
+    A pit stop costs roughly twenty seconds of track position. Getting the stop lap
+    wrong by three laps, with a degradation rate of 0.10&nbsp;s/lap and a
+    twenty-lap remaining stint, is worth several seconds — which in modern Formula
+    1 is routinely the difference between finishing fourth and finishing sixth.
+    The product quantifies this directly: on a representative Monza race state it
+    reports a <b>seven-lap window in which any stop costs less than one second</b>
+    against the optimum, and a stay-out option that beats every stop by
+    9.7&nbsp;seconds.
+  </p>
+  <p>
+    That second number is the more useful one. The value of a better estimate is
+    not only picking the right lap; it is knowing <em>how much the choice matters</em>,
+    so a strategist can spend attention where the curve is steep and ignore it
+    where the curve is flat.
+  </p>
+
+  <h3>Who adopts first, and why</h3>
+  <table>
+    <thead><tr><th style="width:22%">Segment</th><th style="width:30%">Why they need it</th><th>What they get on day one</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><b>Junior formulae</b><br><span class="dim">F2, F3, F4, regional</span></td>
+        <td>Spec series with no tyre telemetry and small engineering staffs. The identification problem binds hardest exactly here.</td>
+        <td>A degradation estimate with honest intervals from timing data alone. This is the beachhead: highest need, lowest data, no incumbent tool.</td>
+      </tr>
+      <tr>
+        <td><b>Customer and privateer teams</b><br><span class="dim">GT3, endurance, TCR</span></td>
+        <td>Long stints, driver changes, and tyre life as the dominant strategic variable. Manufacturer support does not extend to per-team degradation analysis.</td>
+        <td>Stint-length planning under uncertainty, and a per-corner energy picture explaining why a compound behaves differently between circuits.</td>
+      </tr>
+      <tr>
+        <td><b>F1 customer teams and analysts</b></td>
+        <td>They have telemetry but not always a dedicated tyre modelling group. A second opinion with written-down assumptions is valuable precisely because it disagrees sometimes.</td>
+        <td>A structurally different estimate to compare against their own, plus the ability to replace our fuel prior with their measured fuel mass and watch the interval narrow.</td>
+      </tr>
+      <tr>
+        <td><b>Broadcast and fan analytics</b></td>
+        <td>"The tyres are going off" is asserted on television every Sunday without a number behind it.</td>
+        <td>A live, per-car degradation figure with an interval, updating each lap — the first version of that claim that can be checked.</td>
+      </tr>
+      <tr>
+        <td><b>Tyre manufacturers</b></td>
+        <td>Compound development and allocation decisions rest on how compounds behave across circuits and conditions.</td>
+        <td>Cross-circuit degradation comparison with the circuit-loading confound made explicit rather than left in the residual.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>The adoption path, and why it is short</h3>
+  <p>
+    The integration burden is the thing that usually kills tools like this. Three
+    decisions were made specifically to keep it near zero.
+  </p>
+  <div class="three">
+    <div class="panel" style="margin:0">
+      <h4>1 · No new data required</h4>
+      <p style="font-size:9.2pt">The baseline model consumes lap times, stints and compounds — data every timing system already produces. Telemetry improves the physics layer but is not required for the degradation estimate.</p>
+    </div>
+    <div class="panel" style="margin:0">
+      <h4>2 · No new screen required</h4>
+      <p style="font-size:9.2pt">The MCP server makes the estimator a tool the team's existing AI assistant can call. A dashboard competes for a race engineer's attention; a tool inside a workflow they already have does not.</p>
+    </div>
+    <div class="panel tyre" style="margin:0">
+      <h4>3 · Priors are replaceable, not baked in</h4>
+      <p style="font-size:9.2pt">A team with real fuel telemetry substitutes their measurement for our prior and the largest assumption in the method disappears. The architecture was designed for that substitution from the start.</p>
+    </div>
+  </div>
+
+  <h3>MCP: the estimator as something an agent can call</h3>
+  <p>
+    Every team already has analysts, and every analyst already has an AI assistant.
+    If TyreMind is a website it competes for attention; if it is a tool their
+    assistant can call, it becomes part of an existing workflow. Seven tools are
+    exposed over the Model Context Protocol — <code>list_sessions</code>,
+    <code>get_degradation</code>, <code>explain_lap</code>,
+    <code>project_tyre_life</code>, <code>recommend_strategy</code>,
+    <code>assess_trust</code>, <code>search_documentation</code>.
+  </p>
+  <p>
+    The count is deliberate. The MCP practice literature is blunt that a server
+    exposing forty tools degrades an agent before it has done anything. Two further
+    design decisions are worth defending. <b>Every tool returns uncertainty</b>: an
+    agent handed <code>0.113</code> will state it as fact, whereas one handed
+    <code>0.113 ± 0.023, and the model is extrapolating</code> can hedge correctly.
+    And <b>the server carries instructions that constrain the claim</b>, telling the
+    client in its own context that TyreMind estimates a latent performance state and
+    not physical tread depth — because without that, a helpful assistant will
+    paraphrase "degradation" into "tyre wear" and overclaim on our behalf.
+    <b>Every tool is read-only.</b> There is no write path, so the worst outcome of
+    a confused agent is a confused answer rather than a corrupted fit.
+  </p>
+
+  <h3>RAG: grounding the answer to "why should I believe this?"</h3>
+  <p>
+    The honest answer to that question is spread across a research audit, a model
+    card, a limitations register and seven experiment result files. Nobody reads all
+    of it, so in practice the question goes unanswered — or gets answered from
+    memory, which is where confident wrong numbers come from. A hybrid index over
+    those files (BM25 plus latent-semantic retrieval, fused by Reciprocal Rank
+    Fusion) returns the relevant passage verbatim with its source.
+  </p>
+  <p>
+    <b>It retrieves and deliberately does not generate.</b> The retrieval half is
+    the half that carries the trust: it finds the paragraph, and the reader reads
+    the paragraph. Add generation and the answer gets smoother, the citation becomes
+    a gesture, and a wrong claim becomes indistinguishable from a right one. A
+    language model is used in exactly one place in this product — rewriting an
+    already-computed explanation into plainer English, with every number fixed
+    before it is called.
+  </p>
+</section>
+
+<!-- ====================================================================== -->
+<!-- 14 BEYOND RACING                                                        -->
+<!-- ====================================================================== -->
+<section class="page-break">
+  <div class="sec-head">
+    <div class="sec-no">14</div>
+    <div>
+      <h2>Beyond racing: the same estimator elsewhere</h2>
+      <div class="kicker">One validated transfer, and a family of problems with the same shape</div>
+    </div>
+  </div>
+
+  <p>
+    Strip the motorsport vocabulary away and the problem is not about tyres. It is:
+    <b>something wears out while it works, you cannot see its condition directly,
+    and the signal you can see is contaminated by conditions that also change over
+    time.</b>
+  </p>
+  <p>
+    That description fits a jet engine, a truck tyre, a battery, a bearing, a
+    cutting tool and a wind-turbine gearbox. So the estimator was written to consume
+    an <code>AssetProfile</code> — a description of what counts as "age", what
+    counts as "performance", and which confounders exist — rather than a tyre.
+    Pointing it at NASA's turbofan benchmark required no change to the model, which
+    is what turns "it would generalise" from a slide into a property of the code.
+  </p>
+
+  <table>
+    <thead><tr><th style="width:19%">Domain</th><th style="width:17%">Age is</th><th style="width:20%">Performance is</th><th style="width:24%">The confounders</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr class="hl">
+        <td><b>Formula 1 tyre</b></td><td>Laps</td><td>Seconds per lap</td><td>Fuel load, track evolution, traffic, driver</td>
+        <td><b>Built and validated</b> on recovery against known truth</td>
+      </tr>
+      <tr class="hl">
+        <td><b>Turbofan engine</b></td><td>Flight cycles</td><td>Health index from 12 sensors</td><td>Operating mode / duty cycle</td>
+        <td><b>Validated</b> — 26.5 cycles RUL RMSE against published labels</td>
+      </tr>
+      <tr>
+        <td>Commercial vehicle tyre</td><td>Thousand kilometres</td><td>Rolling resistance index</td><td>Payload, weather, route, driver</td>
+        <td>Architecture only — no public dataset pairs tread depth with telematics</td>
+      </tr>
+      <tr>
+        <td>EV traction battery</td><td>Equivalent full cycles</td><td>Usable capacity / internal resistance</td><td>Temperature, charge rate, depth of discharge, ambient</td>
+        <td>Same shape; the confounders are stronger than the signal, which is the case this method is for</td>
+      </tr>
+      <tr>
+        <td>Wind turbine gearbox</td><td>Revolutions</td><td>Vibration / thermal signature</td><td>Wind regime, curtailment, ambient temperature</td>
+        <td>Same shape; site-level pooling replaces field-level pooling</td>
+      </tr>
+      <tr>
+        <td>Machine tool insert</td><td>Cut metres</td><td>Spindle load / surface finish</td><td>Material batch, coolant, feed and speed programme</td>
+        <td>Same shape; part-to-part stagger replaces pit stagger</td>
+      </tr>
+      <tr>
+        <td>Rail wheel and brake</td><td>Axle kilometres</td><td>Profile drift / braking distance</td><td>Route gradient, load, weather</td>
+        <td>Same shape; regulatory interest in condition-based maintenance</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="prov">src/tyremind/assets/profile.py · experiments/results/exp07_cross_domain.json</div>
+
+  <div class="panel warn">
+    <h4>What we deliberately do not claim</h4>
+    <p>
+      There is <b>no validated fleet result</b>, because no public dataset pairs
+      tyre tread depth with vehicle telematics. We looked; it does not exist. The
+      product shows fleet arithmetic clearly labelled as arithmetic, and says so on
+      the screen rather than in a footnote. The rows below the two validated ones in
+      the table above are architectural claims about problem shape, not measured
+      results, and are labelled that way in the product too.
+    </p>
+  </div>
+
+  <h3>Why the transfer is a real technical claim and not a marketing one</h3>
+  <p>
+    The parts that transferred without modification were the latent state model
+    (a level and a rate that drift over time), pooling a degradation baseline across
+    a fleet of units, the uncertainty machinery, and remaining-life projection to a
+    threshold. The parts that changed were vocabulary and configuration: "laps"
+    became "flight cycles", "lap time" became a fused health index, and fuel and
+    traffic were switched off because engines have neither.
+  </p>
+  <p>
+    That asymmetry is the point. If the transfer had required changing the model,
+    the F1 model would have been a tyre model that happened to work. It required
+    changing only the profile, which means the F1 model is a
+    <em>degradation-under-confounding</em> model that happens to be pointed at tyres.
+  </p>
+</section>
+
+<!-- ====================================================================== -->
+<!-- 15 SCALING                                                              -->
+<!-- ====================================================================== -->
+<section class="page-break">
+  <div class="sec-head">
+    <div class="sec-no">15</div>
+    <div>
+      <h2>Scaling to production</h2>
+      <div class="kicker">What the current prototype can already carry, and what has to change</div>
+    </div>
+  </div>
+
+  <h3>What already scales</h3>
+  <table>
+    <thead><tr><th style="width:26%">Property</th><th style="width:22%">Measured</th><th>Why it holds at production volume</th></tr></thead>
+    <tbody>
+      <tr><td>Per-lap live update</td><td class="n">0.22 ms mean, 0.74 ms max</td><td>Cost is flat in session length by construction — a recursive filter carries a fixed-size state, so a lap on hour three costs what a lap on lap one costs. 921 laps measured.</td></tr>
+      <tr><td>Full session fit</td><td class="n">5.8 s</td><td>Structured sparse transitions make propagation O(n²) rather than O(n³) in grid size. A full 20-car grid is already the tested case.</td></tr>
+      <tr><td>Strategy simulation</td><td class="n">10,000 races × 5 strategies in 0.04 s</td><td>Fully vectorised with common random numbers across options, so comparisons are noise-free at any simulation count.</td></tr>
+      <tr><td>Offline operation</td><td class="n">8 sessions cached</td><td>No network dependency at run time. The same property that makes a hackathon demo safe makes a trackside deployment safe.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>What has to change, in order</h3>
+  <table>
+    <thead><tr><th style="width:6%"></th><th style="width:26%">Change</th><th style="width:34%">Why it is needed</th><th>Approach</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="n">1</td>
+        <td><b>Live timing feed adapter</b></td>
+        <td>Today the live monitor replays a recorded session lap by lap. Production needs the real feed.</td>
+        <td>The estimator already consumes one lap at a time through a stable interface; only the source changes. The WebSocket layer and the filtered/smoothed separation are already built for it.</td>
+      </tr>
+      <tr>
+        <td class="n">2</td>
+        <td><b>Session state persistence</b></td>
+        <td>A pit wall cannot lose its estimate to a process restart mid-race.</td>
+        <td>The filter state is a mean vector and a covariance matrix — a few hundred kilobytes. Checkpoint every lap; resume exactly, because the recursion is Markov in that state.</td>
+      </tr>
+      <tr>
+        <td class="n">3</td>
+        <td><b>Multi-tenant isolation</b></td>
+        <td>Two teams must not share a cache, a fit, or a log line.</td>
+        <td>Per-tenant session store and fit cache. The estimator is stateless between fits, so isolation is a storage concern rather than a modelling one.</td>
+      </tr>
+      <tr>
+        <td class="n">4</td>
+        <td><b>Prior configuration per series</b></td>
+        <td>The fuel and track priors are Formula 1 values. F2, GT3 and endurance have different fuel loads, burn rates and evolution profiles.</td>
+        <td>Promote <code>configs/physics.yaml</code> to a per-series profile with the same sensitivity experiment run per series, so each series ships with its own measured cost-if-wrong table.</td>
+      </tr>
+      <tr>
+        <td class="n">5</td>
+        <td><b>Hyperparameter warm starts</b></td>
+        <td>The 5.8 s fit is dominated by L-BFGS-B over six log-variances from a cold start.</td>
+        <td>Seed from the previous session at the same circuit. Expected to cut fit time several-fold; the variance structure of a circuit is stable across a weekend.</td>
+      </tr>
+      <tr>
+        <td class="n">6</td>
+        <td><b>Model monitoring</b></td>
+        <td>A degradation model that drifts is worse than none, because it is still confident.</td>
+        <td>Innovation z-scores are already computed. Production adds alerting on sustained same-signed innovations, plus tracking of practice-to-race bias per event so the +0.047 s/lap figure is maintained rather than assumed constant.</td>
+      </tr>
+      <tr>
+        <td class="n">7</td>
+        <td><b>Backfill and benchmark suite</b></td>
+        <td>Five events is a small validation set. The claim should be maintained against every event of a season.</td>
+        <td>Run the practice-to-race experiment across a full season nightly and publish the drift. This is a batch job over cached sessions, so it is a scheduling problem rather than a research one.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>The scaling shape of the estimator itself</h3>
+  <p>
+    Cost is O(n²) per lap in the number of tracked states, where states are two per
+    active car plus a small fixed set of shared coefficients. A twenty-car grid is
+    roughly 125 states, and the measured 0.22&nbsp;ms per lap leaves four orders of
+    magnitude of headroom against a lap that takes eighty seconds. A hundred-car
+    endurance field would be roughly twenty-five times the arithmetic and still
+    comfortably real-time.
+  </p>
+  <p>
+    The binding constraint at scale is not compute. It is <b>data quality and prior
+    calibration per series</b>, which is why items 4 and 7 above sit higher in the
+    list than any performance work.
+  </p>
+</section>
+
+<!-- ====================================================================== -->
+<!-- 16 COMMERCIAL                                                           -->
+<!-- ====================================================================== -->
+<section class="page-break">
+  <div class="sec-head">
+    <div class="sec-no">16</div>
+    <div>
+      <h2>Commercial model and market</h2>
+      <div class="kicker">Where the money is, stated with the same discipline as the technical claims</div>
+    </div>
+  </div>
+
+  <div class="panel warn">
+    <h4>Read this first</h4>
+    <p>
+      The figures in this section are <b>estimates and arithmetic, not measurements</b>.
+      They are separated from the technical results deliberately, and the product
+      labels them the same way on screen. Nothing here has the standing of section 08.
+    </p>
+  </div>
+
+  <h3>Why this is a product and not a paper</h3>
+  <p>
+    The estimator's output is a decision input, not a publication. Its value is
+    realised at a specific moment — a strategist choosing a pit lap — and that
+    moment recurs roughly twenty-four times a season per series, across dozens of
+    series, for hundreds of teams. The unit of value is a decision made better under
+    uncertainty, which is a recurring need rather than a one-off analysis.
+  </p>
+
+  <h3>Delivery model</h3>
+  <table>
+    <thead><tr><th style="width:20%">Tier</th><th style="width:24%">For</th><th style="width:30%">What it includes</th><th>Rationale</th></tr></thead>
+    <tbody>
+      <tr><td><b>Open core</b></td><td>Researchers, students, fans</td><td>The estimator, the synthetic benchmark, the experiment suite, the documentation corpus</td><td>The identifiability analysis is a contribution to the field and should be checkable. It is also the most credible marketing available.</td></tr>
+      <tr><td><b>Team licence</b></td><td>Junior formulae, customer teams</td><td>Live timing adapter, per-series prior calibration, session persistence, MCP endpoint, support</td><td>Per-series calibration is genuine recurring work and is the thing a team cannot easily do itself.</td></tr>
+      <tr><td><b>Enterprise</b></td><td>Works teams, manufacturers</td><td>On-premise deployment, prior replacement with team telemetry, custom asset profiles, joint validation against internal ground truth</td><td>A works team's value is the second opinion and the written-down assumptions, plus the ability to fold in data we do not have.</td></tr>
+      <tr><td><b>Industrial</b></td><td>Fleet, energy, aerospace</td><td>The same estimator under a different <code>AssetProfile</code>, with a domain validation programme</td><td>The C-MAPSS result is the proof that this is a real path rather than an aspiration — but each domain needs its own ground truth before a claim is made.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Market shape</h3>
+  <div class="three">
+    <div>
+      <h4>Motorsport</h4>
+      <p style="font-size:9.4pt">Ten F1 teams, but hundreds of professional teams across F2, F3, IndyCar, WEC, IMSA, GT3, Formula E and national series — most with no tyre modelling capability and no realistic path to building one. This is a wide, underserved base, not a ten-customer market.</p>
+    </div>
+    <div>
+      <h4>Adjacent industrial</h4>
+      <p style="font-size:9.4pt">Predictive maintenance is a large and well-funded category. What is scarce inside it is not modelling capacity but <em>honest uncertainty under confounding</em> — the exact property this method is built around.</p>
+    </div>
+    <div>
+      <h4>Media</h4>
+      <p style="font-size:9.4pt">Broadcasters assert tyre degradation every Sunday without a number. A live, checkable figure with an interval is a graphics package, and it is the lowest-integration-cost entry point of the three.</p>
+    </div>
+  </div>
+
+  <h3>What better estimates are worth, as arithmetic</h3>
+  <p>
+    The product computes this from its own measured error rather than from a
+    market assumption, and labels each figure by confidence. With naive error at
+    0.0966 s/lap and model error at 0.0044, the reduction in expected strategic
+    regret follows from the degradation rate and the remaining stint length. On a
+    twenty-lap remaining stint the difference between the two error levels is
+    roughly two seconds of expected race time — approximately one championship
+    position in a midfield fight, at roughly one race weekend in three.
+  </p>
+  <p>
+    We do not extrapolate that into a revenue figure. The honest statement is that
+    the decision is worth more than the tool costs, and that the tool's error is
+    measured rather than claimed.
+  </p>
+</section>
+
+<!-- ====================================================================== -->
+<!-- 17 ROADMAP                                                              -->
+<!-- ====================================================================== -->
+<section class="page-break">
+  <div class="sec-head">
+    <div class="sec-no">17</div>
+    <div>
+      <h2>Roadmap</h2>
+      <div class="kicker">From this prototype to a deployed system, with the research questions in the right order</div>
+    </div>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 900 300" xmlns="http://www.w3.org/2000/svg" font-family="Bahnschrift, Segoe UI, sans-serif">
+      <line x1="0" y1="40" x2="900" y2="40" stroke="#c9d2d7" stroke-width="1"/>
+      <g>
+        <rect x="0" y="30" width="200" height="20" fill="#c0392b"/>
+        <text x="8" y="45" font-size="11" fill="#ffffff">NOW — prototype complete</text>
+        <rect x="208" y="30" width="200" height="20" fill="#5a6f80"/>
+        <text x="216" y="45" font-size="11" fill="#ffffff">0–3 months — one live series</text>
+        <rect x="416" y="30" width="200" height="20" fill="#8b9aa4"/>
+        <text x="424" y="45" font-size="11" fill="#ffffff">3–9 months — multi-series</text>
+        <rect x="624" y="30" width="276" height="20" fill="#a7b4bb"/>
+        <text x="632" y="45" font-size="11" fill="#ffffff">9–24 months — second industry</text>
+      </g>
+
+      <g font-size="9.6" fill="#3f5058">
+        <text x="0" y="78">Estimator, physics, validation suite</text>
+        <text x="0" y="94">9-view interface, 24 endpoints</text>
+        <text x="0" y="110">MCP server, hybrid RAG</text>
+        <text x="0" y="126">Offline demo, 97 tests</text>
+        <text x="0" y="142">C-MAPSS transfer validated</text>
+
+        <text x="208" y="78">Live timing feed adapter</text>
+        <text x="208" y="94">Session-state checkpointing</text>
+        <text x="208" y="110">Per-series prior calibration</text>
+        <text x="208" y="126">Season-wide backfill of the</text>
+        <text x="208" y="142">practice-to-race claim</text>
+        <text x="208" y="158">Cross-session energy clock test</text>
+
+        <text x="416" y="78">Multi-tenant isolation</text>
+        <text x="416" y="94">Warm-started hyperparameters</text>
+        <text x="416" y="110">Innovation-based drift alerting</text>
+        <text x="416" y="126">Prior replacement from team</text>
+        <text x="416" y="142">fuel telemetry</text>
+        <text x="416" y="158">Thermal state from IR where</text>
+        <text x="416" y="174">a series provides it</text>
+
+        <text x="624" y="78">Second asset class with its own</text>
+        <text x="624" y="94">ground truth — battery or gearbox</text>
+        <text x="624" y="110">Per-domain sensitivity suite</text>
+        <text x="624" y="126">On-premise enterprise deployment</text>
+        <text x="624" y="142">Published identifiability analysis</text>
+        <text x="624" y="158">for degradation under confounding</text>
+      </g>
+
+      <g>
+        <rect x="0" y="200" width="900" height="76" fill="#f2f4f5" stroke="#c9d2d7"/>
+        <text x="10" y="220" font-size="11.5" fill="#111a20">The research questions, in the order they should be answered</text>
+        <text x="10" y="240" font-size="9.6" fill="#3f5058">1 — Does an energy clock absorb the +0.047 s/lap practice-to-race bias ACROSS sessions? Within a stint it provably cannot; across sessions it is untested and is the obvious next experiment.</text>
+        <text x="10" y="256" font-size="9.6" fill="#3f5058">2 — Does replacing the fuel prior with measured fuel mass narrow the interval as much as the sensitivity analysis predicts? This is the cheapest way to falsify our largest assumption.</text>
+        <text x="10" y="272" font-size="9.6" fill="#3f5058">3 — Does whole-field pooling still identify when the field is small? Halving the grid moved error 0.0047 → 0.0073; a ten-car junior series is the real test.</text>
+      </g>
+    </svg>
+    <figcaption>
+      <b>Figure 2 — Roadmap.</b> The warm block is what exists today and has been
+      measured. Everything to the right of it is engineering with a known shape,
+      except the three research questions in the panel, which are stated as questions
+      because they have not been answered.
+    </figcaption>
+  </figure>
+
+  <h3>What would falsify our central claim</h3>
+  <p>
+    Stated because a roadmap that cannot be wrong is a wish list. The central claim
+    is that a physically-constrained state-space model attributes lap-time change to
+    causes more accurately than the alternatives. It would be falsified by any of
+    the following, and each is testable:
+  </p>
+  <ul>
+    <li>A flexible learner recovering the hidden rate on the synthetic benchmark as accurately as the state-space model does. Today it cannot, because it has no such parameter — but a structured neural state-space model would have one.</li>
+    <li>The practice-to-race bias failing to hold its sign across a full season, which would mean it is not the fuel-load effect we believe it is.</li>
+    <li>Interval coverage falling below nominal on a larger real sample, which would mean the conservatism reported in section 11.2 is an artefact of the synthetic generator rather than a property of the estimator.</li>
+    <li>A works team replacing our fuel prior with measured fuel and finding the estimate moves further than the sensitivity analysis predicts, which would mean the prior is doing more work than we claim.</li>
+  </ul>
+</section>
+
+<!-- ====================================================================== -->
+<!-- 18 REFERENCES                                                           -->
+<!-- ====================================================================== -->
+<section class="page-break">
+  <div class="sec-head">
+    <div class="sec-no">18</div>
+    <div>
+      <h2>References</h2>
+      <div class="kicker">Every source that shaped a design decision, and where in this document it appears</div>
+    </div>
+  </div>
+
+  <table>
+    <thead><tr><th style="width:5%"></th><th style="width:38%">Reference</th><th style="width:14%">Used in</th><th>What it contributed</th></tr></thead>
+    <tbody>
+      <tr><td class="n">1</td><td><b>Cappello, D. &amp; Hoegh, A.</b> <i>A State-Space Approach to Modeling Tire Degradation in Formula 1.</i> arXiv:2512.00640, Nov 2025.<br><span class="dim">arxiv.org/abs/2512.00640</span></td><td>§02, §03.3, §04, §09</td><td>The state-space framing; pit stops as resets; the single-driver limitation that motivates whole-field pooling.</td></tr>
+      <tr><td class="n">2</td><td><b>Pitwall: a calibrated race simulator with an LLM briefing layer.</b> arXiv:2607.06495, 2026.<br><span class="dim">arxiv.org/abs/2607.06495</span></td><td>§02, §09, §13</td><td>Evidence that live calibrated simulation is practical; the discipline of gating generation on verified claims; their stated telemetry gap.</td></tr>
+      <tr><td class="n">3</td><td><b>Explainable Time Series Prediction of Tyre Energy in Formula One.</b> arXiv:2501.04067.<br><span class="dim">arxiv.org/abs/2501.04067</span></td><td>§02, §06, §09</td><td>Tyre energy as the right intermediate quantity; explanation as first-class. Establishes the private-data limitation we route around.</td></tr>
+      <tr><td class="n">4</td><td><b>Rubber wear modelling: a review.</b> PMC12915245.<br><span class="dim">pmc.ncbi.nlm.nih.gov/articles/PMC12915245</span></td><td>§06, §09</td><td>Archard's inadequacy for rubber; energy-based formulations as better supported; temperature belongs in the coefficient.</td></tr>
+      <tr><td class="n">5</td><td><b>Tyre wear model fusing viscoelasticity, roughness and thermodynamics.</b> Wear, S0043164824000565.<br><span class="dim">sciencedirect.com/science/article/pii/S0043164824000565</span></td><td>§02, §06</td><td>The physical target, and the rig/FE data requirement that made an identifiable subset the correct scope.</td></tr>
+      <tr><td class="n">6</td><td><b>Heilmeier, A. et&nbsp;al.</b> Race simulation and pit-stop optimisation.<br><span class="dim">github.com/TUMFTM/race-simulation</span></td><td>§02, §09</td><td>The reference race simulator. Establishes that a degradation rate is the key input taken as given — which is what we produce.</td></tr>
+      <tr><td class="n">7</td><td><b>Durbin, J. &amp; Koopman, S.J.</b> <i>Time Series Analysis by State Space Methods</i>, 2nd ed., OUP 2012.</td><td>§05, §09</td><td>Sequential scalar updates (§6.4), the RTS smoother, and the prediction error decomposition that gives the exact likelihood.</td></tr>
+      <tr><td class="n">8</td><td><b>Rauch, H.E., Tung, F. &amp; Striebel, C.T.</b> Maximum likelihood estimates of linear dynamic systems. <i>AIAA Journal</i>, 1965.</td><td>§05, §07</td><td>The smoother that produces the retrospective curve, kept strictly separate from the filtered live estimate.</td></tr>
+      <tr><td class="n">9</td><td><b>NASA Prognostics Center of Excellence.</b> C-MAPSS turbofan degradation simulation data set, FD001.<br><span class="dim">nasa.gov/intelligent-systems-division — PCoE repository</span></td><td>§08.5, §14</td><td>Run-to-failure ground truth, the 125-cycle piecewise-linear RUL convention, and the asymmetric scoring function that penalises late predictions.</td></tr>
+      <tr><td class="n">10</td><td><b>Gneiting, T. &amp; Raftery, A.E.</b> Strictly proper scoring rules, prediction, and estimation. <i>JASA</i>, 2007.</td><td>§08.3</td><td>CRPS as the scoring rule for probabilistic forecasts, which is why the model ladder scores distributions rather than point predictions.</td></tr>
+      <tr><td class="n">11</td><td><b>Cormack, G.V., Clarke, C.L.A. &amp; Büttcher, S.</b> Reciprocal rank fusion outperforms Condorcet and individual rank learning methods. <i>SIGIR</i>, 2009.</td><td>§13</td><td>Rank fusion for the hybrid retrieval index. BM25 relevance and cosine similarity share no scale; ranks are comparable.</td></tr>
+      <tr><td class="n">12</td><td><b>Robertson, S. &amp; Zaragoza, H.</b> The probabilistic relevance framework: BM25 and beyond. 2009.</td><td>§13</td><td>The lexical half of the retrieval index.</td></tr>
+      <tr><td class="n">13</td><td><b>Pacejka, H.B.</b> <i>Tyre and Vehicle Dynamics.</i> Butterworth-Heinemann.</td><td>§06, §11.4</td><td>The Magic Formula — surveyed and deliberately not implemented, because slip angle and slip ratio are not observable from public telemetry.</td></tr>
+      <tr><td class="n">14</td><td><b>Multilevel models of Formula 1 driver and constructor performance, 1950–2014.</b> Bristol / White Rose.</td><td>§09, §10</td><td>Establishes hierarchical modelling in motorsport, without applying it to degradation or using pit stagger as identification.</td></tr>
+      <tr><td class="n">15</td><td><b>FastF1.</b> Python package for F1 timing and telemetry.<br><span class="dim">docs.fastf1.dev</span></td><td>§07</td><td>The data layer. Its event-resolution behaviour also produced one of the bugs recorded in §12.</td></tr>
+      <tr><td class="n">16</td><td><b>Model Context Protocol specification.</b><br><span class="dim">modelcontextprotocol.io</span></td><td>§13</td><td>The tool interface, and the practice guidance on tool count that fixed the server at seven.</td></tr>
+    </tbody>
+  </table>
+
+  <h3 style="margin-top:8mm">Project documents</h3>
+  <p style="font-size:9.4pt">
+    All committed to the repository and indexed by the product's own retrieval
+    system, so any claim in this dossier can be traced to the file it came from.
+  </p>
+  <div class="two">
+    <ul style="font-size:9.2pt">
+      <li><code>docs/research/01_RESEARCH_AUDIT.md</code> — prior art, feasibility, what was cut and why</li>
+      <li><code>docs/research/03_DATA_AVAILABILITY.md</code> — what public F1 data contains and does not</li>
+      <li><code>docs/research/04_PHYSICS_FOUNDATION.md</code> — dynamics, thermal, wear, and their validation</li>
+      <li><code>docs/research/05_STATISTICAL_ARCHITECTURE.md</code> — the model and why a Kalman filter</li>
+    </ul>
+    <ul style="font-size:9.2pt">
+      <li><code>docs/research/08_NOVELTY_ANALYSIS.md</code> — what is ours, what is not</li>
+      <li><code>docs/research/13_LIMITATIONS_AND_FAILURE_MODES.md</code> — where it is wrong</li>
+      <li><code>docs/model_card.md</code> — intended use, assumptions, performance</li>
+      <li><code>docs/INTEGRATIONS.md</code> — MCP and RAG, what each buys and what it does not</li>
+    </ul>
+  </div>
+
+  <div class="panel tyre" style="margin-top:6mm">
+    <h4>Closing</h4>
+    <p style="font-size:10.6pt">
+      The brief asked for a model that strips external noise from practice sessions
+      to produce clean degradation curves, and validates them against race-day pace.
+      This dossier's argument is that the difficulty is not building such a model —
+      it is <em>knowing whether you have</em>. Every number here exists to answer
+      that second question, including the ones that do not flatter us.
+    </p>
+  </div>
+
+  <div class="foot" style="margin-top:8mm">
+    TyreMind · TrackShift Innovation Challenge, Problem 3 · github.com/nitya-prakash-pandey-2005/TyreMind
+  </div>
+</section>
+
+</body>
+</html>

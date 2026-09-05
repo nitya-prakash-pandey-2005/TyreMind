@@ -122,7 +122,7 @@ the answer moves when those priors move.
 | Reduced-order thermal model | YELLOW | Built. Estimated states, never claimed as temperatures. |
 | Energy-based wear + energy clock | YELLOW | Built. **Hypothesis failed** — see §6. |
 | Monte Carlo strategy + regret | GREEN | Built. 10,000 races × 5 strategies in 0.04s. |
-| Cross-domain transfer | YELLOW | Built on NASA C-MAPSS with real ground truth. |
+| Cross-domain transfer | YELLOW | Built on NASA C-MAPSS with real ground truth. RUL RMSE 26.5 cycles over 40 held-out engines. |
 | **Full Pacejka identification** | **RED** | **Cut.** Slip angle and slip ratio are not observable from public telemetry. Identifying a production Pacejka set would have consumed the build and produced parameters no data could constrain. |
 | **PyMC / Stan** | **RED** | **Cut.** Windows compile risk, and no incremental mode — which would have made the real-time claim impossible. |
 | **Neural state-space / TFT** | **RED** | **Cut** as originally specified. A tuned multi-layer perceptron was added to the ladder instead, so the "have you tried deep learning" question is answered by measurement rather than opinion — see §7. A torch model would add a 2 GB dependency to an offline demo and change the answer only by overfitting harder: on a few hundred laps with six features, data is the binding constraint, not depth. |
@@ -216,7 +216,7 @@ extrapolation behaves.
 - Any validated fleet result. No public dataset pairs tread depth with
   telematics.
 - To beat purpose-built prognostics models on C-MAPSS. Published RMSE there is
-  12–20 cycles; ours is 56.
+  12–20 cycles; ours is 26.5.
 
 ---
 
