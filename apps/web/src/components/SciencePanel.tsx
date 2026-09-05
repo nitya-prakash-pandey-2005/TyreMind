@@ -14,6 +14,7 @@
 import { useEffect, useState } from 'react'
 import { api, fixed, signed, type SessionSummary } from '../lib/api'
 import { Empty, Panel, Stat } from './primitives'
+import { PracticeVsRace } from './charts'
 
 interface Recovery {
   n_seeds: number
@@ -217,6 +218,37 @@ export function SciencePanel({ sessionId }: { sessionId: string }) {
                 label="95% coverage"
                 value={`${(transfer.overall.coverage_95 * 100).toFixed(0)}%`}
               />
+            </div>
+
+            <div className="mb-5 grid gap-5 xl:grid-cols-[1fr_1fr]">
+              <div>
+                <PracticeVsRace
+                  points={transfer.reports.flatMap((r) =>
+                    r.comparisons.map((c) => ({ ...c, event: r.event })),
+                  )}
+                  bias={transfer.overall.bias}
+                />
+              </div>
+              <div className="space-y-3 text-[12.5px] leading-relaxed text-ink-dim">
+                <p>
+                  Each point is one compound at one event. The dashed diagonal is a
+                  perfect prediction. The whisker is that prediction&rsquo;s own 95%
+                  interval, and a ringed point is one the interval missed.
+                </p>
+                <p>
+                  The points do not scatter around the diagonal &mdash; they sit
+                  <strong className="text-ink"> above</strong> it, near the dotted
+                  line. That is what makes the error{' '}
+                  <strong className="text-ink">systematic rather than random</strong>,
+                  and it is a far better position to be in: a consistent offset can be
+                  corrected once its cause is understood, whereas scatter cannot be
+                  corrected at all.
+                </p>
+                <p className="text-[11.5px] text-ink-faint">
+                  Reported, not removed. Subtracting a bias measured on five events
+                  would flatter these numbers and would not survive the sixth.
+                </p>
+              </div>
             </div>
 
             <table className="w-full text-[12px]">

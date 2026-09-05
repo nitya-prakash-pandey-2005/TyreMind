@@ -11,8 +11,7 @@
 
 import { useMemo } from 'react'
 import ReactECharts from 'echarts-for-react'
-import { useThemeColours } from '../lib/theme'
-import { compoundColour } from '../lib/api'
+import { useCompoundColour, useThemeColours } from '../lib/theme'
 
 /** Axis and tooltip styling shared by every chart, so they read as one system. */
 function useAxis() {
@@ -92,6 +91,7 @@ export interface CompoundCurve {
  */
 export function DegradationCurves({ curves }: { curves: CompoundCurve[] }) {
   const { base, xAxis, yAxis } = useAxis()
+  const compoundColour = useCompoundColour()
 
   const option = useMemo(() => {
     const horizon = Math.max(...curves.map((c) => c.maxAge), 10)
@@ -155,7 +155,7 @@ export function DegradationCurves({ curves }: { curves: CompoundCurve[] }) {
       },
       series,
     }
-  }, [curves, base, xAxis, yAxis])
+  }, [curves, base, xAxis, yAxis, compoundColour])
 
   return <ReactECharts option={option} style={{ height: 260 }} notMerge />
 }
@@ -788,4 +788,157 @@ export function CorpusComposition({
   }, [bySource, base, xAxis, yAxis, colours])
 
   return <ReactECharts option={option} style={{ height: 340 }} notMerge />
+}
+
+// --------------------------------------------------------------------------
+// Validation
+// --------------------------------------------------------------------------
+
+export interface TransferPoint {
+  event: string
+  compound: string
+  predicted: number
+  predicted_sd: number
+  actual: number
+  covered_95: boolean
+}
+
+/**
+ * Friday's prediction against Sunday's measurement.
+ *
+ * A table of ten comparisons states the systematic bias; this shows it. Points
+ * sitting consistently above the diagonal rather than scattered around it is
+ * what "systematic" means, and it is a different claim from "inaccurate" —
+ * a consistent offset is correctable, whereas scatter is not.
+ *
+ * Each point carries its own 95% interval as a vertical whisker, so a reader can
+ * see whether a miss was a miss or a case the model had already flagged as
+ * uncertain.
+ */
+export function PracticeVsRace({
+  points,
+  bias,
+}: {
+  points: TransferPoint[]
+  bias: number
+}) {
+  const { base, xAxis, yAxis, colours } = useAxis()
+  const compoundColour = useCompoundColour()
+
+  const option = useMemo(() => {
+    // Scale to the estimates, not to the whiskers. One comparison carries a
+    // very wide interval, and letting it set the extent squeezes every point
+    // into a corner -- the whisker is still drawn, it is simply allowed to run
+    // off the top, which is itself legible.
+    const values = points.flatMap((p) => [p.actual, p.predicted])
+    const pad = 0.02
+    const round = (v: number, up: boolean) =>
+      (up ? Math.ceil(v * 20) : Math.floor(v * 20)) / 20
+    const lo = Math.max(0, round(Math.min(...values) - pad, false))
+    const hi = round(Math.max(...values) + pad, true)
+
+    return {
+      ...base,
+      legend: { show: false },
+      grid: { left: 58, right: 22, top: 20, bottom: 40 },
+      xAxis: {
+        type: 'value',
+        min: lo,
+        max: hi,
+        ...xAxis('measured in the race (s/lap)'),
+        axisLabel: { ...xAxis('').axisLabel, formatter: (v: number) => v.toFixed(2) },
+      },
+      yAxis: {
+        type: 'value',
+        min: lo,
+        max: hi,
+        ...yAxis('predicted from practice'),
+        axisLabel: { ...yAxis('').axisLabel, formatter: (v: number) => v.toFixed(2) },
+      },
+      tooltip: {
+        ...base.tooltip,
+        formatter: (p: { data: { name: string; value: [number, number] } }) =>
+          `${p.data.name}<br/>race ${p.data.value[0].toFixed(3)} · practice ${p.data.value[1].toFixed(3)}`,
+      },
+      series: [
+        {
+          name: 'perfect',
+          type: 'line',
+          data: [
+            [lo, lo],
+            [hi, hi],
+          ],
+          symbol: 'none',
+          silent: true,
+          lineStyle: { color: colours.line, type: 'dashed', width: 1 },
+        },
+        {
+          // The measured bias, drawn parallel to the diagonal. Points hugging
+          // this line rather than the diagonal is the finding.
+          name: 'bias',
+          type: 'line',
+          data: [
+            [lo, lo + bias],
+            [hi, hi + bias],
+          ],
+          symbol: 'none',
+          silent: true,
+          lineStyle: { color: colours.alert, type: 'dotted', width: 1.4 },
+          endLabel: {
+            show: true,
+            formatter: `practice runs +${bias.toFixed(3)} s/lap high`,
+            color: colours.alert,
+            fontSize: 10,
+            offset: [-6, -12],
+            align: 'right',
+          },
+        },
+        {
+          // Vertical 95% whiskers, one custom-rendered bar per point.
+          name: 'interval',
+          type: 'custom',
+          silent: true,
+          renderItem: (
+            _params: unknown,
+            api: {
+              value: (i: number) => number
+              coord: (p: [number, number]) => [number, number]
+              style: (s: Record<string, unknown>) => unknown
+            },
+          ) => {
+            const [x, top] = api.coord([api.value(0), api.value(1)])
+            const [, bottom] = api.coord([api.value(0), api.value(2)])
+            return {
+              type: 'line',
+              shape: { x1: x, y1: top, x2: x, y2: bottom },
+              style: api.style({ stroke: colours.inkFaint, lineWidth: 1 }),
+            }
+          },
+          data: points.map((p) => [
+            p.actual,
+            p.predicted + 1.96 * p.predicted_sd,
+            p.predicted - 1.96 * p.predicted_sd,
+          ]),
+          z: 2,
+        },
+        {
+          name: 'comparison',
+          type: 'scatter',
+          symbolSize: 11,
+          data: points.map((p) => ({
+            value: [p.actual, p.predicted],
+            name: `${p.event.replace(' Grand Prix', '')} · ${p.compound}`,
+            itemStyle: {
+              color: compoundColour(p.compound),
+              borderColor: p.covered_95 ? 'transparent' : colours.alert,
+              borderWidth: p.covered_95 ? 0 : 2,
+            },
+          })),
+          z: 6,
+        },
+      ],
+    }
+  }, [points, bias, base, xAxis, yAxis, colours, compoundColour])
+
+  return <ReactECharts option={option} style={{ height: 300 }} notMerge />
 }
