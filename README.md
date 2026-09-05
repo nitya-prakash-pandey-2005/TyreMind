@@ -151,7 +151,7 @@ pip install -r requirements-dev.txt
 pip install -e .
 
 pytest                                  # 81 tests
-python -m tyremind.serve                # dashboard at http://127.0.0.1:8000
+python -m tyremind.serve                # dashboard at http://127.0.0.1:8077
 ```
 
 Eight sessions are committed as Parquet, so a fresh clone runs offline. To cache

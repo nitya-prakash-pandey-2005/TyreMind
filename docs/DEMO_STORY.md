@@ -6,7 +6,7 @@
 python -m tyremind.serve
 ```
 
-Warms the cached sessions, serves the dashboard at `http://127.0.0.1:8000`, opens
+Warms the cached sessions, serves the dashboard at `http://127.0.0.1:8077`, opens
 a browser. Eight sessions (four events × FP2 + race) are committed to the repo as
 Parquet, so a fresh clone works with the wifi unplugged.
 

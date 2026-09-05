@@ -26,7 +26,7 @@ WEB_DIST = Path("apps/web/dist")
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--host", default="127.0.0.1")
-    parser.add_argument("--port", type=int, default=8000)
+    parser.add_argument("--port", type=int, default=8077)
     parser.add_argument("--no-browser", action="store_true")
     parser.add_argument("--no-warm", action="store_true", help="skip pre-fitting sessions")
     args = parser.parse_args()

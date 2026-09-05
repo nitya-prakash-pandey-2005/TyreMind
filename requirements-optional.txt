@@ -3,3 +3,7 @@
 -r requirements.txt
 torch>=2.2
 google-genai>=0.3
+
+# MCP server: exposes TyreMind's estimator as tools an AI agent can call.
+# Optional -- the dashboard and every experiment run without it.
+mcp>=2.0

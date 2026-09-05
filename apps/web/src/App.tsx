@@ -29,16 +29,30 @@ import { StrategyView } from './components/StrategyView'
 import { TyreStateView } from './components/TyreStateView'
 import { BeyondRacing } from './components/BeyondRacing'
 import { Explainer } from './components/Explainer'
+import { CircuitView } from './components/CircuitView'
+import { AskPanel } from './components/AskPanel'
+import { ThemeToggle } from './lib/theme'
 
-type View = 'overview' | 'explain' | 'tyre' | 'strategy' | 'live' | 'evidence' | 'beyond'
+type View =
+  | 'overview'
+  | 'explain'
+  | 'circuit'
+  | 'tyre'
+  | 'strategy'
+  | 'live'
+  | 'evidence'
+  | 'ask'
+  | 'beyond'
 
 const VIEWS: { key: View; label: string; blurb: string }[] = [
   { key: 'overview', label: 'Start here', blurb: 'What this is, in plain terms' },
   { key: 'explain', label: 'Why is the car slow', blurb: 'Split pace into its causes' },
+  { key: 'circuit', label: 'Where it wears', blurb: '3D lap, coloured by load' },
   { key: 'tyre', label: 'Tyre twin', blurb: 'Condition, life left, what-ifs' },
   { key: 'strategy', label: 'When to pit', blurb: '5,000 simulated races' },
   { key: 'live', label: 'Live monitor', blurb: 'Updating lap by lap' },
   { key: 'evidence', label: 'Does it work', blurb: 'How it was validated' },
+  { key: 'ask', label: 'Ask the method', blurb: 'Search the research corpus' },
   { key: 'beyond', label: 'Beyond racing', blurb: 'The same engine elsewhere' },
 ]
 
@@ -97,11 +111,12 @@ export default function App() {
               {offline ? 'runs offline' : 'needs network'}
             </span>
           )}
+          <ThemeToggle />
         </div>
       </header>
 
       <div className="flex flex-1 flex-col lg:flex-row">
-        <nav className="shrink-0 border-b border-line lg:w-56 lg:border-r lg:border-b-0">
+        <nav className="rail shrink-0 border-b border-line lg:w-56 lg:border-r lg:border-b-0">
           <div className="px-3 py-3">
             <div className="mb-1.5 text-[10px] text-ink-faint">Session</div>
             <div className="space-y-px">
@@ -154,6 +169,10 @@ export default function App() {
             <Loading what="the session catalogue" />
           ) : view === 'beyond' ? (
             <BeyondRacing />
+          ) : view === 'ask' ? (
+            <AskPanel />
+          ) : view === 'circuit' ? (
+            <CircuitView circuit={current?.grand_prix ?? ''} />
           ) : view === 'live' ? (
             <LiveMonitor sessionId={sessionId} />
           ) : view === 'evidence' ? (

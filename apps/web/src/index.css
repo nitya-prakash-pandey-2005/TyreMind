@@ -11,9 +11,15 @@
 
    Panels separate by surface value, the way an instrument does. No shadows,
    no gradient washes.
+
+   Both themes are defined here as the same named tokens with different values,
+   so no component ever branches on the theme. `[data-theme]` on <html> selects.
 --------------------------------------------------------------------------- */
 
 @theme {
+  /* Dark is the default: this is a pit-wall instrument, usually read in a
+     dim garage or a night session. Light exists for printing, projectors and
+     bright rooms, where a dark UI washes out completely. */
   --color-ground: #0e1418;
   --color-surface: #151d23;
   --color-raised: #1d272e;
@@ -44,6 +50,36 @@
   --font-mono: 'JetBrains Mono', ui-monospace, monospace;
 }
 
+/* Light theme. Not an inversion -- the hues are re-picked for a light ground,
+   because simply flipping lightness makes yellow vanish and orange shout. */
+[data-theme='light'] {
+  --color-ground: #f4f6f7;
+  --color-surface: #ffffff;
+  --color-raised: #eaeef0;
+  --color-line: #d4dbdf;
+  --color-line-bright: #b3bfc6;
+
+  --color-ink: #16212a;
+  --color-ink-dim: #4a5b66;
+  --color-ink-faint: #7b8b95;
+
+  /* HARD is white on a dark ground and would disappear here, so it becomes a
+     mid grey. The others darken enough to hold contrast against white. */
+  --color-soft: #c9231d;
+  --color-medium: #b8860b;
+  --color-hard: #6b7780;
+  --color-intermediate: #2f7d1e;
+  --color-wet: #1f4fa8;
+
+  --color-fuel: #1d7d9c;
+  --color-track: #5a6f80;
+  --color-traffic: #7f4aa0;
+  --color-residual: #8a99a3;
+
+  --color-alert: #c4501f;
+  --color-good: #1f8a5c;
+}
+
 @font-face {
   font-family: 'Archivo';
   src: url('https://fonts.gstatic.com/s/archivo/v25/k3k6o8UDI-1M0wlSV9XAw6lQkqWY8Q82sJaRE-NWIDdgffTTNDJp8B1oJ0vyVQ.woff2')
@@ -63,6 +99,9 @@
 html {
   color-scheme: dark;
 }
+html[data-theme='light'] {
+  color-scheme: light;
+}
 
 body {
   margin: 0;
@@ -81,11 +120,7 @@ body {
   font-feature-settings: 'zero' 1;
 }
 
-.hairline {
-  border-color: var(--color-line);
-}
-
-/* The uncertainty beam. Every estimate in the product is drawn as an interval
+/* The uncertainty beam. Every estimate in TyreMind is drawn as an interval
    with a gradient falloff and a hard tick at the mean, never printed as a bare
    number with a plus-or-minus appended. Seeing the spread is the point. */
 .beam {
@@ -97,6 +132,18 @@ body {
     color-mix(in oklab, var(--beam-color) 45%, transparent) 78%,
     transparent 100%
   );
+}
+
+/* The session and view rail stays put while the working area scrolls. On a
+   dense analysis tool, losing your navigation the moment you read anything is
+   the single most irritating thing a layout can do. */
+.rail {
+  position: sticky;
+  top: 0;
+  align-self: flex-start;
+  max-height: 100vh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 *:focus-visible {

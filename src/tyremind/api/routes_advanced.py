@@ -480,6 +480,60 @@ def corner_energy(circuit: str) -> dict:
     }
 
 
+#: The retrieval corpus is built once, lazily. Indexing the docs and result
+#: files takes a moment and never changes while the server is up.
+_CORPUS = None
+
+
+def track_geometry(circuit: str) -> dict:
+    """Racing line and per-point tyre loading for the 3D circuit view.
+
+    Precomputed by scripts/build_track_geometry.py, because the dashboard runs
+    from cached timing data which does not carry position telemetry.
+    """
+    path = Path("data/demo") / f"track_{circuit.lower()}.json"
+    if not path.exists():
+        available = sorted(
+            p.stem.replace("track_", "") for p in Path("data/demo").glob("track_*.json")
+        )
+        raise HTTPException(
+            status_code=404,
+            detail=(
+                f"No track geometry for {circuit!r}. Available: {available}. "
+                "Run scripts/build_track_geometry.py to add more."
+            ),
+        )
+    return json.loads(path.read_text())
+
+
+def ask(q: str, k: int = 4) -> dict:
+    """Hybrid retrieval over the project's documentation and recorded results.
+
+    Returns passages with their sources. Generates nothing -- the point is that
+    every answer can be traced to a document or an experiment output.
+    """
+    global _CORPUS
+    from tyremind.rag.index import build_corpus
+
+    if _CORPUS is None:
+        _CORPUS = build_corpus()
+
+    try:
+        hits = _CORPUS.index.search(q, k=k)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+    return {
+        "query": q,
+        "results": [h.to_dict() for h in hits],
+        "corpus": _CORPUS.stats(),
+        "note": (
+            "Retrieved passages, not generated text. Every figure here traces to a "
+            "document or a recorded experiment result."
+        ),
+    }
+
+
 def register(app: FastAPI) -> None:
     """Attach these routes to the application.
 
@@ -498,3 +552,5 @@ def register(app: FastAPI) -> None:
     app.get("/api/session/{session_id}/validation")(validation)
     app.get("/api/session/{session_id}/health-timeline")(health_timeline)
     app.get("/api/physics/corner-energy")(corner_energy)
+    app.get("/api/physics/track-geometry")(track_geometry)
+    app.get("/api/ask")(ask)
