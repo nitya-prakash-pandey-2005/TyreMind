@@ -35,6 +35,18 @@ For decision support that is the safer error, but it is a miscalibration and is
 reported as one. Practice-to-race coverage is 90% over 10 comparisons, which is
 closer to nominal but on far too small a sample to conclude much.
 
+**And it goes the other way on lap-time prediction.** In the model ladder our
+95% lap-time intervals cover only **73%** of observations. That is
+*under*-confidence's opposite — intervals too narrow — and pooled regression does
+better at 79%. Every rung in that ladder undercovers on lap time, so it is partly
+a property of the task, but ours is not the best of them and the direction is the
+opposite of the conservatism reported above.
+
+The two are not in conflict: the degradation *rate* is a slowly-varying pooled
+state with a wide prior, while a single lap time carries driver noise the model
+deliberately does not try to explain. But a reader is entitled to be told both
+numbers, not only the flattering one.
+
 ---
 
 ## 3. Situations where the model should not be trusted
@@ -66,6 +78,25 @@ cannot work. The cross-session version is untested.
 
 Reported rather than corrected, because a bias that is understood is more useful
 than one that has been tuned away.
+
+---
+
+## 4b. The cross-domain number is not a like-for-like comparison
+
+Our C-MAPSS figure of **26.5 cycles RUL RMSE** is scored on **40 of the 100
+engines in the FD001 test set**, taken in unit-id order. Published figures --
+including the 12-20 cycles we quote for purpose-built deep models -- are computed
+over all 100.
+
+This is a runtime limit rather than a selection. The estimator fits the test set
+jointly, so cost grows faster than linearly in the number of engines: 40 engines
+fit in about three minutes, while a full 100-engine run was attempted and
+abandoned after 108 CPU-minutes without converging.
+
+The honest statement is therefore that the transfer works and the number is
+indicative, not that it sits at a particular distance from the state of the art.
+Making it comparable is a tractable engineering problem -- the fit would need to
+be batched per engine rather than joint -- and it is not done.
 
 ---
 

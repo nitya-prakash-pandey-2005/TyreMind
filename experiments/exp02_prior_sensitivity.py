@@ -13,7 +13,7 @@ standard deviation, or removes half the evidence, and re-fits:
     track prior +/- 1 sd     total track evolution (0.90 +/- 0.45 s)
     wide priors              both doubled in width -- "we are much less sure"
     half the field           evidence halved, testing the pooling argument
-    filtered only            no backward pass, i.e. what was knowable live
+    live at 75%              filtered only, three-quarters through the session
 
 An estimate that survives all of these is one whose conclusion is driven by the
 data. One that does not is being driven by us, and should be reported as such.
@@ -42,6 +42,11 @@ from tyremind.models.trust import build_consensus
 RESULTS = Path(__file__).parent / "results" / "exp02_prior_sensitivity.json"
 
 BASE = TyreSSMPriors()
+
+#: Where the "live" variant is sampled. The filtered estimate at the final step
+#: equals the smoothed one by construction, so a live-vs-retrospective comparison
+#: has to be taken before the session ends to mean anything.
+LIVE_FRACTION = 0.75
 
 
 def variants() -> dict[str, tuple[TyreSSMPriors, str]]:
@@ -98,15 +103,29 @@ def run_session(lap_table: pd.DataFrame) -> dict[str, dict[str, tuple[float, flo
         with contextlib.suppress(Exception):
             out["half the field"] = fit_tyre_ssm(half).compound_rates()
 
-    # Filtered rather than smoothed: what was knowable in real time.
+    # What was knowable PART-WAY THROUGH, which is the only version of this
+    # comparison that carries information.
+    #
+    # The obvious implementation -- filtered estimate at the final step against
+    # smoothed estimate at the final step -- is worthless, and worse, it looks
+    # like a result. The RTS smoother is initialised from the filtered estimate
+    # at time T, so for any state the two are identical at T to machine
+    # precision. Reporting that as "live matches retrospective" would be
+    # reporting an algebraic identity as though it were evidence.
+    #
+    # The real question is how good the live estimate was BEFORE the session
+    # finished, so this reads the filtered state three-quarters of the way
+    # through and scores it against the same truth. That is a number the
+    # smoother genuinely improves on.
     try:
         fit = fit_tyre_ssm(lap_table)
         idx = fit.index
         var = np.einsum("tii->ti", fit.filtered.P_filt)
-        out["live (filtered)"] = {
+        cut = max(1, int(fit.filtered.a_filt.shape[0] * LIVE_FRACTION) - 1)
+        out["live at 75% of the session"] = {
             compound: (
-                float(fit.filtered.a_filt[-1, i]),
-                float(np.sqrt(max(var[-1, i], 0.0))),
+                float(fit.filtered.a_filt[cut, i]),
+                float(np.sqrt(max(var[cut, i], 0.0))),
             )
             for compound, i in idx.compound_rate.items()
         }

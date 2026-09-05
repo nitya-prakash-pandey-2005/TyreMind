@@ -80,7 +80,7 @@ See `01_RESEARCH_AUDIT.md` §3 for the derivation. In short:
 
 `exp02_prior_sensitivity` quantifies what the assumptions cost if wrong: a
 full-standard-deviation error in the fuel prior moves the recovered rate by about
-0.02 s/lap, which remains 5× better than the naive method at 0.0966.
+0.02 s/lap, which remains 4.9× better than the naive method at 0.0966.
 
 ## Numerical implementation
 

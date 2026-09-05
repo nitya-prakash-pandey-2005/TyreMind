@@ -22,10 +22,15 @@ Point at the two numbers side by side:
 > hard tyre degraded at **−0.004 s/lap** on this race. Negative. It says the tyre
 > got *faster* the longer it ran.
 >
-> That is obviously impossible, and it is not a fluke: it happens on every race we
-> tested. The car burns fuel, gets lighter, and speeds up by about 0.08 s a lap —
-> which is bigger than the tyre's degradation, so the tyre effect is buried under
-> it and comes out with the wrong sign.
+> That is obviously impossible, and it is not a one-off: the naive method comes out
+> negative on 3 of the 4 races we analysed, on 4 of 11 compound-stints. The car
+> burns fuel, gets lighter, and speeds up by about 0.08 s a lap — which is bigger
+> than the tyre's degradation, so the tyre effect is buried under it and comes out
+> with the wrong sign.
+>
+> (If asked: Barcelona is the race where it does not go negative. That is not the
+> method working — it is the confounders happening not to swamp the signal there.
+> Whether the standard approach gets the sign right is a matter of luck.)
 
 Then TyreMind's number: **+0.074 s/lap** for the hard, **+0.113** for the medium,
 correctly ordered, each with an interval.
@@ -81,7 +86,8 @@ what model accuracy is worth in the only unit a pit wall uses.
 > That is why we chose a Kalman filter over MCMC. A sampler has no incremental
 > mode; you cannot re-run one every lap on a pit wall.
 
-By the end, the online estimate lands within 0.003 s/lap of the retrospective one.
+By the end, the online estimator agrees with the batch fit to 0.0006 s/lap at
+worst — two separate implementations of the same model.
 
 ### 6. **Does it work** (90 s)
 
@@ -103,7 +109,9 @@ Then the numbers:
 > there is nothing to check against. So we ran the *identical* estimator on NASA's
 > turbofan benchmark, which does have run-to-failure ground truth.
 >
-> 40 engines, 26.5-cycle RUL error, 32% predicted early. Purpose-built deep models
+> 26.5-cycle RUL error on 40 of the 100 FD001 test engines, 32% predicted early.
+> (If asked: published figures use all 100, so this is indicative, not like-for-like.)
+> Purpose-built deep models
 > get 12–20 on that dataset, so we are not competitive — but we are a tyre model
 > pointed at jet engines with no retuning, and it works.
 

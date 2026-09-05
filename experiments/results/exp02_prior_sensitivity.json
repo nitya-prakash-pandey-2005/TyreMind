@@ -1,6 +1,6 @@
 {
   "experiment": "exp02_prior_sensitivity",
-  "generated_at": "2026-09-04T20:51:37.310949+00:00",
+  "generated_at": "2026-09-05T15:42:02.188377+00:00",
   "variants": {
     "baseline": "Default priors, as documented in configs/physics.yaml.",
     "fuel prior +1sd": "What if fuel burn-off costs more lap time than we assumed?",
@@ -25,10 +25,10 @@
       "coverage": 1.0
     },
     {
-      "variant": "live (filtered)",
-      "mae": 0.0046511027024913176,
-      "bias": 0.004296440095071836,
-      "mean_sd": 0.01712182358193017,
+      "variant": "live at 75% of the session",
+      "mae": 0.004905998313609602,
+      "bias": 0.00348601013222187,
+      "mean_sd": 0.017569561026978115,
       "coverage": 1.0
     },
     {
@@ -280,32 +280,32 @@
     },
     {
       "seed": 7000,
-      "variant": "live (filtered)",
+      "variant": "live at 75% of the session",
       "compound": "SOFT",
       "true_rate": 0.115,
-      "estimate": 0.12153055137276407,
-      "sd": 0.017100199571552694,
-      "error": 0.006530551372764065,
+      "estimate": 0.11956443300256697,
+      "sd": 0.0173279768756016,
+      "error": 0.004564433002566967,
       "covered": true
     },
     {
       "seed": 7000,
-      "variant": "live (filtered)",
+      "variant": "live at 75% of the session",
       "compound": "MEDIUM",
       "true_rate": 0.072,
-      "estimate": 0.07696338565390261,
-      "sd": 0.016702461015229184,
-      "error": 0.004963385653902613,
+      "estimate": 0.07656035742667412,
+      "sd": 0.017151480404291482,
+      "error": 0.004560357426674128,
       "covered": true
     },
     {
       "seed": 7000,
-      "variant": "live (filtered)",
+      "variant": "live at 75% of the session",
       "compound": "HARD",
       "true_rate": 0.041,
-      "estimate": 0.04211916773534691,
-      "sd": 0.016819048339659564,
-      "error": 0.0011191677353469057,
+      "estimate": 0.034294872394464174,
+      "sd": 0.017614289910882736,
+      "error": -0.006705127605535828,
       "covered": true
     },
     {
@@ -520,32 +520,32 @@
     },
     {
       "seed": 7001,
-      "variant": "live (filtered)",
+      "variant": "live at 75% of the session",
       "compound": "SOFT",
       "true_rate": 0.115,
-      "estimate": 0.12125660120805211,
-      "sd": 0.016893753879581815,
-      "error": 0.006256601208052104,
+      "estimate": 0.116555265149738,
+      "sd": 0.01726890928034746,
+      "error": 0.001555265149738,
       "covered": true
     },
     {
       "seed": 7001,
-      "variant": "live (filtered)",
+      "variant": "live at 75% of the session",
       "compound": "MEDIUM",
       "true_rate": 0.072,
-      "estimate": 0.0698720243554831,
-      "sd": 0.016872500619862733,
-      "error": -0.0021279756445168885,
+      "estimate": 0.07018519851720943,
+      "sd": 0.01716858505058257,
+      "error": -0.0018148014827905623,
       "covered": true
     },
     {
       "seed": 7001,
-      "variant": "live (filtered)",
+      "variant": "live at 75% of the session",
       "compound": "HARD",
       "true_rate": 0.041,
-      "estimate": 0.042188765550623064,
-      "sd": 0.017245573871071975,
-      "error": 0.0011887655506230624,
+      "estimate": 0.04249393326113079,
+      "sd": 0.017608536086088613,
+      "error": 0.0014939332611307865,
       "covered": true
     },
     {
@@ -760,32 +760,32 @@
     },
     {
       "seed": 7002,
-      "variant": "live (filtered)",
+      "variant": "live at 75% of the session",
       "compound": "SOFT",
       "true_rate": 0.115,
-      "estimate": 0.12184227703180489,
-      "sd": 0.017796128406426057,
-      "error": 0.006842277031804886,
+      "estimate": 0.12105662084918728,
+      "sd": 0.01844238811001015,
+      "error": 0.006056620849187275,
       "covered": true
     },
     {
       "seed": 7002,
-      "variant": "live (filtered)",
+      "variant": "live at 75% of the session",
       "compound": "MEDIUM",
       "true_rate": 0.072,
-      "estimate": 0.07552201398799234,
-      "sd": 0.01790868451985826,
-      "error": 0.003522013987992345,
+      "estimate": 0.07872019834244774,
+      "sd": 0.01850261919654169,
+      "error": 0.006720198342447747,
       "covered": true
     },
     {
       "seed": 7002,
-      "variant": "live (filtered)",
+      "variant": "live at 75% of the session",
       "compound": "HARD",
       "true_rate": 0.041,
-      "estimate": 0.0457266052347592,
-      "sd": 0.017793443443745696,
-      "error": 0.0047266052347592,
+      "estimate": 0.04665941942685253,
+      "sd": 0.018476288567202,
+      "error": 0.005659419426852531,
       "covered": true
     },
     {
@@ -1000,32 +1000,32 @@
     },
     {
       "seed": 7003,
-      "variant": "live (filtered)",
+      "variant": "live at 75% of the session",
       "compound": "SOFT",
       "true_rate": 0.115,
-      "estimate": 0.11989166867636328,
-      "sd": 0.01670088710042135,
-      "error": 0.004891668676363273,
+      "estimate": 0.11917742039876146,
+      "sd": 0.01688894183530299,
+      "error": 0.0041774203987614555,
       "covered": true
     },
     {
       "seed": 7003,
-      "variant": "live (filtered)",
+      "variant": "live at 75% of the session",
       "compound": "MEDIUM",
       "true_rate": 0.072,
-      "estimate": 0.08006258582792222,
-      "sd": 0.0170011350945178,
-      "error": 0.008062585827922228,
+      "estimate": 0.08332109979269646,
+      "sd": 0.0172236510789187,
+      "error": 0.011321099792696465,
       "covered": true
     },
     {
       "seed": 7003,
-      "variant": "live (filtered)",
+      "variant": "live at 75% of the session",
       "compound": "HARD",
       "true_rate": 0.041,
-      "estimate": 0.04658163450584824,
-      "sd": 0.016628067121234897,
-      "error": 0.00558163450584824,
+      "estimate": 0.04524330302493348,
+      "sd": 0.01716106592796741,
+      "error": 0.004243303024933476,
       "covered": true
     }
   ],
@@ -1062,15 +1062,15 @@
           "mean": 0.062461479309402254,
           "sd": 0.01934194685015174
         },
-        "live (filtered)": {
-          "mean": 0.07405077381517502,
-          "sd": 0.018144990504873802
+        "live at 75% of the session": {
+          "mean": 0.08421077378240735,
+          "sd": 0.019177397403262193
         }
       },
-      "consensus": 0.07274376446051257,
-      "consensus_sd": 0.0067638254867312874,
+      "consensus": 0.07400698755523043,
+      "consensus_sd": 0.006813604762809664,
       "spread": 0.03144926052390543,
-      "agreement": 0.4203742040998719,
+      "agreement": 0.42043595303835696,
       "disagreement_flagged": true,
       "explanation": "The methods disagree about hard: fuel prior -1sd says 0.058 s/lap and fuel prior +1sd says 0.090 s/lap, a spread of 0.031. Treat any strategy call that depends on this number as unsupported until more laps are in."
     },
@@ -1106,17 +1106,17 @@
           "mean": 0.09794860025077191,
           "sd": 0.029616367248112004
         },
-        "live (filtered)": {
-          "mean": 0.11289363190544831,
-          "sd": 0.022923643379130245
+        "live at 75% of the session": {
+          "mean": 0.13908684986214548,
+          "sd": 0.026807487429457627
         }
       },
-      "consensus": 0.11183459365948817,
-      "consensus_sd": 0.008648878388805738,
-      "spread": 0.03125469709404913,
-      "agreement": 0.5057525928299514,
-      "disagreement_flagged": false,
-      "explanation": "Four independent methods put medium degradation within 0.031 s/lap of each other. That agreement is evidence the number describes the tyre rather than the method."
+      "consensus": 0.11462736576232165,
+      "consensus_sd": 0.00881922975923195,
+      "spread": 0.041821210819571936,
+      "agreement": 0.401789863755714,
+      "disagreement_flagged": true,
+      "explanation": "The methods disagree about medium: fuel prior -1sd says 0.097 s/lap and live at 75% of the session says 0.139 s/lap, a spread of 0.042. Treat any strategy call that depends on this number as unsupported until more laps are in."
     },
     {
       "session": "2024-zandvoort-R",
@@ -1150,15 +1150,15 @@
           "mean": 0.08518951612225074,
           "sd": 0.01758620697953658
         },
-        "live (filtered)": {
-          "mean": 0.08694645290898234,
-          "sd": 0.01699641216566884
+        "live at 75% of the session": {
+          "mean": 0.0872849095970446,
+          "sd": 0.017619329195493163
         }
       },
-      "consensus": 0.08663866700994106,
-      "consensus_sd": 0.0063220665236709,
+      "consensus": 0.08667967878966419,
+      "consensus_sd": 0.006352665145757788,
       "spread": 0.030866208767203696,
-      "agreement": 0.40342791787313154,
+      "agreement": 0.4036379891064476,
       "disagreement_flagged": true,
       "explanation": "The methods disagree about hard: fuel prior -1sd says 0.072 s/lap and fuel prior +1sd says 0.102 s/lap, a spread of 0.031. Treat any strategy call that depends on this number as unsupported until more laps are in."
     },
@@ -1194,15 +1194,15 @@
           "mean": 0.09171612854843816,
           "sd": 0.018885637683387333
         },
-        "live (filtered)": {
-          "mean": 0.0941824585961809,
-          "sd": 0.01777712896013411
+        "live at 75% of the session": {
+          "mean": 0.09864282365093194,
+          "sd": 0.018179065093756632
         }
       },
-      "consensus": 0.09379978992362195,
-      "consensus_sd": 0.006626672365037968,
+      "consensus": 0.09439375117464158,
+      "consensus_sd": 0.0066468981654349306,
       "spread": 0.03089174220606941,
-      "agreement": 0.419552781330448,
+      "agreement": 0.4198030756532574,
       "disagreement_flagged": true,
       "explanation": "The methods disagree about medium: fuel prior -1sd says 0.079 s/lap and fuel prior +1sd says 0.110 s/lap, a spread of 0.031. Treat any strategy call that depends on this number as unsupported until more laps are in."
     },
@@ -1238,17 +1238,17 @@
           "mean": 0.1148823019463814,
           "sd": 0.025436598823587755
         },
-        "live (filtered)": {
-          "mean": 0.11490253044353646,
-          "sd": 0.021908754488387812
+        "live at 75% of the session": {
+          "mean": 0.09960883607733177,
+          "sd": 0.028101280429844055
         }
       },
-      "consensus": 0.1147696748207142,
-      "consensus_sd": 0.008191774503325587,
-      "spread": 0.030771034704745376,
-      "agreement": 0.49553099351931384,
+      "consensus": 0.11338696159577571,
+      "consensus_sd": 0.008426016461461652,
+      "spread": 0.03077172854698522,
+      "agreement": 0.4956467540038173,
       "disagreement_flagged": true,
-      "explanation": "The methods disagree about soft: fuel prior -1sd says 0.100 s/lap and fuel prior +1sd says 0.130 s/lap, a spread of 0.031. Treat any strategy call that depends on this number as unsupported until more laps are in."
+      "explanation": "The methods disagree about soft: live at 75% of the session says 0.100 s/lap and fuel prior +1sd says 0.130 s/lap, a spread of 0.031. Treat any strategy call that depends on this number as unsupported until more laps are in."
     }
   ]
 }

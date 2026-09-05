@@ -60,7 +60,7 @@ the stated model", and that is what the UI says.
 
 What we *can* do is quantify what the assumptions cost: a full-standard-deviation
 error in the fuel prior — our largest assumption — moves the answer by about
-0.02 s/lap, which is still five times better than the naive method.
+0.02 s/lap, which is still 4.9× better than the naive method.
 
 ---
 

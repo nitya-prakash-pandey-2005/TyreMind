@@ -67,6 +67,16 @@ def rul_score(error: np.ndarray) -> float:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--subset", default="FD001", choices=["FD001", "FD002", "FD003", "FD004"])
+    # 40 of FD001's 100 test engines, in unit-id order.
+    #
+    # This is a runtime limit, not a selection: the estimator fits the whole test
+    # set jointly, so cost grows faster than linearly in the number of engines.
+    # A full 100-engine run was attempted and abandoned after 108 CPU-minutes
+    # without converging, where 40 engines finish in about three minutes.
+    #
+    # It matters because published C-MAPSS RMSE figures are quoted over all 100.
+    # Every document that reports our number says so, and calls the comparison
+    # indicative rather than like-for-like.
     parser.add_argument("--n-units", type=int, default=40)
     args = parser.parse_args()
 

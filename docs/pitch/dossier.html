@@ -279,8 +279,8 @@ figcaption b { color: var(--ink); font-weight: 600; }
     <p class="cover-claim">
       Every published tyre model is graded on how well it predicts lap times.
       None of them checks whether the <b>reason</b> it gives for those lap times
-      is the right one. On real 2024 races, the standard method reports that
-      tyres get <b>faster</b> the longer they run.
+      is the right one. On 3 of the 4 real 2024 races analysed, the standard method
+      reports that tyres get <b>faster</b> the longer they run.
     </p>
     <p style="font-size:11pt;line-height:1.5;max-width:150mm;color:var(--ink-2)">
       TyreMind is built around that gap. It characterises why separating tyre wear
@@ -657,27 +657,54 @@ figcaption b { color: var(--ink); font-weight: 600; }
   <table>
     <thead><tr><th>Variant</th><th>What it asks</th><th class="n">Rate MAE</th><th class="n">Bias</th><th class="n">Mean sd</th><th class="n">Coverage</th></tr></thead>
     <tbody>
-      <tr><td>track prior &minus;1sd</td><td>What if the track rubbers in less?</td><td class="n">0.0023</td><td class="n">+0.0000</td><td class="n">0.017</td><td class="n">100%</td></tr>
       <tr class="hl"><td>baseline</td><td>Priors as documented</td><td class="n">0.0047</td><td class="n">+0.0043</td><td class="n">0.017</td><td class="n">100%</td></tr>
-      <tr><td>live (filtered)</td><td>Forward-only, no future data</td><td class="n">0.0047</td><td class="n">+0.0043</td><td class="n">0.017</td><td class="n">100%</td></tr>
-      <tr><td>wide priors</td><td>Much less confident in both assumptions</td><td class="n">0.0055</td><td class="n">+0.0053</td><td class="n">0.032</td><td class="n">100%</td></tr>
+      <tr><td>live at 75% of the session</td><td>Forward-only, three-quarters through</td><td class="n">0.0049</td><td class="n">+0.0035</td><td class="n">0.018</td><td class="n">100%</td></tr>
       <tr><td>half the field</td><td>Give up half the pit stagger</td><td class="n">0.0073</td><td class="n">+0.0056</td><td class="n">0.018</td><td class="n">100%</td></tr>
+      <tr><td>wide priors</td><td>Much less confident in both assumptions</td><td class="n">0.0055</td><td class="n">+0.0053</td><td class="n">0.032</td><td class="n">100%</td></tr>
+      <tr><td>track prior &minus;1sd</td><td>What if the track rubbers in less?</td><td class="n">0.0023</td><td class="n">+0.0000</td><td class="n">0.017</td><td class="n">100%</td></tr>
       <tr><td>track prior +1sd</td><td>What if it rubbers in more?</td><td class="n">0.0091</td><td class="n">+0.0091</td><td class="n">0.017</td><td class="n">100%</td></tr>
       <tr><td>fuel prior &minus;1sd</td><td>What if fuel costs less lap time?</td><td class="n">0.0113</td><td class="n">&minus;0.0113</td><td class="n">0.017</td><td class="n">100%</td></tr>
       <tr><td>fuel prior +1sd</td><td>What if it costs more?</td><td class="n">0.0199</td><td class="n">+0.0199</td><td class="n">0.017</td><td class="n">100%</td></tr>
     </tbody>
   </table>
-  <div class="prov">experiments/results/exp02_prior_sensitivity.json</div>
+  <div class="prov">experiments/results/exp02_prior_sensitivity.json &middot; 4 synthetic sessions &times; 3 compounds = 12 comparisons per row &middot; rows grouped by what is perturbed, not sorted by score</div>
 
   <p>
-    Three readings matter here. First, <b>the worst case is still five times
+    Four readings matter here. First, <b>the worst case is still 4.9&times;
     better than the naive method</b> (0.0199 against 0.0966), so the assumptions
-    carry the answer but do not carry it alone. Second, <b>wide priors double the
-    posterior standard deviation</b> (0.017&nbsp;&rarr;&nbsp;0.032) — being less
+    carry the answer but do not carry it alone. Second, <b>wide priors widen the
+    posterior standard deviation by 1.9&times;</b> (0.017&nbsp;&rarr;&nbsp;0.032) — being less
     sure produces wider intervals rather than a different answer, which is the
     behaviour you want and not the behaviour you get for free. Third, <b>coverage
     holds at 100% throughout</b>: even when the prior is wrong, the interval still
     contains the truth.
+  </p>
+
+  <div class="panel">
+    <h4>Fourth, and the one worth pre-empting: why does a deliberately wrong prior score best?</h4>
+    <p>
+      The three track rows trace a clean line. Bias runs
+      <b>+0.0000</b> at &minus;1sd, <b>+0.0043</b> at baseline, <b>+0.0091</b> at
+      +1sd — monotone, roughly 0.0045&nbsp;s/lap per prior standard deviation. That
+      is the sensitivity the experiment exists to measure.
+    </p>
+    <p style="margin-top:2mm">
+      It does <em>not</em> mean the baseline prior is mis-centred. The generator's
+      true track evolution is 0.90&nbsp;s and the baseline prior mean is
+      0.90&nbsp;s — exactly centred. What happens is that the baseline carries a
+      small positive bias from elsewhere, and shifting the track prior down by one
+      sd moves the estimate down by about the same amount, cancelling it. On the
+      25-session benchmark of section 08.1 that residual bias is +0.0012, a third
+      of the size seen on these four.
+    </p>
+  </div>
+  <p>
+    <b>And why 0.0047 here against 0.0044 in section 08.1?</b> Different samples,
+    not different answers. The headline benchmark runs <b>25 sessions</b>
+    (seeds 1000&ndash;1024, 75 comparisons); re-fitting eight variants is expensive
+    enough that this table runs <b>4</b> (seeds 7000&ndash;7003, 12 comparisons per
+    row). The baseline row is this table's own reference point, and every
+    perturbation is read against it rather than against section 08.1.
   </p>
 
   <div class="panel warn">
@@ -839,8 +866,11 @@ rate[d, a+da] = rate[d,a] + noise</div>
       number on the pit wall on Sunday are produced by one model, not by a fast
       approximation of a slow one. Filtered (live) and smoothed (retrospective)
       estimates are kept strictly separate in the code and in the interface, and
-      the live estimate converges to within <b>0.003 s/lap</b> of the
-      retrospective answer.
+      the live estimator agrees with the batch fit to <b>0.0006 s/lap</b> at worst.
+      Those are two independent implementations of the same model, not one fit read
+      twice — a distinction that matters, because the filtered and smoothed
+      estimates of a single fit are identical at the final step by construction and
+      comparing them would prove nothing.
     </p>
   </div>
 
@@ -1390,7 +1420,7 @@ C_b dTb/dt = k_sb(Ts−Tb) − h_b(Tb−T_air)</div>
   </p>
 
   <div class="stat-row">
-    <div class="stat key"><div class="v">26.5</div><div class="l">RUL RMSE</div><div class="s">cycles, 40 held-out engines</div></div>
+    <div class="stat key"><div class="v">26.5</div><div class="l">RUL RMSE</div><div class="s">cycles, 40 of the 100 FD001 test engines</div></div>
     <div class="stat"><div class="v">21.1</div><div class="l">RUL MAE</div><div class="s">cycles</div></div>
     <div class="stat"><div class="v">1,893</div><div class="l">NASA prognostics score</div><div class="s">lower is better</div></div>
     <div class="stat"><div class="v">32%</div><div class="l">Predicted early</div><div class="s">the safe direction to err</div></div>
@@ -1398,8 +1428,11 @@ C_b dTb/dt = k_sb(Ts−Tb) − h_b(Tb−T_air)</div>
   <div class="prov">experiments/results/exp07_cross_domain.json · FD001, 100 training engines, 125-cycle piecewise-linear RUL cap</div>
 
   <p>
-    <b>We do not claim to be competitive.</b> Purpose-built deep prognostics models
-    reach 12&ndash;20 cycles RMSE on this dataset. This is a tyre degradation model
+    <b>We do not claim to be competitive, and it is not a like-for-like
+    comparison.</b> Purpose-built deep prognostics models reach 12&ndash;20 cycles
+    RMSE on this dataset, quoted over all 100 engines in the FD001 test set. We
+    score <b>40 of those 100</b>, taken in unit-id order, so the figure above is
+    indicative rather than directly comparable. This is a tyre degradation model
     pointed at jet engines with no retuning, so it demonstrates transfer, not
     leaderboard performance. What transferred without modification: the latent
     state model, the fleet-level pooling, the uncertainty machinery, and
@@ -1627,7 +1660,7 @@ C_b dTb/dt = k_sb(Ts−Tb) − h_b(Tb−T_air)</div>
     the data's, and that is the correct way to describe it.
   </p>
 
-  <h3>11.2 &nbsp; Calibration is imperfect, in a specific direction</h3>
+  <h3>11.2 &nbsp; Calibration is imperfect — and in both directions</h3>
   <p>
     The synthetic benchmark reports <b>100% interval coverage over 75 comparisons</b>
     against a nominal 95%. That is not a perfect score — it means the intervals are
@@ -1636,6 +1669,23 @@ C_b dTb/dt = k_sb(Ts−Tb) − h_b(Tb−T_air)</div>
     Practice-to-race coverage is 90% over 10 comparisons, closer to nominal but on
     far too small a sample to conclude much.
   </p>
+  <div class="panel warn">
+    <h4>And on lap-time prediction it goes the other way</h4>
+    <p>
+      In the model ladder of section 08.3, our nominal 95% lap-time intervals cover
+      only <b>73%</b> of observations — intervals too <em>narrow</em>, the opposite
+      error from the one above, and <b>pooled regression does better at 79%</b>.
+      Every rung in that ladder undercovers on lap time, so it is partly a property
+      of the task, but ours is not the best of them.
+    </p>
+    <p style="margin-top:2mm">
+      The two are not in conflict. The degradation <em>rate</em> is a slowly-varying
+      pooled state carrying a wide physical prior, while a single lap time carries
+      driver noise the model deliberately does not try to explain. But a reader is
+      entitled to both numbers, not only the flattering one, and an earlier draft of
+      this document reported only the conservative figure.
+    </p>
+  </div>
 
   <h3>11.3 &nbsp; Situations where the model should not be trusted</h3>
   <table>
@@ -2001,7 +2051,7 @@ C_b dTb/dt = k_sb(Ts−Tb) − h_b(Tb−T_air)</div>
     <tbody>
       <tr><td>Per-lap live update</td><td class="n">0.22 ms mean, 0.74 ms max</td><td>Cost is flat in session length by construction — a recursive filter carries a fixed-size state, so a lap on hour three costs what a lap on lap one costs. 921 laps measured.</td></tr>
       <tr><td>Full session fit</td><td class="n">5.8 s</td><td>Structured sparse transitions make propagation O(n²) rather than O(n³) in grid size. A full 20-car grid is already the tested case.</td></tr>
-      <tr><td>Strategy simulation</td><td class="n">10,000 races × 5 strategies in 0.04 s</td><td>Fully vectorised with common random numbers across options, so comparisons are noise-free at any simulation count.</td></tr>
+      <tr><td>Strategy simulation</td><td class="n">50,000 races in 33 ms</td><td>10,000 per option across five options; the interface uses 5,000 per option, which is 25,000 races in 17 ms. Fully vectorised with common random numbers across options, so comparisons are noise-free at any simulation count.</td></tr>
       <tr><td>Offline operation</td><td class="n">8 sessions cached</td><td>No network dependency at run time. The same property that makes a hackathon demo safe makes a trackside deployment safe.</td></tr>
     </tbody>
   </table>

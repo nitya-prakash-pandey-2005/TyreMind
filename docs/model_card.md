@@ -153,13 +153,15 @@ full second of CRPS). Beating a badly-configured competitor would prove nothing.
 ### Sensitivity to the assumptions
 
 With the fuel prior wrong by a full standard deviation — the single largest
-assumption — error is **0.0199 s/lap**, still 5× better than naive at 0.0966.
+assumption — error is **0.0199 s/lap**, still 4.9× better than naive at 0.0966.
 Doubling both prior widths roughly doubles the posterior standard deviation, as
 it should. Coverage holds at 100% across every perturbation.
 
 ### Cross-domain — NASA C-MAPSS FD001
 
-RUL RMSE **26.5 cycles** over 40 engines, 32% predicted early, NASA prognostics
+RUL RMSE **26.5 cycles** over 40 of the 100 FD001 test engines (taken in unit-id
+order; published figures are quoted on all 100, so this is indicative rather than
+like-for-like), 32% predicted early, NASA prognostics
 score 1893. Purpose-built deep prognostics models reach 12–20 RMSE on this
 dataset. This is a tyre model pointed at engines with no retuning, so it
 demonstrates transfer, not competitiveness.

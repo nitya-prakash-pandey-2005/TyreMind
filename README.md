@@ -33,20 +33,25 @@ Python 3.11+ &nbsp;·&nbsp; no Node, no network, no API key
 
 ## The problem, in one example
 
-Here is a real stint from the 2024 Italian Grand Prix. Over forty laps the car
-got **1.78 seconds faster**.
+Here is a real stint from the 2024 Italian Grand Prix — Ricciardo, 41 laps on the
+hard tyre, laps 13 to 53. Between those two laps the car got **1.78 seconds
+faster**.
 
-A stopwatch says the tyre is fine. It is not. Over those same laps the hard tyre
+A stopwatch says the tyre is fine. It is not. Across that stint the hard tyre
 lost **2.15 seconds** of performance — the car got quicker because it burned off
 3.27 seconds of fuel weight, and the fuel gain was larger than the tyre loss.
+(The set was not new: it went on with 3 laps already on it, which the model
+accounts for and a lap-count-from-zero reading would not.)
 
 Read lap times alone and you miss a dying tyre completely.
 
 That is not an edge case. Fit the standard method — a straight line through lap
-time against tyre age — to a real race and it reports **negative degradation**:
-tyres apparently getting faster the longer they run. It happens on every race we
-tested, because fuel burn-off is worth about 0.08 s/lap and is simply bigger than
-the effect being measured.
+time against tyre age — and it reports **negative degradation**: tyres apparently
+getting faster the longer they run. It does this on **3 of the 4 races analysed**,
+on **4 of 11 compound-stints**, because fuel burn-off is worth about 0.08 s/lap
+and is simply bigger than the effect being measured. Barcelona is the exception —
+there the confounders happen not to swamp the signal, which is the point: whether
+the standard method has the right sign is a matter of luck.
 
 **TyreMind estimates the latent performance state of a tyre underneath that
 confounded observation** — separating degradation from fuel burn-off, track
@@ -148,9 +153,9 @@ energy; anti-clockwise 60–75%. Austin misses at 46.2% and is reported as a mis
 Public F1 data has no measured tyre wear, so motorsport cannot supply ground
 truth. NASA's C-MAPSS turbofan benchmark does.
 
-**Same estimator, no tyre-specific code:** 26.5-cycle RUL error over 40 engines,
-32% predicted early. Purpose-built deep models reach 12–20 on that dataset — this
-demonstrates transfer, not competitiveness.
+**Same estimator, no tyre-specific code:** 26.5-cycle RUL error, 32% predicted
+early. Purpose-built deep models reach 12–20 on that dataset — this demonstrates
+transfer, not competitiveness. That figure is scored on **40 of the 100 engines in the FD001 test set**, taken in unit-id order, while published figures are quoted on all 100 — so the comparison is indicative, not like-for-like.
 
 ### Where we lose
 
@@ -163,6 +168,11 @@ demonstrates transfer, not competitiveness.
 meaning "degradation rate", is badly overconfident, and cannot extrapolate — bias
 drift measures how much a model's error grows as it forecasts further past its
 training window, and TyreMind is the only model tested whose error does not grow.
+
+**Our own lap-time intervals are undercovered too**: 73% against a nominal 95%,
+and pooled regression does better at 79%. Every model in the ladder undercovers
+on lap time, but ours is not the best of them, and that is the opposite direction
+of error from the conservative 100% coverage we report on the degradation task.
 
 ---
 
@@ -179,7 +189,13 @@ same right total.
 
 Only one of the three is resolved by data. `exp02_prior_sensitivity` measures what
 the other two cost if wrong: with the fuel prior off by a full standard deviation,
-error is 0.0199 s/lap — still 5× better than naive.
+error is 0.0199 s/lap — still 4.9× better than naive. Shifting the track prior by
+±1sd moves the bias monotonically (+0.0000, +0.0043, +0.0091), about 0.0045 s/lap
+per prior standard deviation.
+
+That experiment re-fits eight variants and so runs on 4 sessions rather than the
+headline benchmark's 25, which is why its baseline reads 0.0047 against the 0.0044
+above — different samples, not different answers.
 
 The second collinearity was not anticipated. It was found by chasing a −0.013
 s/lap bias that survived removing the cliff, scrubbed sets and traffic from the

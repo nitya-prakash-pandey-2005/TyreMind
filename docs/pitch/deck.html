@@ -221,7 +221,7 @@ ul li b { color: var(--ink); }
     <p class="lead" style="max-width:190mm;font-size:17pt;line-height:1.34">
       Every published tyre model is graded on how well it predicts lap times.
       <b class="hot">None of them checks whether the reason it gives is the right one.</b>
-      On real 2024 races, the standard method reports that tyres get faster the longer they run.
+      On 3 of the 4 real 2024 races analysed, the standard method reports that tyres get faster the longer they run.
     </p>
 
     <div style="height:9mm"></div>
@@ -315,12 +315,12 @@ ul li b { color: var(--ink); }
       <div>
         <h4>One real stint, decomposed</h4>
         <p>
-          Ricciardo, Monza 2024, lap 53 against lap 13. The car was
+          Ricciardo, Monza 2024 &mdash; 41 laps on the hard tyre, laps 13 to 53. The car was
           <b>1.78 seconds faster</b>, so a stopwatch says the tyre is fine.
         </p>
         <p>
-          It is not. The hard tyre <b class="hot">lost 2.15 seconds</b> over those
-          forty laps. The gain came from elsewhere &mdash; mostly fuel burn-off,
+          It is not. The hard tyre <b class="hot">lost 2.15 seconds</b> across that
+          stint. The gain came from elsewhere &mdash; mostly fuel burn-off,
           worth 3.27 seconds.
         </p>
         <p>
@@ -427,31 +427,39 @@ ul li b { color: var(--ink); }
 </section>
 
 <!-- 06 SENSITIVITY ======================================================== -->
-<section class="slide roomy-lg">
+<section class="slide">
   <div class="kicker">What the assumptions cost</div>
   <div class="body top">
     <h2>We re-fit everything under wrong priors and publish what happens</h2>
+    <p class="small" style="margin:-1mm 0 2mm">4 synthetic sessions &times; 3 compounds = 12 comparisons per row. Grouped by what is perturbed, not sorted by score.</p>
 
     <div class="split s21">
       <table>
         <tr><th>Variant</th><th class="n">Rate MAE</th><th class="n">Bias</th><th class="n">Mean sd</th><th class="n">Coverage</th></tr>
-        <tr><td>track prior &minus;1sd</td><td class="n">0.0023</td><td class="n">+0.0000</td><td class="n">0.017</td><td class="n ok">100%</td></tr>
         <tr class="hl"><td><b>baseline</b></td><td class="n">0.0047</td><td class="n">+0.0043</td><td class="n">0.017</td><td class="n">100%</td></tr>
-        <tr><td>live (filtered, no future data)</td><td class="n">0.0047</td><td class="n">+0.0043</td><td class="n">0.017</td><td class="n ok">100%</td></tr>
-        <tr><td>wide priors</td><td class="n">0.0055</td><td class="n">+0.0053</td><td class="n hot">0.032</td><td class="n ok">100%</td></tr>
-        <tr><td>half the field</td><td class="n">0.0073</td><td class="n">+0.0056</td><td class="n">0.018</td><td class="n ok">100%</td></tr>
-        <tr><td>track prior +1sd</td><td class="n">0.0091</td><td class="n">+0.0091</td><td class="n">0.017</td><td class="n ok">100%</td></tr>
-        <tr><td>fuel prior &minus;1sd</td><td class="n">0.0113</td><td class="n">&minus;0.0113</td><td class="n">0.017</td><td class="n ok">100%</td></tr>
-        <tr><td><b>fuel prior +1sd &mdash; worst case</b></td><td class="n win">0.0199</td><td class="n">+0.0199</td><td class="n">0.017</td><td class="n ok">100%</td></tr>
-      </table>
+          <tr><td>live at 75% of the session</td><td class="n">0.0049</td><td class="n">+0.0035</td><td class="n">0.018</td><td class="n ok">100%</td></tr>
+          <tr><td>half the field</td><td class="n">0.0073</td><td class="n">+0.0056</td><td class="n">0.018</td><td class="n ok">100%</td></tr>
+          <tr><td>wide priors</td><td class="n">0.0055</td><td class="n">+0.0053</td><td class="n hot">0.032</td><td class="n ok">100%</td></tr>
+          <tr><td>track prior &minus;1sd</td><td class="n">0.0023</td><td class="n">+0.0000</td><td class="n">0.017</td><td class="n ok">100%</td></tr>
+          <tr><td>track prior +1sd</td><td class="n">0.0091</td><td class="n">+0.0091</td><td class="n">0.017</td><td class="n ok">100%</td></tr>
+          <tr><td>fuel prior &minus;1sd</td><td class="n">0.0113</td><td class="n">&minus;0.0113</td><td class="n">0.017</td><td class="n ok">100%</td></tr>
+          <tr><td><b>fuel prior +1sd &mdash; worst case</b></td><td class="n win">0.0199</td><td class="n">+0.0199</td><td class="n">0.017</td><td class="n ok">100%</td></tr>
+        </table>
 
       <div>
-        <h4>Three readings</h4>
+        <h4>Four readings</h4>
         <ul>
-          <li><b>The worst case is still 5&times; better than naive</b> &mdash; 0.0199 against 0.0966. The assumptions carry the answer, but not alone.</li>
-          <li><b>Wide priors double the posterior sd</b> &mdash; 0.017 &rarr; 0.032. Being less sure produces wider intervals rather than a different answer. That is a property of the construction, not a feature bolted on.</li>
+          <li><b>The worst case is still 4.9&times; better than naive</b> &mdash; 0.0199 against 0.0966. The assumptions carry the answer, but not alone.</li>
+          <li><b>The track prior traces a clean slope</b> &mdash; bias +0.0000, +0.0043, +0.0091 across &minus;1sd, baseline, +1sd: about 0.0045&nbsp;s/lap per prior sd, monotone. <b>&minus;1sd scoring best is cancellation, not superiority</b> &mdash; the prior sits exactly on the generator's true 0.90&nbsp;s, and moving it down offsets a small positive bias.</li>
+          <li><b>Wide priors widen the posterior sd by 1.9&times;</b> &mdash; 0.017 &rarr; 0.032. Being less sure produces wider intervals rather than a different answer.</li>
           <li><b>Coverage holds at 100% throughout.</b> Even when the prior is wrong, the interval still contains the truth.</li>
         </ul>
+        <p class="small" style="margin-top:2.5mm">
+      <b>Why 0.0047 here and 0.0044 on the headline slide?</b> Different samples,
+      not different answers: the headline benchmark runs <b>25 sessions</b>, while
+      re-fitting eight variants is costly enough that this table runs <b>4</b>.
+      Every perturbation is read against this table's own baseline.
+    </p>
         <div class="card warn" style="margin-top:4mm">
           <p><b>A team with real fuel telemetry should replace our prior with their measurement.</b> The architecture supports it directly, and doing so removes the single largest assumption in the method. We say this in the product, not only in the appendix.</p>
         </div>
@@ -533,8 +541,7 @@ rate[stint] ~ N(compound_baseline[c], sd²)</div>
           The retrospective curve an engineer studies on Friday evening and the live
           number on the pit wall on Sunday come from one model &mdash; not from a
           fast approximation of a slow one. Filtered and smoothed estimates are kept
-          strictly separate, and the live estimate converges to within
-          <b class="hot">0.003 s/lap</b> of the retrospective answer.
+          strictly separate, and the live estimator agrees with the batch fit to <b>0.0006 s/lap</b> at worst &mdash; two independent implementations of the same model, not the same fit read twice.
         </p>
       </div>
       <div class="figures f2">
@@ -846,10 +853,10 @@ rate[stint] ~ N(compound_baseline[c], sd²)</div>
         <p>The identical estimator, <b>no tyre-specific code</b>. "Laps" became flight cycles; "lap time" became a health index fused from 12 of 21 sensors; fuel and traffic switched off, because engines have neither.</p>
         <div class="figures f3" style="margin-top:4mm;gap:5mm">
           <div class="fig key"><div class="v" style="font-size:22pt">26.5</div><div class="l" style="font-size:9pt">RUL RMSE, cycles</div></div>
-          <div class="fig"><div class="v" style="font-size:22pt">40</div><div class="l" style="font-size:9pt">Held-out engines</div></div>
+          <div class="fig"><div class="v" style="font-size:22pt">40<span class="u">/100</span></div><div class="l" style="font-size:9pt">Held-out engines scored</div></div>
           <div class="fig"><div class="v" style="font-size:22pt">32<span class="u">%</span></div><div class="l" style="font-size:9pt">Predicted early &mdash; the safe direction</div></div>
         </div>
-        <p class="small" style="margin-top:3mm"><b>We do not claim to be competitive.</b> Purpose-built deep prognostics models reach 12&ndash;20 cycles. This is a tyre model pointed at engines with no retuning &mdash; a generalisation check, not a leaderboard entry.</p>
+        <p class="small" style="margin-top:3mm"><b>We do not claim to be competitive.</b> Purpose-built deep prognostics models reach 12&ndash;20 cycles. This is a tyre model pointed at engines with no retuning &mdash; a generalisation check, not a leaderboard entry.</p><p class="small" style="margin-top:2mm"><b>And not a like-for-like one.</b> We score 40 of the 100 engines in the FD001 test set, taken in unit-id order. Published RMSE figures are quoted on all 100, so this is an indicative comparison rather than a like-for-like one, and is labelled as such.</p>
       </div>
     </div>
   </div>
@@ -1046,8 +1053,9 @@ rate[stint] ~ N(compound_baseline[c], sd²)</div>
 
       <div>
         <div class="card warn">
-          <h4>Calibration is imperfect, in a specific direction</h4>
-          <p>100% interval coverage against a nominal 95% is <b>not a perfect score</b> &mdash; it means intervals are conservative, wider than strictly necessary. For decision support that is the safer error, but it is a miscalibration and we report it as one.</p>
+          <h4>Calibration is imperfect &mdash; and in both directions</h4>
+          <p>100% coverage against a nominal 95% on the degradation task is <b>not a perfect score</b>: intervals are conservative, wider than strictly necessary.</p>
+          <p><b>On lap-time prediction it goes the other way</b> &mdash; our 95% intervals cover only <b>73%</b>, and pooled regression does better at 79%. Every rung in that ladder undercovers, but ours is not the best of them. A reader is entitled to both numbers, not only the flattering one.</p>
         </div>
         <div class="card" style="margin-top:4mm">
           <h4>Deliberately not built</h4>
@@ -1178,7 +1186,7 @@ rate[stint] ~ N(compound_baseline[c], sd²)</div>
           <tr><th style="width:32%">Property</th><th class="n" style="width:22%">Measured</th><th>Why it holds</th></tr>
           <tr><td>Per-lap live update</td><td class="n">0.22 / 0.74 ms</td><td>A recursive filter carries a fixed-size state, so a lap in hour three costs what lap one cost.</td></tr>
           <tr><td>Full session fit</td><td class="n">5.8 s</td><td>Structured sparse transitions make propagation O(n²) not O(n³) in grid size.</td></tr>
-          <tr><td>Strategy simulation</td><td class="n">10,000 races in 0.04 s</td><td>Fully vectorised with common random numbers, so comparisons are noise-free at any count.</td></tr>
+          <tr><td>Strategy simulation</td><td class="n">50,000 races in 33 ms</td><td>10,000 per option across 5 options; the interface uses 5,000 per option — 25,000 races, 17 ms. Fully vectorised with common random numbers, so comparisons are noise-free at any count.</td></tr>
           <tr><td>Offline operation</td><td class="n">8 sessions cached</td><td>No network dependency at run time &mdash; the property that makes a demo safe makes trackside safe.</td></tr>
         </table>
 

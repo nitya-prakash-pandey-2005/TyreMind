@@ -91,7 +91,10 @@ velocity is not observable.
 **Ours.** Not the filter — the *architectural consequence*. Choosing a recursive
 estimator over a sampler means the same model that produces the retrospective
 curve runs forward-only during the session at 0.22 ms per lap, cost flat in
-session length, converging to within 0.003 s/lap of the retrospective answer.
+session length, and agreeing with the batch implementation to 0.0006 s/lap at
+worst. (Those are two separate implementations. The filtered and smoothed
+estimates of a *single* fit are identical at the final step by construction, so
+comparing those would prove nothing.)
 Filtered and smoothed estimates are kept strictly separate.
 
 **Honest claim:** *"The same estimator serves both modes because it is recursive.
