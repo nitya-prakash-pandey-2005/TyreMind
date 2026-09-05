@@ -12,6 +12,8 @@ __pycache__/
 *.egg-info/
 build/
 dist/
+!apps/web/dist/
+!apps/web/dist/**
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
@@ -43,3 +45,6 @@ apps/web/.vite/
 Thumbs.db
 .idea/
 .vscode/
+
+# Internal build notes, kept locally and not published.
+Prompt.md

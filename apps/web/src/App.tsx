@@ -8,7 +8,7 @@
  * and does it work outside racing.
  */
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import {
   advanced,
   api,
@@ -57,12 +57,39 @@ const VIEWS: { key: View; label: string; blurb: string }[] = [
   { key: 'beyond', label: 'Beyond racing', blurb: 'The same engine elsewhere' },
 ]
 
+const VIEW_KEYS = new Set<string>(VIEWS.map((v) => v.key))
+
+/**
+ * The view lives in the URL fragment.
+ *
+ * Not routing for its own sake: a screen someone wants to point at should have an
+ * address. It makes a specific view linkable from the pitch documents, survives a
+ * reload during a demo, and lets the browser back button do what the reader
+ * expects. A fragment rather than a path, because the app is served from a static
+ * bundle behind a catch-all and there is no server-side route to add.
+ */
+function viewFromHash(): View {
+  const key = window.location.hash.replace(/^#\/?/, '')
+  return VIEW_KEYS.has(key) ? (key as View) : 'overview'
+}
+
 export default function App() {
   const [sessions, setSessions] = useState<SessionRef[]>([])
   const [sessionId, setSessionId] = useState('')
-  const [view, setView] = useState<View>('overview')
+  const [view, setViewState] = useState<View>(viewFromHash)
   const [offline, setOffline] = useState<boolean | null>(null)
   const [bootError, setBootError] = useState('')
+
+  const setView = useCallback((next: View) => {
+    setViewState(next)
+    if (viewFromHash() !== next) window.location.hash = `/${next}`
+  }, [])
+
+  useEffect(() => {
+    const onHash = () => setViewState(viewFromHash())
+    window.addEventListener('hashchange', onHash)
+    return () => window.removeEventListener('hashchange', onHash)
+  }, [])
 
   useEffect(() => {
     Promise.all([api.sessions(), api.health()])

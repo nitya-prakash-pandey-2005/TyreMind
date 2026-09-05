@@ -6,17 +6,28 @@
 
 **Observed performance is not the same thing as tyre degradation.**
 
-Python 3.11+ &nbsp;·&nbsp; no Node, no network, no API key needed
+![Python](https://img.shields.io/badge/python-3.11%2B-1d7d9c?style=flat-square)
+![Tests](https://img.shields.io/badge/tests-97%20passing-1f8a5c?style=flat-square)
+![Offline](https://img.shields.io/badge/runs-fully%20offline-c4501f?style=flat-square)
+![Licence](https://img.shields.io/badge/licence-MIT-6b7780?style=flat-square)
 
 ```
 pip install -r requirements.txt && pip install -e . && python -m tyremind.serve
 ```
 
-[Full run instructions](#run-it) &nbsp;·&nbsp;
+Python 3.11+ &nbsp;·&nbsp; no Node, no network, no API key
+
+[**Run it**](#run-it) &nbsp;·&nbsp;
+[Results](#results) &nbsp;·&nbsp;
+[Why this is hard](#why-this-is-hard) &nbsp;·&nbsp;
 [Technical dossier (PDF)](docs/pitch/TyreMind_Technical_Dossier.pdf) &nbsp;·&nbsp;
 [Pitch deck (PDF)](docs/pitch/TyreMind_Pitch_Deck.pdf)
 
 </div>
+
+<br>
+
+![TyreMind dashboard](docs/images/overview.png)
 
 ---
 
@@ -37,20 +48,57 @@ tyres apparently getting faster the longer they run. It happens on every race we
 tested, because fuel burn-off is worth about 0.08 s/lap and is simply bigger than
 the effect being measured.
 
-## What TyreMind does
+**TyreMind estimates the latent performance state of a tyre underneath that
+confounded observation** — separating degradation from fuel burn-off, track
+evolution and traffic, and reporting how sure it is about each.
 
-Estimates the **latent performance state of a tyre** underneath a confounded
-observation, separating degradation from fuel burn-off, track evolution and
-traffic — and reports how sure it is about each.
+---
 
-```bash
-python -m tyremind.serve             # dashboard, one command, no network needed
-python -m tyremind.mcp_server        # the same model as tools an AI agent can call
-```
+## What it looks like
 
-Nine screens, dark and light, including a **3D circuit** coloured by the
-frictional load the physics layer computes at each point — so you can see *where
-on the lap* a tyre gets used up, not just how fast it goes away.
+<table>
+<tr>
+<td width="50%">
+
+![Confounders peeled away](docs/images/explain.png)
+
+**Why is the car slow** — confounders lifted off a stint one at a time. The
+dashed line is the model's degradation estimate; the solid line is the measured
+lap times with fuel, track and traffic removed.
+
+</td>
+<td width="50%">
+
+![3D circuit coloured by tyre load](docs/images/circuit.png)
+
+**Where it wears** — the real racing line in 3D, coloured by the frictional load
+the physics layer computes at each point, with the friction envelope beside it.
+
+</td>
+</tr>
+<tr>
+<td width="50%">
+
+![Pit strategy](docs/images/strategy.png)
+
+**When to pit** — five thousand simulated races per option, with the degradation
+rate resampled from its posterior for every race, plus the full pit-lap sweep.
+
+</td>
+<td width="50%">
+
+**Six more screens.** A tyre twin with per-corner condition and what-if
+counterfactuals. A live monitor streaming lap by lap with no access to future
+data, where the interval visibly collapses as evidence arrives. The validation
+evidence. A retrieval search over the project's own research corpus. And the same
+estimator pointed at NASA turbofan engines.
+
+Dark and light themes. Every estimate drawn as an interval, never printed as a
+bare number with a plus-or-minus appended.
+
+</td>
+</tr>
+</table>
 
 ---
 
@@ -159,15 +207,15 @@ See [`docs/model_card.md`](docs/model_card.md) and
 
 ## Run it
 
-**Requirements:** Python 3.11 or newer. Nothing else — the dashboard ships built,
-eight sessions ship cached, and no step needs a network connection.
+**Python 3.11 or newer, and nothing else.** The dashboard ships built, eight
+sessions ship cached, and no step needs a network connection.
 
 ```bash
 git clone https://github.com/nitya-prakash-pandey-2005/TyreMind.git
 cd TyreMind
 
 python -m venv .venv
-.venv\Scripts\activate                # Windows
+.venv\Scripts\activate                 # Windows
 # source .venv/bin/activate            # macOS / Linux
 
 pip install -r requirements.txt        # dependencies
@@ -177,9 +225,10 @@ python -m tyremind.serve               # opens http://127.0.0.1:8077
 ```
 
 That is the whole thing. The last command starts the API, serves the dashboard
-from the same process, pre-fits the cached sessions so the first click is not the
-slow one, and opens a browser.
+from the same process, pre-fits the cached sessions so no click in the demo is
+the slow one, and opens a browser.
 
+> [!IMPORTANT]
 > **Both install lines are needed, in that order.** `pyproject.toml` declares no
 > dependency list, so `pip install -e .` installs the package but none of what it
 > imports. The first line fixes the versions; the second makes `tyremind`
@@ -199,41 +248,38 @@ Expect roughly this on startup:
   api docs    http://127.0.0.1:8077/docs
 ```
 
-Warming takes 10–40 s depending on the machine — it fits all eight sessions up
-front so that no click in the demo is the slow one. Pass `--no-warm` to start in
+Warming takes 10–40 s depending on the machine. Pass `--no-warm` to start in
 about a second and pay the ~6 s cost on first use of each session instead.
 
-### Useful flags
-
-| | |
+| Flag | |
 |---|---|
 | `--port 9000` | Use a different port if 8077 is taken |
 | `--no-browser` | Do not open a browser — for a remote or headless machine |
-| `--no-warm` | Skip pre-fitting. Starts in about a second; the first session click then takes ~6 s |
+| `--no-warm` | Skip pre-fitting |
 | `--host 0.0.0.0` | Serve to other machines on the network |
 
-### Where to start once it is open
+**Where to start once it is open.** The left rail is ordered as an argument, so
+reading top to bottom works. **Start here** shows why the obvious method fails on
+this session's real numbers; **Live monitor** is the one to press play on,
+because it shows the estimator running forward-only, one lap at a time, with the
+interval visibly collapsing as evidence arrives. Every view is deep-linkable —
+`#/circuit`, `#/strategy`, and so on.
 
-The left rail is ordered as an argument, so reading top to bottom works.
-**Start here** shows why the obvious method fails on this session's real numbers;
-**Live monitor** is the one to press play on, because it shows the estimator
-running forward-only, one lap at a time, with the interval visibly collapsing as
-evidence arrives.
-
----
-
-## Verify the install
+**Verify the install:**
 
 ```bash
-pytest                                  # 97 tests, about 19 s
-ruff check .                            # lint
+pytest              # 97 tests, about 19 s
+ruff check .        # lint
 ```
 
 If those pass, everything in this README is reproducible on your machine.
 
 ---
 
-## Optional extras
+<details>
+<summary><b>Optional extras</b> — MCP server, LLM narration, more sessions, frontend development</summary>
+
+<br>
 
 None of these are needed to run the dashboard.
 
@@ -297,9 +343,12 @@ npm run dev                             # hot reload on :5173, proxies the API
 npm run build                           # rebuild dist/ — commit the result
 ```
 
----
+</details>
 
-## Reproducing every number
+<details>
+<summary><b>Reproducing every number</b> — the seven experiment scripts</summary>
+
+<br>
 
 Every figure in the interface, the model card and the pitch documents is read
 from a JSON file under `experiments/results/`. Regenerating those files
@@ -318,9 +367,12 @@ python experiments/exp07_cross_domain.py --subset FD001          # ~3 min
 `exp03`, `exp06` and `exp07` download data on first run and are cached
 afterwards. The rest are fully offline.
 
----
+</details>
 
-## If something goes wrong
+<details>
+<summary><b>If something goes wrong</b></summary>
+
+<br>
 
 | Symptom | Cause and fix |
 |---|---|
@@ -330,7 +382,9 @@ afterwards. The rest are fully offline.
 | `[Errno 10048] address already in use` | Something else holds port 8077. Use `--port 9000` |
 | `No sessions are cached` | `data/demo/` is missing. It is committed; with network access, `python scripts/build_demo.py` rebuilds it |
 | Charts render but are blank or monochrome | A stale build. `npm --prefix apps/web run build`, then hard-reload the browser |
-| Slow first click on a session | Expected without `--warm`. A session fit takes about 6 s and is then cached for the process lifetime |
+| Slow first click on a session | Expected with `--no-warm`. A session fit takes about 6 s and is then cached for the process lifetime |
+
+</details>
 
 ---
 
@@ -338,25 +392,26 @@ afterwards. The rest are fully offline.
 
 ```
 src/tyremind/
-  data/       FastF1 ingestion, quality engine, synthetic ground truth
-  models/ssm/ Kalman kernel and the tyre state-space model
-  models/     baselines, evaluation harness, trust layer, validation
-  physics/    dynamics, thermal, wear
-  causal/     decomposition, counterfactuals, projection
-  simulate/   Monte Carlo race and strategy
-  assets/     AssetProfile abstraction, C-MAPSS adapter
-  stream/     online estimator and replay
-  explain/    narration templates, business value
-  api/        FastAPI service
-  rag/        hybrid retrieval index over the project's own documents
+  data/          FastF1 ingestion, quality engine, synthetic ground truth
+  models/ssm/    Kalman kernel and the tyre state-space model
+  models/        baselines, evaluation harness, trust layer, validation
+  physics/       dynamics, thermal, wear
+  causal/        decomposition, counterfactuals, projection
+  simulate/      Monte Carlo race and strategy
+  assets/        AssetProfile abstraction, C-MAPSS adapter
+  stream/        online estimator and replay
+  explain/       narration templates, business value
+  rag/           hybrid retrieval index over the project's own documents
+  api/           FastAPI service
   mcp_server.py  seven read-only tools for an AI agent
-apps/web/     Vite + React dashboard — src/ plus a committed dist/ so a
-              clone runs without Node
-data/demo/    eight sessions as Parquet, plus circuit geometry, committed
-experiments/  reproducible scripts; results/ holds the JSON the UI reads
-docs/         research audit, model card, limitations, demo guide
-docs/pitch/   technical dossier and pitch deck, with their HTML sources
-scripts/      one-off cache builders, run once with network access
+
+apps/web/        React dashboard — src/ plus a committed dist/, so a clone
+                 runs without Node
+data/demo/       eight sessions as Parquet, plus circuit geometry, committed
+experiments/     reproducible scripts; results/ holds the JSON the UI reads
+docs/            research audit, model card, limitations, demo guide
+docs/pitch/      technical dossier and pitch deck, with their HTML sources
+scripts/         cache builders, run once with network access
 ```
 
 ---
@@ -380,20 +435,18 @@ scripts/      one-off cache builders, run once with network access
 
 | | |
 |---|---|
-| [**Technical dossier**](docs/pitch/TyreMind_Technical_Dossier.pdf) (PDF, 36pp) | The complete argument: problem, prior art, identifiability derivation, model, physics, architecture, all seven experiments, uniqueness matrix, limitations, industry impact, scaling, roadmap, references |
-| [**Pitch deck**](docs/pitch/TyreMind_Pitch_Deck.pdf) (PDF, 24 slides, 16:9) | The same argument at presentation pace |
-| [`docs/pitch/deck_web.html`](docs/pitch/deck_web.html) | The pitch as a single scrolling page, for sharing a link rather than a file |
+| [**Technical dossier**](docs/pitch/TyreMind_Technical_Dossier.pdf) — PDF, 36pp | Problem, prior art, the identifiability derivation, model, physics, architecture, all seven experiments, uniqueness matrix, limitations, industry impact, scaling, roadmap, references |
+| [**Pitch deck**](docs/pitch/TyreMind_Pitch_Deck.pdf) — PDF, 24 slides | The same argument at presentation pace |
+| [`docs/pitch/deck_web.html`](docs/pitch/deck_web.html) | The pitch as one scrolling page, for sharing a link rather than a file |
 
-Both are generated from the HTML sources beside them, so they are regenerated
-rather than edited:
+Both PDFs are generated from the HTML sources beside them, so they are
+regenerated rather than edited:
 
 ```bash
-chrome --headless --no-pdf-header-footer   --print-to-pdf=docs/pitch/TyreMind_Technical_Dossier.pdf   docs/pitch/dossier.html
+chrome --headless --no-pdf-header-footer \
+  --print-to-pdf=docs/pitch/TyreMind_Technical_Dossier.pdf \
+  docs/pitch/dossier.html
 ```
-
-Every figure in both documents is read from a committed result file under
-`experiments/results/`. Nothing is typed by hand, so regenerating the experiments
-regenerates the claims.
 
 ---
 
