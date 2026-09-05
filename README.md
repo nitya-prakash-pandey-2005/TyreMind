@@ -230,6 +230,7 @@ docs/         research audit, model card, limitations, demo guide
 |---|---|
 | [**Technical dossier**](docs/pitch/TyreMind_Technical_Dossier.pdf) (PDF, 36pp) | The complete argument: problem, prior art, identifiability derivation, model, physics, architecture, all seven experiments, uniqueness matrix, limitations, industry impact, scaling, roadmap, references |
 | [**Pitch deck**](docs/pitch/TyreMind_Pitch_Deck.pdf) (PDF, 24 slides, 16:9) | The same argument at presentation pace |
+| [`docs/pitch/deck_web.html`](docs/pitch/deck_web.html) | The pitch as a single scrolling page, for sharing a link rather than a file |
 
 Both are generated from the HTML sources beside them, so they are regenerated
 rather than edited:
