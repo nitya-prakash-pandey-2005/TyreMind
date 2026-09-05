@@ -128,7 +128,7 @@ In order of estimated uncertainty reduction (`models/trust.value_of_information`
 
 ---
 
-## 7. Bugs found during development, and what they say
+## 7. The nine bugs found during development, and what they say
 
 Listed because each one was invisible to normal use and caught only by a test or
 a cross-check — which is the argument for having them.
@@ -141,6 +141,9 @@ a cross-check — which is the argument for having them.
 | `include_router` silently adding nothing | Eight API endpoints registered zero routes, with no error. Every one would have 404'd. | Route listing after registration |
 | FastF1 resolving "Interlagos" to Zandvoort | Analysis of an entirely different circuit, warning-only. | Two circuits producing byte-identical results |
 | Inverted confidence interval | `competitive_life_interval()` returned (8, 1). | Reading the output |
+| Traffic index identically zero | Grouped by lap number, but two drivers' "lap 5" can be twenty minutes apart. The confounder was in the model and contributing nothing. | Inspecting the fitted coefficient |
+| Frozen chart clip path | An interrupted entry animation left a line's expanding clip frozen part-way, so a 43-lap stint rendered as 14 with the axis still scaled to 43 — indistinguishable from a data bug. | Reading pixels back from the canvas |
+| Stale experiment result | A committed result file predated the 125-cycle RUL cap added to its own script, overstating cross-domain error at 56 cycles instead of 26.5. | Cross-checking a chart against the script that produced it |
 
 ---
 

@@ -1757,7 +1757,7 @@ C_b dTb/dt = k_sb(Ts−Tb) − h_b(Tb−T_air)</div>
     <div class="sec-no">12</div>
     <div>
       <h2>Engineering quality and verification</h2>
-      <div class="kicker">Six bugs that produced plausible wrong answers, and the checks that caught them</div>
+      <div class="kicker">Nine bugs that produced plausible wrong answers, and the checks that caught them</div>
     </div>
   </div>
 
@@ -1784,6 +1784,7 @@ C_b dTb/dt = k_sb(Ts−Tb) − h_b(Tb−T_air)</div>
       <tr><td><b>Unregularised pooled regression</b></td><td>One Silverstone fold at 176 s MAE while every other fold was under a second.</td><td>Per-fold inspection</td></tr>
       <tr><td><b><code>include_router</code> silently adding nothing</b></td><td>Eight API endpoints registered zero routes, with no error raised. Every one would have returned 404 in the demo.</td><td>Listing routes after registration</td></tr>
       <tr><td><b>FastF1 resolving "Interlagos" to Zandvoort</b></td><td>Analysis of an entirely different circuit, with a warning rather than an error.</td><td>Two circuits producing byte-identical energy shares</td></tr>
+      <tr><td><b>Inverted confidence interval</b></td><td><code>competitive_life_interval()</code> returned (8, 1) — a lower bound above its upper bound, presented to the reader as a range.</td><td>Reading the output</td></tr>
       <tr><td><b>Frozen chart clip path</b></td><td>An interrupted entry animation left a line's expanding clip frozen part-way, so a 43-lap stint rendered as 14 laps with the axis still scaled to 43 — indistinguishable from a data bug.</td><td>Reading pixels back from the canvas</td></tr>
       <tr><td><b>Stale experiment result</b></td><td>A committed result file predated the 125-cycle RUL cap added to its own script, overstating cross-domain error at 56 cycles instead of 26.5.</td><td>Cross-checking a chart against the script that produced it</td></tr>
     </tbody>

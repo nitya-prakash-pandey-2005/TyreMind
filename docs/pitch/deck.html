@@ -165,6 +165,12 @@ td.n, th.n { text-align: right; font-family: var(--mono); font-variant-numeric: 
 th.n { font-family: var(--sans); }
 .win { color: var(--tyre); font-weight: 600; }
 
+/* The bug register is the one nine-row table in the deck. It gets tighter rows
+   than the rest so that all nine fit without shrinking the type, because the
+   count is the point of the slide. */
+.slide.dense td { padding-top: 1mm; padding-bottom: 1mm; }
+.slide.dense th { padding-bottom: 1mm; }
+
 /* Code / equations --------------------------------------------------------- */
 
 .eq {
@@ -1074,31 +1080,32 @@ rate[stint] ~ N(compound_baseline[c], sd²)</div>
 </section>
 
 <!-- 19 ENGINEERING ======================================================== -->
-<section class="slide">
+<section class="slide dense">
   <div class="kicker">Engineering quality</div>
   <div class="body top">
-    <h2>Eight bugs that produced plausible wrong answers</h2>
-    <p style="max-width:180mm;margin-bottom:0">
-      A model that fails loudly is easy. The danger here is one that fails
-      <em>quietly and confidently</em> &mdash; every entry below is exactly that, and
-      each was caught only by a test or a cross-check.
+    <h2>Nine bugs that produced plausible wrong answers</h2>
+    <p style="max-width:190mm;margin-bottom:0">
+      A model that fails loudly is easy. The danger is one that fails <em>quietly and
+      confidently</em> &mdash; every entry below did, and each was caught only by a test or a cross-check.
     </p>
 
-    <table style="font-size:8.3pt;margin-top:2.5mm">
+    <table style="font-size:8pt;margin-top:2mm">
       <tr><th style="width:24%">Bug</th><th style="width:47%">Symptom</th><th>Found by</th></tr>
-      <tr><td><b>Falsy-zero on session lap</b></td><td>Track basis pinned at zero; all track evolution leaked into degradation as a uniform &minus;0.025 s/lap offset. <b>Invisible on real F1 data</b>, which numbers laps from 1.</td><td>Live-vs-batch agreement test</td></tr>
-      <tr><td><b>Traffic index identically zero</b></td><td>Grouped by lap number &mdash; but two drivers' "lap 5" can be twenty minutes apart. The confounder was in the model and contributing nothing.</td><td>Inspecting the fitted coefficient</td></tr>
-      <tr><td><b>Session progress recomputed per frame</b></td><td>Test blocks measured progress from their own start. No error, no leak &mdash; just wrong by tens of seconds, making two benchmark rungs look far worse than they are.</td><td>An implausible 33 s MAE</td></tr>
-      <tr><td><b>include_router adding nothing</b></td><td>Eight API endpoints registered zero routes, with no error raised. Every one would have 404'd in the demo. An unregularised pooled regression, found the same way, put one Silverstone fold at 176 s MAE.</td><td>Listing routes after registration</td></tr>
+      <tr><td><b>Falsy-zero on session lap</b></td><td>Track basis pinned at zero, so all track evolution leaked into degradation as a uniform &minus;0.025 s/lap offset. <b>Invisible on real F1 data</b>, which numbers laps from 1.</td><td>Live-vs-batch agreement test</td></tr>
+      <tr><td><b>Traffic index identically zero</b></td><td>Grouped by lap number, but two drivers' "lap 5" can be twenty minutes apart. The confounder was in the model and contributing nothing.</td><td>Inspecting the fitted coefficient</td></tr>
+      <tr><td><b>Session progress recomputed per frame</b></td><td>Test blocks measured progress from their own start. No error, no leak &mdash; just wrong by tens of seconds, making two benchmark rungs look worse than they are.</td><td>An implausible 33 s MAE</td></tr>
+      <tr><td><b>Unregularised pooled regression</b></td><td>One Silverstone fold at 176&nbsp;s MAE while every other fold was under a second.</td><td>Per-fold inspection</td></tr>
+      <tr><td><b>include_router adding nothing</b></td><td>Eight API endpoints registered zero routes, with no error raised. Every one would have 404'd in the demo.</td><td>Listing routes after registration</td></tr>
       <tr><td><b>FastF1 resolving Interlagos to Zandvoort</b></td><td>Analysis of an entirely different circuit, with a warning rather than an error.</td><td>Two circuits producing byte-identical results</td></tr>
-      <tr><td><b>Frozen chart clip path</b></td><td>An interrupted animation left a line's clip frozen part-way, so a 43-lap stint rendered as 14 &mdash; indistinguishable from a data bug.</td><td>Reading pixels back from the canvas</td></tr>
+      <tr><td><b>Inverted confidence interval</b></td><td><code>competitive_life_interval()</code> returned (8,&nbsp;1) &mdash; a lower bound above its upper bound, shown to the reader as a range.</td><td>Reading the output</td></tr>
+      <tr><td><b>Frozen chart clip path</b></td><td>An interrupted animation left a line's clip frozen part-way, so a 43-lap stint rendered as 14.</td><td>Reading pixels back from the canvas</td></tr>
       <tr><td><b>Stale experiment result</b></td><td>A committed result file predated the RUL cap added to its own script, overstating cross-domain error at 56 cycles instead of 26.5.</td><td>Cross-checking a chart against its script</td></tr>
     </table>
 
-    <div class="cards c3" style="margin-top:2.5mm">
-      <div class="card ok"><h4>Second route to the same number</h4><p>The recursive likelihood is checked against an independently constructed joint multivariate normal, to 1e&minus;9 &mdash; a structurally different implementation, not a regression snapshot.</p></div>
+    <div class="cards c3" style="margin-top:2mm">
+      <div class="card ok"><h4>Second route to the same number</h4><p>The recursive likelihood is checked against an independently constructed joint multivariate normal, to 1e&minus;9 &mdash; a different implementation, not a regression snapshot.</p></div>
       <div class="card ok"><h4>Non-circular physical checks</h4><p>Circuit rotation is published fact never given to the code. Recovering it needs curvature sign, load transfer and energy integration all right at once.</p></div>
-      <div class="card ok"><h4>Truth we control</h4><p>The synthetic generator is the oracle &mdash; the only way to score attribution, and why the headline claim is about recovery rather than prediction.</p></div>
+      <div class="card ok"><h4>Truth we control</h4><p>The synthetic generator is the oracle &mdash; the only way to score attribution.</p></div>
     </div>
   </div>
   <div class="foot"><span>19</span><span class="src">97 tests &middot; ruff clean &middot; every number read from a committed result file</span></div>
