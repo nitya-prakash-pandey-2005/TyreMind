@@ -14,6 +14,9 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import type { LiveState } from '../lib/api'
 import { compoundColour, fixed, signed } from '../lib/api'
 import { Beam, CompoundChip, Panel, Stat } from './primitives'
+import { Explainer } from './Explainer'
+import ReactECharts from 'echarts-for-react'
+import { useThemeColours } from '../lib/theme'
 
 interface Frame {
   type: string
@@ -48,6 +51,9 @@ export function LiveMonitor({ sessionId }: { sessionId: string }) {
   const [progress, setProgress] = useState({ done: 0, total: 0 })
   const [feed, setFeed] = useState<Frame[]>([])
   const [perf, setPerf] = useState<Frame['performance']>()
+  // Sampled rather than every lap: a thousand points would not render any
+  // more information than a few hundred, and would stutter the stream.
+  const [history, setHistory] = useState<{ lap: number; sd: number; rate: number }[]>([])
   const [error, setError] = useState('')
   const [speed, setSpeed] = useState(0.05)
   const socketRef = useRef<WebSocket | null>(null)
@@ -65,6 +71,7 @@ export function LiveMonitor({ sessionId }: { sessionId: string }) {
     setRates({})
     setFeed([])
     setPerf(undefined)
+    setHistory([])
     setProgress({ done: 0, total: 0 })
   }, [sessionId, stop])
 
@@ -74,6 +81,7 @@ export function LiveMonitor({ sessionId }: { sessionId: string }) {
     setStates({})
     setFeed([])
     setPerf(undefined)
+    setHistory([])
     setError('')
 
     const protocol = location.protocol === 'https:' ? 'wss:' : 'ws:'
@@ -92,6 +100,21 @@ export function LiveMonitor({ sessionId }: { sessionId: string }) {
         if (frame.compound_rates) setRates(frame.compound_rates)
         setProgress((p) => ({ ...p, done: (frame.index ?? 0) + 1 }))
         setFeed((prev) => [frame, ...prev].slice(0, 9))
+
+        const index = frame.index ?? 0
+        if (index % 4 === 0 && frame.compound_rates) {
+          const entries = Object.values(frame.compound_rates)
+          if (entries.length) {
+            setHistory((prev) => [
+              ...prev,
+              {
+                lap: frame.state!.session_lap,
+                sd: entries.reduce((a, e) => a + e.sd, 0) / entries.length,
+                rate: entries.reduce((a, e) => a + e.mean, 0) / entries.length,
+              },
+            ])
+          }
+        }
       } else if (frame.type === 'complete') {
         setStatus('complete')
         setPerf(frame.performance)
@@ -114,6 +137,22 @@ export function LiveMonitor({ sessionId }: { sessionId: string }) {
 
   return (
     <div className="space-y-3">
+      <Explainer id="live" question="What does 'live' actually mean here?">
+        <p>
+          The model is being fed one lap at a time, in order, with{' '}
+          <strong>no access to anything that happens later</strong> — exactly what
+          a pit wall has during a session. Nothing here is replayed from a
+          finished analysis.
+        </p>
+        <p>
+          Watch the intervals narrow as laps arrive. Early on the model knows
+          almost nothing and says so; by mid-session it has enough to be useful.
+          That collapse is the whole argument for a recursive estimator: each lap
+          costs the same tiny amount of work no matter how long the session has
+          been running.
+        </p>
+      </Explainer>
+
       <Panel
         title="Live session monitor"
         aside={
@@ -276,6 +315,10 @@ export function LiveMonitor({ sessionId }: { sessionId: string }) {
             )}
           </Panel>
 
+          <Panel title="Confidence, as laps arrive" aside="uncertainty collapsing">
+            <ConvergenceChart history={history} />
+          </Panel>
+
           <Panel title="Incoming laps">
             {feed.length === 0 ? (
               <div className="py-4 text-[12px] text-ink-faint">No laps yet.</div>
@@ -313,5 +356,111 @@ export function LiveMonitor({ sessionId }: { sessionId: string }) {
         </div>
       </div>
     </div>
+  )
+}
+
+/**
+ * Uncertainty collapsing as evidence arrives.
+ *
+ * The most persuasive thing about the online estimator is not its speed, it is
+ * watching the interval narrow lap by lap. Early on the model genuinely does not
+ * know, and says so with a wide band; by mid-session it has enough runs across
+ * the field to be useful. A point estimate alone would show none of that.
+ */
+function ConvergenceChart({
+  history,
+}: {
+  history: { lap: number; sd: number; rate: number }[]
+}) {
+  const colours = useThemeColours()
+
+  if (history.length < 3) {
+    return (
+      <div className="py-8 text-center text-[12px] text-ink-faint">
+        Start the replay to watch the model become confident.
+      </div>
+    )
+  }
+
+  const option = {
+    animation: false,
+    grid: { left: 44, right: 44, top: 24, bottom: 32 },
+    xAxis: {
+      type: 'category',
+      data: history.map((h) => h.lap),
+      name: 'session lap',
+      nameLocation: 'middle',
+      nameGap: 20,
+      nameTextStyle: { color: colours.inkFaint, fontSize: 10 },
+      axisLine: { lineStyle: { color: colours.line } },
+      axisLabel: { color: colours.inkFaint, fontSize: 10 },
+    },
+    yAxis: [
+      {
+        type: 'value',
+        name: 'rate',
+        nameTextStyle: { color: colours.inkFaint, fontSize: 10 },
+        axisLine: { show: false },
+        axisLabel: {
+          color: colours.inkFaint,
+          fontSize: 10,
+          formatter: (v: number) => v.toFixed(2),
+        },
+        splitLine: { lineStyle: { color: colours.raised } },
+      },
+      {
+        type: 'value',
+        name: '± sd',
+        nameTextStyle: { color: colours.inkFaint, fontSize: 10 },
+        axisLine: { show: false },
+        axisLabel: {
+          color: colours.inkFaint,
+          fontSize: 10,
+          formatter: (v: number) => v.toFixed(3),
+        },
+        splitLine: { show: false },
+      },
+    ],
+    tooltip: {
+      trigger: 'axis',
+      backgroundColor: colours.surface,
+      borderColor: colours.line,
+      textStyle: { color: colours.ink, fontSize: 11 },
+    },
+    series: [
+      {
+        name: 'Degradation estimate',
+        type: 'line',
+        data: history.map((h) => h.rate),
+        symbol: 'none',
+        smooth: 0.3,
+        lineStyle: { color: colours.alert, width: 2 },
+      },
+      {
+        name: 'Uncertainty',
+        type: 'line',
+        yAxisIndex: 1,
+        data: history.map((h) => h.sd),
+        symbol: 'none',
+        smooth: 0.3,
+        lineStyle: { color: colours.fuel, width: 1.4, type: 'dashed' },
+        areaStyle: { color: colours.fuel, opacity: 0.1 },
+      },
+    ],
+  }
+
+  const first = history[0].sd
+  const last = history[history.length - 1].sd
+
+  return (
+    <>
+      <ReactECharts option={option} style={{ height: 190 }} notMerge />
+      <p className="mt-2 max-w-[46ch] text-[11px] leading-relaxed text-ink-faint">
+        Uncertainty has fallen from ±{first.toFixed(3)} to ±{last.toFixed(3)} s/lap
+        over {history[history.length - 1].lap - history[0].lap} laps. The estimate
+        moves early and settles — that is evidence accumulating, not the model
+        changing its mind.
+      </p>
+    </>
   )
 }

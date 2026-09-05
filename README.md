@@ -34,8 +34,13 @@ observation, separating degradation from fuel burn-off, track evolution and
 traffic — and reports how sure it is about each.
 
 ```bash
-python -m tyremind.serve      # one command, no network needed
+python -m tyremind.serve             # dashboard, one command, no network needed
+python -m tyremind.mcp_server        # the same model as tools an AI agent can call
 ```
+
+Nine screens, dark and light, including a **3D circuit** coloured by the
+frictional load the physics layer computes at each point — so you can see *where
+on the lap* a tyre gets used up, not just how fast it goes away.
 
 ---
 
@@ -217,6 +222,7 @@ docs/         research audit, model card, limitations, demo guide
 | [Model card](docs/model_card.md) | Intended use, assumptions, performance |
 | [Demo guide](docs/DEMO_STORY.md) | Seven-minute run-through |
 | [Judge questions](docs/JUDGE_QUESTIONS.md) | Anticipated questions, honest answers |
+| [Integrations](docs/INTEGRATIONS.md) | MCP and RAG — what each is for, and its limits |
 
 ---
 
