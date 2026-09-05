@@ -427,10 +427,17 @@ class Corpus:
 
     def stats(self) -> dict:
         kinds = Counter(p.kind for p in self.index.passages)
+        per_source = Counter(p.source for p in self.index.passages)
         return {
             "n_passages": self.n_passages,
             "n_sources": len(self.sources),
             "sources": self.sources,
+            # Passage count per file, so a reader can see what the corpus is
+            # actually made of rather than trusting a total. A source that
+            # contributes two passages is not evidence of much.
+            "by_source": [
+                {"source": src, "n_passages": n} for src, n in per_source.most_common()
+            ],
             "by_kind": dict(kinds),
             "embedding_backend": EMBEDDING_BACKEND,
             "retrieval": "BM25 + latent semantic, fused with Reciprocal Rank Fusion",

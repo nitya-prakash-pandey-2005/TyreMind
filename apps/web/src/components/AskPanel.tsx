@@ -15,6 +15,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Panel } from './primitives'
 import { Explainer } from './Explainer'
+import { CorpusComposition, RankFusion } from './charts'
 
 interface AskResult {
   query: string
@@ -32,6 +33,7 @@ interface AskResult {
     n_passages: number
     n_sources: number
     by_kind: Record<string, number>
+    by_source: { source: string; n_passages: number }[]
     embedding_backend: string
     retrieval: string
   }
@@ -139,6 +141,7 @@ export function AskPanel() {
       </Panel>
 
       {result && (
+        <div className="grid gap-3 xl:grid-cols-[1.55fr_1fr]">
         <Panel
           title={`Passages matching “${result.query}”`}
           aside={`${result.results.length} results`}
@@ -201,7 +204,97 @@ export function AskPanel() {
             </p>
           </div>
         </Panel>
+
+        <div className="space-y-3">
+          {result.results.length > 0 && (
+            <Panel title="Which retriever found what" aside="the case for fusing two">
+              <RankFusion hits={result.results} />
+              <p className="mt-2 max-w-[46ch] text-[11.5px] leading-relaxed text-ink-dim">
+                Each numbered dot is one answer above, placed by where the two
+                retrievers ranked it. On the dashed diagonal, both agreed. Off it,
+                one retriever found the passage and the other nearly missed it
+                &mdash; and a system running only that other retriever would not
+                have shown it to you.
+              </p>
+              <p className="mt-1.5 max-w-[46ch] text-[11px] leading-relaxed text-ink-faint">
+                Merged by Reciprocal Rank Fusion, which scores a passage on its
+                <em> position</em> in each list rather than on the raw scores. BM25
+                relevance and cosine similarity are not on a common scale, so
+                adding them would be meaningless; ranks are comparable.
+              </p>
+            </Panel>
+          )}
+
+          {result.corpus.by_source?.length > 0 && (
+            <Panel
+              title="What the corpus is made of"
+              aside={`${result.corpus.by_kind.result ?? 0} passages are measured results`}
+            >
+              <CorpusComposition bySource={result.corpus.by_source} />
+              <p className="mt-2 max-w-[46ch] text-[11.5px] leading-relaxed text-ink-faint">
+                Green files are recorded experiment output &mdash; numbers this
+                system measured and wrote down. Orange is prose. Nothing outside
+                this repository is indexed, which is why an answer can always be
+                traced to a file you can open.
+              </p>
+            </Panel>
+          )}
+        </div>
+        </div>
       )}
+
+      <Panel title="Why a retrieval index and an MCP server, and not a chatbot">
+        <div className="grid gap-5 md:grid-cols-3">
+          <div>
+            <div className="mb-1.5 text-[12.5px] font-medium text-ink">
+              RAG, without the G
+            </div>
+            <p className="max-w-[44ch] text-[12px] leading-relaxed text-ink-dim">
+              The retrieval half of retrieval-augmented generation is the half that
+              carries the trust. It finds the paragraph; you read the paragraph. Add
+              generation and the answer gets smoother, the citation becomes a
+              gesture, and a wrong claim becomes indistinguishable from a right one.
+            </p>
+            <p className="mt-1.5 max-w-[44ch] text-[11px] leading-relaxed text-ink-faint">
+              A language model is used in exactly one place in this product: rewriting
+              an already-computed explanation into plainer English, with every number
+              fixed before it is called.
+            </p>
+          </div>
+          <div>
+            <div className="mb-1.5 text-[12.5px] font-medium text-ink">
+              MCP, so an agent can use the model
+            </div>
+            <p className="max-w-[44ch] text-[12px] leading-relaxed text-ink-dim">
+              The Model Context Protocol exposes the estimator as seven tools an
+              assistant can call &mdash; get a degradation rate, explain a lap,
+              project tyre life, price a strategy, check how much to trust the fit,
+              search this corpus. A race engineer asks a question in whatever tool
+              they already have open; the answer comes from this model, not from the
+              assistant&rsquo;s recollection.
+            </p>
+            <p className="mt-1.5 max-w-[44ch] text-[11px] leading-relaxed text-ink-faint">
+              Seven, deliberately. Tool bloat measurably degrades agent selection, so
+              each tool earns its place or is not there.
+            </p>
+          </div>
+          <div>
+            <div className="mb-1.5 text-[12.5px] font-medium text-ink">
+              Every tool is read-only
+            </div>
+            <p className="max-w-[44ch] text-[12px] leading-relaxed text-ink-dim">
+              There is no write path. An agent cannot change a fit, a threshold or a
+              stored result &mdash; the worst outcome of a confused agent is a
+              confused answer, never a corrupted one.
+            </p>
+            <p className="mt-1.5 max-w-[44ch] text-[11px] leading-relaxed text-ink-faint">
+              Each tool returns its uncertainty alongside its estimate, so an agent
+              that ignores the interval is visibly ignoring something rather than
+              never being told.
+            </p>
+          </div>
+        </div>
+      </Panel>
     </div>
   )
 }

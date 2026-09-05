@@ -616,3 +616,176 @@ export function LoadHotspots({
 
   return <ReactECharts option={option} style={{ height: 250 }} notMerge />
 }
+
+// --------------------------------------------------------------------------
+// Ask the method
+// --------------------------------------------------------------------------
+
+export interface FusionHit {
+  citation: string
+  kind: string
+  lexical_rank: number | null
+  semantic_rank: number | null
+}
+
+/**
+ * Where each answer came from: keyword rank against meaning rank.
+ *
+ * This is the argument for hybrid retrieval, drawn rather than asserted. A
+ * passage on the diagonal was found by both retrievers and needs no defending.
+ * The interesting ones are off it -- found strongly by one and weakly or not at
+ * all by the other. Those are the passages a single-retriever system loses, and
+ * they are the reason the two rankings are fused instead of one being picked.
+ *
+ * Passages a retriever never returned are pinned to the outer edge and labelled,
+ * because "ranked last" and "never seen" are different facts.
+ */
+export function RankFusion({ hits }: { hits: FusionHit[] }) {
+  const { base, xAxis, yAxis, colours } = useAxis()
+
+  const option = useMemo(() => {
+    const ranks = hits.flatMap((h) => [h.lexical_rank, h.semantic_rank])
+    const deepest = Math.max(1, ...ranks.filter((r): r is number => r != null))
+    const anyMissing = hits.some((h) => h.lexical_rank == null || h.semantic_rank == null)
+    // One step beyond the deepest real rank is the "not returned" lane.
+    const missing = deepest + 2
+
+    const points = hits.map((h, i) => ({
+      value: [
+        h.lexical_rank == null ? missing : h.lexical_rank + 1,
+        h.semantic_rank == null ? missing : h.semantic_rank + 1,
+      ],
+      name: h.citation,
+      label: {
+        show: true,
+        formatter: String(i + 1),
+        color: colours.ground,
+        fontSize: 10,
+        fontWeight: 600,
+      },
+      itemStyle: {
+        color: h.kind === 'result' ? colours.good : colours.alert,
+        opacity: 0.9,
+      },
+    }))
+
+    return {
+      ...base,
+      legend: { show: false },
+      grid: { left: 52, right: 22, top: 22, bottom: 40 },
+      xAxis: {
+        type: 'value',
+        min: 0,
+        max: missing + 0.5,
+        ...xAxis('keyword rank'),
+        splitLine: { show: false },
+      },
+      yAxis: {
+        type: 'value',
+        min: 0,
+        max: missing + 0.5,
+        inverse: false,
+        ...yAxis('meaning rank'),
+      },
+      tooltip: {
+        ...base.tooltip,
+        formatter: (p: { data: { name: string; value: [number, number] } }) => {
+          const fmt = (v: number) => (v === missing ? 'not returned' : `#${v}`)
+          return `${p.data.name}<br/>keyword ${fmt(p.data.value[0])} · meaning ${fmt(
+            p.data.value[1],
+          )}`
+        },
+      },
+      series: [
+        {
+          type: 'line',
+          data: [
+            [0, 0],
+            [missing + 0.5, missing + 0.5],
+          ],
+          symbol: 'none',
+          silent: true,
+          lineStyle: { color: colours.line, type: 'dashed', width: 1 },
+        },
+        {
+          type: 'scatter',
+          data: points,
+          symbolSize: 22,
+          // The "not returned" lane is only drawn when something is actually
+          // in it. An empty labelled lane reads as a result that is not there.
+          markLine: anyMissing
+            ? {
+                symbol: 'none',
+                silent: true,
+                label: {
+                  color: colours.inkFaint,
+                  fontSize: 9.5,
+                  formatter: 'not returned',
+                  position: 'insideStartTop',
+                },
+                lineStyle: { color: colours.line, type: 'dotted' },
+                data: [
+                  ...(hits.some((h) => h.lexical_rank == null) ? [{ xAxis: missing }] : []),
+                  ...(hits.some((h) => h.semantic_rank == null) ? [{ yAxis: missing }] : []),
+                ],
+              }
+            : undefined,
+        },
+      ],
+    }
+  }, [hits, base, xAxis, yAxis, colours])
+
+  return <ReactECharts option={option} style={{ height: 250 }} notMerge />
+}
+
+/**
+ * What the corpus is made of, per file.
+ *
+ * A passage total is easy to inflate and hard to check. The breakdown is not:
+ * it shows immediately that the answers come from the research audit, the model
+ * card and the recorded experiment outputs, and how much each contributes.
+ */
+export function CorpusComposition({
+  bySource,
+}: {
+  bySource: { source: string; n_passages: number }[]
+}) {
+  const { base, xAxis, yAxis, colours } = useAxis()
+
+  const option = useMemo(() => {
+    const rows = [...bySource].sort((a, b) => a.n_passages - b.n_passages)
+    const label = (s: string) => s.replace(/^docs\//, '').replace(/\.(md|json)$/, '')
+
+    return {
+      ...base,
+      legend: { show: false },
+      grid: { left: 168, right: 30, top: 8, bottom: 30 },
+      xAxis: { type: 'value', ...xAxis('passages') },
+      yAxis: {
+        type: 'category',
+        data: rows.map((r) => label(r.source)),
+        ...yAxis(''),
+        axisLabel: { color: colours.inkDim, fontSize: 10 },
+        splitLine: { show: false },
+      },
+      tooltip: { ...base.tooltip, trigger: 'item' },
+      series: [
+        {
+          type: 'bar',
+          data: rows.map((r) => ({
+            value: r.n_passages,
+            itemStyle: {
+              // Recorded experiment output reads as evidence; prose reads as
+              // documentation. Colouring them apart says which is which.
+              color: r.source.startsWith('experiments/') ? colours.good : colours.alert,
+              opacity: 0.75,
+            },
+          })),
+          barWidth: '62%',
+        },
+      ],
+    }
+  }, [bySource, base, xAxis, yAxis, colours])
+
+  return <ReactECharts option={option} style={{ height: 340 }} notMerge />
+}
