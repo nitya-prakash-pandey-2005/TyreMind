@@ -13,6 +13,7 @@ situation, and worth distinguishing from a broken install.
 from __future__ import annotations
 
 import argparse
+import contextlib
 import logging
 import sys
 import threading
@@ -30,6 +31,12 @@ def main() -> int:
     parser.add_argument("--no-browser", action="store_true")
     parser.add_argument("--no-warm", action="store_true", help="skip pre-fitting sessions")
     args = parser.parse_args()
+
+    # Line-buffer stdout. Python block-buffers it whenever it is not a terminal,
+    # so piping this command, or running it under a process supervisor, hid the
+    # banner -- including the URL to open -- until the server was shut down.
+    with contextlib.suppress(AttributeError, OSError):
+        sys.stdout.reconfigure(line_buffering=True)
 
     logging.basicConfig(level=logging.INFO, format="%(levelname)-8s %(message)s")
     logging.getLogger("fastf1").setLevel(logging.ERROR)

@@ -1,0 +1,4 @@
+# The built dashboard is committed so a clone runs without Node. Keep it byte-for-byte
+# as Vite emitted it -- line-ending normalisation would rewrite the bundle on every
+# checkout and make the diff meaningless.
+apps/web/dist/** -text

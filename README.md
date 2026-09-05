@@ -6,6 +6,16 @@
 
 **Observed performance is not the same thing as tyre degradation.**
 
+Python 3.11+ &nbsp;·&nbsp; no Node, no network, no API key needed
+
+```
+pip install -r requirements.txt && pip install -e . && python -m tyremind.serve
+```
+
+[Full run instructions](#run-it) &nbsp;·&nbsp;
+[Technical dossier (PDF)](docs/pitch/TyreMind_Technical_Dossier.pdf) &nbsp;·&nbsp;
+[Pitch deck (PDF)](docs/pitch/TyreMind_Pitch_Deck.pdf)
+
 </div>
 
 ---
@@ -147,44 +157,180 @@ See [`docs/model_card.md`](docs/model_card.md) and
 
 ---
 
-## Quickstart
+## Run it
+
+**Requirements:** Python 3.11 or newer. Nothing else — the dashboard ships built,
+eight sessions ship cached, and no step needs a network connection.
 
 ```bash
-py -3.11 -m venv .venv
-.venv\Scripts\activate                  # Windows
-pip install -r requirements-dev.txt
-pip install -e .
+git clone https://github.com/nitya-prakash-pandey-2005/TyreMind.git
+cd TyreMind
 
-pytest                                  # 81 tests
-python -m tyremind.serve                # dashboard at http://127.0.0.1:8077
+python -m venv .venv
+.venv\Scripts\activate                # Windows
+# source .venv/bin/activate            # macOS / Linux
+
+pip install -r requirements.txt        # dependencies
+pip install -e .                       # the tyremind package itself
+
+python -m tyremind.serve               # opens http://127.0.0.1:8077
 ```
 
-Eight sessions are committed as Parquet, so a fresh clone runs offline. To cache
-more:
+That is the whole thing. The last command starts the API, serves the dashboard
+from the same process, pre-fits the cached sessions so the first click is not the
+slow one, and opens a browser.
+
+> **Both install lines are needed, in that order.** `pyproject.toml` declares no
+> dependency list, so `pip install -e .` installs the package but none of what it
+> imports. The first line fixes the versions; the second makes `tyremind`
+> importable.
+
+Expect roughly this on startup:
+
+```
+  TYREMIND
+  Causal tyre intelligence
+
+  sessions      8 (8 cached locally)
+  warming     fitting cached sessions…
+              8 ready in 22.4s
+
+  dashboard   http://127.0.0.1:8077
+  api docs    http://127.0.0.1:8077/docs
+```
+
+Warming takes 10–40 s depending on the machine — it fits all eight sessions up
+front so that no click in the demo is the slow one. Pass `--no-warm` to start in
+about a second and pay the ~6 s cost on first use of each session instead.
+
+### Useful flags
+
+| | |
+|---|---|
+| `--port 9000` | Use a different port if 8077 is taken |
+| `--no-browser` | Do not open a browser — for a remote or headless machine |
+| `--no-warm` | Skip pre-fitting. Starts in about a second; the first session click then takes ~6 s |
+| `--host 0.0.0.0` | Serve to other machines on the network |
+
+### Where to start once it is open
+
+The left rail is ordered as an argument, so reading top to bottom works.
+**Start here** shows why the obvious method fails on this session's real numbers;
+**Live monitor** is the one to press play on, because it shows the estimator
+running forward-only, one lap at a time, with the interval visibly collapsing as
+evidence arrives.
+
+---
+
+## Verify the install
+
+```bash
+pytest                                  # 97 tests, about 19 s
+ruff check .                            # lint
+```
+
+If those pass, everything in this README is reproducible on your machine.
+
+---
+
+## Optional extras
+
+None of these are needed to run the dashboard.
+
+### The MCP server — the estimator as tools an AI assistant can call
+
+```bash
+pip install -r requirements-optional.txt
+
+python -m tyremind.mcp_server           # stdio, for Claude Desktop
+python -m tyremind.mcp_server --http    # streamable HTTP
+```
+
+For Claude Desktop, add to `claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "tyremind": {
+      "command": "python",
+      "args": ["-m", "tyremind.mcp_server"],
+      "cwd": "/absolute/path/to/TyreMind"
+    }
+  }
+}
+```
+
+Seven read-only tools: `list_sessions`, `get_degradation`, `explain_lap`,
+`project_tyre_life`, `recommend_strategy`, `assess_trust`, `search_documentation`.
+
+### LLM narration
+
+Entirely optional. Without a key, TyreMind narrates from deterministic templates
+with every number computed before the text is written — which is the safer
+default, not a fallback.
+
+```bash
+cp .env.example .env                    # then paste your key into .env
+```
+
+`.env` is gitignored. Never commit a key.
+
+### Caching more sessions
+
+Eight sessions are committed as Parquet, so a fresh clone runs offline. To add
+more you need network access once:
 
 ```bash
 python scripts/build_demo.py --events Monza Suzuka --year 2024
+python scripts/build_track_geometry.py --circuits Suzuka   # for the 3D view
 ```
 
-Frontend development:
+### Working on the frontend
+
+The dashboard is committed pre-built, so this is only needed if you change it.
+Requires Node 20 or newer.
 
 ```bash
-cd apps/web && npm install && npm run dev
+cd apps/web
+npm install
+npm run dev                             # hot reload on :5173, proxies the API
+npm run build                           # rebuild dist/ — commit the result
 ```
 
 ---
 
 ## Reproducing every number
 
+Every figure in the interface, the model card and the pitch documents is read
+from a JSON file under `experiments/results/`. Regenerating those files
+regenerates the claims.
+
 ```bash
-python experiments/exp01_ground_truth_recovery.py --n-seeds 25
-python experiments/exp02_prior_sensitivity.py
-python experiments/exp03_practice_to_race.py --year 2024
+python experiments/exp01_ground_truth_recovery.py --n-seeds 25   # ~4 min
+python experiments/exp02_prior_sensitivity.py                    # ~6 min
+python experiments/exp03_practice_to_race.py --year 2024         # ~3 min
 python experiments/exp04_energy_clock.py
-python experiments/exp05_model_ladder.py
+python experiments/exp05_model_ladder.py                         # ~8 min
 python experiments/exp06_circuit_asymmetry.py
-python experiments/exp07_cross_domain.py --subset FD001
+python experiments/exp07_cross_domain.py --subset FD001          # ~3 min
 ```
+
+`exp03`, `exp06` and `exp07` download data on first run and are cached
+afterwards. The rest are fully offline.
+
+---
+
+## If something goes wrong
+
+| Symptom | Cause and fix |
+|---|---|
+| `ModuleNotFoundError: No module named 'tyremind'` | `pip install -e .` was skipped, or the virtualenv is not active |
+| `ModuleNotFoundError: No module named 'fastf1'` (or numpy, pandas…) | `pip install -r requirements.txt` was skipped — `pip install -e .` alone installs no dependencies |
+| `Dashboard not built. The API will run without it.` | `apps/web/dist/` is missing. It is committed, so this means a partial clone — or run `npm --prefix apps/web run build` |
+| `[Errno 10048] address already in use` | Something else holds port 8077. Use `--port 9000` |
+| `No sessions are cached` | `data/demo/` is missing. It is committed; with network access, `python scripts/build_demo.py` rebuilds it |
+| Charts render but are blank or monochrome | A stale build. `npm --prefix apps/web run build`, then hard-reload the browser |
+| Slow first click on a session | Expected without `--warm`. A session fit takes about 6 s and is then cached for the process lifetime |
 
 ---
 
@@ -202,9 +348,15 @@ src/tyremind/
   stream/     online estimator and replay
   explain/    narration templates, business value
   api/        FastAPI service
-apps/web/     Vite + React dashboard
+  rag/        hybrid retrieval index over the project's own documents
+  mcp_server.py  seven read-only tools for an AI agent
+apps/web/     Vite + React dashboard — src/ plus a committed dist/ so a
+              clone runs without Node
+data/demo/    eight sessions as Parquet, plus circuit geometry, committed
 experiments/  reproducible scripts; results/ holds the JSON the UI reads
 docs/         research audit, model card, limitations, demo guide
+docs/pitch/   technical dossier and pitch deck, with their HTML sources
+scripts/      one-off cache builders, run once with network access
 ```
 
 ---

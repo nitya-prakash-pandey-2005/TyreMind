@@ -32,7 +32,9 @@ fastf1_cache/
 
 # ---- node ----
 node_modules/
-apps/web/dist/
+# apps/web/dist/ is deliberately NOT ignored. The built dashboard is committed so
+# that a clone runs with Python alone -- no Node, no npm install, no build step.
+# Rebuild and re-commit it after any frontend change:  npm --prefix apps/web run build
 apps/web/.vite/
 *.log
 
