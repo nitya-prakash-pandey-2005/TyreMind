@@ -87,8 +87,8 @@ export default function App() {
   const current = sessions.find((s) => s.session_id === sessionId)
 
   return (
-    <div className="flex min-h-screen flex-col">
-      <header className="flex shrink-0 flex-wrap items-center gap-x-5 gap-y-2 border-b border-line px-4 py-2.5">
+    <div className="flex min-h-screen flex-col lg:h-screen lg:overflow-hidden">
+      <header className="z-20 flex shrink-0 flex-wrap items-center gap-x-5 gap-y-2 border-b border-line bg-ground px-4 py-2.5">
         <div className="flex items-baseline gap-2.5">
           <span className="text-[15px] font-bold tracking-[-0.02em]">TYREMIND</span>
           <span className="hidden text-[11px] text-ink-faint sm:inline">
@@ -115,8 +115,8 @@ export default function App() {
         </div>
       </header>
 
-      <div className="flex flex-1 flex-col lg:flex-row">
-        <nav className="rail shrink-0 border-b border-line lg:w-56 lg:border-r lg:border-b-0">
+      <div className="flex flex-1 flex-col lg:min-h-0 lg:flex-row">
+        <nav className="shrink-0 border-b border-line lg:w-56 lg:overflow-y-auto lg:border-r lg:border-b-0">
           <div className="px-3 py-3">
             <div className="mb-1.5 text-[10px] text-ink-faint">Session</div>
             <div className="space-y-px">
@@ -164,7 +164,7 @@ export default function App() {
           </div>
         </nav>
 
-        <main className="min-w-0 flex-1 p-3">
+        <main className="min-w-0 flex-1 p-3 lg:overflow-y-auto">
           {!sessionId ? (
             <Loading what="the session catalogue" />
           ) : view === 'beyond' ? (

@@ -134,17 +134,11 @@ body {
   );
 }
 
-/* The session and view rail stays put while the working area scrolls. On a
-   dense analysis tool, losing your navigation the moment you read anything is
-   the single most irritating thing a layout can do. */
-.rail {
-  position: sticky;
-  top: 0;
-  align-self: flex-start;
-  max-height: 100vh;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-}
+/* The header and rail are held in place structurally by the app shell in
+   App.tsx -- the page itself does not scroll on a wide screen, only the working
+   area does. Sticky positioning was doing half the job: the rail stayed and the
+   header did not. On narrow screens the layout stacks and scrolls normally,
+   because a fixed rail would eat most of a phone. */
 
 *:focus-visible {
   outline: 2px solid var(--color-alert);

@@ -141,6 +141,17 @@ export function useCompoundColour() {
   )
 }
 
+/**
+ * Icon-only theme switch.
+ *
+ * Drawn as inline SVG rather than a unicode glyph: the sun and moon characters
+ * render inconsistently across fonts and platforms, and one of them falls back
+ * to an emoji on Windows, which looks nothing like the rest of the interface.
+ *
+ * The icon shows the theme you will get, not the one you are in -- the
+ * prevailing convention, and the one that makes a single unlabelled button
+ * unambiguous. The accessible name spells it out either way.
+ */
 export function ThemeToggle() {
   const { theme, toggle } = useTheme()
   const next = theme === 'dark' ? 'light' : 'dark'
@@ -150,12 +161,28 @@ export function ThemeToggle() {
       onClick={toggle}
       title={`Switch to ${next} theme`}
       aria-label={`Switch to ${next} theme`}
-      className="flex items-center gap-1.5 border border-line px-2 py-1 text-[11px] text-ink-dim transition-colors hover:border-line-bright hover:text-ink"
+      className="flex h-6 w-6 items-center justify-center border border-line text-ink-dim transition-colors hover:border-line-bright hover:text-ink"
     >
-      <span aria-hidden className="text-[12px] leading-none">
-        {theme === 'dark' ? '◐' : '◑'}
-      </span>
-      {theme === 'dark' ? 'Dark' : 'Light'}
+      {theme === 'dark' ? <SunIcon /> : <MoonIcon />}
     </button>
+  )
+}
+
+function SunIcon() {
+  return (
+    <svg viewBox="0 0 16 16" width="13" height="13" aria-hidden fill="none"
+      stroke="currentColor" strokeWidth="1.3" strokeLinecap="round">
+      <circle cx="8" cy="8" r="3" />
+      <path d="M8 1.4v1.6M8 13v1.6M1.4 8h1.6M13 8h1.6M3.3 3.3l1.1 1.1M11.6 11.6l1.1 1.1M12.7 3.3l-1.1 1.1M4.4 11.6l-1.1 1.1" />
+    </svg>
+  )
+}
+
+function MoonIcon() {
+  return (
+    <svg viewBox="0 0 16 16" width="13" height="13" aria-hidden fill="none"
+      stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round">
+      <path d="M13.2 9.6A5.6 5.6 0 0 1 6.4 2.8a5.6 5.6 0 1 0 6.8 6.8Z" />
+    </svg>
   )
 }
