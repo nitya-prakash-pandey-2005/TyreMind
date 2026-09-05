@@ -358,6 +358,13 @@ function HealthChart({ timeline }: { timeline: HealthTimeline }) {
   const option = {
     animationDuration: 500,
     grid: { left: 46, right: 46, top: 26, bottom: 36 },
+    legend: {
+      top: 0,
+      data: ['Performance lost', 'Health'],
+      textStyle: { color: '#8fa3ae', fontSize: 10 },
+      itemWidth: 14,
+      itemHeight: 2,
+    },
     xAxis: {
       type: 'category',
       data: ages,
@@ -393,20 +400,35 @@ function HealthChart({ timeline }: { timeline: HealthTimeline }) {
       backgroundColor: '#151d23',
       borderColor: '#26343d',
       textStyle: { color: '#e4eaed', fontSize: 11.5 },
+      // Only the two real series. The band is drawn as a transparent base plus
+      // a stacked ribbon, and surfacing those would show the reader a stack
+      // offset labelled as if it were a measurement.
+      formatter: (params: { axisValue: string; seriesName: string; value: number }[]) => {
+        const age = params[0]?.axisValue
+        const rows = params
+          .filter((p) => p.seriesName === 'Performance lost' || p.seriesName === 'Health')
+          .map((p) =>
+            p.seriesName === 'Health'
+              ? `Health ${p.value.toFixed(0)} / 100`
+              : `Lost ${p.value.toFixed(2)} s/lap vs fresh`,
+          )
+        return `Tyre age ${age} laps<br/>${rows.join('<br/>')}`
+      },
     },
     series: [
       // Uncertainty band, drawn as a transparent base plus a visible ribbon.
       {
-        name: 'lower',
+        name: 'band base',
         type: 'line',
         stack: 'band',
         symbol: 'none',
         lineStyle: { opacity: 0 },
         data: timeline.rows.map((r) => Math.max(r.level - 1.96 * r.level_sd, 0)),
         silent: true,
+        tooltip: { show: false },
       },
       {
-        name: '95% range',
+        name: 'band width',
         type: 'line',
         stack: 'band',
         symbol: 'none',
@@ -414,6 +436,7 @@ function HealthChart({ timeline }: { timeline: HealthTimeline }) {
         areaStyle: { color: colour, opacity: 0.14 },
         data: timeline.rows.map((r) => 2 * 1.96 * r.level_sd),
         silent: true,
+        tooltip: { show: false },
       },
       {
         name: 'Performance lost',
