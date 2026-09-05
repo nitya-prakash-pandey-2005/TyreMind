@@ -356,6 +356,9 @@ export interface CrossIndustryResult {
     rul_mae: number
     fraction_early: number
     estimated_degradation_rate: number
+    /** Per-engine predictions and labels, for the validation scatter. */
+    predictions?: number[]
+    truths?: number[]
     note: string
   } | null
   fleet_illustration: BusinessReport
@@ -427,7 +430,31 @@ async function getJson<T>(path: string): Promise<T> {
   return response.json() as Promise<T>
 }
 
+export interface PitWindow {
+  driver: string
+  from_lap: number
+  total_laps: number
+  new_compound: string
+  stay_out_expected_time: number
+  optimum_lap: number
+  optimum_expected_time: number
+  window_within_1s: [number, number] | null
+  sweep: {
+    pit_lap: number
+    expected_time: number
+    downside: number
+    best_case: number
+    runs_past_cliff: number
+  }[]
+  n_sims: number
+  note: string
+}
+
 export const advanced = {
+  pitWindow: (id: string, driver: string, lap: number, nSims = 1200) =>
+    getJson<PitWindow>(
+      `/api/session/${id}/pit-window?driver=${encodeURIComponent(driver)}&lap=${lap}&n_sims=${nSims}`,
+    ),
   strategy: (id: string, driver: string, lap: number, nSims = 5000) =>
     getJson<StrategyResult>(
       `/api/session/${id}/strategy?driver=${encodeURIComponent(driver)}&lap=${lap}&n_sims=${nSims}`,

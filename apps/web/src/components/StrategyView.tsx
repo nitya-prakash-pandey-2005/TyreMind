@@ -12,13 +12,16 @@
 
 import { useEffect, useState } from 'react'
 import ReactECharts from 'echarts-for-react'
+import { useThemeColours } from '../lib/theme'
 import {
   advanced,
   compoundColour,
   resolveColour,
+  type PitWindow,
   type RunRow,
   type StrategyResult,
 } from '../lib/api'
+import { PitWindowChart } from './charts'
 import { EstimateTag, ErrorNote, Loading, Panel, Stat } from './primitives'
 import { Explainer } from './Explainer'
 
@@ -36,6 +39,7 @@ export function StrategyView({
   const [lap, setLap] = useState<number | null>(null)
   const [result, setResult] = useState<StrategyResult | null>(null)
   const [regret, setRegret] = useState<{ regret_s: number } | null>(null)
+  const [window, setWindow] = useState<PitWindow | null>(null)
   const [error, setError] = useState('')
   const [busy, setBusy] = useState(false)
 
@@ -53,6 +57,17 @@ export function StrategyView({
       .then(setResult)
       .catch((e) => setError(String(e.message ?? e)))
       .finally(() => setBusy(false))
+  }, [sessionId, selected, lap])
+
+  // The sweep is a separate, slower call: it simulates every remaining lap, so
+  // it must not hold up the headline recommendation.
+  useEffect(() => {
+    if (!selected || lap == null) return
+    setWindow(null)
+    advanced
+      .pitWindow(sessionId, selected.driver, lap, 1200)
+      .then(setWindow)
+      .catch(() => setWindow(null))
   }, [sessionId, selected, lap])
 
   useEffect(() => {
@@ -185,6 +200,51 @@ export function StrategyView({
             </div>
           </Panel>
 
+          {window && window.sweep.length > 2 && (
+            <Panel
+              title="Every lap you could stop on"
+              aside={`optimum lap ${window.optimum_lap}`}
+            >
+              <div className="grid gap-4 lg:grid-cols-[1.6fr_1fr]">
+                <PitWindowChart
+                  sweep={window.sweep}
+                  optimum={window.optimum_lap}
+                  window={window.window_within_1s}
+                  stayOut={window.stay_out_expected_time}
+                />
+                <div className="space-y-3 text-[12.5px] leading-relaxed text-ink-dim">
+                  <p>
+                    The options table says which choice is best. This says{' '}
+                    <strong className="text-ink">how much the choice matters</strong>,
+                    which is the more useful question.
+                  </p>
+                  <StayOutNote window={window} />
+                  {window.window_within_1s && (
+                    <p>
+                      Anywhere between lap{' '}
+                      <span className="num text-ink">{window.window_within_1s[0]}</span> and{' '}
+                      <span className="num text-ink">{window.window_within_1s[1]}</span>{' '}
+                      costs less than a second against the optimum. That is a{' '}
+                      {window.window_within_1s[1] - window.window_within_1s[0] + 1}-lap
+                      window — comfortable room, not a knife edge.
+                    </p>
+                  )}
+                  <p>
+                    A steep curve means timing is critical. A flat one means the
+                    decision does not really matter and the attention belongs
+                    elsewhere. The dashed line is the bad case: where the curves
+                    separate, one option is riskier than its average suggests.
+                  </p>
+                  <p className="text-[11.5px] text-ink-faint">
+                    {window.sweep.length} candidate laps, {window.n_sims.toLocaleString()}{' '}
+                    races each, all sharing random draws so the shape is signal
+                    rather than simulation noise.
+                  </p>
+                </div>
+              </div>
+            </Panel>
+          )}
+
           <div className="grid gap-3 lg:grid-cols-[1.25fr_1fr]">
             <Panel title="Five thousand races per option" aside="lower is faster">
               <DistributionChart result={result} />
@@ -252,6 +312,7 @@ export function StrategyView({
 }
 
 function DistributionChart({ result }: { result: StrategyResult }) {
+  const c = useThemeColours()
   // Resolved to concrete values: ECharts draws to canvas and cannot read CSS
   // custom properties.
   const palette = [
@@ -284,11 +345,15 @@ function DistributionChart({ result }: { result: StrategyResult }) {
   })
 
   const option = {
-    animationDuration: 500,
+    // Entry animation off: ECharts draws a line by expanding a clip path, and
+    // these charts are re-initialised with `notMerge` whenever the session,
+    // driver or theme changes. An entry animation interrupted by that re-init
+    // leaves the clip frozen, so the series stops dead part-way across.
+    animation: false,
     grid: { left: 42, right: 14, top: 30, bottom: 40 },
     legend: {
       top: 0,
-      textStyle: { color: '#8fa3ae', fontSize: 10.5 },
+      textStyle: { color: c.inkDim, fontSize: 10.5 },
       itemWidth: 14,
       itemHeight: 2,
     },
@@ -297,24 +362,24 @@ function DistributionChart({ result }: { result: StrategyResult }) {
       name: 'seconds vs the best option',
       nameLocation: 'middle',
       nameGap: 24,
-      nameTextStyle: { color: '#5d6f7a', fontSize: 10.5 },
-      axisLine: { lineStyle: { color: '#26343d' } },
-      axisLabel: { color: '#5d6f7a', fontSize: 10.5, formatter: (v: number) => v.toFixed(0) },
+      nameTextStyle: { color: c.inkFaint, fontSize: 10.5 },
+      axisLine: { lineStyle: { color: c.line } },
+      axisLabel: { color: c.inkFaint, fontSize: 10.5, formatter: (v: number) => v.toFixed(0) },
       splitLine: { show: false },
     },
     yAxis: {
       type: 'value',
       name: 'races',
-      nameTextStyle: { color: '#5d6f7a', fontSize: 10.5 },
+      nameTextStyle: { color: c.inkFaint, fontSize: 10.5 },
       axisLine: { show: false },
-      axisLabel: { color: '#5d6f7a', fontSize: 10.5 },
-      splitLine: { lineStyle: { color: '#1d272e' } },
+      axisLabel: { color: c.inkFaint, fontSize: 10.5 },
+      splitLine: { lineStyle: { color: c.raised } },
     },
     tooltip: {
       trigger: 'axis',
-      backgroundColor: '#151d23',
-      borderColor: '#26343d',
-      textStyle: { color: '#e4eaed', fontSize: 11.5 },
+      backgroundColor: c.surface,
+      borderColor: c.line,
+      textStyle: { color: c.ink, fontSize: 11.5 },
     },
     series,
   }
@@ -330,5 +395,27 @@ function DistributionChart({ result }: { result: StrategyResult }) {
         simulated race.
       </p>
     </>
+  )
+}
+
+/**
+ * The dotted reference line needs a sentence when it is the winning option.
+ *
+ * The sweep answers "which lap should I stop on"; not stopping is a different
+ * question, and on a long final stint it is frequently the better answer. Saying
+ * so explicitly stops the chart's own optimum from reading as a recommendation.
+ */
+function StayOutNote({ window: w }: { window: PitWindow }) {
+  const bestStop = Math.min(...w.sweep.map((r) => r.expected_time))
+  const margin = bestStop - w.stay_out_expected_time
+  if (margin <= 0) return null
+  return (
+    <p>
+      Every one of these stops loses to not stopping at all. The dotted line is
+      staying out, and the best lap to pit on still costs{' '}
+      <span className="num text-ink">{margin.toFixed(1)} s</span> against it. The
+      curve below it is about which stop is least bad, not about whether to make
+      one.
+    </p>
   )
 }

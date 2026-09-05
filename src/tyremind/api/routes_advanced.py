@@ -436,6 +436,103 @@ def health_timeline(session_id: str, driver: str, run_id: int) -> dict:
     }
 
 
+def pit_window(
+    session_id: str,
+    driver: str,
+    lap: int,
+    n_sims: int = 1200,
+) -> dict:
+    """Expected race time for every possible pit lap, not just a few candidates.
+
+    The single most useful strategy picture. A table of four options tells you
+    which is best; sweeping the whole window tells you how *sharp* the optimum
+    is -- whether being two laps late costs a tenth or costs the race. A flat
+    curve means the decision does not matter much, which is as actionable as a
+    steep one.
+
+    Simulated with common random numbers across the sweep, so the shape is the
+    signal and not Monte Carlo noise.
+    """
+    loaded = _load(session_id)
+    lap_table = loaded.lap_table
+
+    row = lap_table[(lap_table["driver"] == driver) & (lap_table["session_lap"] == lap)]
+    if row.empty:
+        raise HTTPException(
+            status_code=400, detail=f"{driver} has no valid lap {lap} in this session"
+        )
+    row = row.iloc[0]
+
+    tyres = _tyre_models(loaded)
+    current = str(row["compound"])
+    if current not in tyres:
+        raise HTTPException(status_code=400, detail=f"no estimate for compound {current!r}")
+
+    alternatives = [c for c in tyres if c != current]
+    fresh = alternatives[0] if alternatives else current
+
+    total_laps = int(lap_table["session_lap"].max())
+    state = RaceState(
+        current_lap=int(lap),
+        total_laps=total_laps,
+        position=0,
+        current_compound=current,
+        current_tyre_age=float(row["tyre_age"]),
+        gap_ahead_s=float(2.0 - 1.6 * float(row.get("traffic_index", 0.0))),
+        gap_behind_s=2.0,
+        base_lap_time_s=float(lap_table["lap_time"].median()),
+        pit_loss_s=DEFAULT_PIT_LOSS_S,
+    )
+
+    from tyremind.simulate.race import Strategy, simulate_strategy
+
+    stay = simulate_strategy(state, Strategy("stay out", None), tyres, n_sims=n_sims, seed=11)
+
+    candidates = list(range(lap + 1, total_laps + 1))
+    if not candidates:
+        raise HTTPException(status_code=400, detail="no laps remain to pit on")
+
+    sweep = []
+    for pit_lap in candidates:
+        outcome = simulate_strategy(
+            state,
+            Strategy(f"pit lap {pit_lap}", pit_lap, fresh),
+            tyres,
+            n_sims=n_sims,
+            seed=11,  # common random numbers: the shape is signal, not noise
+        )
+        sweep.append(
+            {
+                "pit_lap": pit_lap,
+                "expected_time": outcome.expected_time,
+                "downside": outcome.downside,
+                "best_case": outcome.quantile(0.1),
+                "runs_past_cliff": outcome.ran_out_of_tyre,
+            }
+        )
+
+    best = min(sweep, key=lambda r: r["expected_time"])
+    # How wide is the window that costs less than a second against the optimum?
+    tolerable = [r["pit_lap"] for r in sweep if r["expected_time"] <= best["expected_time"] + 1.0]
+
+    return {
+        "driver": driver,
+        "from_lap": int(lap),
+        "total_laps": total_laps,
+        "new_compound": fresh,
+        "stay_out_expected_time": stay.expected_time,
+        "optimum_lap": best["pit_lap"],
+        "optimum_expected_time": best["expected_time"],
+        "window_within_1s": [min(tolerable), max(tolerable)] if tolerable else None,
+        "sweep": sweep,
+        "n_sims": n_sims,
+        "note": (
+            "Model estimate. The width of the window matters as much as its "
+            "centre: a flat curve means the exact lap is not critical."
+        ),
+    }
+
+
 def corner_energy(circuit: str) -> dict:
     """Measured per-corner frictional energy share for a circuit.
 
@@ -551,6 +648,7 @@ def register(app: FastAPI) -> None:
     app.get("/api/cross-industry")(cross_industry)
     app.get("/api/session/{session_id}/validation")(validation)
     app.get("/api/session/{session_id}/health-timeline")(health_timeline)
+    app.get("/api/session/{session_id}/pit-window")(pit_window)
     app.get("/api/physics/corner-energy")(corner_energy)
     app.get("/api/physics/track-geometry")(track_geometry)
     app.get("/api/ask")(ask)

@@ -16,6 +16,7 @@ import {
   type SessionSummary,
   type RunRow,
 } from '../lib/api'
+import { DegradationCurves, QualityBreakdown, type CompoundCurve } from './charts'
 import { Beam, CompoundChip, ErrorNote, Loading, Panel, Stat } from './primitives'
 import { Explainer, Term } from './Explainer'
 
@@ -49,6 +50,21 @@ export function Overview({
     ([, c]) => c.naive_estimate != null && c.naive_estimate < 0,
   )
   const longest = runs[0]
+
+  // The curve is the fitted rate extended over the ages that compound was
+  // actually run to -- drawn from the summary and the run table, so it needs no
+  // extra request.
+  const curves: CompoundCurve[] = Object.entries(summary.compounds)
+    .map(([compound, estimate]) => ({
+      compound,
+      rate: estimate.degradation_rate,
+      sd: estimate.degradation_rate_sd,
+      maxAge: Math.max(
+        0,
+        ...runs.filter((r) => r.compound === compound).map((r) => r.end_age),
+      ),
+    }))
+    .filter((c) => c.maxAge >= 5)
 
   return (
     <div className="space-y-3">
@@ -153,6 +169,37 @@ export function Overview({
         </Panel>
       )}
 
+      {curves.length > 0 && runs.length > 0 && (
+        <Panel
+          title="What the model actually estimates"
+          aside="one curve per compound, with its uncertainty"
+        >
+          <div className="grid gap-4 lg:grid-cols-[1.5fr_1fr]">
+            <DegradationCurves curves={curves} />
+            <div className="space-y-3 text-[12.5px] leading-relaxed text-ink-dim">
+              <p>
+                Each line is how much performance a set of that compound has lost
+                after a given number of laps, once fuel, track and traffic are
+                taken out. The shaded band is the 95% range.
+              </p>
+              <p>
+                Two things to look for. <strong className="text-ink">Is it
+                straight?</strong> A curve that steepens is a tyre falling off its
+                cliff. <strong className="text-ink">Where does the band flare?</strong>{' '}
+                That is where the session ran out of laps on that compound, and the
+                model is telling you it no longer has evidence.
+              </p>
+              <p className="text-[11.5px] text-ink-faint">
+                This is the model's fitted estimate, not an average of the raw
+                laps &mdash; the confounders have already been removed. Each line
+                stops at the oldest tyre age that compound actually reached in
+                this session, because past that point there is nothing to fit.
+              </p>
+            </div>
+          </div>
+        </Panel>
+      )}
+
       <div className="grid gap-3 lg:grid-cols-[1.15fr_1fr]">
         <Panel title="What moved the lap times" aside="estimated for this session">
           <div className="space-y-4">
@@ -195,21 +242,15 @@ export function Overview({
 
             {summary.quality.exclusions && (
               <div className="mt-4 border-t border-line pt-3">
-                <div className="mb-2 text-[11px] text-ink-faint">
+                <div className="mb-1 text-[11px] text-ink-faint">
                   Laps thrown out before analysis, and why
                 </div>
-                <div className="space-y-1">
-                  {Object.entries(summary.quality.exclusions).map(([reason, count]) => (
-                    <div
-                      key={reason}
-                      className="flex items-baseline justify-between text-[11.5px]"
-                    >
-                      <span className="text-ink-dim">{EXCLUSION_PLAIN[reason] ?? reason}</span>
-                      <span className="num text-ink-faint">{count}</span>
-                    </div>
-                  ))}
-                </div>
-                <p className="mt-2 max-w-[44ch] text-[11px] leading-relaxed text-ink-faint">
+                <QualityBreakdown
+                  retained={summary.n_laps}
+                  exclusions={summary.quality.exclusions}
+                  labels={EXCLUSION_PLAIN}
+                />
+                <p className="mt-1 max-w-[44ch] text-[11px] leading-relaxed text-ink-faint">
                   Pit laps, safety-car laps and scruffy laps say nothing about the
                   tyre and would corrupt the estimate, so they are removed and
                   counted rather than quietly dropped.

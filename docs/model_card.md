@@ -159,9 +159,16 @@ it should. Coverage holds at 100% across every perturbation.
 
 ### Cross-domain — NASA C-MAPSS FD001
 
-RUL RMSE **56 cycles** over 60 engines, 48% predicted early. Purpose-built deep
-prognostics models reach 12–20 on this dataset. This is a tyre model pointed at
-engines with no retuning, so it demonstrates transfer, not competitiveness.
+RUL RMSE **26.5 cycles** over 40 engines, 32% predicted early, NASA prognostics
+score 1893. Purpose-built deep prognostics models reach 12–20 RMSE on this
+dataset. This is a tyre model pointed at engines with no retuning, so it
+demonstrates transfer, not competitiveness.
+
+Predictions are capped at 125 cycles, the piecewise-linear RUL convention used
+throughout the C-MAPSS literature. Without the cap the estimator extrapolates a
+near-flat early-life trend to absurd remaining lives, which inflates RMSE to 56
+cycles and the NASA score — which penalises late predictions exponentially — by
+three orders of magnitude.
 
 ---
 

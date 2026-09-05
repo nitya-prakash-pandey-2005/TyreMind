@@ -29,6 +29,7 @@ import { StrategyView } from './components/StrategyView'
 import { TyreStateView } from './components/TyreStateView'
 import { BeyondRacing } from './components/BeyondRacing'
 import { Explainer } from './components/Explainer'
+import { StintDecomposition, TrackEvolutionChart } from './components/charts'
 import { CircuitView } from './components/CircuitView'
 import { AskPanel } from './components/AskPanel'
 import { ThemeToggle } from './lib/theme'
@@ -272,10 +273,17 @@ function ExplainView({
   const [rows, setRows] = useState<DecompositionRow[]>([])
   const [decomposition, setDecomposition] = useState<Decomposition | null>(null)
   const [narration, setNarration] = useState('')
+  const [track, setTrack] = useState<
+    { session_lap: number; track_effect: number; track_effect_sd: number }[]
+  >([])
   const [busy, setBusy] = useState(false)
 
   useEffect(() => {
     api.summary(sessionId).then(setSummary).catch(() => undefined)
+    api
+      .track(sessionId)
+      .then((t) => setTrack(t.rows))
+      .catch(() => setTrack([]))
   }, [sessionId])
 
   useEffect(() => {
@@ -355,13 +363,54 @@ function ExplainView({
         </Panel>
       )}
 
+      {rows.length > 0 && (
+        <Panel
+          title="Where the time went, lap by lap"
+          aside="the whole stint, not one lap"
+        >
+          <StintDecomposition rows={rows} />
+          <p className="mt-2 max-w-[86ch] text-[11.5px] leading-relaxed text-ink-dim">
+            Bars above the line cost time, bars below gain it. Watch the orange
+            tyre bar grow while the blue fuel bar sinks: the lap where they cross
+            is the moment the stint turns from getting faster to getting slower.
+            The dashed line is what the stopwatch actually recorded — the sum of
+            everything.
+          </p>
+        </Panel>
+      )}
+
       <div className="grid gap-3 lg:grid-cols-[1.3fr_1fr]">
-        <Panel title="Where the lap time went">
+        <Panel title="Where the lap time went" aside="one lap, against the stint start">
           {decomposition ? <Waterfall decomposition={decomposition} /> : <Loading what="the lap" />}
         </Panel>
 
         {summary && <CompoundSummary summary={summary} />}
       </div>
+
+      {track.length > 0 && (
+        <Panel title="The circuit itself getting faster" aside="shared by every car">
+          <div className="grid gap-4 lg:grid-cols-[1.6fr_1fr]">
+            <TrackEvolutionChart rows={track} />
+            <div className="space-y-2 text-[12.5px] leading-relaxed text-ink-dim">
+              <p>
+                As cars run, rubber goes down on the racing line and the circuit
+                gains grip. Everyone speeds up — nothing about any individual tyre
+                has changed.
+              </p>
+              <p>
+                The curve flattens because rubber build-up saturates. That shape is
+                not fitted freely: it is imposed, and it is what makes track
+                evolution separable from a uniform shift in every degradation rate
+                at all. The two are otherwise indistinguishable.
+              </p>
+              <p className="text-[11.5px] text-ink-faint">
+                Which means this is the most assumption-heavy curve in the product.
+                The band shows how much room the data leaves.
+              </p>
+            </div>
+          </div>
+        </Panel>
+      )}
     </div>
   )
 }

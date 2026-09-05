@@ -103,7 +103,7 @@ Then the numbers:
 > there is nothing to check against. So we ran the *identical* estimator on NASA's
 > turbofan benchmark, which does have run-to-failure ground truth.
 >
-> 60 engines, 56-cycle RUL error, 48% predicted early. Purpose-built deep models
+> 40 engines, 26.5-cycle RUL error, 32% predicted early. Purpose-built deep models
 > get 12–20 on that dataset, so we are not competitive — but we are a tyre model
 > pointed at jet engines with no retuning, and it works.
 

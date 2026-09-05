@@ -16,6 +16,7 @@
 import { useEffect, useState } from 'react'
 import { advanced, type BusinessReport, type CrossIndustryResult } from '../lib/api'
 import { ErrorNote, Loading, Panel, Stat } from './primitives'
+import { RulScatter } from './charts'
 import { Explainer } from './Explainer'
 
 const CONFOUNDER_PLAIN: Record<string, string> = {
@@ -125,6 +126,41 @@ export function BeyondRacing() {
                   <li>Fuel and traffic switched off — engines have neither</li>
                 </ul>
               </div>
+            </div>
+          </div>
+        </Panel>
+      )}
+
+      {transfer?.predictions && transfer.truths && (
+        <Panel
+          title="Every engine, predicted against actual"
+          aside={`${transfer.predictions.length} held-out engines`}
+        >
+          <div className="grid gap-4 lg:grid-cols-[1.3fr_1fr]">
+            <RulScatter predictions={transfer.predictions} truths={transfer.truths} />
+            <div className="space-y-3 text-[12.5px] leading-relaxed text-ink-dim">
+              <p>
+                Each dot is one engine. The dashed diagonal is a perfect
+                prediction; distance from it is the error.
+              </p>
+              <p>
+                <strong className="text-good">Green points sit below the line</strong> —
+                the model predicted less life than the engine actually had. That is
+                the safe direction to be wrong, and NASA&rsquo;s own scoring function
+                penalises the other direction far more heavily, because predicting
+                an engine has life it does not is what grounds aircraft.
+              </p>
+              <p>
+                The scatter is what an RMSE hides. A single number cannot tell you
+                whether the errors are symmetric, and for a prognostics model the
+                asymmetry is the safety-relevant property.
+              </p>
+              <p className="text-[11.5px] text-ink-faint">
+                Predictions are capped at 125 cycles, the piecewise-linear
+                convention used throughout the C-MAPSS literature — engines show
+                essentially no degradation early in life, so an unbounded
+                extrapolation from a flat trend is meaningless.
+              </p>
             </div>
           </div>
         </Panel>

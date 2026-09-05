@@ -26,18 +26,23 @@ import {
 import { ErrorNote, Loading, Panel, Stat } from './primitives'
 import { Explainer } from './Explainer'
 import { useThemeColours } from '../lib/theme'
+import { LoadHotspots } from './charts'
 
 const MODES: ColourMode[] = ['tyre_load', 'speed_kmh', 'lateral_g']
 
 export function CircuitView({ circuit }: { circuit: string }) {
   const [track, setTrack] = useState<TrackGeometry | null>(null)
   const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
   const [mode, setMode] = useState<ColourMode>('tyre_load')
   const [rotating, setRotating] = useState(true)
   const progress = useLapProgress(rotating)
 
   useEffect(() => {
-    setTrack(null)
+    // The previous circuit stays on screen while the next one loads. Clearing
+    // it would unmount the WebGL canvas on every switch, and a browser allows
+    // only a handful of live contexts before it starts force-losing the oldest.
+    setLoading(true)
     setError('')
     fetch(`/api/physics/track-geometry?circuit=${encodeURIComponent(circuit)}`)
       .then(async (r) => {
@@ -46,6 +51,7 @@ export function CircuitView({ circuit }: { circuit: string }) {
       })
       .then(setTrack)
       .catch((e) => setError(String(e.message ?? e)))
+      .finally(() => setLoading(false))
   }, [circuit])
 
   if (error) {
@@ -111,7 +117,10 @@ export function CircuitView({ circuit }: { circuit: string }) {
             </button>
           </div>
 
-          <div className="h-[400px] w-full border border-line">
+          <div
+            className="h-[400px] w-full border border-line transition-opacity"
+            style={{ opacity: loading ? 0.35 : 1 }}
+          >
             <Circuit3D track={track} mode={mode} rotating={rotating} progress={progress} />
           </div>
 
@@ -162,9 +171,22 @@ export function CircuitView({ circuit }: { circuit: string }) {
         </div>
       </div>
 
-      <Panel title="Speed and load around the lap">
-        <TraceChart track={track} />
-      </Panel>
+      <div className="grid gap-3 xl:grid-cols-[1.5fr_1fr]">
+        <Panel title="Speed and load around the lap">
+          <TraceChart track={track} />
+        </Panel>
+
+        <Panel title="Where the damage concentrates" aside="hardest-working sections">
+          <LoadHotspots tyreLoad={track.tyre_load} speed={track.speed_kmh} />
+          <p className="mt-2 max-w-[48ch] text-[11.5px] leading-relaxed text-ink-faint">
+            Contiguous high-load samples grouped into sections and ranked, labelled
+            by how far into the lap they sit and how fast the car was going. On a
+            power circuit a handful of braking zones account for most of the
+            damage; on a flowing one it is spread thin. That difference is why the
+            same compound behaves so differently between them.
+          </p>
+        </Panel>
+      </div>
     </div>
   )
 }
@@ -181,13 +203,15 @@ function GgDiagram({ track }: { track: TrackGeometry }) {
 
   const option = useMemo(() => {
     const points = track.lateral_g.map((lat, i) => [lat, track.longitudinal_g[i]])
+    // Scale to the 99.5th percentile, not the maximum. GPS differentiation
+    // throws the occasional impossible sample, and one 6 g outlier stretches
+    // the axes until the friction circle no longer looks like one -- the same
+    // reason the peak-load statistics are quoted as percentiles.
+    const magnitudes = track.lateral_g
+      .map((lat, i) => Math.hypot(lat, track.longitudinal_g[i]))
+      .sort((a, b) => a - b)
     const limit =
-      Math.ceil(
-        Math.max(
-          ...track.lateral_g.map(Math.abs),
-          ...track.longitudinal_g.map(Math.abs),
-        ),
-      ) + 0.5
+      Math.ceil(magnitudes[Math.floor(magnitudes.length * 0.995)] ?? 1) + 0.5
 
     return {
       animation: false,
@@ -239,9 +263,19 @@ function GgDiagram({ track }: { track: TrackGeometry }) {
       <ReactECharts option={option} style={{ height: 240 }} notMerge />
       <p className="mt-2 max-w-[46ch] text-[11px] leading-relaxed text-ink-faint">
         A tyre has one grip budget, spent on turning, on stopping, or shared
-        between them — never more than the total. That is why the cloud forms a
-        circle. Points far from the centre are laps where the car was using
-        everything the tyre had.
+        between them — never more than the total. Points far from the centre are
+        moments where the car was using everything the tyre had.
+      </p>
+      <p className="mt-2 max-w-[46ch] text-[11px] leading-relaxed text-ink-faint">
+        The envelope is called a circle but is not one, and the way it is
+        squashed is readable. It is <strong className="text-ink-dim">wide</strong>{' '}
+        because downforce arrives with speed, so a fast corner has more grip
+        available than a slow one.{' '}
+        <strong className="text-ink-dim">Deep downwards</strong> because braking
+        uses all four tyres at once.{' '}
+        <strong className="text-ink-dim">Shallow upwards</strong> because
+        acceleration is limited by the rear axle and the engine rather than by
+        the friction budget.
       </p>
     </>
   )

@@ -9,6 +9,7 @@
 
 import { useEffect, useState } from 'react'
 import ReactECharts from 'echarts-for-react'
+import { useThemeColours } from '../lib/theme'
 import {
   advanced,
   api,
@@ -352,16 +353,21 @@ export function TyreStateView({
 }
 
 function HealthChart({ timeline }: { timeline: HealthTimeline }) {
+  const c = useThemeColours()
   const colour = compoundColourResolved(timeline.compound)
   const ages = timeline.rows.map((r) => r.tyre_age)
 
   const option = {
-    animationDuration: 500,
+    // Entry animation off: ECharts draws a line by expanding a clip path, and
+    // these charts are re-initialised with `notMerge` whenever the session,
+    // driver or theme changes. An entry animation interrupted by that re-init
+    // leaves the clip frozen, so the series stops dead part-way across.
+    animation: false,
     grid: { left: 46, right: 46, top: 26, bottom: 36 },
     legend: {
       top: 0,
       data: ['Performance lost', 'Health'],
-      textStyle: { color: '#8fa3ae', fontSize: 10 },
+      textStyle: { color: c.inkDim, fontSize: 10 },
       itemWidth: 14,
       itemHeight: 2,
     },
@@ -371,35 +377,35 @@ function HealthChart({ timeline }: { timeline: HealthTimeline }) {
       name: 'tyre age (laps)',
       nameLocation: 'middle',
       nameGap: 22,
-      nameTextStyle: { color: '#5d6f7a', fontSize: 10.5 },
-      axisLine: { lineStyle: { color: '#26343d' } },
-      axisLabel: { color: '#5d6f7a', fontSize: 10.5 },
+      nameTextStyle: { color: c.inkFaint, fontSize: 10.5 },
+      axisLine: { lineStyle: { color: c.line } },
+      axisLabel: { color: c.inkFaint, fontSize: 10.5 },
     },
     yAxis: [
       {
         type: 'value',
         name: 'seconds lost',
-        nameTextStyle: { color: '#5d6f7a', fontSize: 10.5 },
+        nameTextStyle: { color: c.inkFaint, fontSize: 10.5 },
         axisLine: { show: false },
-        axisLabel: { color: '#5d6f7a', fontSize: 10.5, formatter: (v: number) => v.toFixed(1) },
-        splitLine: { lineStyle: { color: '#1d272e' } },
+        axisLabel: { color: c.inkFaint, fontSize: 10.5, formatter: (v: number) => v.toFixed(1) },
+        splitLine: { lineStyle: { color: c.raised } },
       },
       {
         type: 'value',
         name: 'health',
         min: 0,
         max: 100,
-        nameTextStyle: { color: '#5d6f7a', fontSize: 10.5 },
+        nameTextStyle: { color: c.inkFaint, fontSize: 10.5 },
         axisLine: { show: false },
-        axisLabel: { color: '#5d6f7a', fontSize: 10.5 },
+        axisLabel: { color: c.inkFaint, fontSize: 10.5 },
         splitLine: { show: false },
       },
     ],
     tooltip: {
       trigger: 'axis',
-      backgroundColor: '#151d23',
-      borderColor: '#26343d',
-      textStyle: { color: '#e4eaed', fontSize: 11.5 },
+      backgroundColor: c.surface,
+      borderColor: c.line,
+      textStyle: { color: c.ink, fontSize: 11.5 },
       // Only the two real series. The band is drawn as a transparent base plus
       // a stacked ribbon, and surfacing those would show the reader a stack
       // offset labelled as if it were a measurement.

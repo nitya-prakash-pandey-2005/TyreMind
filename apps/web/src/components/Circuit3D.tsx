@@ -215,6 +215,23 @@ export function Circuit3D({
     }
   }, [])
 
+  // A browser allows only a handful of live WebGL contexts (typically 16), and
+  // silently force-loses the oldest when a new one exceeds that. Switching
+  // circuits remounts this canvas, so without explicit teardown the console
+  // fills with "Context Lost" and eventually a canvas renders black. React
+  // unmounting the element is not enough -- the context has to be released.
+  const glRef = useRef<THREE.WebGLRenderer | null>(null)
+  useEffect(
+    () => () => {
+      const gl = glRef.current
+      if (!gl) return
+      gl.forceContextLoss()
+      gl.dispose()
+      glRef.current = null
+    },
+    [],
+  )
+
   return (
     <div className="h-full w-full" style={{ background: colours.ground }}>
       <Canvas
@@ -223,6 +240,9 @@ export function Circuit3D({
         dpr={[1, 2]}
         gl={{ antialias: true }}
         resize={{ debounce: 0, scroll: false }}
+        onCreated={({ gl }) => {
+          glRef.current = gl
+        }}
       >
         <OrbitCamera enabled={rotating} progress={progress} />
         <Scene track={track} mode={mode} progress={progress} />

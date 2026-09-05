@@ -14,6 +14,7 @@ import { useEffect, useMemo, useState } from 'react'
 import ReactECharts from 'echarts-for-react'
 import type { DecompositionRow } from '../lib/api'
 import { compoundColourResolved } from '../lib/api'
+import { useThemeColours } from '../lib/theme'
 
 /** Peel order: largest confounder first, so each step visibly changes the shape. */
 const STEPS = [
@@ -62,20 +63,27 @@ export function PeelAway({
 
   const colour = compoundColourResolved(compound)
   const atEnd = step === STEPS.length - 1
+  const c = useThemeColours()
 
   const option = {
+    // The morph between steps is the point of this chart, so update animation
+    // stays on. The *entry* animation does not: ECharts draws a line by
+    // expanding a clip path, and autoplay advances the step every 1.6 s. An
+    // entry animation cut short by the next step leaves that clip frozen
+    // part-way, which renders as a curve that stops dead in mid-air.
     animation: true,
-    animationDuration: 700,
-    animationEasing: 'cubicInOut',
+    animationDuration: 0,
+    animationDurationUpdate: 700,
+    animationEasingUpdate: 'cubicInOut',
     grid: { left: 46, right: 18, top: 18, bottom: 34 },
     xAxis: {
       type: 'value',
       name: 'tyre age (laps)',
       nameLocation: 'middle',
       nameGap: 22,
-      nameTextStyle: { color: '#5d6f7a', fontSize: 11 },
-      axisLine: { lineStyle: { color: '#26343d' } },
-      axisLabel: { color: '#5d6f7a', fontSize: 11 },
+      nameTextStyle: { color: c.inkFaint, fontSize: 11 },
+      axisLine: { lineStyle: { color: c.line } },
+      axisLabel: { color: c.inkFaint, fontSize: 11 },
       splitLine: { show: false },
     },
     yAxis: {
@@ -83,20 +91,21 @@ export function PeelAway({
       name: 'seconds vs stint start',
       nameLocation: 'middle',
       nameGap: 34,
-      nameTextStyle: { color: '#5d6f7a', fontSize: 11 },
+      nameTextStyle: { color: c.inkFaint, fontSize: 11 },
       axisLine: { show: false },
-      axisLabel: { color: '#5d6f7a', fontSize: 11, formatter: (v: number) => v.toFixed(1) },
-      splitLine: { lineStyle: { color: '#1d272e' } },
+      axisLabel: { color: c.inkFaint, fontSize: 11, formatter: (v: number) => v.toFixed(1) },
+      splitLine: { lineStyle: { color: c.raised } },
     },
     tooltip: {
       trigger: 'axis',
-      backgroundColor: '#151d23',
-      borderColor: '#26343d',
-      textStyle: { color: '#e4eaed', fontSize: 12 },
+      backgroundColor: c.surface,
+      borderColor: c.line,
+      textStyle: { color: c.ink, fontSize: 12 },
       valueFormatter: (v: number) => `${v >= 0 ? '+' : '−'}${Math.abs(v).toFixed(3)} s`,
     },
     series: [
       {
+        id: 'tyre',
         name: 'True tyre degradation',
         type: 'line',
         data: tyreOnly,
@@ -106,14 +115,15 @@ export function PeelAway({
         z: 3,
       },
       {
+        id: 'peel',
         name: STEPS[step].label,
         type: 'line',
         data: series,
         smooth: 0.2,
         symbol: 'circle',
         symbolSize: 4,
-        itemStyle: { color: atEnd ? colour : '#8fa3ae' },
-        lineStyle: { color: atEnd ? colour : '#8fa3ae', width: 2 },
+        itemStyle: { color: atEnd ? colour : c.inkDim },
+        lineStyle: { color: atEnd ? colour : c.inkDim, width: 2 },
         z: 4,
       },
     ],
@@ -139,7 +149,7 @@ export function PeelAway({
         ))}
       </div>
 
-      <ReactECharts option={option} style={{ height: 300 }} notMerge />
+      <ReactECharts option={option} style={{ height: 300 }} />
 
       <p className="mt-3 max-w-[68ch] text-[12.5px] leading-relaxed text-ink-dim">
         {atEnd ? (
