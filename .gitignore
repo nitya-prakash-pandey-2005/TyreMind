@@ -48,3 +48,10 @@ Thumbs.db
 
 # Internal build notes, kept locally and not published.
 Prompt.md
+
+# Rendered demo video. Kept out of git because a 28 MB binary in history costs
+# every clone forever, and the distribution channel is Drive, not GitHub.
+# Regenerate with: python scripts/record_demo.py docs/video/TyreMind_Demo.mp4
+docs/video/*.mp4
+docs/video/*.webm
+docs/video/*.png

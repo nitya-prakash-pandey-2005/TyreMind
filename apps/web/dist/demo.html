@@ -30,6 +30,17 @@ html,body{height:100%;background:var(--ground);color:var(--ink);font-family:var(
 #app{position:fixed;top:0;left:0;display:block;border:0;background:var(--ground);
      width:100vw;height:calc(100vh - 132px)}
 
+/* Pointer ------------------------------------------------------------------ */
+#ring{position:fixed;width:74px;height:74px;margin:-37px 0 0 -37px;border-radius:50%;
+      border:2px solid var(--tyre);opacity:0;pointer-events:none;z-index:12;
+      transition:left .75s cubic-bezier(.22,.61,.36,1),top .75s cubic-bezier(.22,.61,.36,1),opacity .3s}
+#ring::after{content:'';position:absolute;inset:-9px;border-radius:50%;
+      border:1px solid var(--tyre);opacity:.35;animation:pulse 1.9s ease-out infinite}
+@keyframes pulse{0%{transform:scale(.82);opacity:.5}100%{transform:scale(1.25);opacity:0}}
+#cursor{position:fixed;width:26px;height:26px;pointer-events:none;z-index:13;opacity:0;
+     transition:left .75s cubic-bezier(.22,.61,.36,1),top .75s cubic-bezier(.22,.61,.36,1),opacity .3s;
+     filter:drop-shadow(0 2px 4px rgba(0,0,0,.75))}
+
 /* Caption dock ------------------------------------------------------------- */
 #dock{position:fixed;left:0;right:0;bottom:0;height:132px;background:#0a0f12;
       border-top:1px solid var(--line);padding:16px 34px 0;display:flex;flex-direction:column}
@@ -62,6 +73,12 @@ html,body{height:100%;background:var(--ground);color:var(--ink);font-family:var(
 
 <iframe id="app" src="/" title="TyreMind"></iframe>
 
+<div id="ring"></div>
+<svg id="cursor" viewBox="0 0 24 24" fill="none">
+  <path d="M4 2 L4 19 L8.6 14.8 L11.4 21.4 L14.4 20.1 L11.7 13.7 L18 13.4 Z"
+        fill="#ffffff" stroke="#0a0f12" stroke-width="1.4" stroke-linejoin="round"/>
+</svg>
+
 <div id="dock">
   <div id="action"></div>
   <div id="caption"></div>
@@ -89,6 +106,8 @@ const elBar  = document.getElementById('bar');
 const elClock= document.getElementById('clock');
 const gate   = document.getElementById('gate');
 const count  = document.getElementById('count');
+const ring   = document.getElementById('ring');
+const cursor = document.getElementById('cursor');
 
 const doc = () => frame.contentDocument;
 const win = () => frame.contentWindow;
@@ -98,6 +117,15 @@ const win = () => frame.contentWindow;
    the remaining four minutes. */
 function go(hash) { try { win().location.hash = hash; } catch (e) {} }
 
+/* Switching view and scrolling in the same breath does not work: the app has
+   not laid out the new view yet, so scrollHeight is still small and the target
+   clamps to nearly zero. The caption then describes a screen the viewer is not
+   looking at. Give the render a beat first. */
+function goScroll(hash, px, delay = 1500) {
+  go(hash);
+  setTimeout(() => scrollTo(px), delay);
+}
+
 function scrollTo(px) {
   try {
     const m = doc().querySelector('main');
@@ -105,56 +133,197 @@ function scrollTo(px) {
   } catch (e) {}
 }
 
-function clickText(text) {
+function findButton(text) {
   try {
-    const b = [...doc().querySelectorAll('button')]
-      .find(x => x.textContent.trim().toLowerCase().startsWith(text.toLowerCase()));
-    if (b) b.click();
-  } catch (e) {}
+    return [...doc().querySelectorAll('button')]
+      .find(x => x.textContent.trim().toLowerCase().startsWith(text.toLowerCase())) || null;
+  } catch (e) { return null; }
 }
+
+/* Any small element whose text contains the needle. The pointer aims at the very
+   number a caption is quoting, so the two cannot drift apart. */
+function findText(needle, tags = 'div,span,td,h2,h3,h4,button,p') {
+  try {
+    const hit = [...doc().querySelectorAll(tags)]
+      .filter(e => e.children.length <= 2 && e.textContent.trim().includes(needle));
+    return hit.length ? hit[hit.length - 1] : null;
+  } catch (e) { return null; }
+}
+
+/* Move the pointer onto a target inside the frame. The frame sits at 0,0 so its
+   client coordinates map straight through. */
+let pointTimer = null;
+function pointAt(finder, delay = 420) {
+  clearTimeout(pointTimer);
+  pointTimer = setTimeout(() => {
+    let el = null;
+    try { el = typeof finder === 'function' ? finder() : finder; } catch (e) {}
+    if (!el) { hidePointer(); return; }
+    let r; try { r = el.getBoundingClientRect(); } catch (e) { return; }
+    if (!r || (r.width === 0 && r.height === 0)) { hidePointer(); return; }
+    const x = Math.min(Math.max(r.left + r.width / 2, 40), innerWidth - 40);
+    const y = Math.min(Math.max(r.top + r.height / 2, 40), frame.clientHeight - 40);
+    ring.style.left = x + 'px'; ring.style.top = y + 'px'; ring.style.opacity = 1;
+    cursor.style.left = (x + 16) + 'px'; cursor.style.top = (y + 12) + 'px'; cursor.style.opacity = 1;
+  }, delay);
+}
+function hidePointer() { ring.style.opacity = 0; cursor.style.opacity = 0; }
+
+function clickText(text) { const b = findButton(text); if (b) b.click(); return b; }
 
 /* Timeline. `at` is in natural seconds; SPEED compresses it. --------------- */
 const SCRIPT = [
-  { at:   0, act:'Start here · Monza 2024 · race',        cap:'A real Formula 1 race. Monza, 2024. <b>921 laps</b>, 20 cars.', do:()=>{ go('#/overview'); scrollTo(0); } },
-  { at:   8, act:'The standard method',                    cap:'Fit a line through lap time against tyre age — what everyone does.' },
-  { at:  17, act:'Reading the result',                     cap:'It says the tyres got <b>faster</b> the longer they ran.' },
-  { at:  26, act:'Both compounds',                         cap:'<b>−0.004</b> s/lap on the hard. <b>−0.034</b> on the medium. Both impossible.' },
-  { at:  35, act:'What TyreMind reports',                  cap:'Same laps, separated properly: <b>+0.074</b> and <b>+0.113</b> s/lap — each with an interval.', do:()=>scrollTo(430) },
-  { at:  46, act:'Why is the car slow · peel the causes',  cap:'So where did the lap time actually go?', do:()=>{ go('#/explain'); scrollTo(0); } },
-  { at:  55, act:'Stage 1 — raw lap times',                cap:'One stint. Ricciardo, 41 laps on the hard. Grey is what the stopwatch saw.', do:()=>clickText('Lap times as driven') },
-  { at:  68, act:'Stage 2 — fuel removed',                 cap:'Take out fuel burn-off. The car sheds 2.7 kg a lap and gains <span class="cool">0.08 s/lap</span>.', do:()=>clickText('Fuel burn-off removed') },
-  { at:  81, act:'Stage 3 — track evolution removed',      cap:'Take out track evolution. Rubber goes down, the whole circuit speeds up.', do:()=>clickText('Track evolution removed') },
-  { at:  93, act:'Stage 4 — traffic removed',              cap:'Take out traffic. What is left standing is the tyre.', do:()=>clickText('Traffic removed') },
-  { at: 105, act:'The reveal',                             cap:'The tyre lost <b>2.15 s</b>. The car finished <b>1.78 s faster</b>. Fuel hid the wear entirely.' },
-  { at: 117, act:'Lap-by-lap decomposition',               cap:'Every lap, split into causes. Orange is tyre loss, blue is fuel gain.', do:()=>scrollTo(760) },
-  { at: 129, act:'Where the lines cross',                  cap:'They cross. That is the lap the stint stops getting faster and starts getting slower.' },
-  { at: 141, act:'Does it work · the hard part',           cap:'So why does nobody check this?', do:()=>{ go('#/evidence'); scrollTo(0); } },
-  { at: 150, act:'Three causes, one direction',            cap:'Fuel, track and tyre all move lap time smoothly with lap number.' },
-  { at: 159, act:'The identification problem',             cap:'<b>Many wrong decompositions add up to the same right total.</b>' },
-  { at: 169, act:'Why the standard metric is blind',       cap:'A model can predict lap times almost perfectly and blame the wrong cause.' },
-  { at: 179, act:'The gap in the literature',              cap:'Every paper here is graded on lap-time error. That metric cannot see this failure.' },
-  { at: 189, act:'Ground-truth recovery · 25 sessions',    cap:'So I built a ground truth: synthetic sessions with a wear rate I set myself.', do:()=>scrollTo(900) },
-  { at: 201, act:'The headline result',                    cap:'Standard method misses by <b>0.0966</b> s/lap. TyreMind misses by <b>0.0044</b>.' },
-  { at: 212, act:'95.5% error reduction',                  cap:'A <b>95.5%</b> reduction — and the true value falls inside the interval every time.' },
-  { at: 223, act:'Practice → race · 5 events, 2024',       cap:'Then the real test. Friday practice scored against Sunday, no race data in the fit.', do:()=>scrollTo(1500) },
-  { at: 235, act:'Out-of-distribution transfer',           cap:'<b>0.0518</b> against the naive <b>0.1166</b>. Half the error, genuinely out of distribution.' },
-  { at: 246, act:'The bias we report',                     cap:'Points sit above the line — a systematic <b>+0.047</b> bias. Reported, not tuned away.' },
-  { at: 257, act:'Live monitor · streaming replay',        cap:'And the same estimator runs live.', do:()=>{ go('#/live'); scrollTo(0); } },
-  { at: 263, act:'Starting the replay',                    cap:'The real session, one lap at a time, with no access to anything that happens later.', do:()=>clickText('Start live replay') },
-  { at: 276, act:'Per-car degradation, updating',          cap:'Every car, every lap, each estimate carrying its own uncertainty.' },
-  { at: 288, act:'Confidence collapsing',                  cap:'Watch the interval collapse: <b>±0.200</b> → <b>±0.025</b> s/lap over about 23 laps.' },
-  { at: 300, act:'Real-time cost',                         cap:'<b>0.22 ms</b> per lap. Flat in session length — lap 80 costs what lap 1 costs.' },
-  { at: 311, act:'Where it wears · 3D racing line',        cap:'Where on the lap the tyre actually gets used up.', do:()=>{ go('#/circuit'); scrollTo(0); } },
-  { at: 322, act:'Physics from GPS alone',                 cap:'Colour is tyre loading, computed from GPS. It recovers circuit rotation on <b>7 of 8</b> tracks.' },
-  { at: 333, act:'Beyond racing · NASA C-MAPSS',           cap:'Strip the motorsport words away and this is not a tyre problem.', do:()=>{ go('#/beyond'); scrollTo(300); } },
-  { at: 344, act:'Cross-domain validation',                cap:'Identical estimator, no tyre-specific code: jet engine remaining life, against real ground truth.' },
-  { at: 354, act:'Does it work · the model ladder',        cap:'And where I lose. <b>LightGBM predicts lap times better than I do.</b>', do:()=>{ go('#/evidence'); scrollTo(2350); } },
-  { at: 364, act:'Why it does not matter',                 cap:'It has no parameter meaning "degradation rate", and it cannot extrapolate.' },
-  { at: 373, act:'TyreMind · causal tyre intelligence',    cap:'The hard part was never building a model. <b>It was building a test that could fail.</b>' },
-  // Hold the closing line rather than blanking it: the last frame is what a
-  // paused video shows, and a thumbnail of an empty caption bar says nothing.
-  { at: 383.5, act:'TyreMind · causal tyre intelligence',
-    cap:'The hard part was never building a model. <b>It was building a test that could fail.</b>', end:true },
+  { at:0,   act:'Start here \u00b7 Monza 2024 \u00b7 race',
+    cap:'This is a real Formula 1 race. Monza, 2024. <b>921 laps</b>.',
+    do:()=>{ go('#/overview'); scrollTo(0); hidePointer(); } },
+
+  { at:8,   act:'The standard method',
+    cap:'And this number says the tyres got <b>faster</b> the longer they ran.',
+    do:()=>pointAt(()=>findText('-0.004')) },
+
+  { at:18,  act:'Both compounds',
+    cap:'Minus <b>0.004</b> seconds a lap on the hard. Minus <b>0.034</b> on the medium.',
+    do:()=>pointAt(()=>findText('-0.034')) },
+
+  { at:28,  act:'Not my model \u2014 the standard one',
+    cap:'That is not my model. That is a line fitted through lap time against tyre age.',
+    do:()=>pointAt(()=>findText('Fit a straight line')) },
+
+  { at:38,  act:'What TyreMind reports instead',
+    cap:'What every team and every public analysis does. And here it says tyres improve with use.',
+    do:()=>pointAt(()=>findText('0.113')) },
+
+  { at:48,  act:'Why is the car slow \u00b7 peel the causes',
+    cap:'Here is why. One stint \u2014 Ricciardo, <b>41 laps</b> on the hard.',
+    do:()=>{ go('#/explain'); scrollTo(0); hidePointer(); } },
+
+  { at:57,  act:'Stage 1 \u2014 lap times as driven',
+    cap:'The grey line is what the stopwatch saw. Watch as I take the causes away one at a time.',
+    do:()=>pointAt(()=>clickText('Lap times as driven'), 250) },
+
+  { at:69,  act:'Stage 2 \u2014 fuel burn-off removed',
+    cap:'Fuel burn-off. The car sheds <span class="cool">2.7 kg a lap</span> and gets about eight hundredths quicker.',
+    do:()=>pointAt(()=>clickText('Fuel burn-off removed'), 250) },
+
+  { at:81,  act:'Stage 3 \u2014 track evolution removed',
+    cap:'Track evolution \u2014 rubber goes down, and the whole circuit speeds up.',
+    do:()=>pointAt(()=>clickText('Track evolution removed'), 250) },
+
+  { at:92,  act:'Stage 4 \u2014 traffic removed',
+    cap:'Traffic. And what is left standing is the tyre.',
+    do:()=>pointAt(()=>clickText('Traffic removed'), 250) },
+
+  { at:103, act:'The reveal',
+    cap:'It lost <b>2.15 seconds</b>. The car was <b>1.78 seconds faster</b> at the end of that stint.',
+    do:()=>pointAt(()=>findText('2.15')) },
+
+  { at:114, act:'Lap-by-lap decomposition',
+    cap:'The fuel gain was bigger than the tyre loss. Read lap times alone and you miss a dying tyre.',
+    do:()=>{ scrollTo(780); hidePointer(); } },
+
+  { at:126, act:'Orange is tyre, blue is fuel',
+    cap:'Every lap, split into causes. Orange is the tyre going away; blue is fuel handing time back.',
+    do:()=>pointAt(()=>findText('Fuel burn-off')) },
+
+  { at:138, act:'Does it work \u00b7 the hard part',
+    cap:'So the confounders are not noise around the signal. They are <b>bigger</b> than the signal.',
+    do:()=>{ go('#/evidence'); scrollTo(0); hidePointer(); } },
+
+  { at:148, act:'Three causes, one direction',
+    cap:'Every published model here is graded on how well it predicts lap times.',
+    do:()=>pointAt(()=>findText('Fuel vs degradation')) },
+
+  { at:158, act:'The identification problem',
+    cap:'That metric cannot see this failure. <b>Many wrong answers add up to the same right total.</b>',
+    do:()=>pointAt(()=>findText('Track evolution')) },
+
+  { at:169, act:'Why nobody checks',
+    cap:'A model can predict lap times almost perfectly while blaming entirely the wrong cause.',
+    do:()=>pointAt(()=>findText('Tyre age')) },
+
+  { at:179, act:'No ground truth exists',
+    cap:'And nobody checks, because public Formula 1 data contains no measured tyre wear.',
+    do:()=>{ scrollTo(620); hidePointer(); } },
+
+  { at:189, act:'Ground-truth recovery \u00b7 25 sessions',
+    cap:'So I built one. Synthetic sessions where <b>I</b> set the degradation rate, then bury it.',
+    do:()=>{ scrollTo(900); } },
+
+  { at:200, act:'The headline result',
+    cap:'The standard method misses by <b>0.0966</b> seconds a lap. Mine misses by <b>0.0044</b>.',
+    do:()=>pointAt(()=>findText('0.0044')) },
+
+  { at:211, act:'95.5% error reduction',
+    cap:'A <b>95.5%</b> reduction \u2014 and the true value falls inside my interval every single time.',
+    do:()=>pointAt(()=>findText('95.5')) },
+
+  { at:222, act:'Practice \u2192 race \u00b7 5 events, 2024',
+    cap:'Then the question the brief asks: estimate from Friday, score it against Sunday.',
+    do:()=>{ scrollTo(1500); hidePointer(); } },
+
+  { at:233, act:'Out-of-distribution transfer',
+    cap:'No race data reaches the practice fit. <b>0.0518</b> against the naive <b>0.1166</b>.',
+    do:()=>pointAt(()=>findText('0.0518')) },
+
+  { at:244, act:'The bias we report, not remove',
+    cap:'And a systematic <b>+0.047</b> bias, in nine comparisons out of ten. Reported, not tuned away.',
+    do:()=>pointAt(()=>findText('+0.047')) },
+
+  { at:255, act:'Live monitor \u00b7 streaming replay',
+    cap:'This is the part that matters on a pit wall.',
+    do:()=>{ go('#/live'); scrollTo(0); hidePointer(); } },
+
+  { at:262, act:'Starting the replay',
+    cap:'The same model runs forward a lap at a time, with no access to anything that happens later.',
+    do:()=>pointAt(()=>clickText('Start live replay'), 250) },
+
+  { at:274, act:'Per-car degradation, updating',
+    cap:'That is the real session replaying. Per-car degradation, updating every lap.',
+    do:()=>pointAt(()=>findText('Tyre state, as known right now')) },
+
+  { at:286, act:'Confidence collapsing',
+    cap:'Watch the uncertainty collapse \u2014 <b>\u00b10.200</b> down to <b>\u00b10.025</b> over about 23 laps.',
+    do:()=>pointAt(()=>findText('Confidence, as laps arrive')) },
+
+  { at:298, act:'Honest about what it knows',
+    cap:'The model starts by telling you it does not know, and is honest about when that changes.',
+    do:()=>hidePointer() },
+
+  { at:308, act:'Where it wears \u00b7 3D racing line',
+    cap:'<b>0.22 milliseconds</b> per lap. Flat in session length \u2014 lap 80 costs what lap 1 costs.',
+    do:()=>{ go('#/circuit'); scrollTo(0); hidePointer(); } },
+
+  { at:319, act:'Physics recovered from GPS',
+    cap:'The real racing line, coloured by how hard the tyres are working at each point.',
+    do:()=>pointAt(()=>doc().querySelector('canvas')) },
+
+  { at:330, act:'A check it cannot fake',
+    cap:'From GPS alone it recovers which <b>direction</b> a circuit runs \u2014 on <b>7 of 8</b> tracks.',
+    do:()=>hidePointer() },
+
+  { at:340, act:'Beyond racing \u00b7 NASA C-MAPSS',
+    cap:'And this is not really a tyre problem. Something wears out, and you cannot see it directly.',
+    do:()=>{ goScroll('#/beyond', 320); hidePointer(); } },
+
+  { at:351, act:'Cross-domain validation',
+    cap:'The identical estimator predicts jet engine remaining life, with no tyre-specific code.',
+    do:()=>pointAt(()=>findText('26.5')) },
+
+  { at:361, act:'Does it work \u00b7 the model ladder',
+    cap:'Last thing, and it is the one I would want to hear if I were judging.',
+    do:()=>{ goScroll('#/evidence', 2350); hidePointer(); } },
+
+  { at:369, act:'Where I lose',
+    cap:'A gradient-boosted tree beats me. <b>LightGBM predicts lap times better than my model does.</b>',
+    do:()=>pointAt(()=>findText('0.677')) },
+
+  { at:377, act:'Why it does not matter',
+    cap:'But it has no parameter meaning \u201cdegradation rate\u201d, and it cannot extrapolate.',
+    do:()=>pointAt(()=>findText('0.136')) },
+
+  { at:383.5, act:'TyreMind \u00b7 causal tyre intelligence',
+    cap:'The hard part was never building a model. <b>It was building a test that could fail.</b>',
+    do:()=>hidePointer(), end:true },
 ];
 
 const TOTAL = SCRIPT[SCRIPT.length - 1].at / SPEED;
@@ -184,6 +353,7 @@ function tick() {
       if (step.end) {
         elBar.style.width = '100%';
         elClock.textContent = `${mmss(TOTAL)} / ${mmss(TOTAL)}`;
+        document.body.dataset.done = '1';
         clearInterval(timer);
         return;
       }
@@ -220,6 +390,7 @@ const readyPoll = setInterval(() => {
   setTimeout(() => {
     scrollTo(0);
     appReady = true;
+    document.body.dataset.ready = '1';
     elReady.textContent = 'Ready — press Space';
     elReady.classList.add('go');
   }, 2500);
@@ -232,6 +403,8 @@ function start() {
   timer = setInterval(tick, 100);
   tick();
 }
+
+window.startDemo = start;   // lets a recorder trigger it without a keypress
 
 function countdownThenStart() {
   let n = 3;
