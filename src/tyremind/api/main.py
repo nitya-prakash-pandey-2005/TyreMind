@@ -14,8 +14,10 @@ from __future__ import annotations
 
 import asyncio
 import contextlib
+import functools
 import json
 import logging
+import math
 from pathlib import Path
 from typing import Annotated
 
@@ -32,6 +34,7 @@ from tyremind.causal.counterfactual import (
 )
 from tyremind.causal.decomposition import decompose_lap, decompose_run
 from tyremind.data.synthetic import naive_degradation_estimate
+from tyremind.models.conformal import CalibrationUnavailableError, ConformalCalibrator
 from tyremind.stream.live import LiveTyreMonitor, replay
 
 logger = logging.getLogger(__name__)
@@ -91,6 +94,48 @@ def _load(session_id: str):
         raise HTTPException(status_code=503, detail=str(exc)) from exc
 
 
+@functools.lru_cache(maxsize=1)
+def _race_calibrator() -> ConformalCalibrator | None:
+    """The fitted practice-to-race calibration, or None if it has not been built.
+
+    Returning None rather than raising is right here and wrong in the library.
+    `ConformalCalibrator.load` refuses to guess because a caller asking for a
+    calibrated interval must not be handed an uncalibrated one wearing the same
+    label. The API's contract is different: the projection is an extra field, and
+    a clone that has not run experiment 12 should still get a working dashboard
+    with that field absent, rather than a 500.
+    """
+    try:
+        return ConformalCalibrator.load()
+    except (CalibrationUnavailableError, ValueError, json.JSONDecodeError) as exc:
+        logger.warning("no conformal calibration available: %s", exc)
+        return None
+
+
+def _race_projection(
+    calibrator: ConformalCalibrator | None, rate: float, sd: float
+) -> dict | None:
+    """What this practice rate implies for the race, with a calibrated interval."""
+    if calibrator is None or not math.isfinite(sd):
+        return None
+    low, high = calibrator.interval(rate, sd)
+    return {
+        "expected_race_rate": rate - calibrator.bias,
+        "interval": [low, high],
+        "confidence": calibrator.confidence,
+        "bias_correction": -calibrator.bias,
+        # Provenance travels with the number. A strategist deciding how much to
+        # trust an interval is entitled to know it rests on 27 events, not 62
+        # loosely-related rows, and which seasons those were.
+        "calibrated_on": {
+            "comparisons": calibrator.n_calibration,
+            "events": calibrator.n_events,
+            "seasons": calibrator.seasons,
+            "score": calibrator.score,
+        },
+    }
+
+
 @app.get("/api/session/{session_id}")
 def session_summary(session_id: str) -> dict:
     """Headline numbers for a session: what was estimated, and how sure we are.
@@ -107,6 +152,9 @@ def session_summary(session_id: str) -> dict:
     traffic_mean, traffic_sd = fit.traffic_coefficient()
     naive = naive_degradation_estimate(loaded.lap_table)
 
+    calibrator = _race_calibrator()
+    is_practice = loaded.ref.session.upper().startswith("FP")
+
     return {
         "session": loaded.ref.to_dict(),
         "quality": loaded.quality,
@@ -117,7 +165,16 @@ def session_summary(session_id: str) -> dict:
             compound: {
                 "degradation_rate": mean,
                 "degradation_rate_sd": sd,
+                # This interval describes THIS session's degradation rate, and it
+                # is correct for that. It is deliberately not widened, because a
+                # question about Friday deserves Friday's uncertainty.
                 "ci95": [mean - 1.96 * sd, mean + 1.96 * sd],
+                # The projection to Sunday is a different quantity and gets its
+                # own field rather than quietly replacing the one above. Measured
+                # over 62 comparisons the ci95 above covers the eventual race rate
+                # 76% of the time while labelled 95%; this one covers 95%.
+                "race_projection": _race_projection(calibrator, mean, sd)
+                if is_practice else None,
                 "naive_estimate": naive.get(compound),
                 "laps": int((loaded.lap_table["compound"] == compound).sum()),
             }

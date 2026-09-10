@@ -1,6 +1,20 @@
 {
+  "calibration_artefact": "data\\reference\\conformal_calibration.json",
+  "shipped_calibration": {
+    "score": "studentised",
+    "alpha": 0.05,
+    "quantile": 3.4243757122669605,
+    "bias": 0.042205821416997774,
+    "n_calibration": 62,
+    "n_events": 27,
+    "seasons": [
+      2023,
+      2024
+    ],
+    "generated_at": "2026-09-10T06:46:03.866633+00:00"
+  },
   "experiment": "exp12_conformal_intervals",
-  "generated_at": "2026-09-10T06:36:18.193883+00:00",
+  "generated_at": "2026-09-10T06:46:03.866633+00:00",
   "alpha": 0.05,
   "target_coverage": 0.95,
   "min_calibration": 19,

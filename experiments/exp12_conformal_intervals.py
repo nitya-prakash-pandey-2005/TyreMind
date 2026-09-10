@@ -53,6 +53,8 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+from tyremind.models.conformal import ConformalCalibrator
+
 RESULTS = Path(__file__).parent / "results" / "exp12_conformal_intervals.json"
 EXP03 = Path(__file__).parent / "results" / "exp03_practice_to_race.json"
 
@@ -215,8 +217,31 @@ def main() -> None:
     print("  finite-sample: it does not assume the model is Gaussian, or even correct.")
     print("=" * 84)
 
+    # Everything above measures the method by holding events out. The artefact
+    # the product ships is fitted on ALL of it, which is the right thing to do
+    # once the method has been validated: the held-out numbers say what coverage
+    # to expect, and the shipped calibration should then use every comparison
+    # available rather than 26/27ths of them.
+    calibrator = ConformalCalibrator.fit(
+        predicted=df["predicted"].to_numpy(),
+        actual=df["actual"].to_numpy(),
+        posterior_sd=df["sd"].to_numpy(),
+        events=(df["year"].astype(str) + " " + df["event"]).to_numpy(),
+        alpha=args.alpha,
+        score=name,
+        seasons=sorted(df["year"].unique().tolist()),
+    )
+    saved = calibrator.save()
+    print(f"\n  fitted on all {calibrator.n_calibration} comparisons across "
+          f"{calibrator.n_events} events")
+    print(f"  bias {calibrator.bias:+.4f} s/lap, {name} quantile "
+          f"{calibrator.quantile:.4f}")
+    print(f"  wrote {saved}")
+
     RESULTS.parent.mkdir(parents=True, exist_ok=True)
     RESULTS.write_text(json.dumps({
+        "calibration_artefact": str(saved),
+        "shipped_calibration": calibrator.to_dict(),
         "experiment": "exp12_conformal_intervals",
         "generated_at": datetime.now(UTC).isoformat(),
         "alpha": args.alpha,
