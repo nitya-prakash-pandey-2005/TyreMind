@@ -339,12 +339,17 @@ footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);
     <div class="gap">
       <span class="idx">01</span>
       <div>
-        <h4>Compound labels hide the physics <span class="tag t-new">specification error</span></h4>
+        <h4>Compound labels hide the physics <span class="tag t-done">tested — hypothesis not supported</span></h4>
         <p>
-          Pirelli nominates three of the C1–C5 range for each Grand Prix. <b>"MEDIUM" at Monza is C4;
-          "MEDIUM" at Silverstone is C2 — different rubber.</b> We pool them as one compound. That biases every
-          cross-circuit comparison, wastes statistical power, and makes transfer to a new circuit impossible.
-          This is the most serious technical flaw in the build and the least visible.
+          Pirelli nominates three of the C1–C5 range for each Grand Prix, so <b>"MEDIUM" at Monza is C4 while
+          "MEDIUM" at Silverstone is C2 — different rubber</b>, and we pooled them as one compound. We predicted
+          that was a specification error costing us accuracy. <b>Experiment 08 says otherwise.</b> Across 58 stint
+          estimates from 23 races, pooling on the compound actually fitted transfers no better than pooling on
+          the relative label — leave-one-event-out MAE 0.0499 against 0.0469, Wilcoxon
+          <span class="mono">p&nbsp;=&nbsp;0.16</span>. The likely mechanism is that Pirelli nominates to
+          <em>equalise</em>: harder compounds for abrasive circuits, softer for gentle ones. The label already
+          carries circuit severity, by design. The compound table is built and tested regardless, because the
+          circuit-transfer model in M3 needs a physical compound to predict <em>for</em>.
         </p>
       </div>
     </div>
@@ -459,16 +464,18 @@ footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);
     <div class="move">
       <div class="top">
         <h3>M2 · Model the compound that was actually fitted</h3>
-        <span class="tag t-new">Technical depth</span>
+        <span class="tag t-done">Complete · negative result</span>
       </div>
       <p class="why">
-        Build the per-event Pirelli C1–C5 allocation table and re-specify the hierarchy to pool on true compound
-        identity instead of the relative HARD/MEDIUM/SOFT label. Corrects a real specification error, multiplies
-        the evidence behind each compound baseline, and is the precondition for predicting an unseen circuit.
-        We have found no published tyre model that does this on public data.
+        <b>Done, and the hypothesis did not survive.</b> The per-event C1–C5 allocation table is built, cited
+        row by row and covered by tests. But identity pooling does not beat label pooling on held-out events
+        (0.0499 against 0.0469 s/lap, <span class="mono">p&nbsp;=&nbsp;0.16</span>), and the mechanism is
+        interesting on its own: Pirelli nominates to equalise, so the relative label is already a
+        circuit-adjusted compound index. The table stays because M3 needs a physical compound to predict for —
+        but the claim is now a published negative result, not a correction.
       </p>
       <div class="test"><b>Falsified if:</b> identity pooling does not beat label pooling on held-out events.
-        Test: leave-one-event-out degradation recovery, both specifications, same folds.</div>
+        <b>Outcome:</b> exactly that. Reported rather than retried until it agreed with us.</div>
     </div>
 
     <div class="move">
