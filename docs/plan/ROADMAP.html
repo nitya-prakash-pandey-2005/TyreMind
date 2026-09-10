@@ -306,10 +306,10 @@ footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);
     </div>
     <div class="card">
       <h4>Evidence</h4>
-      <p>Seven recorded experiments. Ground-truth recovery <span class="mono">0.0044</span> vs naive
-         <span class="mono">0.0966</span> over 25 sessions. Practice→race <span class="mono">0.0518</span> vs
-         <span class="mono">0.1166</span> over 5 events.</p>
-      <p class="mono small">7 result files · every figure read, none typed</p>
+      <p>Twelve recorded experiments. Ground-truth recovery <span class="mono">0.0044</span> vs naive
+         <span class="mono">0.0966</span> over 25 sessions. Practice→race <span class="mono">0.0871</span> vs
+         <span class="mono">0.1442</span> over <b>27 events and 62 comparisons</b>, two seasons.</p>
+      <p class="mono small">12 result files · 113 sessions · 61,396 laps · every figure read, none typed</p>
     </div>
     <div class="card">
       <h4>Product</h4>
@@ -320,12 +320,20 @@ footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);
   </div>
 
   <div class="note" style="margin-top:20px">
-    <h3>And the number that should worry us</h3>
+    <h3>The number that used to worry us &mdash; and what it cost to fix</h3>
     <p>
-      Our entire real-data claim rests on <b class="hot">10 comparisons across 5 events, all from 2024</b>.
-      We hold 8 sessions covering 4 circuits. The 2024 season alone has <b>24 events</b>, and FastF1 exposes
-      every one of them plus prior seasons. A rival who runs a full season has twenty times our evidence and
-      will say so.
+      This section previously read: <i>“our entire real-data claim rests on 10 comparisons across 5 events,
+      all from 2024.”</i> That is now <b>62 comparisons across 27 events over 2024 and 2023</b>, drawn from a
+      corpus of <b>113 sessions and 61,396 laps</b> spanning three seasons.
+    </p>
+    <p>
+      The risk register below predicted that results might get worse at scale and said that would be
+      <i>“a feature, not a failure”</i>. It was right on both counts. Practice→race MAE went from
+      <span class="mono">0.0518</span> to <span class="mono">0.0871</span> s/lap: the five-event sample had
+      been flattering us. The naive baseline worsened in step (<span class="mono">0.1166</span> →
+      <span class="mono">0.1442</span>) and the <b>40% gap held</b>, which is the part of the claim that was
+      ever real. Interval coverage told the same story &mdash; 90% on ten comparisons was not good calibration,
+      it was too small a sample to detect that the true figure is 76%.
     </p>
   </div>
 </section>
@@ -357,11 +365,12 @@ footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);
     <div class="gap">
       <span class="idx">02</span>
       <div>
-        <h4>The evidence base is thin <span class="tag t-risk">high exposure</span></h4>
+        <h4>The evidence base is thin <span class="tag t-done">closed &mdash; 113 sessions, 61,396 laps</span></h4>
         <p>
-          Four circuits, one season, ten real comparisons. Every headline is defensible but under-powered.
-          "Would this hold over a full season?" is the first question a statistician asks, and today the honest
-          answer is "we don't know".
+          <s>Four circuits, one season, ten real comparisons.</s> The corpus now spans 2024, 2023 and 2022;
+          the practice→race claim rests on 27 events and 62 comparisons across two seasons, and the
+          circuit-transfer work on 140 stint estimates at 25 venues. "Would this hold over a full season?"
+          now has an answer, and the answer is that the headline got worse and the margin held.
         </p>
       </div>
     </div>
@@ -369,11 +378,19 @@ footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);
     <div class="gap">
       <span class="idx">03</span>
       <div>
-        <h4>We report the practice→race bias but never explain it <span class="tag t-risk">open</span></h4>
+        <h4>We report the practice→race bias but never explain it <span class="tag t-done">tested &mdash; mechanism still open, consequence closed</span></h4>
         <p>
-          Practice over-predicts race degradation by <span class="mono">+0.047</span> s/lap in 9 of 10 comparisons.
-          Reporting it honestly earns credit. <b>Solving it earns the win.</b> We hypothesised fuel load and never
-          tested the cross-session version.
+          Nine candidate explanations were tested against the signed error with a Benjamini–Hochberg correction
+          across all nine (exp10). <b>Two survive:</b> mean practice stint length (ρ +0.37, p 0.003) and pit stops
+          per driver (ρ +0.33, p 0.009). <b>Three failed:</b> the practice→race temperature gap, traffic, and the
+          model's own posterior sd. The fuel-load hypothesis this card proposed was not among the survivors.
+        </p>
+        <p>
+          The causal story those two implied &mdash; practice going deeper into the wear curve than a pitted race
+          &mdash; was then built and <b>refuted</b> (exp11). Practice runs are 4.4 laps <i>shallower</i> than race
+          stints, not deeper, and forcing a common tyre-age window made bias and error both worse. The mechanism
+          remains unidentified and is now stated as such rather than guessed at; the <i>consequence</i> is closed
+          by conformal calibration (exp12), which widens the interval until it covers what it claims.
         </p>
       </div>
     </div>
@@ -393,10 +410,18 @@ footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);
     <div class="gap">
       <span class="idx">05</span>
       <div>
-        <h4>No pre-event capability <span class="tag t-new">the missing product</span></h4>
+        <h4>No pre-event capability <span class="tag t-done">tested &mdash; hypothesis not supported</span></h4>
         <p>
-          A team's real question is "we arrive at a circuit on Thursday — what will the tyres do?" We can only
-          answer once they have run. This is the gap between an analysis tool and a product.
+          Built and tested by leave-one-<i>circuit</i>-out over 140 stint estimates at 25 venues (exp09), so the
+          model has never seen the venue in any form &mdash; exactly Thursday's situation. <b>Circuit geometry does
+          not merely fail to help, it makes the label-mean baseline significantly worse</b> (p 0.003; p 0.001 with
+          compound identity). At 2.4× the data this is a firm negative, not an underpowered null.
+        </p>
+        <p>
+          The mechanism is the one exp08 found: <b>Pirelli nominates to equalise</b> &mdash; harder rubber for
+          abrasive venues, softer for gentle ones &mdash; so the weekend label already carries circuit severity by
+          design, and geometry laid on top re-fits severity that is already spoken for. Pre-event prediction is
+          still the right product goal; circuit geometry is not the route to it.
         </p>
       </div>
     </div>
@@ -404,10 +429,19 @@ footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);
     <div class="gap">
       <span class="idx">06</span>
       <div>
-        <h4>Lap-time intervals are undercovered <span class="tag t-risk">calibration</span></h4>
+        <h4>Lap-time intervals are undercovered <span class="tag t-risk">partly closed</span></h4>
         <p>
-          73% coverage against a nominal 95%, and pooled regression does better at 79%. We disclose it. We have
-          not diagnosed it, and we have never drawn a PIT histogram or a reliability diagram.
+          The <b>practice→race</b> half of this is fixed. Coverage was 76% against a nominal 95% &mdash; worse than
+          the 90% previously reported, which was a ten-comparison sample failing to detect the problem. Split
+          conformal prediction (exp12) brings it to <b>95%</b> with a distribution-free finite-sample guarantee,
+          at the honest cost of a wider interval (±0.25 vs ±0.14 s/lap). It is shipped, not just measured:
+          <span class="mono">tyremind.models.conformal</span>, exposed by the API as
+          <span class="mono">race_projection</span>.
+        </p>
+        <p>
+          <b>Still open:</b> lap-time interval coverage in the model ladder sits at 73% and pooled regression still
+          does better at 79%. The same conformal machinery applies and has not yet been pointed at it, and no PIT
+          histogram or reliability diagram has been drawn.
         </p>
       </div>
     </div>

@@ -1309,24 +1309,47 @@ C_b dTb/dt = k_sb(Ts−Tb) − h_b(Tb−T_air)</div>
   </p>
 
   <div class="stat-row">
-    <div class="stat key"><div class="v">0.0518</div><div class="l">TyreMind error</div><div class="s">s/lap MAE</div></div>
-    <div class="stat"><div class="v">0.1166</div><div class="l">Naive error</div><div class="s">s/lap MAE</div></div>
-    <div class="stat"><div class="v">+0.047</div><div class="l">Systematic bias</div><div class="s">reported, not tuned away</div></div>
-    <div class="stat"><div class="v">90%</div><div class="l">Interval coverage</div><div class="s">10 comparisons</div></div>
+    <div class="stat key"><div class="v">0.0871</div><div class="l">TyreMind error</div><div class="s">s/lap MAE</div></div>
+    <div class="stat"><div class="v">0.1442</div><div class="l">Naive error</div><div class="s">s/lap MAE</div></div>
+    <div class="stat"><div class="v">+0.042</div><div class="l">Systematic bias</div><div class="s">reported, not tuned away</div></div>
+    <div class="stat"><div class="v">95%</div><div class="l">Interval coverage</div><div class="s">calibrated; 76% before</div></div>
   </div>
-  <div class="prov">experiments/results/exp03_practice_to_race.json · 5 events, 2024, FP2 → race</div>
+  <div class="prov">experiments/results/exp03_practice_to_race.json · 27 events, 62 comparisons, 2024 + 2023, FP2 → race</div>
 
   <div class="panel warn">
-    <h4>An honest finding, not a clean win</h4>
+    <h4>This number got worse as the evidence grew, and that is the point</h4>
     <p>
-      Practice over-predicts race degradation by +0.047&nbsp;s/lap in 9 of 10
-      comparisons. The likely physical cause is that practice race-simulation runs
-      hold high fuel throughout, while a race stint averages lower — putting more
-      load through the tyre on Friday than on Sunday. <b>A bias that is systematic
-      is a far better position than one that is random</b>: it is correctable once
-      its cause is understood, whereas scatter is not. We report it rather than
-      subtracting it, because a correction fitted on five events would flatter these
-      numbers and would not survive the sixth.
+      On five events this section read <b>0.0518&nbsp;s/lap</b>. On 27 events across
+      two seasons it reads <b>0.0871</b>. The small sample was flattering us, and the
+      earlier figure did not replicate. What did hold is the comparison that carries
+      the argument: the naive method worsened in step, 0.1166&nbsp;→&nbsp;0.1442, and
+      the <b>40% gap between them is stable</b>. A claim that survives a six-fold
+      increase in evidence is worth more than a prettier one resting on ten comparisons.
+    </p>
+    <p>
+      The earlier version of this section warned that a correction fitted on five
+      events “would not survive the sixth”. It did not. Nine candidate explanations
+      for the +0.042&nbsp;s/lap bias were tested against the signed error with a
+      Benjamini–Hochberg correction across all nine. Two survive: mean practice stint
+      length (ρ +0.37, p 0.003) and pit stops per driver (ρ +0.33, p 0.009). Three
+      failed outright — the practice-to-race temperature gap, traffic, and the model's
+      own posterior standard deviation.
+    </p>
+    <p>
+      The causal story those two implied — that practice long runs reach the punishing
+      part of the wear curve while a pitted race stays on the flat part — was then
+      tested directly and <b>refuted</b>. Practice runs are on average 4.4 laps
+      <i>shallower</i> than race stints, not deeper, and forcing both sides into a
+      common tyre-age window made bias and error both worse (paired t p = 0.037).
+      <b>The bias is therefore corrected as a measured offset, not an explained one.</b>
+    </p>
+    <p>
+      Three events are excluded because they were never dry-degradation sessions:
+      Canada 2024 ran 67% of its race laps on wet rubber and yielded a fitted rate of
+      −0.151&nbsp;s/lap — a tyre getting faster with age, the same impossible number we
+      criticise the naive method for producing. The exclusion is applied to both sides
+      of every comparison, and the 40% wet-lap threshold was calibrated against the
+      season rather than chosen: Britain at 24.4% is kept, and its estimates are ordinary.
     </p>
   </div>
 
@@ -1666,8 +1689,26 @@ C_b dTb/dt = k_sb(Ts−Tb) − h_b(Tb−T_air)</div>
     against a nominal 95%. That is not a perfect score — it means the intervals are
     <b>conservative</b>, wider than strictly necessary. For decision support that is
     the safer error, but it is a miscalibration and is reported as one.
-    Practice-to-race coverage is 90% over 10 comparisons, closer to nominal but on
-    far too small a sample to conclude much.
+  </p>
+  <p>
+    Practice-to-race coverage went the <i>other</i> way, and on a sample large enough
+    to mean something: <b>76% over 62 comparisons</b> against a nominal 95%. That is
+    overconfidence, and it is the more dangerous direction — a strategist can plan
+    around a wide interval and cannot plan around a wrong one. An earlier version of
+    this document reported 90% over 10 comparisons; that sample was simply too small
+    to have detected the problem.
+  </p>
+  <p>
+    The cause is not a broken filter. The posterior standard deviation correctly
+    answers <i>how well do these practice laps pin down the practice rate</i>, which is
+    not the question the number gets used for; nothing about the transfer to Sunday —
+    fuel, track state, driving style, tyre management — is inside it.
+    <b>Split conformal prediction</b> repairs it to 95% at the honest cost of a wider
+    interval (±0.25&nbsp;s/lap against the Gaussian's ±0.14), with a distribution-free
+    finite-sample guarantee that assumes neither Gaussian errors nor a correctly
+    specified model. Calibration folds are grouped by event, because two compounds at
+    one Grand Prix share a track, a weather window and a fuel correction and are not
+    exchangeable with each other.
   </p>
   <div class="panel warn">
     <h4>And on lap-time prediction it goes the other way</h4>

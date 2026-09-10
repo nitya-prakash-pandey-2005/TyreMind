@@ -111,19 +111,45 @@ intervals are slightly *conservative* — wider than strictly necessary. For a
 decision-support tool that is the safer error, but it is a known
 miscalibration, not a perfect result.
 
-### Practice → race transfer — 2024, 5 events, 10 compound comparisons
+### Practice → race transfer — 2024 and 2023, 27 events, 62 compound comparisons
 
 | | Naive | TyreMind |
 |---|---:|---:|
-| MAE | 0.1166 s/lap | **0.0518 s/lap** |
-| 95% coverage | — | 90% |
-| Bias | — | **+0.0472 s/lap** |
+| MAE | 0.1442 s/lap | **0.0871 s/lap** |
+| 95% coverage, as fitted | — | 76% |
+| 95% coverage, conformally calibrated | — | **95%** |
+| Bias | — | **+0.0422 s/lap** |
 
-**The bias is systematic** — practice over-predicts race degradation in 9 of 10
-comparisons. Most likely cause: practice race-sim runs hold high fuel throughout
-while a race stint averages lower, putting more load through the tyre on Friday.
-A known, consistent bias is correctable; this one is reported rather than tuned
-away.
+**This result got worse as the evidence grew.** On 5 events and 10 comparisons
+the MAE was 0.0518 s/lap; on 27 events and 62 comparisons it is 0.0871. The
+small sample was flattering. The naive baseline degraded in step (0.1166 →
+0.1442) and the relative gap held at roughly 40%, which is the part of the claim
+that was real. Anyone quoting the older figure is quoting a number that did not
+replicate.
+
+Three events are excluded as not dry-degradation sessions at all — Canada 2024
+ran 67% of its race laps on wet rubber and produced a fitted rate of −0.151
+s/lap. The exclusion rule is applied to both sides of every comparison, and the
+40% wet-lap threshold was calibrated against 2024 rather than chosen: Britain at
+24.4% wet laps gave entirely ordinary estimates and is kept.
+
+**The bias is systematic** — practice over-predicts race degradation in 42 of 62
+comparisons. An earlier version of this card attributed it to practice race-sims
+holding high fuel throughout. That explanation is not supported and has been
+withdrawn. Nine candidate mechanisms were tested against the signed error with a
+Benjamini–Hochberg correction across all nine (exp10). Two survive:
+`practice_stint_len` (ρ +0.37, p 0.003) and `stops_per_driver` (ρ +0.33,
+p 0.009). Three did not: the practice-to-race temperature gap, traffic, and the
+model's own posterior sd.
+
+The causal reading of those two — that practice runs go deeper into the wear
+curve than pitted race stints — was then tested directly and **refuted** (exp11).
+Practice runs are on average 4.4 laps *shallower* than race stints, not deeper,
+and forcing a common tyre-age window made both bias and MAE worse (paired t
+p = 0.037). Stint length proxies something not yet identified.
+
+So the bias is corrected as a measured offset, not as an explained one, and the
+interval is widened by conformal calibration rather than by a story.
 
 ### Lap-time prediction — 4 real races, chronological folds
 

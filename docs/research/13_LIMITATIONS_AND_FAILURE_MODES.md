@@ -32,8 +32,18 @@ against a nominal 95%. That is not a perfect score — it means the intervals ar
 **conservative**, wider than strictly necessary.
 
 For decision support that is the safer error, but it is a miscalibration and is
-reported as one. Practice-to-race coverage is 90% over 10 comparisons, which is
-closer to nominal but on far too small a sample to conclude much.
+reported as one. Practice-to-race coverage went the *other* way and on a sample
+large enough to mean something: 76% over 62 comparisons against a nominal 95%.
+That is overconfidence, and it is the more dangerous direction, because a
+strategist can plan around a wide interval and cannot plan around a wrong one.
+
+The cause is not a broken filter. The posterior sd correctly answers "how well do
+these practice laps pin down the practice rate", which is not the question the
+number gets used for; nothing about the transfer to Sunday is inside it. Split
+conformal calibration fixes it to 95% at the honest cost of a wider interval
+(+-0.25 s/lap against the Gaussian's +-0.14). An earlier version of this document
+reported 90% over 10 comparisons; that sample was too small to have detected the
+problem.
 
 **And it goes the other way on lap-time prediction.** In the model ladder our
 95% lap-time intervals cover only **73%** of observations. That is

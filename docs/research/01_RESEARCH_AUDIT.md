@@ -115,7 +115,7 @@ the answer moves when those priors move.
 | FastF1 ingestion + quality engine | GREEN | Built. 454 raw laps → 143 usable at Monza FP2, every exclusion counted. |
 | Hierarchical state-space estimator | YELLOW | Built. Hand-written Kalman + RTS smoother; 5.8s per session fit. |
 | Ground-truth synthetic benchmark | GREEN | Built. The headline result. |
-| Practice → race validation | YELLOW | Built. 5 events, 10 comparisons. |
+| Practice → race validation | GREEN | Built. 27 events, 62 comparisons, two seasons, wet sessions excluded on evidence. |
 | Model ladder with time-aware CV | GREEN | Built. Five rungs, chronological folds. |
 | Real-time online estimation | GREEN | Built. 0.22 ms/lap mean. |
 | Curvature → per-corner energy | YELLOW | Built and independently validated (§5). |
@@ -203,8 +203,11 @@ extrapolation behaves.
 - The identifiability structure of the problem is characterised, and two of three
   collinearities are resolved by stated assumption.
 - Physics recovers circuit geometry it was never told, on 7 of 8 circuits.
-- Practice-derived degradation predicts race degradation at 0.0518 s/lap MAE,
-  56% better than naive, with 90% interval coverage.
+- Practice-derived degradation predicts race degradation at 0.0871 s/lap MAE
+  across 27 events and 62 comparisons, 40% better than naive, with 95% interval
+  coverage once conformally calibrated. On the original five events this read
+  0.0518 and 56%; the small sample was flattering, and the replicated figure is
+  the one quoted.
 - The same estimator transfers to turbofan degradation with real ground truth.
 
 **We do not claim:**

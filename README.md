@@ -112,6 +112,18 @@ bare number with a plus-or-minus appended.
 Every figure below is produced by a script in `experiments/` and read from
 `experiments/results/*.json`. Nothing here is typed by hand.
 
+The evidence base is **113 sessions and 61,396 laps** across 2024, 2023 and 2022
+(`scripts/build_corpus.py` builds it into `data/season/`, which is gitignored
+because it is large and rebuildable). The eight sessions committed under
+`data/demo/` are a presentation set chosen to span circuit types, so a fresh
+clone runs offline — they are not the evidence.
+
+Four hypotheses were tested and **not** supported, and are reported as such
+rather than dropped: compound identity ([exp08](experiments/exp08_compound_identity.py)),
+circuit geometry transfer ([exp09](experiments/exp09_circuit_transfer.py)), the
+practice-to-race temperature gap and traffic ([exp10](experiments/exp10_bias_mechanism.py)),
+and stint-depth matching ([exp11](experiments/exp11_depth_matched.py)).
+
 ### Can it recover a degradation rate it was never shown?
 
 25 synthetic sessions with a known hidden rate, buried under realistic
@@ -128,16 +140,32 @@ theory predicts — the collinearity showing up as a measured quantity.
 
 ### Does a Friday curve predict Sunday?
 
-2024, five events, ten compound comparisons. No race data reaches the practice
-fit:
+2024 and 2023, **27 events, 62 compound comparisons**. No race data reaches the
+practice fit:
 
 | | Naive | **TyreMind** |
 |---|---:|---:|
-| MAE | 0.1166 s/lap | **0.0518 s/lap** |
-| 95% coverage | — | 90% |
+| MAE | 0.1442 s/lap | **0.0871 s/lap** |
+| 95% coverage, as fitted | — | 76% |
+| 95% coverage, calibrated | — | **95%** |
 
-There is a **systematic +0.047 s/lap bias** — practice over-predicts race
-degradation in 9 of 10 comparisons. Reported, not tuned away.
+**40% error reduction.** This number got *worse* as the evidence grew, and that
+is worth stating plainly: on five events it was 0.0518 s/lap. The small sample
+was flattering. What held is the comparison that matters — the naive method
+worsened too, 0.1166 → 0.1442, and the gap between the two stayed at roughly
+40%. A claim that survives a six-fold increase in evidence is worth more than a
+prettier one resting on ten comparisons.
+
+Three events are excluded because they were not dry-degradation sessions at all
+(Canada 2024 ran 67% of its race laps on wet rubber). The rule is applied to
+both sides of every comparison and was calibrated, not chosen to flatter.
+
+There is a **systematic +0.042 s/lap bias** — practice over-predicts race
+degradation in 42 of 62 comparisons. Nine candidate explanations were tested
+with a multiplicity correction; two survive, and the causal story built on them
+was then tested and **refuted** ([exp11](experiments/exp11_depth_matched.py)).
+So the bias is not explained away. It is corrected as a measured offset, and the
+interval is widened by conformal calibration until it covers what it claims.
 
 ### Does the physics compute what it claims?
 

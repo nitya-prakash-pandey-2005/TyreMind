@@ -100,8 +100,9 @@ Then the numbers:
 
 - **Ground truth recovery:** 0.0044 s/lap against naive 0.0966. 95.5% better,
   100% interval coverage, 25 sessions.
-- **Practice → race:** 0.0518 vs 0.1166 MAE, 90% coverage — and a systematic
-  +0.047 s/lap bias we report rather than tune away.
+- **Practice → race:** 0.0871 vs 0.1442 MAE across 27 events and 62 compound
+  comparisons, 95% coverage after conformal calibration — and a systematic
+  +0.042 s/lap bias we report rather than tune away.
 
 ### 7. **Beyond racing** (60 s)
 

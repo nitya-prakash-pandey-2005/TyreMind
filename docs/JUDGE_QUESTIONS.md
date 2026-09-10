@@ -44,8 +44,11 @@ telemetry contains no measured tyre wear. That is why we do three other things:
 
 - **Synthetic ground truth.** We set the true rate, hide it, and measure
   recovery: 0.0044 s/lap error against the standard method's 0.0966.
-- **Practice → race.** Estimate from Friday, score against Sunday, no leakage:
-  0.0518 MAE, 90% coverage.
+- **Practice → race.** Estimate from Friday, score against Sunday, no leakage,
+  across 27 events and 62 compound comparisons in 2024 and 2023: 0.0871 MAE
+  against naive 0.1442, and 95% coverage once conformally calibrated (76%
+  before). On five events this read 0.0518; the small sample was flattering, and
+  we quote the number that replicated.
 - **A second asset class.** NASA C-MAPSS turbofans, which *do* have run-to-failure
   ground truth. Same estimator, no tyre-specific code.
 

@@ -806,7 +806,7 @@ export interface TransferPoint {
 /**
  * Friday's prediction against Sunday's measurement.
  *
- * A table of ten comparisons states the systematic bias; this shows it. Points
+ * A table of 62 comparisons states the systematic bias; this shows it. Points
  * sitting consistently above the diagonal rather than scattered around it is
  * what "systematic" means, and it is a different claim from "inaccurate" —
  * a consistent offset is correctable, whereas scatter is not.

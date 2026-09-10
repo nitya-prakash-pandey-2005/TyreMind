@@ -861,25 +861,34 @@ rate[stint] ~ N(compound_baseline[c], sd²)</pre>
   </p>
 
   <div class="figs f4">
-    <div class="fig key"><div class="v">0.0518</div><div class="l">TyreMind error</div><div class="s">s/lap MAE, 5 events, 2024</div></div>
-    <div class="fig"><div class="v">0.1166</div><div class="l">Naive error</div><div class="s">s/lap MAE, same comparisons</div></div>
-    <div class="fig"><div class="v">+0.047</div><div class="l">Systematic bias</div><div class="s">reported, not tuned away</div></div>
-    <div class="fig"><div class="v">90<span class="u">%</span></div><div class="l">Interval coverage</div><div class="s">10 comparisons &mdash; small sample, stated</div></div>
+    <div class="fig key"><div class="v">0.0871</div><div class="l">TyreMind error</div><div class="s">s/lap MAE, 27 events, 2024+2023</div></div>
+    <div class="fig"><div class="v">0.1442</div><div class="l">Naive error</div><div class="s">s/lap MAE, same comparisons</div></div>
+    <div class="fig"><div class="v">+0.042</div><div class="l">Systematic bias</div><div class="s">reported, not tuned away</div></div>
+    <div class="fig"><div class="v">95<span class="u">%</span></div><div class="l">Interval coverage</div><div class="s">conformally calibrated, 62 comparisons</div></div>
   </div>
 
   <div class="note warn">
-    <h4>An honest finding, not a clean win</h4>
+    <h4>This number got worse, and that is the point</h4>
     <p>
-      Practice over-predicts race degradation by +0.047&nbsp;s/lap in <b>9 of 10</b>
-      comparisons. The likely physical cause: practice race-simulation runs hold high
-      fuel throughout, while a race stint averages lower &mdash; putting more load
-      through the tyre on Friday than on Sunday.
+      On five events this panel read <b>0.0518&nbsp;s/lap</b>. On 27 events it reads
+      0.0871. The small sample was flattering us. What held is the comparison that
+      matters &mdash; the naive method worsened in step, 0.1166&nbsp;&rarr;&nbsp;0.1442,
+      and the <b>40% gap between them is stable</b>. A claim that survives a six-fold
+      increase in evidence is worth more than a prettier one resting on ten comparisons.
     </p>
     <p>
-      <b>A systematic bias is a far better position than a random one.</b> It is
-      correctable once its cause is understood; scatter is not. We report it rather
-      than subtracting it, because a correction fitted on five events would flatter
-      these numbers and would not survive the sixth.
+      The earlier version of this panel warned that a correction fitted on five events
+      &ldquo;would not survive the sixth&rdquo;. It did not. We tested nine explanations
+      for the +0.042&nbsp;s/lap bias with a multiplicity correction, found two that
+      survive, built the causal story they implied &mdash; and then <b>refuted it</b>:
+      practice runs are 4.4 laps <i>shallower</i> than race stints, not deeper, and
+      forcing a common window made the error worse.
+    </p>
+    <p>
+      So the bias is corrected as a <b>measured offset, not an explained one</b>, and the
+      interval is widened by conformal calibration until it covers what it claims. Three
+      events are excluded because they were never dry-degradation sessions: Canada 2024
+      ran 67% of its race laps on wet rubber.
     </p>
   </div>
 
@@ -1412,7 +1421,7 @@ rate[stint] ~ N(compound_baseline[c], sd²)</pre>
 
   <div class="figs f4" style="margin-top:32px">
     <div class="fig key"><div class="v">95.5<span class="u">%</span></div><div class="l">Error reduction recovering a hidden rate</div><div class="s">where the standard method has the wrong sign</div></div>
-    <div class="fig key"><div class="v">0.0518</div><div class="l">Practice&rarr;race error, s/lap</div><div class="s">against naive 0.1166, on the brief's own question</div></div>
+    <div class="fig key"><div class="v">0.0871</div><div class="l">Practice&rarr;race error, s/lap</div><div class="s">against naive 0.1442, on the brief's own question</div></div>
     <div class="fig"><div class="v">0.22<span class="u"> ms</span></div><div class="l">Per-lap live update</div><div class="s">the same estimator, forward-only</div></div>
     <div class="fig"><div class="v">26.5</div><div class="l">RUL RMSE on turbofans</div><div class="s">the same estimator, a different industry</div></div>
   </div>
