@@ -53,21 +53,25 @@ RESULTS = Path(__file__).parent / "results" / "exp08_compound_identity.json"
 MIN_LAPS_PER_COMPOUND = 25
 
 
-def fit_events(year: int, session: str) -> list[dict]:
-    """Fit every corpus session for `year`, returning per-label rate estimates."""
+def fit_events(years: list[int], session: str) -> list[dict]:
+    """Fit every corpus session in `years`, returning per-label rate estimates.
+
+    An event without a Pirelli nomination on file still yields a usable rate --
+    it just cannot contribute to the compound-versus-label comparison. Skipping
+    it entirely would throw away the circuit coverage that experiment 09 needs,
+    so the allocation is attached where known and left null where it is not.
+    """
     manifest = json.loads((CORPUS / "corpus.json").read_text())
     entries = sorted(
-        (e for e in manifest if e["year"] == year and e["session"] == session),
-        key=lambda e: e["round_number"],
+        (e for e in manifest if e["year"] in years and e["session"] == session),
+        key=lambda e: (e["year"], e["round_number"]),
     )
     allocations = load_allocations()
 
     rows: list[dict] = []
     for entry in entries:
         key = (entry["year"], entry["round_number"])
-        if key not in allocations:
-            print(f"  {entry['event_name']:<30} skip  no compound allocation on file")
-            continue
+        allocation = allocations.get(key)
 
         parquet = CORPUS / f"{entry['session_id']}.parquet"
         if not parquet.exists():
@@ -81,19 +85,17 @@ def fit_events(year: int, session: str) -> list[dict]:
             print(f"  {entry['event_name']:<30} skip  {type(exc).__name__}: {exc}")
             continue
 
-        allocation = allocations[key]
         laps_per_compound = lap_table.groupby("compound").size().to_dict()
         kept = 0
         for label, (rate, sd) in fit.compound_rates().items():
-            compound_id = allocation.compound_id(label)
-            if compound_id is None:
-                continue
+            compound_id = allocation.compound_id(label) if allocation else None
             n_laps = int(laps_per_compound.get(label, 0))
             if n_laps < MIN_LAPS_PER_COMPOUND:
                 continue
             rows.append(
                 {
                     "year": entry["year"],
+                    "circuit": entry["location"],
                     "round": entry["round_number"],
                     "event": entry["event_name"],
                     "label": label,
@@ -104,16 +106,20 @@ def fit_events(year: int, session: str) -> list[dict]:
                 }
             )
             kept += 1
+        nomination = (
+            "/".join(allocation.compound_id(x) for x in ("HARD", "MEDIUM", "SOFT"))
+            if allocation else "no nomination on file"
+        )
         print(
-            f"  {entry['event_name']:<30} {kept} compounds  "
-            f"{'/'.join(allocation.compound_id(x) for x in ('HARD', 'MEDIUM', 'SOFT'))}  "
-            f"{time.perf_counter() - started:.1f}s"
+            f"  {entry['year']} {entry['event_name']:<30} {kept} compounds  "
+            f"{nomination:<22} {time.perf_counter() - started:.1f}s"
         )
     return rows
 
 
 def variance_decomposition(rows: list[dict]) -> dict:
     """Spread of rate estimates within label groups against within compound groups."""
+    rows = [r for r in rows if r["compound_id"]]
 
     def within_group_sd(key: str) -> tuple[float, int]:
         groups: dict[str, list[float]] = {}
@@ -143,7 +149,13 @@ def variance_decomposition(rows: list[dict]) -> dict:
 
 
 def leave_one_event_out(rows: list[dict]) -> dict:
-    """Predict a held-out race's rates from the others, by label and by compound."""
+    """Predict a held-out race's rates from the others, by label and by compound.
+
+    Restricted to stints whose event has a nomination on file. Without this an
+    unallocated row carries compound_id None, and pooling on None would silently
+    group every unallocated stint into one bogus "compound".
+    """
+    rows = [r for r in rows if r["compound_id"]]
     events = sorted({(r["year"], r["round"]) for r in rows})
     per_case: list[dict] = []
 
@@ -212,14 +224,20 @@ def leave_one_event_out(rows: list[dict]) -> dict:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--year", type=int, default=2024)
+    parser.add_argument(
+        "--years", type=int, nargs="*",
+        help="fit several seasons at once; overrides --year",
+    )
     parser.add_argument("--session", default="R")
     args = parser.parse_args()
 
     warnings.filterwarnings("ignore")
     logging.getLogger("fastf1").setLevel(logging.ERROR)
 
-    print(f"\nfitting {args.year} {args.session} sessions from the corpus\n")
-    rows = fit_events(args.year, args.session)
+    years = args.years or [args.year]
+    seasons = "/".join(str(y) for y in years)
+    print(f"\nfitting {seasons} {args.session} sessions from the corpus\n")
+    rows = fit_events(years, args.session)
     if len(rows) < 6:
         raise SystemExit(f"only {len(rows)} usable estimates -- corpus too small to conclude")
 
@@ -265,7 +283,8 @@ def main() -> None:
             {
                 "experiment": "exp08_compound_identity",
                 "generated_at": datetime.now(UTC).isoformat(),
-                "year": args.year,
+                "year": years[0] if len(years) == 1 else None,
+                "years": years,
                 "session": args.session,
                 "min_laps_per_compound": MIN_LAPS_PER_COMPOUND,
                 "n_estimates": len(rows),

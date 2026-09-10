@@ -1,11 +1,16 @@
 {
   "experiment": "exp08_compound_identity",
-  "generated_at": "2026-09-10T04:44:26.147355+00:00",
-  "year": 2024,
+  "generated_at": "2026-09-10T06:04:01.839601+00:00",
+  "year": null,
+  "years": [
+    2024,
+    2023,
+    2022
+  ],
   "session": "R",
   "min_laps_per_compound": 25,
-  "n_estimates": 58,
-  "n_events": 23,
+  "n_estimates": 142,
+  "n_events": 57,
   "variance_decomposition": {
     "overall_sd": 0.07043827473203297,
     "within_label_sd": 0.06976951018378315,
@@ -28,7 +33,932 @@
   },
   "estimates": [
     {
+      "year": 2022,
+      "circuit": "Sakhir",
+      "round": 1,
+      "event": "Bahrain Grand Prix",
+      "label": "HARD",
+      "compound_id": null,
+      "rate": 0.17121050936368803,
+      "sd": 0.02905911766201652,
+      "n_laps": 91
+    },
+    {
+      "year": 2022,
+      "circuit": "Sakhir",
+      "round": 1,
+      "event": "Bahrain Grand Prix",
+      "label": "MEDIUM",
+      "compound_id": null,
+      "rate": 0.17579754622779753,
+      "sd": 0.02146710599234919,
+      "n_laps": 294
+    },
+    {
+      "year": 2022,
+      "circuit": "Sakhir",
+      "round": 1,
+      "event": "Bahrain Grand Prix",
+      "label": "SOFT",
+      "compound_id": null,
+      "rate": 0.22689970088697656,
+      "sd": 0.01952291600078948,
+      "n_laps": 507
+    },
+    {
+      "year": 2022,
+      "circuit": "Jeddah",
+      "round": 2,
+      "event": "Saudi Arabian Grand Prix",
+      "label": "HARD",
+      "compound_id": null,
+      "rate": -0.009614370935385103,
+      "sd": 0.020297515864728628,
+      "n_laps": 428
+    },
+    {
+      "year": 2022,
+      "circuit": "Jeddah",
+      "round": 2,
+      "event": "Saudi Arabian Grand Prix",
+      "label": "MEDIUM",
+      "compound_id": null,
+      "rate": 0.1343826823876166,
+      "sd": 0.03194968114508021,
+      "n_laps": 222
+    },
+    {
+      "year": 2022,
+      "circuit": "Melbourne",
+      "round": 3,
+      "event": "Australian Grand Prix",
+      "label": "HARD",
+      "compound_id": null,
+      "rate": 0.012536377218113043,
+      "sd": 0.019198133287751176,
+      "n_laps": 590
+    },
+    {
+      "year": 2022,
+      "circuit": "Melbourne",
+      "round": 3,
+      "event": "Australian Grand Prix",
+      "label": "MEDIUM",
+      "compound_id": null,
+      "rate": 0.13785958269014664,
+      "sd": 0.029468360861865908,
+      "n_laps": 217
+    },
+    {
+      "year": 2022,
+      "circuit": "Imola",
+      "round": 4,
+      "event": "Emilia Romagna Grand Prix",
+      "label": "HARD",
+      "compound_id": null,
+      "rate": 0.027946658285887487,
+      "sd": 0.020895761480017327,
+      "n_laps": 28
+    },
+    {
+      "year": 2022,
+      "circuit": "Imola",
+      "round": 4,
+      "event": "Emilia Romagna Grand Prix",
+      "label": "MEDIUM",
+      "compound_id": null,
+      "rate": 0.07382195097330152,
+      "sd": 0.016087581456958346,
+      "n_laps": 633
+    },
+    {
+      "year": 2022,
+      "circuit": "Imola",
+      "round": 4,
+      "event": "Emilia Romagna Grand Prix",
+      "label": "SOFT",
+      "compound_id": null,
+      "rate": 0.16243262801165625,
+      "sd": 0.026965001708327732,
+      "n_laps": 41
+    },
+    {
+      "year": 2022,
+      "circuit": "Miami",
+      "round": 5,
+      "event": "Miami Grand Prix",
+      "label": "HARD",
+      "compound_id": null,
+      "rate": 0.036446363626607324,
+      "sd": 0.014663227684615109,
+      "n_laps": 517
+    },
+    {
+      "year": 2022,
+      "circuit": "Miami",
+      "round": 5,
+      "event": "Miami Grand Prix",
+      "label": "MEDIUM",
+      "compound_id": null,
+      "rate": 0.05058665283599626,
+      "sd": 0.017773754835954947,
+      "n_laps": 322
+    },
+    {
+      "year": 2022,
+      "circuit": "Miami",
+      "round": 5,
+      "event": "Miami Grand Prix",
+      "label": "SOFT",
+      "compound_id": null,
+      "rate": 0.026848290840828522,
+      "sd": 0.043308457949683216,
+      "n_laps": 33
+    },
+    {
+      "year": 2022,
+      "circuit": "Barcelona",
+      "round": 6,
+      "event": "Spanish Grand Prix",
+      "label": "HARD",
+      "compound_id": null,
+      "rate": 0.2128706040333809,
+      "sd": 0.052501952243942177,
+      "n_laps": 33
+    },
+    {
+      "year": 2022,
+      "circuit": "Barcelona",
+      "round": 6,
+      "event": "Spanish Grand Prix",
+      "label": "MEDIUM",
+      "compound_id": null,
+      "rate": 0.16861765050695943,
+      "sd": 0.022220247948013038,
+      "n_laps": 463
+    },
+    {
+      "year": 2022,
+      "circuit": "Barcelona",
+      "round": 6,
+      "event": "Spanish Grand Prix",
+      "label": "SOFT",
+      "compound_id": null,
+      "rate": 0.19922308195857935,
+      "sd": 0.021429660041436743,
+      "n_laps": 604
+    },
+    {
+      "year": 2022,
+      "circuit": "Baku",
+      "round": 8,
+      "event": "Azerbaijan Grand Prix",
+      "label": "HARD",
+      "compound_id": null,
+      "rate": 0.04625402261671473,
+      "sd": 0.019559919069284958,
+      "n_laps": 541
+    },
+    {
+      "year": 2022,
+      "circuit": "Baku",
+      "round": 8,
+      "event": "Azerbaijan Grand Prix",
+      "label": "MEDIUM",
+      "compound_id": null,
+      "rate": 0.15819958023172095,
+      "sd": 0.02817015250346825,
+      "n_laps": 209
+    },
+    {
+      "year": 2022,
+      "circuit": "Montr\u00e9al",
+      "round": 9,
+      "event": "Canadian Grand Prix",
+      "label": "HARD",
+      "compound_id": null,
+      "rate": 0.069943009614953,
+      "sd": 0.014982847286251494,
+      "n_laps": 753
+    },
+    {
+      "year": 2022,
+      "circuit": "Montr\u00e9al",
+      "round": 9,
+      "event": "Canadian Grand Prix",
+      "label": "MEDIUM",
+      "compound_id": null,
+      "rate": 0.06790106991382043,
+      "sd": 0.018995578383448883,
+      "n_laps": 263
+    },
+    {
+      "year": 2022,
+      "circuit": "Silverstone",
+      "round": 10,
+      "event": "British Grand Prix",
+      "label": "HARD",
+      "compound_id": null,
+      "rate": 0.034006078754194875,
+      "sd": 0.02132163828493152,
+      "n_laps": 148
+    },
+    {
+      "year": 2022,
+      "circuit": "Silverstone",
+      "round": 10,
+      "event": "British Grand Prix",
+      "label": "MEDIUM",
+      "compound_id": null,
+      "rate": 0.050390209137704624,
+      "sd": 0.018439752938893616,
+      "n_laps": 342
+    },
+    {
+      "year": 2022,
+      "circuit": "Silverstone",
+      "round": 10,
+      "event": "British Grand Prix",
+      "label": "SOFT",
+      "compound_id": null,
+      "rate": 0.10261613507529752,
+      "sd": 0.022778451439298197,
+      "n_laps": 161
+    },
+    {
+      "year": 2022,
+      "circuit": "Le Castellet",
+      "round": 12,
+      "event": "French Grand Prix",
+      "label": "HARD",
+      "compound_id": null,
+      "rate": 0.0682468150301062,
+      "sd": 0.01715768863620662,
+      "n_laps": 519
+    },
+    {
+      "year": 2022,
+      "circuit": "Le Castellet",
+      "round": 12,
+      "event": "French Grand Prix",
+      "label": "MEDIUM",
+      "compound_id": null,
+      "rate": 0.08623129464700782,
+      "sd": 0.019301265196742533,
+      "n_laps": 307
+    },
+    {
+      "year": 2022,
+      "circuit": "Spa-Francorchamps",
+      "round": 14,
+      "event": "Belgian Grand Prix",
+      "label": "HARD",
+      "compound_id": null,
+      "rate": 0.1643439035451028,
+      "sd": 0.028170063003172676,
+      "n_laps": 232
+    },
+    {
+      "year": 2022,
+      "circuit": "Spa-Francorchamps",
+      "round": 14,
+      "event": "Belgian Grand Prix",
+      "label": "MEDIUM",
+      "compound_id": null,
+      "rate": 0.2412150651749962,
+      "sd": 0.025999372241096132,
+      "n_laps": 339
+    },
+    {
+      "year": 2022,
+      "circuit": "Spa-Francorchamps",
+      "round": 14,
+      "event": "Belgian Grand Prix",
+      "label": "SOFT",
+      "compound_id": null,
+      "rate": 0.21193527639130774,
+      "sd": 0.0438110295737647,
+      "n_laps": 73
+    },
+    {
+      "year": 2022,
+      "circuit": "Zandvoort",
+      "round": 15,
+      "event": "Dutch Grand Prix",
+      "label": "HARD",
+      "compound_id": null,
+      "rate": 0.06993089318307293,
+      "sd": 0.018282817041493083,
+      "n_laps": 258
+    },
+    {
+      "year": 2022,
+      "circuit": "Zandvoort",
+      "round": 15,
+      "event": "Dutch Grand Prix",
+      "label": "MEDIUM",
+      "compound_id": null,
+      "rate": 0.10102464575939614,
+      "sd": 0.01783221537482676,
+      "n_laps": 447
+    },
+    {
+      "year": 2022,
+      "circuit": "Zandvoort",
+      "round": 15,
+      "event": "Dutch Grand Prix",
+      "label": "SOFT",
+      "compound_id": null,
+      "rate": 0.11196938915079216,
+      "sd": 0.019098892496077772,
+      "n_laps": 428
+    },
+    {
+      "year": 2022,
+      "circuit": "Monza",
+      "round": 16,
+      "event": "Italian Grand Prix",
+      "label": "HARD",
+      "compound_id": null,
+      "rate": 0.0709779687873079,
+      "sd": 0.016177894021966167,
+      "n_laps": 253
+    },
+    {
+      "year": 2022,
+      "circuit": "Monza",
+      "round": 16,
+      "event": "Italian Grand Prix",
+      "label": "MEDIUM",
+      "compound_id": null,
+      "rate": 0.08051446363186317,
+      "sd": 0.015313860251342635,
+      "n_laps": 357
+    },
+    {
+      "year": 2022,
+      "circuit": "Monza",
+      "round": 16,
+      "event": "Italian Grand Prix",
+      "label": "SOFT",
+      "compound_id": null,
+      "rate": 0.0757232340505566,
+      "sd": 0.016484553500931507,
+      "n_laps": 154
+    },
+    {
+      "year": 2023,
+      "circuit": "Sakhir",
+      "round": 1,
+      "event": "Bahrain Grand Prix",
+      "label": "HARD",
+      "compound_id": null,
+      "rate": 0.11386468716924915,
+      "sd": 0.018036973541343777,
+      "n_laps": 511
+    },
+    {
+      "year": 2023,
+      "circuit": "Sakhir",
+      "round": 1,
+      "event": "Bahrain Grand Prix",
+      "label": "SOFT",
+      "compound_id": null,
+      "rate": 0.17337851318187394,
+      "sd": 0.0195658804778469,
+      "n_laps": 389
+    },
+    {
+      "year": 2023,
+      "circuit": "Jeddah",
+      "round": 2,
+      "event": "Saudi Arabian Grand Prix",
+      "label": "HARD",
+      "compound_id": null,
+      "rate": 0.022910083778680628,
+      "sd": 0.022507210800955645,
+      "n_laps": 475
+    },
+    {
+      "year": 2023,
+      "circuit": "Jeddah",
+      "round": 2,
+      "event": "Saudi Arabian Grand Prix",
+      "label": "MEDIUM",
+      "compound_id": null,
+      "rate": 0.02986279988710367,
+      "sd": 0.026753318752562767,
+      "n_laps": 323
+    },
+    {
+      "year": 2023,
+      "circuit": "Jeddah",
+      "round": 2,
+      "event": "Saudi Arabian Grand Prix",
+      "label": "SOFT",
+      "compound_id": null,
+      "rate": 0.08014644591783499,
+      "sd": 0.06580913274227666,
+      "n_laps": 27
+    },
+    {
+      "year": 2023,
+      "circuit": "Melbourne",
+      "round": 3,
+      "event": "Australian Grand Prix",
+      "label": "HARD",
+      "compound_id": null,
+      "rate": 0.027644573518811628,
+      "sd": 0.015909257104381017,
+      "n_laps": 632
+    },
+    {
+      "year": 2023,
+      "circuit": "Melbourne",
+      "round": 3,
+      "event": "Australian Grand Prix",
+      "label": "MEDIUM",
+      "compound_id": null,
+      "rate": 0.09283043495080864,
+      "sd": 0.02055227697022556,
+      "n_laps": 55
+    },
+    {
+      "year": 2023,
+      "circuit": "Baku",
+      "round": 4,
+      "event": "Azerbaijan Grand Prix",
+      "label": "HARD",
+      "compound_id": null,
+      "rate": 0.021382411568766982,
+      "sd": 0.016930228915716328,
+      "n_laps": 695
+    },
+    {
+      "year": 2023,
+      "circuit": "Baku",
+      "round": 4,
+      "event": "Azerbaijan Grand Prix",
+      "label": "MEDIUM",
+      "compound_id": null,
+      "rate": 0.13271090919502362,
+      "sd": 0.0319144740001855,
+      "n_laps": 134
+    },
+    {
+      "year": 2023,
+      "circuit": "Miami",
+      "round": 5,
+      "event": "Miami Grand Prix",
+      "label": "HARD",
+      "compound_id": null,
+      "rate": 0.057543625811374524,
+      "sd": 0.01716152767873286,
+      "n_laps": 784
+    },
+    {
+      "year": 2023,
+      "circuit": "Miami",
+      "round": 5,
+      "event": "Miami Grand Prix",
+      "label": "MEDIUM",
+      "compound_id": null,
+      "rate": 0.07404680912111257,
+      "sd": 0.019136075706838417,
+      "n_laps": 284
+    },
+    {
+      "year": 2023,
+      "circuit": "Monaco",
+      "round": 6,
+      "event": "Monaco Grand Prix",
+      "label": "HARD",
+      "compound_id": null,
+      "rate": 0.10799178930460185,
+      "sd": 0.02127102880799475,
+      "n_laps": 608
+    },
+    {
+      "year": 2023,
+      "circuit": "Monaco",
+      "round": 6,
+      "event": "Monaco Grand Prix",
+      "label": "MEDIUM",
+      "compound_id": null,
+      "rate": 0.09671127561552251,
+      "sd": 0.024847511079527353,
+      "n_laps": 329
+    },
+    {
+      "year": 2023,
+      "circuit": "Monaco",
+      "round": 6,
+      "event": "Monaco Grand Prix",
+      "label": "SOFT",
+      "compound_id": null,
+      "rate": 0.19349331893267657,
+      "sd": 0.06560274660821336,
+      "n_laps": 25
+    },
+    {
+      "year": 2023,
+      "circuit": "Barcelona",
+      "round": 7,
+      "event": "Spanish Grand Prix",
+      "label": "HARD",
+      "compound_id": null,
+      "rate": 0.10819116821259653,
+      "sd": 0.019279558528907264,
+      "n_laps": 509
+    },
+    {
+      "year": 2023,
+      "circuit": "Barcelona",
+      "round": 7,
+      "event": "Spanish Grand Prix",
+      "label": "MEDIUM",
+      "compound_id": null,
+      "rate": 0.10497244760750918,
+      "sd": 0.02026375006538332,
+      "n_laps": 374
+    },
+    {
+      "year": 2023,
+      "circuit": "Barcelona",
+      "round": 7,
+      "event": "Spanish Grand Prix",
+      "label": "SOFT",
+      "compound_id": null,
+      "rate": 0.10420112512671967,
+      "sd": 0.02205623333917289,
+      "n_laps": 321
+    },
+    {
+      "year": 2023,
+      "circuit": "Spielberg",
+      "round": 9,
+      "event": "Austrian Grand Prix",
+      "label": "HARD",
+      "compound_id": null,
+      "rate": 0.09920923238040673,
+      "sd": 0.01620383620524089,
+      "n_laps": 662
+    },
+    {
+      "year": 2023,
+      "circuit": "Spielberg",
+      "round": 9,
+      "event": "Austrian Grand Prix",
+      "label": "MEDIUM",
+      "compound_id": null,
+      "rate": 0.10366048550336222,
+      "sd": 0.016754030432970295,
+      "n_laps": 518
+    },
+    {
+      "year": 2023,
+      "circuit": "Silverstone",
+      "round": 10,
+      "event": "British Grand Prix",
+      "label": "HARD",
+      "compound_id": null,
+      "rate": 0.0576641081603145,
+      "sd": 0.017610065297570365,
+      "n_laps": 115
+    },
+    {
+      "year": 2023,
+      "circuit": "Silverstone",
+      "round": 10,
+      "event": "British Grand Prix",
+      "label": "MEDIUM",
+      "compound_id": null,
+      "rate": 0.05406331848228527,
+      "sd": 0.01662744229270518,
+      "n_laps": 433
+    },
+    {
+      "year": 2023,
+      "circuit": "Silverstone",
+      "round": 10,
+      "event": "British Grand Prix",
+      "label": "SOFT",
+      "compound_id": null,
+      "rate": 0.054616936979891964,
+      "sd": 0.01661551941915218,
+      "n_laps": 246
+    },
+    {
+      "year": 2023,
+      "circuit": "Budapest",
+      "round": 11,
+      "event": "Hungarian Grand Prix",
+      "label": "HARD",
+      "compound_id": null,
+      "rate": 0.10878965570578966,
+      "sd": 0.017229365106741328,
+      "n_laps": 720
+    },
+    {
+      "year": 2023,
+      "circuit": "Budapest",
+      "round": 11,
+      "event": "Hungarian Grand Prix",
+      "label": "MEDIUM",
+      "compound_id": null,
+      "rate": 0.10517980993591473,
+      "sd": 0.01852903278210231,
+      "n_laps": 408
+    },
+    {
+      "year": 2023,
+      "circuit": "Budapest",
+      "round": 11,
+      "event": "Hungarian Grand Prix",
+      "label": "SOFT",
+      "compound_id": null,
+      "rate": 0.14945363856949642,
+      "sd": 0.045144357397396896,
+      "n_laps": 27
+    },
+    {
+      "year": 2023,
+      "circuit": "Spa-Francorchamps",
+      "round": 12,
+      "event": "Belgian Grand Prix",
+      "label": "MEDIUM",
+      "compound_id": null,
+      "rate": 0.264210453276257,
+      "sd": 0.034793380941192185,
+      "n_laps": 362
+    },
+    {
+      "year": 2023,
+      "circuit": "Spa-Francorchamps",
+      "round": 12,
+      "event": "Belgian Grand Prix",
+      "label": "SOFT",
+      "compound_id": null,
+      "rate": 0.20150754374361923,
+      "sd": 0.03701024012484018,
+      "n_laps": 335
+    },
+    {
+      "year": 2023,
+      "circuit": "Zandvoort",
+      "round": 13,
+      "event": "Dutch Grand Prix",
+      "label": "HARD",
+      "compound_id": null,
+      "rate": 0.03554467184959471,
+      "sd": 0.04087160719673518,
+      "n_laps": 38
+    },
+    {
+      "year": 2023,
+      "circuit": "Zandvoort",
+      "round": 13,
+      "event": "Dutch Grand Prix",
+      "label": "MEDIUM",
+      "compound_id": null,
+      "rate": 0.06306717400292301,
+      "sd": 0.024305651814569933,
+      "n_laps": 156
+    },
+    {
+      "year": 2023,
+      "circuit": "Zandvoort",
+      "round": 13,
+      "event": "Dutch Grand Prix",
+      "label": "SOFT",
+      "compound_id": null,
+      "rate": 0.05760042576297372,
+      "sd": 0.016747773112211272,
+      "n_laps": 566
+    },
+    {
+      "year": 2023,
+      "circuit": "Monza",
+      "round": 14,
+      "event": "Italian Grand Prix",
+      "label": "HARD",
+      "compound_id": null,
+      "rate": 0.11663510636365966,
+      "sd": 0.018314664492547428,
+      "n_laps": 468
+    },
+    {
+      "year": 2023,
+      "circuit": "Monza",
+      "round": 14,
+      "event": "Italian Grand Prix",
+      "label": "MEDIUM",
+      "compound_id": null,
+      "rate": 0.13477868361417752,
+      "sd": 0.019237851695384608,
+      "n_laps": 401
+    },
+    {
+      "year": 2023,
+      "circuit": "Marina Bay",
+      "round": 15,
+      "event": "Singapore Grand Prix",
+      "label": "HARD",
+      "compound_id": null,
+      "rate": 0.07032563237137196,
+      "sd": 0.02099731623757328,
+      "n_laps": 514
+    },
+    {
+      "year": 2023,
+      "circuit": "Marina Bay",
+      "round": 15,
+      "event": "Singapore Grand Prix",
+      "label": "MEDIUM",
+      "compound_id": null,
+      "rate": 0.09676295629766415,
+      "sd": 0.024983283058948022,
+      "n_laps": 379
+    },
+    {
+      "year": 2023,
+      "circuit": "Marina Bay",
+      "round": 15,
+      "event": "Singapore Grand Prix",
+      "label": "SOFT",
+      "compound_id": null,
+      "rate": 0.10167876176309078,
+      "sd": 0.050505752227450726,
+      "n_laps": 51
+    },
+    {
+      "year": 2023,
+      "circuit": "Suzuka",
+      "round": 16,
+      "event": "Japanese Grand Prix",
+      "label": "HARD",
+      "compound_id": null,
+      "rate": 0.1358681261619456,
+      "sd": 0.01889661967682678,
+      "n_laps": 417
+    },
+    {
+      "year": 2023,
+      "circuit": "Suzuka",
+      "round": 16,
+      "event": "Japanese Grand Prix",
+      "label": "MEDIUM",
+      "compound_id": null,
+      "rate": 0.1407716710568376,
+      "sd": 0.0207420142038895,
+      "n_laps": 225
+    },
+    {
+      "year": 2023,
+      "circuit": "Suzuka",
+      "round": 16,
+      "event": "Japanese Grand Prix",
+      "label": "SOFT",
+      "compound_id": null,
+      "rate": 0.15187729276558398,
+      "sd": 0.035694331665016725,
+      "n_laps": 54
+    },
+    {
+      "year": 2023,
+      "circuit": "Lusail",
+      "round": 17,
+      "event": "Qatar Grand Prix",
+      "label": "HARD",
+      "compound_id": null,
+      "rate": 0.051410193653783944,
+      "sd": 0.021769649405011717,
+      "n_laps": 367
+    },
+    {
+      "year": 2023,
+      "circuit": "Lusail",
+      "round": 17,
+      "event": "Qatar Grand Prix",
+      "label": "MEDIUM",
+      "compound_id": null,
+      "rate": 0.01668054229880546,
+      "sd": 0.021845075104754117,
+      "n_laps": 452
+    },
+    {
+      "year": 2023,
+      "circuit": "Austin",
+      "round": 18,
+      "event": "United States Grand Prix",
+      "label": "HARD",
+      "compound_id": null,
+      "rate": 0.08678363435825003,
+      "sd": 0.023290494361112864,
+      "n_laps": 392
+    },
+    {
+      "year": 2023,
+      "circuit": "Austin",
+      "round": 18,
+      "event": "United States Grand Prix",
+      "label": "MEDIUM",
+      "compound_id": null,
+      "rate": 0.09716212551130796,
+      "sd": 0.022346761921757295,
+      "n_laps": 513
+    },
+    {
+      "year": 2023,
+      "circuit": "Mexico City",
+      "round": 19,
+      "event": "Mexico City Grand Prix",
+      "label": "HARD",
+      "compound_id": null,
+      "rate": 0.10499237748934714,
+      "sd": 0.018355749087420912,
+      "n_laps": 481
+    },
+    {
+      "year": 2023,
+      "circuit": "Mexico City",
+      "round": 19,
+      "event": "Mexico City Grand Prix",
+      "label": "MEDIUM",
+      "compound_id": null,
+      "rate": 0.09923297242461344,
+      "sd": 0.01802072276512928,
+      "n_laps": 620
+    },
+    {
+      "year": 2023,
+      "circuit": "S\u00e3o Paulo",
+      "round": 20,
+      "event": "S\u00e3o Paulo Grand Prix",
+      "label": "MEDIUM",
+      "compound_id": null,
+      "rate": 0.1066910097729526,
+      "sd": 0.02046138284893096,
+      "n_laps": 333
+    },
+    {
+      "year": 2023,
+      "circuit": "S\u00e3o Paulo",
+      "round": 20,
+      "event": "S\u00e3o Paulo Grand Prix",
+      "label": "SOFT",
+      "compound_id": null,
+      "rate": 0.10103829504970542,
+      "sd": 0.01865413536666406,
+      "n_laps": 636
+    },
+    {
+      "year": 2023,
+      "circuit": "Las Vegas",
+      "round": 21,
+      "event": "Las Vegas Grand Prix",
+      "label": "HARD",
+      "compound_id": null,
+      "rate": 0.012412106497216309,
+      "sd": 0.021212985426436792,
+      "n_laps": 570
+    },
+    {
+      "year": 2023,
+      "circuit": "Las Vegas",
+      "round": 21,
+      "event": "Las Vegas Grand Prix",
+      "label": "MEDIUM",
+      "compound_id": null,
+      "rate": 0.08155300151923685,
+      "sd": 0.036457786704956245,
+      "n_laps": 158
+    },
+    {
+      "year": 2023,
+      "circuit": "Yas Island",
+      "round": 22,
+      "event": "Abu Dhabi Grand Prix",
+      "label": "HARD",
+      "compound_id": null,
+      "rate": 0.09261783581624358,
+      "sd": 0.017817049881006214,
+      "n_laps": 794
+    },
+    {
+      "year": 2023,
+      "circuit": "Yas Island",
+      "round": 22,
+      "event": "Abu Dhabi Grand Prix",
+      "label": "MEDIUM",
+      "compound_id": null,
+      "rate": 0.15087463477652827,
+      "sd": 0.02190317861641427,
+      "n_laps": 264
+    },
+    {
       "year": 2024,
+      "circuit": "Sakhir",
       "round": 1,
       "event": "Bahrain Grand Prix",
       "label": "HARD",
@@ -39,6 +969,7 @@
     },
     {
       "year": 2024,
+      "circuit": "Sakhir",
       "round": 1,
       "event": "Bahrain Grand Prix",
       "label": "SOFT",
@@ -49,6 +980,7 @@
     },
     {
       "year": 2024,
+      "circuit": "Jeddah",
       "round": 2,
       "event": "Saudi Arabian Grand Prix",
       "label": "HARD",
@@ -59,6 +991,7 @@
     },
     {
       "year": 2024,
+      "circuit": "Jeddah",
       "round": 2,
       "event": "Saudi Arabian Grand Prix",
       "label": "MEDIUM",
@@ -69,6 +1002,7 @@
     },
     {
       "year": 2024,
+      "circuit": "Jeddah",
       "round": 2,
       "event": "Saudi Arabian Grand Prix",
       "label": "SOFT",
@@ -79,6 +1013,7 @@
     },
     {
       "year": 2024,
+      "circuit": "Melbourne",
       "round": 3,
       "event": "Australian Grand Prix",
       "label": "HARD",
@@ -89,6 +1024,7 @@
     },
     {
       "year": 2024,
+      "circuit": "Melbourne",
       "round": 3,
       "event": "Australian Grand Prix",
       "label": "MEDIUM",
@@ -99,6 +1035,7 @@
     },
     {
       "year": 2024,
+      "circuit": "Suzuka",
       "round": 4,
       "event": "Japanese Grand Prix",
       "label": "HARD",
@@ -109,6 +1046,7 @@
     },
     {
       "year": 2024,
+      "circuit": "Suzuka",
       "round": 4,
       "event": "Japanese Grand Prix",
       "label": "MEDIUM",
@@ -119,6 +1057,7 @@
     },
     {
       "year": 2024,
+      "circuit": "Suzuka",
       "round": 4,
       "event": "Japanese Grand Prix",
       "label": "SOFT",
@@ -129,6 +1068,7 @@
     },
     {
       "year": 2024,
+      "circuit": "Shanghai",
       "round": 5,
       "event": "Chinese Grand Prix",
       "label": "HARD",
@@ -139,6 +1079,7 @@
     },
     {
       "year": 2024,
+      "circuit": "Shanghai",
       "round": 5,
       "event": "Chinese Grand Prix",
       "label": "MEDIUM",
@@ -149,6 +1090,7 @@
     },
     {
       "year": 2024,
+      "circuit": "Shanghai",
       "round": 5,
       "event": "Chinese Grand Prix",
       "label": "SOFT",
@@ -159,6 +1101,7 @@
     },
     {
       "year": 2024,
+      "circuit": "Miami",
       "round": 6,
       "event": "Miami Grand Prix",
       "label": "HARD",
@@ -169,6 +1112,7 @@
     },
     {
       "year": 2024,
+      "circuit": "Miami",
       "round": 6,
       "event": "Miami Grand Prix",
       "label": "MEDIUM",
@@ -179,6 +1123,7 @@
     },
     {
       "year": 2024,
+      "circuit": "Miami",
       "round": 6,
       "event": "Miami Grand Prix",
       "label": "SOFT",
@@ -189,6 +1134,7 @@
     },
     {
       "year": 2024,
+      "circuit": "Imola",
       "round": 7,
       "event": "Emilia Romagna Grand Prix",
       "label": "HARD",
@@ -199,6 +1145,7 @@
     },
     {
       "year": 2024,
+      "circuit": "Imola",
       "round": 7,
       "event": "Emilia Romagna Grand Prix",
       "label": "MEDIUM",
@@ -209,6 +1156,7 @@
     },
     {
       "year": 2024,
+      "circuit": "Monaco",
       "round": 8,
       "event": "Monaco Grand Prix",
       "label": "HARD",
@@ -219,6 +1167,7 @@
     },
     {
       "year": 2024,
+      "circuit": "Monaco",
       "round": 8,
       "event": "Monaco Grand Prix",
       "label": "MEDIUM",
@@ -229,6 +1178,7 @@
     },
     {
       "year": 2024,
+      "circuit": "Monaco",
       "round": 8,
       "event": "Monaco Grand Prix",
       "label": "SOFT",
@@ -239,6 +1189,7 @@
     },
     {
       "year": 2024,
+      "circuit": "Montr\u00e9al",
       "round": 9,
       "event": "Canadian Grand Prix",
       "label": "HARD",
@@ -249,6 +1200,7 @@
     },
     {
       "year": 2024,
+      "circuit": "Montr\u00e9al",
       "round": 9,
       "event": "Canadian Grand Prix",
       "label": "MEDIUM",
@@ -259,6 +1211,7 @@
     },
     {
       "year": 2024,
+      "circuit": "Barcelona",
       "round": 10,
       "event": "Spanish Grand Prix",
       "label": "HARD",
@@ -269,6 +1222,7 @@
     },
     {
       "year": 2024,
+      "circuit": "Barcelona",
       "round": 10,
       "event": "Spanish Grand Prix",
       "label": "MEDIUM",
@@ -279,6 +1233,7 @@
     },
     {
       "year": 2024,
+      "circuit": "Barcelona",
       "round": 10,
       "event": "Spanish Grand Prix",
       "label": "SOFT",
@@ -289,6 +1244,7 @@
     },
     {
       "year": 2024,
+      "circuit": "Spielberg",
       "round": 11,
       "event": "Austrian Grand Prix",
       "label": "HARD",
@@ -299,6 +1255,7 @@
     },
     {
       "year": 2024,
+      "circuit": "Spielberg",
       "round": 11,
       "event": "Austrian Grand Prix",
       "label": "MEDIUM",
@@ -309,6 +1266,7 @@
     },
     {
       "year": 2024,
+      "circuit": "Silverstone",
       "round": 12,
       "event": "British Grand Prix",
       "label": "HARD",
@@ -319,6 +1277,7 @@
     },
     {
       "year": 2024,
+      "circuit": "Silverstone",
       "round": 12,
       "event": "British Grand Prix",
       "label": "MEDIUM",
@@ -329,6 +1288,7 @@
     },
     {
       "year": 2024,
+      "circuit": "Silverstone",
       "round": 12,
       "event": "British Grand Prix",
       "label": "SOFT",
@@ -339,6 +1299,7 @@
     },
     {
       "year": 2024,
+      "circuit": "Budapest",
       "round": 13,
       "event": "Hungarian Grand Prix",
       "label": "HARD",
@@ -349,6 +1310,7 @@
     },
     {
       "year": 2024,
+      "circuit": "Budapest",
       "round": 13,
       "event": "Hungarian Grand Prix",
       "label": "MEDIUM",
@@ -359,6 +1321,7 @@
     },
     {
       "year": 2024,
+      "circuit": "Budapest",
       "round": 13,
       "event": "Hungarian Grand Prix",
       "label": "SOFT",
@@ -369,6 +1332,7 @@
     },
     {
       "year": 2024,
+      "circuit": "Spa-Francorchamps",
       "round": 14,
       "event": "Belgian Grand Prix",
       "label": "HARD",
@@ -379,6 +1343,7 @@
     },
     {
       "year": 2024,
+      "circuit": "Spa-Francorchamps",
       "round": 14,
       "event": "Belgian Grand Prix",
       "label": "MEDIUM",
@@ -389,6 +1354,7 @@
     },
     {
       "year": 2024,
+      "circuit": "Spa-Francorchamps",
       "round": 14,
       "event": "Belgian Grand Prix",
       "label": "SOFT",
@@ -399,6 +1365,7 @@
     },
     {
       "year": 2024,
+      "circuit": "Zandvoort",
       "round": 15,
       "event": "Dutch Grand Prix",
       "label": "HARD",
@@ -409,6 +1376,7 @@
     },
     {
       "year": 2024,
+      "circuit": "Zandvoort",
       "round": 15,
       "event": "Dutch Grand Prix",
       "label": "MEDIUM",
@@ -419,6 +1387,7 @@
     },
     {
       "year": 2024,
+      "circuit": "Zandvoort",
       "round": 15,
       "event": "Dutch Grand Prix",
       "label": "SOFT",
@@ -429,6 +1398,7 @@
     },
     {
       "year": 2024,
+      "circuit": "Monza",
       "round": 16,
       "event": "Italian Grand Prix",
       "label": "HARD",
@@ -439,6 +1409,7 @@
     },
     {
       "year": 2024,
+      "circuit": "Monza",
       "round": 16,
       "event": "Italian Grand Prix",
       "label": "MEDIUM",
@@ -449,6 +1420,7 @@
     },
     {
       "year": 2024,
+      "circuit": "Baku",
       "round": 17,
       "event": "Azerbaijan Grand Prix",
       "label": "HARD",
@@ -459,6 +1431,7 @@
     },
     {
       "year": 2024,
+      "circuit": "Baku",
       "round": 17,
       "event": "Azerbaijan Grand Prix",
       "label": "MEDIUM",
@@ -469,6 +1442,7 @@
     },
     {
       "year": 2024,
+      "circuit": "Marina Bay",
       "round": 18,
       "event": "Singapore Grand Prix",
       "label": "HARD",
@@ -479,6 +1453,7 @@
     },
     {
       "year": 2024,
+      "circuit": "Marina Bay",
       "round": 18,
       "event": "Singapore Grand Prix",
       "label": "MEDIUM",
@@ -489,6 +1464,7 @@
     },
     {
       "year": 2024,
+      "circuit": "Marina Bay",
       "round": 18,
       "event": "Singapore Grand Prix",
       "label": "SOFT",
@@ -499,6 +1475,7 @@
     },
     {
       "year": 2024,
+      "circuit": "Austin",
       "round": 19,
       "event": "United States Grand Prix",
       "label": "HARD",
@@ -509,6 +1486,7 @@
     },
     {
       "year": 2024,
+      "circuit": "Austin",
       "round": 19,
       "event": "United States Grand Prix",
       "label": "MEDIUM",
@@ -519,6 +1497,7 @@
     },
     {
       "year": 2024,
+      "circuit": "Mexico City",
       "round": 20,
       "event": "Mexico City Grand Prix",
       "label": "HARD",
@@ -529,6 +1508,7 @@
     },
     {
       "year": 2024,
+      "circuit": "Mexico City",
       "round": 20,
       "event": "Mexico City Grand Prix",
       "label": "MEDIUM",
@@ -539,6 +1519,7 @@
     },
     {
       "year": 2024,
+      "circuit": "Las Vegas",
       "round": 22,
       "event": "Las Vegas Grand Prix",
       "label": "HARD",
@@ -549,6 +1530,7 @@
     },
     {
       "year": 2024,
+      "circuit": "Las Vegas",
       "round": 22,
       "event": "Las Vegas Grand Prix",
       "label": "MEDIUM",
@@ -559,6 +1541,7 @@
     },
     {
       "year": 2024,
+      "circuit": "Lusail",
       "round": 23,
       "event": "Qatar Grand Prix",
       "label": "HARD",
@@ -569,6 +1552,7 @@
     },
     {
       "year": 2024,
+      "circuit": "Lusail",
       "round": 23,
       "event": "Qatar Grand Prix",
       "label": "MEDIUM",
@@ -579,6 +1563,7 @@
     },
     {
       "year": 2024,
+      "circuit": "Lusail",
       "round": 23,
       "event": "Qatar Grand Prix",
       "label": "SOFT",
@@ -589,6 +1574,7 @@
     },
     {
       "year": 2024,
+      "circuit": "Yas Island",
       "round": 24,
       "event": "Abu Dhabi Grand Prix",
       "label": "HARD",
@@ -599,6 +1585,7 @@
     },
     {
       "year": 2024,
+      "circuit": "Yas Island",
       "round": 24,
       "event": "Abu Dhabi Grand Prix",
       "label": "MEDIUM",

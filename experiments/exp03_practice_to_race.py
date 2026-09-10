@@ -46,29 +46,98 @@ DEFAULT_EVENTS = [
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--year", type=int, default=2024)
+    parser.add_argument(
+        "--years", type=int, nargs="*",
+        help="validate several seasons at once; overrides --year",
+    )
     parser.add_argument("--events", nargs="*", default=DEFAULT_EVENTS)
+    parser.add_argument(
+        "--all", action="store_true",
+        help="every event in the corpus that has both a practice session and a race",
+    )
     parser.add_argument("--practice", default="FP2")
+    parser.add_argument(
+        "--allow-wet", action="store_true",
+        help="score events whose practice or race was not a dry session",
+    )
     args = parser.parse_args()
 
     warnings.filterwarnings("ignore")
     logging.getLogger("fastf1").setLevel(logging.ERROR)
 
+    # A session that ran most of its laps on wet rubber is not a dry-degradation
+    # session, and a rate fitted from the dry remainder describes a drying track.
+    # Canada 2024 is the case in point: 66.5% wet laps, and a fitted race rate of
+    # -0.151 s/lap, which is impossible. Scoring a practice prediction against an
+    # impossible actual measures nothing. The criterion is about whether the
+    # session is valid evidence, not about whether the answer flatters us, and it
+    # is applied to BOTH sides of every comparison.
+    years = args.years or [args.year]
+
+    # Hand-listing events was fine for five of them and is a liability at fifty:
+    # it silently makes the event set a choice, and a chosen event set is a
+    # cherry-picked one. --all takes whatever the corpus holds.
+    if args.all:
+        manifest = json.loads(Path("data/season/corpus.json").read_text())
+        have: dict[tuple[int, str], set[str]] = {}
+        for entry in manifest:
+            have.setdefault((entry["year"], entry["event_name"]), set()).add(entry["session"])
+        targets = sorted(
+            key for key, sessions in have.items()
+            if key[0] in years and args.practice in sessions and "R" in sessions
+        )
+    else:
+        targets = [(y, e) for y in years for e in args.events]
+
+    excluded: dict[str, str] = {}
+    if not args.allow_wet:
+        conditions_path = Path("data/reference/session_conditions.json")
+        if conditions_path.exists():
+            conditions = json.loads(conditions_path.read_text())
+            wet = [
+                (c["year"], c["event"], c["session"], c["wet_lap_fraction"])
+                for c in conditions
+                if not c["dry_session"]
+            ]
+            # --events accepts short forms ("Bahrain", "Suzuka") while the corpus
+            # records full names ("Bahrain Grand Prix"). Match on containment in
+            # either direction so the guard cannot be defeated by naming.
+            def same_event(asked: str, recorded: str) -> bool:
+                a, r = asked.casefold(), recorded.casefold()
+                return a in r or r in a
+
+            keep = []
+            for year, event in targets:
+                bad = [
+                    (sess, frac) for wy, ev, sess, frac in wet
+                    if wy == year and same_event(event, ev)
+                ]
+                if bad:
+                    sess, frac = bad[0]
+                    tag = f"{year} {event}"
+                    excluded[tag] = f"{sess} ran {frac:.0%} of laps on wet rubber"
+                    print(f"  {tag:<38} EXCLUDED -- {excluded[tag]}")
+                else:
+                    keep.append((year, event))
+            targets = keep
+
     reports = []
     failures: dict[str, str] = {}
 
-    for event in args.events:
+    for year, event in targets:
+        tag = f"{year} {event}"
         try:
             report = validate_practice_to_race(
-                args.year, event, practice_session=args.practice
+                year, event, practice_session=args.practice
             )
         except Exception as exc:  # noqa: BLE001 - an event failing must not stop the sweep
-            failures[event] = f"{type(exc).__name__}: {exc}"
-            print(f"  {event:<14} SKIPPED -- {type(exc).__name__}: {exc}")
+            failures[tag] = f"{type(exc).__name__}: {exc}"
+            print(f"  {tag:<24} SKIPPED -- {type(exc).__name__}: {exc}")
             continue
 
         reports.append(report)
         print(
-            f"  {event:<14} {len(report.comparisons)} compounds  "
+            f"  {tag:<24} {len(report.comparisons)} compounds  "
             f"MAE {report.mae:.4f}  naive {report.naive_mae:.4f}  "
             f"bias {report.bias:+.4f}  coverage {report.coverage:.0%}"
         )
@@ -85,13 +154,14 @@ def main() -> None:
     all_covered = np.array([c.covered for r in reports for c in r.comparisons])
 
     print("\n" + "=" * 78)
-    print(f"PRACTICE ({args.practice}) -> RACE VALIDATION, {args.year}")
+    seasons = "/".join(str(y) for y in years)
+    print(f"PRACTICE ({args.practice}) -> RACE VALIDATION, {seasons}")
     print("=" * 78)
-    print(f"{'event':<16}{'compound':<10}{'predicted':>12}{'actual':>10}{'error':>10}{'in 95%':>9}")
+    print(f"{'event':<21}{'compound':<10}{'predicted':>12}{'actual':>10}{'error':>10}{'in 95%':>9}")
     for report in reports:
         for c in sorted(report.comparisons, key=lambda x: x.compound):
             print(
-                f"{report.event[:15]:<16}{c.compound:<10}"
+                f"{report.year} {report.event[:15]:<16}{c.compound:<10}"
                 f"{c.predicted:>+9.4f}+-{c.predicted_sd:<4.3f}"
                 f"{c.actual:>+10.4f}{c.error:>+10.4f}{'yes' if c.covered else 'NO':>9}"
             )
@@ -114,8 +184,10 @@ def main() -> None:
             {
                 "experiment": "exp03_practice_to_race",
                 "generated_at": datetime.now(UTC).isoformat(),
-                "year": args.year,
+                "year": years[0] if len(years) == 1 else None,
+                "years": years,
                 "practice_session": args.practice,
+                "excluded_not_dry": excluded,
                 "overall": {
                     "n_events": len(reports),
                     "n_comparisons": int(all_errors.size),
