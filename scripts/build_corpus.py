@@ -35,9 +35,9 @@ import pandas as pd
 CORPUS_DIR = Path("data/season")
 MANIFEST = CORPUS_DIR / "corpus.json"
 
-#: Session priority. Races first because they anchor every validation, then FP2
-#: because it carries the long race-simulation runs the practice-to-race claim
-#: depends on. FP1 and FP3 are shorter and noisier, so they come last.
+#: Default session priority when --sessions is not given. Races anchor every
+#: validation; FP2 carries the long race-simulation runs the practice-to-race
+#: claim depends on. An explicit --sessions overrides this order.
 SESSION_ORDER = ["R", "FP2", "FP3", "FP1", "Q"]
 
 
@@ -79,8 +79,11 @@ def targets(years: list[int], sessions: list[str]) -> list[tuple[int, int, str, 
                         session,
                     )
                 )
-    # Priority: session type, then most recent year, then round order.
-    rank = {s: i for i, s in enumerate(SESSION_ORDER)}
+    # Priority: the order the caller asked for, then most recent year, then round.
+    # Honouring --sessions matters: practice is what the brief is about, so
+    # "--sessions FP2 R" has to mean FP2 first rather than being silently
+    # re-sorted into a default that puts races ahead of it.
+    rank = {s: i for i, s in enumerate(sessions)}
     out.sort(key=lambda t: (rank.get(t[5], 99), -t[0], t[1]))
     return out
 
@@ -88,7 +91,7 @@ def targets(years: list[int], sessions: list[str]) -> list[tuple[int, int, str, 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--years", type=int, nargs="*", default=[2024])
-    parser.add_argument("--sessions", nargs="*", default=["R", "FP2"])
+    parser.add_argument("--sessions", nargs="*", default=SESSION_ORDER[:2])
     parser.add_argument("--out", type=Path, default=CORPUS_DIR)
     parser.add_argument("--limit", type=int, default=0, help="stop after N new sessions")
     parser.add_argument("--delay", type=float, default=2.0, help="seconds between sessions")
