@@ -457,6 +457,7 @@ scripts/         cache builders, run once with network access
 | [**Technical dossier**](docs/pitch/TyreMind_Technical_Dossier.pdf) — PDF, 36pp | Problem, prior art, the identifiability derivation, model, physics, architecture, all seven experiments, uniqueness matrix, limitations, industry impact, scaling, roadmap, references |
 | [**Pitch deck**](docs/pitch/TyreMind_Pitch_Deck.pdf) — PDF, 24 slides | The same argument at presentation pace |
 | [`docs/pitch/deck_web.html`](docs/pitch/deck_web.html) | The pitch as one scrolling page, for sharing a link rather than a file |
+| [**Plan of action**](docs/plan/ROADMAP.pdf) — PDF, 8pp | Audit against the five judged metrics, the eight gaps a rival would exploit, and the five moves to close them |
 
 Both PDFs are generated from the HTML sources beside them, so they are
 regenerated rather than edited:

@@ -141,6 +141,58 @@ ul.dash li b{color:var(--ink)}
 footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);
        font-size:12.5px;color:var(--ink-3)}
 *:focus-visible{outline:2px solid var(--tyre);outline-offset:3px}
+
+/* Print ------------------------------------------------------------------- */
+/* The screen layout letterboxes badly on A4: a 1120px column inside a 210mm
+   page wastes a third of the width, and screen-sized type paginates into
+   orphaned headings. These rules are print-only so the screen version is
+   untouched. Colours stay light regardless of the reader's theme, because a
+   dark ground costs ink and reads worse on paper. */
+@page { size: A4; margin: 15mm 14mm; }
+
+@media print {
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+  :root, :root[data-theme="dark"], :root:not([data-theme="light"]) {
+    --ground:#ffffff; --surface:#ffffff; --raised:#f1f4f5;
+    --line:#d4dbdf; --line-hi:#a7b4bb;
+    --ink:#111a20; --ink-2:#3f5058; --ink-3:#6c7f88;
+    --tyre:#c0392b; --tyre-bg:#f9ece9;
+    --done:#1f7a55; --flight:#1d7d9c; --risk:#7f4aa0; --hold:#6c7f88;
+  }
+
+  body { font-size: 9.6pt; line-height: 1.5; background:#fff; }
+  .wrap { max-width: none; padding: 0; }
+
+  h1 { font-size: 22pt; }
+  h2 { font-size: 14pt; }
+  h3 { font-size: 11pt; }
+  h4 { font-size: 9.6pt; }
+  p, ul.dash li, .card p, .move .why { font-size: 9.4pt; }
+  .small, .move .test, td, th { font-size: 8.6pt; }
+  table { min-width: 0; font-size: 8.6pt; }
+
+  header { padding-bottom: 6mm; margin-bottom: 7mm; }
+  header p { font-size: 11pt; }
+  section { margin-top: 8mm; break-inside: auto; }
+
+  /* Keep a heading with what it introduces, and never split a self-contained
+     block across a page boundary. */
+  .sec-head, h2, h3, h4 { break-after: avoid; }
+  .move, .card, .gap, .phase, .note, .score .row, tr { break-inside: avoid; }
+
+  /* Sections 04 onward each start a page, so the reader gets the audit, the
+     gap register, the moves and the sequence as discrete spreads. */
+  section:nth-of-type(4), section:nth-of-type(6), section:nth-of-type(8) { break-before: page; }
+
+  .grid { gap: 4mm; }
+  .g2 { grid-template-columns: 1fr 1fr; }
+  .g3 { grid-template-columns: 1fr 1fr 1fr; }
+  .card, .move { padding: 3.5mm 4.5mm; }
+  .scroller { overflow: visible; }
+  footer { margin-top: 8mm; }
+}
+
 @media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 </style>
 
