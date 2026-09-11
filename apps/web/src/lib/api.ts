@@ -82,6 +82,20 @@ export interface SessionSummary {
   }
 }
 
+export interface CurveShape {
+  /** "linear" | "warm-up" | "cliff" | "recovery" */
+  regime: string
+  n_laps: number
+  slope: number
+  changepoint_age: number | null
+  delta: number | null
+  slope_after: number | null
+  position: number | null
+  rmse: number
+  /** One sentence with no statistics in it. */
+  description: string
+}
+
 export interface RunRow {
   driver: string
   run_id: number
@@ -92,6 +106,8 @@ export interface RunRow {
   start_age: number
   end_age: number
   median_lap_time: number
+  /** Null when the stint is too short to support a changepoint at all. */
+  curve: CurveShape | null
 }
 
 export interface Contribution {

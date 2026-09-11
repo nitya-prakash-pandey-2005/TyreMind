@@ -35,6 +35,7 @@ from tyremind.causal.counterfactual import (
 from tyremind.causal.decomposition import decompose_lap, decompose_run
 from tyremind.data.synthetic import naive_degradation_estimate
 from tyremind.models.conformal import CalibrationUnavailableError, ConformalCalibrator
+from tyremind.models.curve import session_curve_shapes
 from tyremind.stream.live import LiveTyreMonitor, replay
 
 logger = logging.getLogger(__name__)
@@ -264,7 +265,16 @@ def runs(session_id: str) -> list[dict]:
         .reset_index()
         .sort_values("laps", ascending=False)
     )
-    return json.loads(grouped.to_json(orient="records"))
+    records = json.loads(grouped.to_json(orient="records"))
+
+    # The curve's SHAPE, which the rate alone cannot express. A stint that holds
+    # and then falls away and one that fades evenly can share a degradation rate
+    # and mean entirely different things to whoever is deciding when to pit.
+    shapes = session_curve_shapes(loaded.lap_table, loaded.fit)
+    for record in records:
+        shape = shapes.get((record["driver"], int(record["run_id"])))
+        record["curve"] = shape.to_dict() if shape else None
+    return records
 
 
 @app.get("/api/session/{session_id}/decompose")

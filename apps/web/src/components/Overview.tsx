@@ -221,6 +221,8 @@ export function Overview({
                 That is where the session ran out of laps on that compound, and the
                 model is telling you it no longer has evidence.
               </p>
+
+              <CurveShapeSummary runs={runs} />
               <p className="text-[11.5px] text-ink-faint">
                 This is the model's fitted estimate, not an average of the raw
                 laps &mdash; the confounders have already been removed. Each line
@@ -354,4 +356,70 @@ const EXCLUSION_PLAIN: Record<string, string> = {
   wet_compound: 'Wet-weather tyre (different physics)',
   slow_lap_safety_car_or_traffic: 'Far too slow — safety car, flags or heavy traffic',
   run_too_short: 'Stint too short to show a trend',
+}
+
+
+/**
+ * How the individual stints in this session actually behaved.
+ *
+ * The curve above is the model's pooled estimate per compound; this is what the
+ * stints underneath it did one at a time, and they do not all do the same thing.
+ * A stint that holds and then falls away and one that fades evenly can share a
+ * degradation rate and mean completely different things to whoever is deciding
+ * when to pit, which is the entire reason a rate is not a curve.
+ *
+ * Shapes are fitted per stint on de-confounded lap time, and a stint is only
+ * called a cliff if the tyre was already degrading before the break. The same
+ * arithmetic with the tyre getting faster beforehand is a warm-up, which is the
+ * opposite event.
+ */
+function CurveShapeSummary({ runs }: { runs: RunRow[] }) {
+  const shaped = runs.filter((r) => r.curve)
+  if (shaped.length < 3) return null
+
+  const counts = shaped.reduce<Record<string, number>>((acc, r) => {
+    const regime = r.curve!.regime
+    acc[regime] = (acc[regime] ?? 0) + 1
+    return acc
+  }, {})
+
+  const tone: Record<string, string> = {
+    linear: 'text-ink-faint',
+    'warm-up': 'text-fuel',
+    cliff: 'text-alert',
+    recovery: 'text-good',
+  }
+
+  // The longest stint that is not merely linear: the most informative single
+  // example on offer, and worth naming rather than summarising away.
+  const notable = shaped
+    .filter((r) => r.curve!.regime !== 'linear')
+    .sort((a, b) => b.laps - a.laps)[0]
+
+  return (
+    <div className="border-t border-line pt-3">
+      <div className="mb-2 text-[11px] font-semibold text-ink">
+        And what the individual stints did
+      </div>
+      <div className="mb-2 flex flex-wrap gap-x-4 gap-y-1">
+        {['linear', 'warm-up', 'cliff', 'recovery'].map((regime) =>
+          counts[regime] ? (
+            <span key={regime} className="text-[11.5px]">
+              <span className={`num ${tone[regime]}`}>{counts[regime]}</span>{' '}
+              <span className="text-ink-faint">{regime}</span>
+            </span>
+          ) : null,
+        )}
+      </div>
+      {notable && (
+        <p className="text-[11.5px] leading-relaxed text-ink-faint">
+          Longest non-linear stint &mdash;{' '}
+          <span className="text-ink-dim">
+            {notable.driver}, {notable.compound.toLowerCase()}, {notable.laps} laps:
+          </span>{' '}
+          {notable.curve!.description}
+        </p>
+      )}
+    </div>
+  )
 }
