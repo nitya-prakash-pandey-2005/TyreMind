@@ -433,6 +433,15 @@ files of `exp08` and `exp03`, and `exp12` reads `exp03`. Running them against a
 stale result file is the single easiest way to produce a number that disagrees
 with the rest of the project.
 
+**Check the results still match their scripts.** Every figure in the README, the
+model card, the deck and the dashboard is read from `experiments/results/`, so a
+script edited after its result was written leaves the documents quoting a number
+the current code would no longer produce:
+
+```bash
+python scripts/check_results_fresh.py
+```
+
 `exp06` and `exp07` download their own data on first run and are cached
 afterwards:
 
