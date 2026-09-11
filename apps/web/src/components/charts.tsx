@@ -942,3 +942,177 @@ export function PracticeVsRace({
 
   return <ReactECharts option={option} style={{ height: 300 }} notMerge />
 }
+
+// --------------------------------------------------------------------------
+// Calibration
+// --------------------------------------------------------------------------
+
+export interface ReliabilityRow {
+  model: string
+  levels: number[]
+  gaussian: number[]
+  adaptive: number[]
+}
+
+/**
+ * Nominal confidence against the coverage actually achieved.
+ *
+ * A single coverage figure at 95% is a weak check: a method can be tuned to
+ * look right at one level and be wrong everywhere else, and nothing in a
+ * headline number would show it. Sweeping the level turns calibration from a
+ * claim into a curve, and a calibrated method traces the diagonal.
+ *
+ * The Gaussian rungs sag well below it — the model is confident about a world
+ * it has slightly wrong — while the adaptive-conformal line sits on it. Drawing
+ * the diagonal rather than describing it is the whole point: the reader checks
+ * the claim by eye instead of trusting a percentage.
+ */
+export function ReliabilityCurve({ rows }: { rows: ReliabilityRow[] }) {
+  const { base, xAxis, yAxis, colours } = useAxis()
+
+  const option = useMemo(() => {
+    const levels = rows[0]?.levels ?? []
+    const pct = (v: number) => Math.round(v * 100)
+
+    return {
+      ...base,
+      legend: { ...base.legend, data: ['perfect', 'as reported', 'calibrated'] },
+      grid: { left: 54, right: 18, top: 26, bottom: 42 },
+      xAxis: {
+        type: 'value',
+        min: 45,
+        max: 100,
+        ...xAxis('nominal confidence (%)'),
+      },
+      yAxis: {
+        type: 'value',
+        min: 20,
+        max: 100,
+        ...yAxis('coverage achieved (%)'),
+      },
+      tooltip: {
+        ...base.tooltip,
+        trigger: 'axis',
+        valueFormatter: (v: number) => `${v.toFixed(0)}%`,
+      },
+      series: [
+        {
+          name: 'perfect',
+          type: 'line',
+          data: [
+            [45, 45],
+            [100, 100],
+          ],
+          symbol: 'none',
+          silent: true,
+          lineStyle: { color: colours.line, type: 'dashed', width: 1 },
+        },
+        // One faint line per rung, so the spread of the uncalibrated intervals
+        // is visible as a band rather than averaged into a single tidy curve
+        // that would hide how differently the rungs behave.
+        ...rows.map((row, i) => ({
+          name: 'as reported',
+          type: 'line' as const,
+          data: row.gaussian.map((v, j) => [pct(levels[j]), pct(v)]),
+          symbol: 'none',
+          smooth: true,
+          lineStyle: { color: colours.alert, width: 1, opacity: 0.5 },
+          silent: true,
+          legendHoverLink: false,
+          // Only the first contributes to the legend; the rest are the same series.
+          showInLegend: i === 0,
+        })),
+        ...rows.map((row) => ({
+          name: 'calibrated',
+          type: 'line' as const,
+          data: row.adaptive.map((v, j) => [pct(levels[j]), pct(v)]),
+          symbol: 'none',
+          smooth: true,
+          lineStyle: { color: colours.good, width: 1.6, opacity: 0.85 },
+          silent: true,
+        })),
+      ],
+    }
+  }, [rows, base, xAxis, yAxis, colours])
+
+  return <ReactECharts option={option} style={{ height: 260 }} notMerge />
+}
+
+export interface RegimeShare {
+  regime: string
+  n: number
+  share: number
+  slopeBefore: number | null
+  delta: number | null
+  position: number | null
+}
+
+/**
+ * The four shapes a stint's degradation curve actually takes.
+ *
+ * Not a pie chart of categories — the bars carry the archetypal curve alongside
+ * each share, because "12% cliff" means nothing without the shape it refers to.
+ * A cliff and a warm-up are both changepoints and are opposite physical events:
+ * one is a tyre giving up, the other is a tyre coming to temperature. Pooling
+ * them, which an earlier analysis did, reports a "cliff" a third of the way
+ * through a stint and describes neither.
+ */
+export function DegradationRegimes({ rows }: { rows: RegimeShare[] }) {
+  const { base, xAxis, yAxis, colours } = useAxis()
+
+  const tone: Record<string, string> = {
+    linear: colours.inkFaint,
+    'warm-up': colours.fuel,
+    cliff: colours.alert,
+    recovery: colours.good,
+  }
+
+  const option = useMemo(() => {
+    const ordered = ['linear', 'warm-up', 'cliff', 'recovery']
+      .map((name) => rows.find((r) => r.regime === name))
+      .filter((r): r is RegimeShare => Boolean(r))
+
+    return {
+      ...base,
+      legend: { show: false },
+      grid: { left: 78, right: 46, top: 12, bottom: 34 },
+      xAxis: { type: 'value', min: 0, ...xAxis('share of stints (%)') },
+      yAxis: {
+        type: 'category',
+        data: ordered.map((r) => r.regime),
+        ...yAxis(''),
+        axisLabel: { color: colours.inkDim, fontSize: 11 },
+      },
+      tooltip: {
+        ...base.tooltip,
+        formatter: (p: { dataIndex: number }) => {
+          const r = ordered[p.dataIndex]
+          const step =
+            r.delta === null ? '' : `<br/>step ${r.delta > 0 ? '+' : ''}${r.delta.toFixed(3)} s/lap`
+          const where =
+            r.position === null ? '' : `<br/>at ${Math.round(r.position * 100)}% through the stint`
+          return `<b>${r.regime}</b><br/>${r.n} stints (${Math.round(r.share * 100)}%)${step}${where}`
+        },
+      },
+      series: [
+        {
+          type: 'bar',
+          data: ordered.map((r) => ({
+            value: r.share * 100,
+            itemStyle: { color: tone[r.regime] ?? colours.inkDim },
+          })),
+          barWidth: 16,
+          label: {
+            show: true,
+            position: 'right',
+            color: colours.inkDim,
+            fontSize: 10,
+            formatter: (p: { value: number }) => `${p.value.toFixed(0)}%`,
+          },
+        },
+      ],
+    }
+  }, [rows, base, xAxis, yAxis, colours, tone])
+
+  return <ReactECharts option={option} style={{ height: 190 }} notMerge />
+}

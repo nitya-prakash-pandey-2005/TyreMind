@@ -14,7 +14,7 @@
 import { useEffect, useState } from 'react'
 import { api, fixed, signed, type SessionSummary } from '../lib/api'
 import { Empty, Panel, Stat } from './primitives'
-import { PracticeVsRace } from './charts'
+import { DegradationRegimes, PracticeVsRace, ReliabilityCurve } from './charts'
 
 interface Recovery {
   n_seeds: number
@@ -40,6 +40,36 @@ interface Recovery {
       mean_fit_seconds: number
     }
   }
+}
+
+interface CalibrationShape {
+  n_races: number
+  gaussian_diagonal_gap: number
+  adaptive_diagonal_gap: number
+  overconfident_rungs: string[]
+  per_model: Record<
+    string,
+    {
+      n_laps: number
+      pit: { verdict?: string; tail_mass?: number; expected_tail_mass?: number }
+      reliability: { levels: number[]; gaussian: number[]; adaptive: number[] }
+    }
+  >
+}
+
+interface CliffShapes {
+  n_stints: number
+  n_races: number
+  regimes: Record<string, number>
+  cliff_rate: number
+  warmup_rate: number
+  median_cliff_delta: number | null
+  median_cliff_fraction: number | null
+  forecast_by_regime: Record<
+    string,
+    { n: number; linear_mae: number; stick_mae: number; improvement_pct: number; linear_bias: number; wilcoxon_p: number }
+  >
+  stints: { regime: string; slope_before: number; delta: number; cliff_fraction: number }[]
 }
 
 interface ModelLadder {
@@ -304,6 +334,8 @@ export function SciencePanel({ sessionId }: { sessionId: string }) {
 
       {ladder && <ModelLadderPanel ladder={ladder} />}
 
+      <CalibrationPanel />
+
       {summary && (
         <Panel title="This session's fit" aside="diagnostics">
           <div className="grid grid-cols-2 gap-5 sm:grid-cols-5">
@@ -534,11 +566,175 @@ function ModelLadderPanel({ ladder }: { ladder: ModelLadder }) {
         </p>
         <p className="mt-1.5 max-w-[70ch] text-[12px] leading-relaxed text-ink-dim">
           <strong className="text-ink">Drift</strong> is how much a model&rsquo;s error grows
-          as each fold forecasts further past its training window. TyreMind is the
-          only model tested whose error does not grow — which is what encoding fuel
-          as physics buys, rather than learning it as a pattern.
+          as each fold forecasts further past its training window. TyreMind&rsquo;s
+          shrinks the most of any usable rung while the lap-time leader&rsquo;s grows —
+          which is what encoding fuel as physics buys, rather than learning it as a
+          pattern. On four races we called it the <em>only</em> such rung; on twenty
+          that was no longer true, and the claim is corrected rather than restated.
         </p>
       </div>
     </Panel>
+  )
+}
+
+
+/**
+ * Whether the intervals mean what they say, and what shape the curve really is.
+ *
+ * Two findings that only exist because a single headline number was not trusted.
+ * Coverage at one nominal level cannot distinguish a calibrated model from one
+ * tuned to look right at 95%, so the level is swept and the diagonal drawn. And
+ * a changepoint fitted to a stint finds two physically opposite things — a tyre
+ * giving up and a tyre coming to temperature — which an earlier analysis pooled,
+ * reporting a "cliff" a third of the way through a stint.
+ */
+export function CalibrationPanel() {
+  const [experiments, setExperiments] = useState<Record<string, unknown>>({})
+  useEffect(() => {
+    api.experiments().then(setExperiments).catch(() => undefined)
+  }, [])
+
+  const shape = experiments['exp16_calibration_shape'] as CalibrationShape | undefined
+  const cliff = experiments['exp17_degradation_cliff'] as CliffShapes | undefined
+
+  return (
+    <div className="space-y-3">
+      <Panel
+        title="Does a 95% interval contain the answer 95% of the time?"
+        aside={shape ? `${shape.n_races} races, every rung` : 'not yet run'}
+      >
+        {!shape ? (
+          <Empty>
+            Run <span className="num">experiments/exp16_calibration_shape.py</span> to
+            populate this.
+          </Empty>
+        ) : (
+          <>
+            <p className="mb-4 max-w-[74ch] text-[12.5px] leading-relaxed text-ink-dim">
+              Coverage quoted at one level is a weak check. A model can hit 95% exactly
+              while being far too confident in the middle of its distribution and far too
+              timid in the tails, and a single percentage would look perfect either way.
+              Sweeping the nominal level turns the claim into a curve: a calibrated method
+              traces the diagonal, and one tuned to look right at 95% does not.
+            </p>
+
+            <div className="mb-5 grid grid-cols-2 gap-5 sm:grid-cols-3">
+              <Stat
+                label="Distance from the diagonal, as reported"
+                value={shape.gaussian_diagonal_gap.toFixed(3)}
+                tone="dim"
+              />
+              <Stat
+                label="Distance from the diagonal, calibrated"
+                value={shape.adaptive_diagonal_gap.toFixed(3)}
+                tone="warm"
+              />
+              <Stat
+                label="Rungs whose PIT is U-shaped"
+                value={`${shape.overconfident_rungs.length}/${Object.keys(shape.per_model).length}`}
+              />
+            </div>
+
+            <ReliabilityCurve
+              rows={Object.entries(shape.per_model).map(([model, m]) => ({
+                model,
+                levels: m.reliability.levels,
+                gaussian: m.reliability.gaussian,
+                adaptive: m.reliability.adaptive,
+              }))}
+            />
+
+            <div className="mt-4 border-l-2 border-alert pl-3.5">
+              <div className="mb-1 text-[11px] font-semibold text-alert">
+                The shape names the fault, not just its size
+              </div>
+              <p className="max-w-[74ch] text-[12px] leading-relaxed text-ink-dim">
+                A PIT histogram asks where the truth landed inside its own predicted
+                distribution; under a correct distribution those values are uniform.
+                Every rung comes out <strong className="text-ink">U-shaped</strong> — too
+                much mass in the tails — which is overconfidence seen directly rather than
+                inferred from one level. A four-race pilot showed the state-space model
+                hump-shaped instead, the opposite fault; ten races showed that was a
+                small-sample artefact.
+              </p>
+            </div>
+          </>
+        )}
+      </Panel>
+
+      <Panel
+        title="Is the degradation curve a straight line?"
+        aside={cliff ? `${cliff.n_stints} stints, ${cliff.n_races} races` : 'not yet run'}
+      >
+        {!cliff ? (
+          <Empty>
+            Run <span className="num">experiments/exp17_degradation_cliff.py</span> to
+            populate this.
+          </Empty>
+        ) : (
+          <>
+            <p className="mb-4 max-w-[74ch] text-[12.5px] leading-relaxed text-ink-dim">
+              A linear rate answers &ldquo;how fast is this tyre losing performance&rdquo;.
+              It cannot answer &ldquo;how many laps have I got left&rdquo;, and the two are
+              only the same question if the curve is a line. Fitting a broken stick to each
+              de-confounded stint says how often it is not.
+            </p>
+
+            <DegradationRegimes
+              rows={Object.entries(cliff.regimes).map(([regime, n]) => {
+                const block = cliff.stints.filter((st) => st.regime === regime)
+                const median = (xs: number[]) =>
+                  xs.length ? xs.slice().sort((a, b) => a - b)[Math.floor(xs.length / 2)] : null
+                return {
+                  regime,
+                  n,
+                  share: n / cliff.n_stints,
+                  slopeBefore: median(block.map((b) => b.slope_before)),
+                  delta: regime === 'linear' ? null : median(block.map((b) => b.delta)),
+                  position: regime === 'linear' ? null : median(block.map((b) => b.cliff_fraction)),
+                }
+              })}
+            />
+
+            <div className="mt-4 grid gap-4 md:grid-cols-2">
+              <div className="border-l-2 border-alert pl-3.5">
+                <div className="mb-1 text-[11px] font-semibold text-alert">
+                  A cliff is real, and arrives too late to act on
+                </div>
+                <p className="text-[12px] leading-relaxed text-ink-dim">
+                  {Math.round(cliff.cliff_rate * 100)}% of stints end in a genuine cliff —
+                  the tyre already degrading, then degrading{' '}
+                  <span className="num text-ink">
+                    {cliff.median_cliff_delta === null
+                      ? ''
+                      : `${signed(cliff.median_cliff_delta, 3)} s/lap`}
+                  </span>{' '}
+                  faster, at{' '}
+                  {cliff.median_cliff_fraction === null
+                    ? ''
+                    : `${Math.round(cliff.median_cliff_fraction * 100)}%`}{' '}
+                  through the stint. Fitting the opening 70% does not locate it, because it
+                  has not happened yet. What it does establish is the direction of the
+                  error: a straight line is systematically <em>optimistic</em> about the
+                  laps that matter most.
+                </p>
+              </div>
+              <div className="border-l-2 border-line pl-3.5">
+                <div className="mb-1 text-[11px] font-semibold text-ink">
+                  Warm-up is the opposite event, and was nearly missed
+                </div>
+                <p className="text-[12px] leading-relaxed text-ink-dim">
+                  {Math.round(cliff.warmup_rate * 100)}% of stints show the tyre getting{' '}
+                  <em>quicker</em> and then turning — coming to temperature, or a graining
+                  phase clearing. It is a changepoint with the same arithmetic signature as
+                  a cliff and the opposite meaning. Pooling the two, which the first pass
+                  did, reports a &ldquo;cliff&rdquo; a third of the way through a stint.
+                </p>
+              </div>
+            </div>
+          </>
+        )}
+      </Panel>
+    </div>
   )
 }
