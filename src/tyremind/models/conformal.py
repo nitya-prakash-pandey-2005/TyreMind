@@ -366,7 +366,10 @@ class AdaptiveConformal:
     def half_width(self, posterior_sd: float) -> float:
         """Half-width of the next interval, given this prediction's sd."""
         scale = self._scale(posterior_sd)
-        if len(self._scores) < self.warmup or not np.isfinite(scale):
+        # `not self._scores` is not redundant with the warmup check: a caller can
+        # pass warmup=0, and with no scores yet there is no quantile to take and
+        # no widest-score to fall back on either.
+        if not self._scores or len(self._scores) < self.warmup or not np.isfinite(scale):
             return self.fallback_z * float(posterior_sd)
 
         # The working alpha is kept strictly inside (0, 1): at or below 0 the

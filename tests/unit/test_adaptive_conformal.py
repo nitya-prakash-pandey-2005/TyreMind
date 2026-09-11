@@ -170,3 +170,37 @@ class TestConstruction:
     def test_rejects_an_unknown_score(self):
         with pytest.raises(ValueError, match="unknown score"):
             AdaptiveConformal(score="vibes")
+
+
+class TestEdgeCases:
+    """The cases a caller reaches by configuring it reasonably, not perversely."""
+
+    def test_no_warmup_and_no_history_does_not_crash(self):
+        """warmup=0 is a legitimate choice -- calibrate from the first observation.
+        With nothing seen yet there is no quantile to take and no widest score to
+        fall back on, and an earlier version raised ValueError on max([])."""
+        aci = AdaptiveConformal(warmup=0)
+        assert aci.half_width(1.0) == pytest.approx(1.959964)
+        low, high = aci.interval(90.0, 1.0)
+        assert low < 90.0 < high
+
+    def test_no_warmup_starts_calibrating_from_the_first_observation(self):
+        aci = AdaptiveConformal(warmup=0)
+        aci.update(0.0, 1.0, 0.5)
+        assert np.isfinite(aci.half_width(1.0))
+
+    def test_a_zero_posterior_falls_back_rather_than_dividing_by_it(self):
+        aci = AdaptiveConformal(score="studentised", warmup=5)
+        for value in np.linspace(-1.0, 1.0, 20):
+            aci.update(0.0, 1.0, float(value))
+        assert aci.half_width(0.0) == pytest.approx(0.0)
+        assert aci.update(0.0, 0.0, 0.0) is True
+
+    def test_a_run_of_perfect_predictions_does_not_collapse_the_interval(self):
+        """The working alpha rises when nothing misses, and is clipped below 1 so
+        the interval never becomes empty."""
+        aci = AdaptiveConformal(alpha=0.05, gamma=0.05, warmup=5)
+        for _ in range(500):
+            aci.update(0.0, 1.0, 0.0)
+        assert aci.half_width(1.0) >= 0.0
+        assert np.isfinite(aci.half_width(1.0))
