@@ -1,17 +1,74 @@
 {
   "experiment": "exp14_naive_failure_rate",
-  "generated_at": "2026-09-11T18:23:00.546321+00:00",
+  "generated_at": "2026-09-11T20:35:25.021721+00:00",
   "summary": {
-    "n_races": 56,
-    "n_races_with_a_negative_compound": 39,
-    "race_failure_rate": 0.6964285714285714,
-    "n_compound_stints": 152,
-    "n_negative_compound_stints": 77,
-    "stint_failure_rate": 0.506578947368421,
+    "n_races": 61,
+    "n_races_with_a_negative_compound": 43,
+    "race_failure_rate": 0.7049180327868853,
+    "n_compound_stints": 164,
+    "n_negative_compound_stints": 84,
+    "stint_failure_rate": 0.5121951219512195,
     "excluded_wet": 1,
     "would_not_fit": 3
   },
   "races": [
+    {
+      "session_id": "2025-chinese-grand-prix-R",
+      "year": 2025,
+      "event": "Chinese Grand Prix",
+      "n_compounds": 2,
+      "n_negative": 1,
+      "estimates": {
+        "MEDIUM": 0.04128292249635074,
+        "HARD": -0.021207801566896334
+      }
+    },
+    {
+      "session_id": "2025-japanese-grand-prix-R",
+      "year": 2025,
+      "event": "Japanese Grand Prix",
+      "n_compounds": 3,
+      "n_negative": 3,
+      "estimates": {
+        "MEDIUM": -0.027331704842052502,
+        "HARD": -0.0467615259724992,
+        "SOFT": -0.06895731154810125
+      }
+    },
+    {
+      "session_id": "2025-bahrain-grand-prix-R",
+      "year": 2025,
+      "event": "Bahrain Grand Prix",
+      "n_compounds": 3,
+      "n_negative": 0,
+      "estimates": {
+        "SOFT": 0.11111331903540804,
+        "HARD": 0.06427667372498412,
+        "MEDIUM": 0.04807234910302845
+      }
+    },
+    {
+      "session_id": "2025-saudi-arabian-grand-prix-R",
+      "year": 2025,
+      "event": "Saudi Arabian Grand Prix",
+      "n_compounds": 2,
+      "n_negative": 1,
+      "estimates": {
+        "MEDIUM": 0.0009810292095241253,
+        "HARD": -0.03069319939305427
+      }
+    },
+    {
+      "session_id": "2025-miami-grand-prix-R",
+      "year": 2025,
+      "event": "Miami Grand Prix",
+      "n_compounds": 2,
+      "n_negative": 2,
+      "estimates": {
+        "MEDIUM": -0.00559602262396444,
+        "HARD": -0.03021376462068839
+      }
+    },
     {
       "session_id": "2024-bahrain-grand-prix-R",
       "year": 2024,

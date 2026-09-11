@@ -33,6 +33,30 @@ MANIFEST = "corpus.json"
 MIN_LAPS = 200
 
 
+def read_lap_table(path: Path) -> pd.DataFrame:
+    """Read a cached lap table, repairing the fuel counter on the way through.
+
+    Every parquet in this project was written while `lap_in_run` was a positional
+    counter over surviving rows, which under-counts fuel after a filtered gap and
+    hands the shortfall to the tyre. Everything needed to recompute it correctly
+    is stored, so it is recomputed here rather than by re-downloading the corpus.
+
+    This exists as a function because four experiments called `pd.read_parquet`
+    directly and so silently kept the old behaviour after the loader was fixed --
+    including the one that produces the rate estimates two others consume. A
+    repair that only some callers get is worse than no repair, because the
+    results then disagree with each other rather than being uniformly wrong.
+
+    See `tyremind.data.f1_loader.laps_completed_in_run`.
+    """
+    from tyremind.data.f1_loader import laps_completed_in_run
+
+    frame = pd.read_parquet(path)
+    if {"driver", "run_id", "tyre_age"} <= set(frame.columns):
+        frame["lap_in_run"] = laps_completed_in_run(frame)
+    return frame
+
+
 @dataclass(frozen=True)
 class CorpusSession:
     """One session on disk, with enough identity to order it."""
@@ -53,12 +77,7 @@ class CorpusSession:
         rather than by re-downloading a hundred sessions. See
         `tyremind.data.f1_loader.laps_completed_in_run`.
         """
-        from tyremind.data.f1_loader import laps_completed_in_run
-
-        frame = pd.read_parquet(self.path)
-        if {"driver", "run_id", "tyre_age"} <= set(frame.columns):
-            frame["lap_in_run"] = laps_completed_in_run(frame)
-        return frame
+        return read_lap_table(self.path)
 
 
 def _from_manifest(directory: Path) -> list[CorpusSession]:

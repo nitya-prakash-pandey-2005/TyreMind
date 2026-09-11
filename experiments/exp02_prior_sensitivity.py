@@ -35,6 +35,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+from tyremind.data.corpus import read_lap_table
 from tyremind.data.synthetic import SessionConfig, generate_session
 from tyremind.models.ssm.tyre_ssm import TyreSSMPriors, fit_tyre_ssm
 from tyremind.models.trust import build_consensus
@@ -214,7 +215,7 @@ def main() -> None:
         if not path.exists():
             continue
         print(f"\n  {session_id}")
-        results = run_session(pd.read_parquet(path))
+        results = run_session(read_lap_table(path))
         consensus = build_consensus(results)
         for compound, con in consensus.items():
             print(

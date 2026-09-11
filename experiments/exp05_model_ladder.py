@@ -23,7 +23,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from tyremind.data.corpus import load_frames
+from tyremind.data.corpus import load_frames, read_lap_table
 from tyremind.data.synthetic import SessionConfig, generate_session
 from tyremind.models.baselines import model_ladder
 from tyremind.models.evaluation import evaluate_ladder, score_rate_recovery
@@ -42,7 +42,7 @@ def load_sessions(session_ids: list[str], directory: Path = DEMO_DIR) -> dict[st
     for session_id in session_ids:
         path = directory / f"{session_id}.parquet"
         if path.exists():
-            out[session_id] = pd.read_parquet(path)
+            out[session_id] = read_lap_table(path)
     return out
 
 

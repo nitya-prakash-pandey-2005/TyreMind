@@ -39,9 +39,8 @@ import warnings
 from datetime import UTC, datetime
 from pathlib import Path
 
-import pandas as pd
-
 from tyremind.data.compounds import load_allocations
+from tyremind.data.corpus import read_lap_table
 from tyremind.models.ssm.tyre_ssm import fit_tyre_ssm
 
 CORPUS = Path("data/season")
@@ -76,7 +75,7 @@ def fit_events(years: list[int], session: str) -> list[dict]:
         parquet = CORPUS / f"{entry['session_id']}.parquet"
         if not parquet.exists():
             continue
-        lap_table = pd.read_parquet(parquet)
+        lap_table = read_lap_table(parquet)
 
         started = time.perf_counter()
         try:

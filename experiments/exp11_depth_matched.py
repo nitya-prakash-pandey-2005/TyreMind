@@ -53,6 +53,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+from tyremind.data.corpus import read_lap_table
 from tyremind.models.ssm.tyre_ssm import fit_tyre_ssm
 
 RESULTS = Path(__file__).parent / "results" / "exp11_depth_matched.json"
@@ -79,7 +80,7 @@ def slugify(year: int, event: str, session: str) -> str:
 
 def load(year: int, event: str, session: str) -> pd.DataFrame | None:
     path = CORPUS / f"{slugify(year, event, session)}.parquet"
-    return pd.read_parquet(path) if path.exists() else None
+    return read_lap_table(path) if path.exists() else None
 
 
 def rate_for(laps: pd.DataFrame, compound: str) -> tuple[float, float] | None:

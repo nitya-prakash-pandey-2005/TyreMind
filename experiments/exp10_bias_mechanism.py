@@ -64,6 +64,8 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+from tyremind.data.corpus import read_lap_table
+
 RESULTS = Path(__file__).parent / "results" / "exp10_bias_mechanism.json"
 EXP03 = Path(__file__).parent / "results" / "exp03_practice_to_race.json"
 CORPUS = Path("data/season")
@@ -84,7 +86,7 @@ def stint_profile(year: int, event: str, session: str) -> dict[str, dict]:
     path = CORPUS / f"{slugify(year, event, session)}.parquet"
     if not path.exists():
         return {}
-    laps = pd.read_parquet(path)
+    laps = read_lap_table(path)
 
     out: dict[str, dict] = {}
     for compound, block in laps.groupby("compound"):
