@@ -36,6 +36,7 @@ called occasionally and off the hot path.
 
 from __future__ import annotations
 
+import math
 import time
 from collections.abc import Iterator
 from dataclasses import dataclass
@@ -144,6 +145,15 @@ class LiveTyreState:
         return float(np.clip(100.0 * (1.0 - self.performance_loss / 1.5), 0.0, 100.0))
 
     def to_dict(self) -> dict:
+        # NaN is not valid JSON. Python's encoder emits a bare `NaN` token that
+        # strict parsers reject, and this dict goes straight down a WebSocket to
+        # a browser. Several fields are legitimately undefined -- the innovation
+        # before any lap has been folded in, the coverage when interval
+        # calibration is switched off -- so they become null rather than a token
+        # that breaks the payload for every other field alongside them.
+        def finite(value: float) -> float | None:
+            return value if math.isfinite(value) else None
+
         return {
             "driver": self.driver,
             "session_lap": int(self.session_lap),
@@ -155,14 +165,14 @@ class LiveTyreState:
             "degradation_rate_sd": self.degradation_rate_sd,
             "health_index": self.health_index,
             "laps_observed": self.laps_observed,
-            "innovation": self.innovation,
-            "innovation_z": self.innovation_z,
-            "predicted_lap_time": self.predicted_lap_time,
+            "innovation": finite(self.innovation),
+            "innovation_z": finite(self.innovation_z),
+            "predicted_lap_time": finite(self.predicted_lap_time),
             "lap_time_interval": (
                 list(self.lap_time_interval) if self.lap_time_interval else None
             ),
             "lap_time_covered": self.lap_time_covered,
-            "interval_coverage": self.interval_coverage,
+            "interval_coverage": finite(self.interval_coverage),
             "estimate_type": "filtered",
         }
 

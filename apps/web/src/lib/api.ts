@@ -179,8 +179,19 @@ export interface LiveState {
   degradation_rate_sd: number
   health_index: number
   laps_observed: number
-  innovation: number
-  innovation_z: number
+  /**
+   * Null rather than NaN when undefined -- NaN is not valid JSON, and this
+   * payload goes straight down a WebSocket.
+   */
+  innovation: number | null
+  innovation_z: number | null
+  /** One-step-ahead forecast, made before the lap was folded into the filter. */
+  predicted_lap_time: number | null
+  /** Adaptive-conformal interval around that forecast; null if calibration is off. */
+  lap_time_interval: [number, number] | null
+  lap_time_covered: boolean | null
+  /** Coverage achieved so far, so the claimed 95% is auditable in flight. */
+  interval_coverage: number | null
 }
 
 async function get<T>(path: string): Promise<T> {
