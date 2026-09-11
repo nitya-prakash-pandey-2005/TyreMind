@@ -1260,7 +1260,7 @@ C_b dTb/dt = k_sb(Ts−Tb) − h_b(Tb−T_air)</div>
   <div class="sec-head">
     <div class="sec-no">08</div>
     <div>
-      <h2>Evidence: seven experiments</h2>
+      <h2>Evidence: thirteen experiments</h2>
       <div class="kicker">Including one that failed and one where a competitor wins</div>
     </div>
   </div>
@@ -1424,10 +1424,18 @@ C_b dTb/dt = k_sb(Ts−Tb) − h_b(Tb−T_air)</div>
     <b>Why, and this is the useful part:</b> per-lap energy varies by only
     <b>2.3%</b> within a stint. F1 drivers are extremely consistent, so cumulative
     energy is very nearly proportional to lap count, and <em>no improvement is
-    possible</em> within a stint. The cross-session version of the hypothesis —
-    whether an energy clock would absorb the +0.047&nbsp;s/lap practice-to-race
-    bias, which is plausibly a fuel-load effect — remains untested and is the
-    obvious next experiment.
+    possible</em> within a stint.
+  </p>
+  <p>
+    An earlier version of this section proposed the cross-session form of the
+    hypothesis — that an energy clock might absorb the practice-to-race bias,
+    which is "plausibly a fuel-load effect" — as the obvious next experiment.
+    <b>It has since been run, and the fuel-load reading was not supported.</b>
+    Nine candidate mechanisms were tested against the signed error with a
+    multiplicity correction (§08.6); the two that survive are stint-length
+    measures, not load measures, and the causal story built on those two was
+    itself then refuted. The bias is now handled as a measured offset rather
+    than an explained one.
   </p>
   <div class="prov">experiments/results/exp04_energy_clock.json · 2024 Interlagos race, 4 stints</div>
 
@@ -1461,6 +1469,70 @@ C_b dTb/dt = k_sb(Ts−Tb) − h_b(Tb−T_air)</div>
     state model, the fleet-level pooling, the uncertainty machinery, and
     remaining-life projection to a threshold.
   </p>
+  <h3>08.6 &nbsp; Four hypotheses that did not survive contact with the data</h3>
+  <p>
+    Each of these was built because there was a reason to expect it to work, and
+    each is reported because a characterised failure constrains the next attempt
+    in a way that silence does not. All four are scored out of sample.
+  </p>
+
+  <p><b>Compound identity does not beat the weekend label.</b> Pirelli nominates
+    three of the C1–C5 range per Grand Prix and calls them HARD/MEDIUM/SOFT for
+    that weekend only, so "MEDIUM" is C4 at Monza and C2 at Silverstone. Every
+    tyre model we surveyed, ours included, pools on the label — which looked like
+    a shared mistake. Pooling on the compound actually fitted was tested by
+    leave-one-event-out across 142 stint estimates from 57 events. It is
+    <b>not better</b>: MAE 0.0499 against the label's 0.0469, Wilcoxon
+    p&nbsp;=&nbsp;0.161. The mechanism is that Pirelli nominates <em>to
+    equalise</em> — harder rubber for abrasive circuits — so the label already
+    carries circuit severity by design. We were right by accident, and now know
+    why.</p>
+
+  <p><b>Circuit geometry does not transfer, and actively hurts.</b> The product
+    question arrives on Thursday: we get there tomorrow, what will the tyres do?
+    Tested by leave-one-<em>circuit</em>-out over 140 stint estimates at 25
+    venues, so the model has never seen the venue in any form. Corner count,
+    tight-corner count, mean corner angle and corner spacing do not merely fail
+    to help — they make the label-mean baseline <b>significantly worse</b>
+    (p&nbsp;=&nbsp;0.003; p&nbsp;=&nbsp;0.001 adding compound identity). At 2.4×
+    the data this is a firm negative rather than an underpowered null, and the
+    mechanism is the same one: severity is already spoken for, so geometry
+    re-fits it and overfits.</p>
+
+  <p><b>The practice-to-race temperature gap explains nothing.</b> Friday
+    afternoon is not Sunday afternoon, and a bidirectional wear model predicts
+    the gap should matter. Spearman ρ&nbsp;=&nbsp;+0.14, p&nbsp;=&nbsp;0.29
+    across 62 comparisons. Traffic fares no better (ρ&nbsp;=&nbsp;−0.17,
+    p&nbsp;=&nbsp;0.20).</p>
+
+  <p><b>Matching stint depth makes the bias worse.</b> Of nine candidate
+    explanations for the +0.042&nbsp;s/lap over-prediction, two survive a
+    Benjamini–Hochberg correction across all nine: mean practice stint length
+    (ρ&nbsp;=&nbsp;+0.37, p&nbsp;=&nbsp;0.003) and pit stops per driver
+    (ρ&nbsp;=&nbsp;+0.33, p&nbsp;=&nbsp;0.009). The obvious causal reading is
+    that practice long runs reach the punishing part of the wear curve while a
+    heavily-pitted race never leaves the flat part. <b>Measuring the premise
+    killed it:</b> practice runs are on average <b>4.4 laps shallower</b> than
+    race stints, not deeper — teams do 10–15 lap evaluation runs on Friday and
+    20–30 lap stints on Sunday. Forcing both sides into a common tyre-age window
+    moved the bias the wrong way (+0.0422&nbsp;→&nbsp;+0.0457) and the error
+    clearly the wrong way (0.0871&nbsp;→&nbsp;0.1005, paired t
+    p&nbsp;=&nbsp;0.037).</p>
+
+  <div class="panel warn">
+    <h4>What the correlation does and does not license</h4>
+    <p>
+      The two surviving predictors are real: they are corrected for multiplicity
+      and they replicate across two seasons. What did not survive is the causal
+      story placed on them. Stint length proxies something these experiments do
+      not identify, and saying so is worth more than shipping a correction that
+      only looks principled. The bias is therefore carried as a <b>measured
+      offset, not an explained one</b>, and the interval is widened until it
+      covers what it claims (§08.7).
+    </p>
+  </div>
+  <div class="prov">experiments/results/exp08…exp11 · 2024, 2023 and 2022 · leave-one-event-out and leave-one-circuit-out</div>
+
 </section>
 
 <!-- ====================================================================== -->
