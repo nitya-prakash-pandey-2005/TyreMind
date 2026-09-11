@@ -141,10 +141,15 @@ def scale_for(sd: np.ndarray, score: str) -> np.ndarray:
     The choice is not cosmetic, and LightGBM is the cautionary tale. Studentising
     divides by the model's own posterior sd, which is the right thing when that
     sd carries information about which predictions are shaky. When it does not --
-    LightGBM's intervals are so under-dispersed that they cover 62% while
-    claiming 95% -- dividing by it amplifies the miscalibration instead of
-    correcting it, and the resulting intervals are absurd rather than merely
-    wide. The absolute score ignores the sd entirely and cannot do that.
+    LightGBM's intervals are the worst-dispersed in the ladder, covering barely
+    two thirds of observations while claiming 95% -- dividing by it amplifies the
+    miscalibration instead of correcting it, and the resulting intervals are
+    absurd rather than merely wide. The absolute score ignores the sd entirely
+    and cannot do that.
+
+    The exact figures are printed by the run rather than written here, because a
+    number embedded in prose stops matching the table above it the first time the
+    corpus changes.
     """
     if score == "studentised":
         return np.where(sd > 0, sd, np.nan)
