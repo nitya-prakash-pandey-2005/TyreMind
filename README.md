@@ -7,7 +7,7 @@
 **Observed performance is not the same thing as tyre degradation.**
 
 ![Python](https://img.shields.io/badge/python-3.11%20%E2%80%93%203.13-1d7d9c?style=flat-square)
-![Tests](https://img.shields.io/badge/tests-298%20passing-1f8a5c?style=flat-square)
+![Tests](https://img.shields.io/badge/tests-326%20passing-1f8a5c?style=flat-square)
 ![Offline](https://img.shields.io/badge/runs-fully%20offline-c4501f?style=flat-square)
 ![Licence](https://img.shields.io/badge/licence-MIT-6b7780?style=flat-square)
 
@@ -408,7 +408,7 @@ interval visibly collapsing as evidence arrives. Every view is deep-linkable —
 **Verify the install:**
 
 ```bash
-pytest              # 298 tests, about 10 s
+pytest              # 326 tests, about 30 s
 ruff check .        # lint
 ```
 
