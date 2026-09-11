@@ -410,6 +410,10 @@ python experiments/exp05_model_ladder.py                         # ~8 min
 python experiments/exp13_lap_time_calibration.py --corpus demo   # ~6 min
 ```
 
+Both of those also take `--corpus season` once the corpus below exists, which
+scores the model ladder and the interval calibration on twenty races instead of
+four.
+
 **Needs the season corpus.** It is ~113 sessions and 61,396 laps, gitignored
 because it is large and rebuildable. Build it once, then everything below is
 offline too:

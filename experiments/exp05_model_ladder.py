@@ -29,14 +29,31 @@ from tyremind.models.evaluation import evaluate_ladder, score_rate_recovery
 
 RESULTS = Path(__file__).parent / "results" / "exp05_model_ladder.json"
 DEMO_DIR = Path("data/demo")
+SEASON_DIR = Path("data/season")
+
+#: A race with fewer laps than this cannot be split into four chronological
+#: folds and still leave enough in each to score anything.
+MIN_LAPS = 200
 
 
-def load_sessions(session_ids: list[str]) -> dict[str, pd.DataFrame]:
+def load_sessions(session_ids: list[str], directory: Path = DEMO_DIR) -> dict[str, pd.DataFrame]:
     out = {}
     for session_id in session_ids:
-        path = DEMO_DIR / f"{session_id}.parquet"
+        path = directory / f"{session_id}.parquet"
         if path.exists():
             out[session_id] = pd.read_parquet(path)
+    return out
+
+
+def load_corpus(directory: Path, limit: int) -> dict[str, pd.DataFrame]:
+    """Every race in a corpus directory, most recent first."""
+    out: dict[str, pd.DataFrame] = {}
+    for path in reversed(sorted(p for p in directory.glob("*.parquet") if p.stem.endswith("-R"))):
+        if limit and len(out) >= limit:
+            break
+        frame = pd.read_parquet(path)
+        if len(frame) >= MIN_LAPS:
+            out[path.stem] = frame
     return out
 
 
@@ -49,16 +66,31 @@ def main() -> None:
     )
     parser.add_argument("--n-seeds", type=int, default=6)
     parser.add_argument("--n-folds", type=int, default=4)
+    parser.add_argument(
+        "--corpus", choices=["demo", "season"], default="demo",
+        help="'season' scores every race in data/season instead of the four demo races",
+    )
+    parser.add_argument("--limit", type=int, default=20, help="cap on --corpus season races")
     args = parser.parse_args()
 
     warnings.filterwarnings("ignore")
     logging.getLogger("fastf1").setLevel(logging.ERROR)
 
-    sessions = load_sessions(args.sessions)
-    if not sessions:
-        raise SystemExit(
-            f"no cached sessions found in {DEMO_DIR}. Run scripts/build_demo.py first."
-        )
+    if args.corpus == "season":
+        # Four races was always a thin basis for ranking six models against each
+        # other, and the corpus makes it unnecessary.
+        sessions = load_corpus(SEASON_DIR, args.limit)
+        if not sessions:
+            raise SystemExit(
+                f"no races found in {SEASON_DIR}. Run scripts/build_corpus.py first, "
+                "or pass --corpus demo."
+            )
+    else:
+        sessions = load_sessions(args.sessions)
+        if not sessions:
+            raise SystemExit(
+                f"no cached sessions found in {DEMO_DIR}. Run scripts/build_demo.py first."
+            )
 
     # ---------------- lap-time prediction, real data ----------------
     per_session = {}
@@ -172,6 +204,7 @@ def main() -> None:
             {
                 "experiment": "exp05_model_ladder",
                 "generated_at": datetime.now(UTC).isoformat(),
+                "corpus": args.corpus,
                 "sessions": list(sessions),
                 "n_synthetic_seeds": args.n_seeds,
                 "lap_time_prediction": combined,

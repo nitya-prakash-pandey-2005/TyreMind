@@ -128,6 +128,22 @@ The per-corner physics needs position telemetry to have been analysed for that
 circuit; if it has not, the twin says so rather than showing an even split as if
 it were a result.
 
+**Predicting a circuit before anyone has run there is a different problem, and we
+tested it and failed.** Leave-one-*circuit*-out across 140 stint estimates at 25
+venues, so the model has never seen the venue in any form — exactly Thursday's
+situation. Circuit geometry does not merely fail to help: it makes the
+label-mean baseline **significantly worse** (p 0.003, and p 0.001 using compound
+identity). At 2.4× the data this is a firm negative, not an underpowered null.
+
+The mechanism is worth the answer. **Pirelli nominates to equalise** — harder
+rubber for abrasive venues, softer for gentle ones — so the weekend's
+HARD/MEDIUM/SOFT label already carries circuit severity *by design*. Geometry
+laid on top re-fits severity that is already spoken for, and overfits.
+
+So the honest position is that pre-event prediction is the right product goal
+and circuit geometry is not the route to it. We would rather say that than ship
+a feature that looks principled and is not.
+
 ---
 
 ### "How do you deal with missing telemetry?"
@@ -182,6 +198,28 @@ That last number is the argument for encoding physics rather than learning it.
 
 ### "Why is your interval coverage 100% when you designed for 95%?"
 
-Because the intervals are slightly conservative — wider than strictly necessary.
-For decision support that is the safer direction to err, but it is a
-miscalibration and we report it as one rather than as a perfect score.
+On the synthetic benchmark, because the intervals are slightly conservative —
+wider than strictly necessary. For decision support that is the safer direction
+to err, but it is a miscalibration and we report it as one rather than as a
+perfect score.
+
+**The practice→race intervals erred the other way, which is the dangerous one.**
+They covered **76% of 62 comparisons while labelled 95%**. An earlier version of
+our own documents reported 90% on ten comparisons; that sample was simply too
+small to have detected the problem.
+
+The cause is not a broken filter. The posterior standard deviation correctly
+answers *how well do these practice laps pin down the practice rate* — which is
+not the question the number gets used for. Nothing about the transfer to Sunday,
+fuel and track state and driving style and tyre management, is inside it. The
+interval was honest and answering the wrong question.
+
+We fixed it with **split conformal prediction**, which gives distribution-free
+finite-sample coverage without assuming the errors are Gaussian or the model
+correctly specified. It lands on **95%**, at the honest cost of a wider interval
+(±0.25 vs ±0.14 s/lap). Calibration folds are grouped by *event*, because two
+compounds at one Grand Prix share a track, a weather window and a fuel
+correction and are not exchangeable with each other.
+
+It is shipped, not just measured: `tyremind.models.conformal`, served by the API
+as `race_projection`, and visible on each compound card in the dashboard.
