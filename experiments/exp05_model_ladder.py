@@ -23,6 +23,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+from tyremind.data.corpus import load_frames
 from tyremind.data.synthetic import SessionConfig, generate_session
 from tyremind.models.baselines import model_ladder
 from tyremind.models.evaluation import evaluate_ladder, score_rate_recovery
@@ -46,15 +47,13 @@ def load_sessions(session_ids: list[str], directory: Path = DEMO_DIR) -> dict[st
 
 
 def load_corpus(directory: Path, limit: int) -> dict[str, pd.DataFrame]:
-    """Every race in a corpus directory, most recent first."""
-    out: dict[str, pd.DataFrame] = {}
-    for path in reversed(sorted(p for p in directory.glob("*.parquet") if p.stem.endswith("-R"))):
-        if limit and len(out) >= limit:
-            break
-        frame = pd.read_parquet(path)
-        if len(frame) >= MIN_LAPS:
-            out[path.stem] = frame
-    return out
+    """Races to score, most recent season first and then in calendar order.
+
+    Shares its selection rule with experiment 13 via `tyremind.data.corpus`, so
+    the two report on the same races and a reader comparing them is comparing
+    like with like.
+    """
+    return load_frames(directory, session_type="R", limit=limit, min_laps=MIN_LAPS)
 
 
 def main() -> None:

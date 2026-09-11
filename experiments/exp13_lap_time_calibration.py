@@ -63,6 +63,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+from tyremind.data.corpus import load_frames
 from tyremind.models.baselines import model_ladder
 from tyremind.models.conformal import AdaptiveConformal, conformal_quantile
 from tyremind.models.evaluation import rolling_origin_folds
@@ -91,16 +92,13 @@ MIN_CALIBRATION = 19
 
 
 def load_sessions(directory: Path, limit: int) -> dict[str, pd.DataFrame]:
-    """Race sessions from a corpus directory, newest first."""
-    paths = sorted(p for p in directory.glob("*.parquet") if p.stem.endswith("-R"))
-    out: dict[str, pd.DataFrame] = {}
-    for path in reversed(paths):
-        if limit and len(out) >= limit:
-            break
-        frame = pd.read_parquet(path)
-        if len(frame) >= 200:
-            out[path.stem] = frame
-    return out
+    """Race sessions to score, most recent season first and then in calendar order.
+
+    The selection rule lives in `tyremind.data.corpus` rather than here, because
+    which races an experiment runs on is a methodological claim shared with the
+    model ladder, and two copies of it would be two claims.
+    """
+    return load_frames(directory, session_type="R", limit=limit)
 
 
 def residual_stream(lap_table: pd.DataFrame, model, n_folds: int = 4) -> pd.DataFrame:
