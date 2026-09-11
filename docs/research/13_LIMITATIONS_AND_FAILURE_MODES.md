@@ -46,16 +46,39 @@ reported 90% over 10 comparisons; that sample was too small to have detected the
 problem.
 
 **And it goes the other way on lap-time prediction.** In the model ladder our
-95% lap-time intervals cover only **73%** of observations. That is
-*under*-confidence's opposite — intervals too narrow — and pooled regression does
-better at 79%. Every rung in that ladder undercovers on lap time, so it is partly
-a property of the task, but ours is not the best of them and the direction is the
-opposite of the conservatism reported above.
+95% lap-time intervals cover only **82%** of observations, measured across
+66,606 held-out laps from twenty races. That is *under*-confidence's opposite —
+intervals too narrow — and pooled regression does better at **85%**. Every rung
+in that ladder undercovers, so it is partly a property of the task, but ours is
+not the best of them and the direction is the opposite of the conservatism
+reported above.
 
 The two are not in conflict: the degradation *rate* is a slowly-varying pooled
 state with a wide prior, while a single lap time carries driver noise the model
 deliberately does not try to explain. But a reader is entitled to be told both
 numbers, not only the flattering one.
+
+**This is now fixed, by a different method from the one used for degradation
+rates, and the difference is the interesting part.** Split conformal repaired the
+practice→race intervals because one rate per compound per event is exchangeable —
+the events could be shuffled without changing anything. Lap times inside a race
+are the opposite: the car burns fuel, the track rubbers in, a safety car
+rearranges the order. A fixed quantile calibrated on the first half of a race is
+calibrated for a race that no longer exists.
+
+Adaptive Conformal Inference (Gibbs & Candès, 2021) drops the exchangeability
+assumption rather than hoping it holds, moving the working miss-rate by
+`γ(α − err)` after every lap. Pooled over every rung it reaches **95.3%** against
+the Gaussian's 75.4%, at a median width of 7.64 s. The nonconformity score also
+had to change: the *studentised* score that won for degradation rates is wrong
+here, because dividing by a posterior sd that is itself badly wrong amplifies the
+miscalibration instead of correcting it.
+
+Two honest caveats. A wider interval is not a better model — this makes the
+uncertainty truthful, it does not make the prediction sharper. And the *live*
+filter was never as badly off as the batch ladder: its innovation variance is a
+real predictive variance and already covered 90–95%, so calibration holds it at
+95% rather than rescuing it.
 
 ---
 

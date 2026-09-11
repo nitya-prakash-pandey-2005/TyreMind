@@ -197,10 +197,30 @@ meaning "degradation rate", is badly overconfident, and cannot extrapolate — b
 drift measures how much a model's error grows as it forecasts further past its
 training window, and TyreMind is the only model tested whose error does not grow.
 
-**Our own lap-time intervals are undercovered too**: 73% against a nominal 95%,
-and pooled regression does better at 79%. Every model in the ladder undercovers
-on lap time, but ours is not the best of them, and that is the opposite direction
-of error from the conservative 100% coverage we report on the degradation task.
+**Our own lap-time intervals were undercovered too.** Measured across **66,606
+held-out laps from twenty races**, every rung in the ladder undercovers and none
+reaches 86%: LightGBM 64%, the neural network 70%, naive 76%, TyreMind 82%,
+pooled regression 85%. Ours is not the worst and is not the best, and that is
+the opposite direction of error from the conservative 100% we report on the
+degradation task.
+
+**Fixed** ([exp13](experiments/exp13_lap_time_calibration.py)). Split conformal
+is the wrong tool here — it needs the calibration set to be exchangeable with
+the test point, and lap times inside a race are the opposite of that, because the
+car burns fuel, the track rubbers in and a safety car rearranges everything.
+Adaptive Conformal Inference drops the assumption instead of hoping it holds,
+retuning the working miss-rate after every lap:
+
+| | Coverage | Median width |
+|---|---:|---:|
+| Gaussian, as reported | 75.4% | — |
+| Split conformal | 89.3% | 6.33 s |
+| **Adaptive conformal** | **95.3%** | 7.64 s |
+
+It lifts LightGBM from 64% to 95% — its lap-time *predictions* were fine, its
+*sd* was wrong. The live monitor now carries the same machinery and reports the
+coverage it has actually achieved, so the claimed 95% is auditable in flight
+rather than after the race.
 
 ---
 
