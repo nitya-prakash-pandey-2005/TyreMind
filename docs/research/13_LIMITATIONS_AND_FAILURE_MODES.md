@@ -68,8 +68,8 @@ calibrated for a race that no longer exists.
 
 Adaptive Conformal Inference (Gibbs & Candès, 2021) drops the exchangeability
 assumption rather than hoping it holds, moving the working miss-rate by
-`γ(α − err)` after every lap. Pooled over every rung it reaches **95.3%** against
-the Gaussian's 75.4%, at a median width of 7.64 s. The nonconformity score also
+`γ(α − err)` after every lap. Pooled over every rung it reaches **95.2%** against
+the Gaussian's 75.5%, at a median width of 7.37 s. The nonconformity score also
 had to change: the *studentised* score that won for degradation rates is wrong
 here, because dividing by a posterior sd that is itself badly wrong amplifies the
 miscalibration instead of correcting it.
@@ -92,6 +92,7 @@ real predictive variance and already covered 90–95%, so calibration holds it a
 | **Short stints** | Under ~5 laps cannot show a trend. | Runs under 4 laps dropped and counted. |
 | **Safety car, red flag, VSC** | Slow laps corrupt the trend. | Removed by a robust median-absolute-deviation threshold and counted. |
 | **Single-car analysis** | Loses the run-stagger identification. | Measured: halving the field moves error from 0.0047 to 0.0073. |
+| **Attributing degradation to a driver** | Driver and car are perfectly confounded, and the per-stint rate spread the model fits sits at the floor of its search range. | Not attempted. Tested in `exp15`; the result is reported there rather than shipped as a feature. |
 | **Puncture, debris, damage** | Represented as smooth degradation; a step change is not in the model. | Innovation z-scores are surfaced in the live monitor — a run of large same-signed innovations means the model is being surprised. |
 | **New circuit with no telemetry analysed** | Per-corner energy unavailable. | The twin says so rather than showing an even split as a result. |
 | **Sprint or heavily disrupted sessions** | Few long runs. | Session quality score surfaced; low scores indicate the session cannot support a conclusion. |
@@ -100,36 +101,62 @@ real predictive variance and already covered 90–95%, so calibration holds it a
 
 ## 4. Known systematic biases
 
-**Practice over-predicts race degradation by +0.047 s/lap**, in 9 of 10
-comparisons across five 2024 events.
+**Practice over-predicts race degradation by +0.042 s/lap**, in 42 of 62
+comparisons across 27 events in 2024 and 2023.
 
-Most likely physical cause: practice race-sim runs hold high fuel throughout
-while a race stint averages lower, putting more load through the tyre on Friday.
-An energy-based degradation clock should absorb it — but `exp04` showed per-lap
-energy varies only 1.9% *within* a stint, so the within-stint version of that fix
-cannot work. The cross-session version is untested.
+An earlier version of this section proposed a physical cause — practice race-sims
+holding high fuel throughout — and called the cross-session test untested. **It
+has since been run, and that explanation is not supported.** Nine candidate
+mechanisms were tested against the signed error with a Benjamini–Hochberg
+correction across all nine. Two survive: mean practice stint length (ρ +0.37,
+p 0.003) and pit stops per driver (ρ +0.33, p 0.009). The fuel-load reading is
+not among them, and neither are the temperature gap, traffic, or the model's own
+posterior sd.
 
-Reported rather than corrected, because a bias that is understood is more useful
-than one that has been tuned away.
+The causal story those two implied — practice running deeper into the wear curve
+than a pitted race — was then built and **refuted**: practice runs are on average
+4.4 laps *shallower* than race stints, and forcing a common tyre-age window made
+both bias and error worse.
+
+So the bias is reported and corrected as a **measured offset, not an explained
+one**, and the interval is widened by conformal calibration until it covers what
+it claims. A bias whose mechanism is unknown is worth stating plainly; a
+mechanism asserted without evidence is worth less than nothing.
 
 ---
 
-## 4b. The cross-domain number is not a like-for-like comparison
+## 4b. The cross-domain number is now like-for-like -- it was not before
 
-Our C-MAPSS figure of **26.5 cycles RUL RMSE** is scored on **40 of the 100
-engines in the FD001 test set**, taken in unit-id order. Published figures --
-including the 12-20 cycles we quote for purpose-built deep models -- are computed
-over all 100.
+This section used to read: *"our C-MAPSS figure of 26.5 cycles RUL RMSE is scored
+on 40 of the 100 engines... making it comparable is a tractable engineering
+problem -- the fit would need to be batched per engine rather than joint -- and
+it is not done."*
 
-This is a runtime limit rather than a selection. The estimator fits the test set
-jointly, so cost grows faster than linearly in the number of engines: 40 engines
-fit in about three minutes, while a full 100-engine run was attempted and
-abandoned after 108 CPU-minutes without converging.
+**It is done.** The estimator fits the test set jointly, so cost grows faster
+than linearly and a 100-engine run had been abandoned after 108 CPU-minutes
+without converging. Fitting in batches of 25 removes the limit, because each
+engine's level and rate are its own states driven by its own observations; the
+only quantity pooled across engines is the shared degradation baseline, which is
+already estimated from the training engines.
 
-The honest statement is therefore that the transfer works and the number is
-indicative, not that it sits at a particular distance from the state of the art.
-Making it comparable is a tractable engineering problem -- the fit would need to
-be batched per engine rather than joint -- and it is not done.
+The figure is now **22.7 cycles RUL RMSE over all 100 FD001 test engines** --
+the same set the published 12-20 cycles is quoted over. MAE 17.9, and 44%
+predicted early, which is the safe direction for a prognostics model.
+
+Two things worth stating about that, because the result improved and an
+improvement is exactly when a reader should be most suspicious:
+
+- **Batching does not flatter it.** Re-running the original 40 engines in one
+  batch reproduces 26.5/21.1/1893 exactly. At batch size 20 the same 40 give
+  26.6/21.4/1870 -- a 0.4% difference. The improvement from 26.5 to 22.7 comes
+  from scoring the other 60 engines, not from how the fit was split.
+- **The NASA score is a sum, not a mean.** 2415 over 100 engines against 1893
+  over 40 looks worse and is better: 24.2 per engine against 47.3. Any comparison
+  of that score between runs with different engine counts is meaningless, and the
+  experiment now prints the per-engine figure alongside it.
+
+We still do not claim to be competitive. 22.7 against a published 12-20 is a tyre
+model pointed at engines with no retuning.
 
 ---
 

@@ -113,7 +113,8 @@ motorsport itself cannot supply ground truth. The `AssetProfile` abstraction
 makes the claim a property of the code rather than a slide.
 
 **Honest claim:** *"The identical estimator, with no tyre-specific code, predicts
-turbofan remaining life at 26.5 cycles RMSE against published labels."*
+turbofan remaining life at 22.7 cycles RMSE across all 100 FD001 test engines —
+the same set published figures are quoted over."*
 
 **Do not say:** that we are competitive on C-MAPSS. Purpose-built models reach
 12–20 cycles. We are demonstrating transfer, not entering a leaderboard.

@@ -29,6 +29,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 
 import numpy as np
+import pandas as pd
 
 from tyremind.assets.cmapss import (
     build_health_index,
@@ -58,6 +59,10 @@ def rul_score(error: np.ndarray) -> float:
     Included because it is the metric the C-MAPSS literature reports, so results
     here are comparable to published work rather than to a metric of our own
     choosing.
+
+    It is a SUM over engines, not a mean, so it is only comparable between runs
+    that scored the same number of them. Published FD001 figures are quoted over
+    all 100, which is why this experiment now scores all 100.
     """
     return float(
         np.sum(np.where(error < 0, np.exp(-error / 13.0) - 1.0, np.exp(error / 10.0) - 1.0))
@@ -67,17 +72,29 @@ def rul_score(error: np.ndarray) -> float:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--subset", default="FD001", choices=["FD001", "FD002", "FD003", "FD004"])
-    # 40 of FD001's 100 test engines, in unit-id order.
+    # How many test engines to score. 0 means all of them.
     #
-    # This is a runtime limit, not a selection: the estimator fits the whole test
-    # set jointly, so cost grows faster than linearly in the number of engines.
-    # A full 100-engine run was attempted and abandoned after 108 CPU-minutes
-    # without converging, where 40 engines finish in about three minutes.
+    # This used to default to 40 because the estimator fits the whole test set
+    # jointly and cost grows faster than linearly in the number of engines: a
+    # 100-engine run was abandoned after 108 CPU-minutes without converging,
+    # where 40 finished in three. That mattered, because published C-MAPSS RMSE
+    # figures are quoted over all 100, so ours was not a like-for-like number.
     #
-    # It matters because published C-MAPSS RMSE figures are quoted over all 100.
-    # Every document that reports our number says so, and calls the comparison
-    # indicative rather than like-for-like.
-    parser.add_argument("--n-units", type=int, default=40)
+    # Batching removes the limit. Each engine's level and rate are its own
+    # states, driven by its own observations; the only quantity pooled across
+    # engines in a fit is the shared degradation baseline, and that is already
+    # estimated from the TRAINING engines. Fitting the test set in batches is
+    # therefore close to fitting it whole, and `--batch-size 0` still fits it
+    # jointly for anyone who wants to check that claim rather than take it.
+    parser.add_argument("--n-units", type=int, default=0)
+    parser.add_argument(
+        "--batch-size", type=int, default=25,
+        help="engines per test fit; 0 fits them all jointly",
+    )
+    parser.add_argument(
+        "--train-units", type=int, default=40,
+        help="training engines used for the pooled baseline and health index",
+    )
     args = parser.parse_args()
 
     warnings.filterwarnings("ignore")
@@ -98,7 +115,7 @@ def main() -> None:
     train_health = build_health_index(data.train, sensors)
     test_health = build_health_index(data.test, sensors, reference=data.train)
 
-    observations = to_observations(data.train, train_health, max_units=args.n_units)
+    observations = to_observations(data.train, train_health, max_units=args.train_units)
     lap_table = to_lap_table(observations, TURBOFAN)
     print(f"  translated {len(lap_table)} engine-cycles into the estimator's schema")
 
@@ -147,14 +164,27 @@ def main() -> None:
     # uses no RUL labels -- and its own latent state is extrapolated to the
     # calibrated failure level. This is the same calculation as remaining
     # competitive tyre life, on a different asset.
-    test_observations = to_observations(data.test, test_health, max_units=args.n_units)
-    test_table = to_lap_table(test_observations, TURBOFAN)
-    test_fit = fit_tyre_ssm(test_table, priors=priors)
-    test_state = test_fit.degradation()
+    all_units = sorted(data.test["unit"].unique())
+    wanted = all_units[: args.n_units] if args.n_units else all_units
+    batch_size = args.batch_size or len(wanted)
+
+    # Fitted in batches so every engine can be scored. See --batch-size.
+    states = []
+    for start in range(0, len(wanted), batch_size):
+        batch = wanted[start : start + batch_size]
+        batch_rows = data.test[data.test["unit"].isin(batch)]
+        batch_health = test_health.loc[batch_rows.index]
+        batch_table = to_lap_table(
+            to_observations(batch_rows, batch_health, max_units=0), TURBOFAN
+        )
+        batch_fit = fit_tyre_ssm(batch_table, priors=priors)
+        states.append(batch_fit.degradation())
+        print(f"    engines {batch[0]:>3}-{batch[-1]:>3}  converged={batch_fit.converged}")
+    test_state = pd.concat(states, ignore_index=True)
 
     predictions, truths = [], []
 
-    for unit in sorted(data.test["unit"].unique())[: args.n_units]:
+    for unit in wanted:
         asset = f"engine_{int(unit):03d}"
         engine = test_state[test_state["driver"] == asset].sort_values("session_lap")
         if len(engine) < 10:
@@ -191,7 +221,8 @@ def main() -> None:
     print(f"engines scored              : {len(predictions_arr)}")
     print(f"RUL RMSE                    : {rmse:.1f} cycles")
     print(f"RUL MAE                     : {mae:.1f} cycles")
-    print(f"NASA prognostics score      : {score:.0f}  (lower is better)")
+    print(f"NASA prognostics score      : {score:.0f}  (lower is better; a SUM over "
+          f"{len(predictions_arr)} engines, {score / len(predictions_arr):.1f} each)")
     print(f"mean prediction / truth     : {predictions_arr.mean():.0f} / {truths_arr.mean():.0f} cycles")
     print(f"fraction predicted early    : {(error < 0).mean():.0%}  (safer than late)")
     print("-" * 82)
@@ -214,6 +245,8 @@ def main() -> None:
                 "asset_profile": TURBOFAN.to_dict(),
                 "n_train_engines": int(data.train["unit"].nunique()),
                 "n_engines_scored": len(predictions_arr),
+                "n_test_engines_available": int(data.test["unit"].nunique()),
+                "batch_size": int(args.batch_size),
                 "n_sensors_used": len(sensors),
                 "sensors_used": sensors,
                 "estimated_degradation_rate": mean_rate,
@@ -221,6 +254,7 @@ def main() -> None:
                 "rul_rmse": rmse,
                 "rul_mae": mae,
                 "nasa_score": score,
+                "nasa_score_per_engine": float(score / len(predictions_arr)),
                 "rul_cap": RUL_CAP,
                 "fraction_early": float((error < 0).mean()),
                 "predictions": predictions_arr.tolist(),

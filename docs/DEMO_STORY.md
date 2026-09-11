@@ -111,7 +111,7 @@ Then the numbers:
 > there is nothing to check against. So we ran the *identical* estimator on NASA's
 > turbofan benchmark, which does have run-to-failure ground truth.
 >
-> 26.5-cycle RUL error on 40 of the 100 FD001 test engines, 32% predicted early.
+> 22.7-cycle RUL error on all 100 FD001 test engines, 44% predicted early.
 > (If asked: published figures use all 100, so this is indicative, not like-for-like.)
 > Purpose-built deep models
 > get 12–20 on that dataset, so we are not competitive — but we are a tyre model

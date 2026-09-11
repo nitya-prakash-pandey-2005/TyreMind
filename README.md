@@ -185,9 +185,16 @@ energy; anti-clockwise 60–75%. Austin misses at 46.2% and is reported as a mis
 Public F1 data has no measured tyre wear, so motorsport cannot supply ground
 truth. NASA's C-MAPSS turbofan benchmark does.
 
-**Same estimator, no tyre-specific code:** 26.5-cycle RUL error, 32% predicted
-early. Purpose-built deep models reach 12–20 on that dataset — this demonstrates
-transfer, not competitiveness. That figure is scored on **40 of the 100 engines in the FD001 test set**, taken in unit-id order, while published figures are quoted on all 100 — so the comparison is indicative, not like-for-like.
+**Same estimator, no tyre-specific code:** **22.7-cycle RUL error**, 44%
+predicted early — the safe direction. Purpose-built deep models reach 12–20 on
+that dataset, so this demonstrates transfer, not competitiveness.
+
+It is scored on **all 100 engines in the FD001 test set**, which is what
+published figures are quoted on, so the comparison is now like-for-like. An
+earlier version scored 40 because the estimator fits the test set jointly and a
+100-engine run would not converge; fitting in batches removes the limit, and the
+result *improved* — 26.5 → 22.7 cycles — because the 40-engine subset was the
+harder end of the set, not because batching flatters it.
 
 ### Where we lose
 

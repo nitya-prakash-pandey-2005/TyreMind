@@ -221,12 +221,22 @@ it should. Coverage holds at 100% across every perturbation.
 
 ### Cross-domain — NASA C-MAPSS FD001
 
-RUL RMSE **26.5 cycles** over 40 of the 100 FD001 test engines (taken in unit-id
-order; published figures are quoted on all 100, so this is indicative rather than
-like-for-like), 32% predicted early, NASA prognostics
-score 1893. Purpose-built deep prognostics models reach 12–20 RMSE on this
-dataset. This is a tyre model pointed at engines with no retuning, so it
-demonstrates transfer, not competitiveness.
+RUL RMSE **22.7 cycles** over **all 100** FD001 test engines — the same set
+published figures are quoted on, so this is a like-for-like comparison. MAE 17.9
+cycles, 44% predicted early, NASA prognostics score 2415 (that score is a *sum*
+over engines, so it is only comparable at equal engine counts: 24.2 per engine
+here against 47.3 per engine on the earlier 40-engine run).
+
+Purpose-built deep prognostics models reach 12–20 RMSE on this dataset. This is a
+tyre model pointed at engines with no retuning, so it demonstrates transfer, not
+competitiveness.
+
+The earlier 40-engine figure of 26.5 existed because the estimator fits the test
+set jointly and cost grows faster than linearly: a 100-engine run was abandoned
+after 108 CPU-minutes without converging. Fitting in batches of 25 removes the
+limit. Batching was verified not to move the answer — rerunning the original 40
+in one batch reproduces 26.5/21.1/1893 exactly, and at batch size 20 it gives
+26.6/21.4/1870, a 0.4% difference.
 
 Predictions are capped at 125 cycles, the piecewise-linear RUL convention used
 throughout the C-MAPSS literature. Without the cap the estimator extrapolates a
