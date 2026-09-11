@@ -201,3 +201,82 @@ class TestGuardrails:
 
         state.performance_loss = 10.0
         assert state.health_index == 0.0  # clipped, never negative
+
+
+class TestCalibratedLapTimeForecast:
+    """The live forecast must be a forecast, and its interval must be auditable.
+
+    The distinction that matters here is not statistical, it is procedural: the
+    interval has to be formed from the state *before* the lap is folded in. A
+    number computed after the update would be a fit dressed up as a prediction,
+    and it would look excellent right up until it was used on a lap that had not
+    happened yet.
+    """
+
+    def test_the_forecast_is_made_before_the_lap_is_folded_in(self, session) -> None:
+        monitor = LiveTyreMonitor(
+            sorted(session.lap_table["driver"].unique().tolist()), sorted(session.lap_table["compound"].unique().tolist())
+        )
+        states = [s for _, s in replay(session.lap_table, monitor=monitor)]
+
+        # Reconstructed from the recorded forecast, so if `observe` ever started
+        # reading the posterior instead of the prior this identity would break.
+        for obs, state in zip(session.lap_table.itertuples(), states, strict=False):
+            if np.isfinite(state.innovation) and np.isfinite(state.predicted_lap_time):
+                assert state.innovation == pytest.approx(
+                    obs.lap_time - state.predicted_lap_time, abs=1e-6
+                )
+
+    def test_the_interval_brackets_the_forecast(self, session) -> None:
+        monitor = LiveTyreMonitor(
+            sorted(session.lap_table["driver"].unique().tolist()), sorted(session.lap_table["compound"].unique().tolist())
+        )
+        for _, state in replay(session.lap_table, monitor=monitor):
+            low, high = state.lap_time_interval
+            assert low <= state.predicted_lap_time <= high
+
+    def test_reported_coverage_matches_the_laps_it_actually_covered(self, session) -> None:
+        """The auditable part. A strategist should be able to check the 95% was
+        95% without taking anyone's word for it."""
+        monitor = LiveTyreMonitor(
+            sorted(session.lap_table["driver"].unique().tolist()), sorted(session.lap_table["compound"].unique().tolist())
+        )
+        states = [s for _, s in replay(session.lap_table, monitor=monitor)]
+        hits = [s.lap_time_covered for s in states]
+        assert states[-1].interval_coverage == pytest.approx(np.mean(hits), abs=1e-9)
+
+    def test_calibration_can_be_switched_off(self, session) -> None:
+        monitor = LiveTyreMonitor(
+            sorted(session.lap_table["driver"].unique().tolist()),
+            sorted(session.lap_table["compound"].unique().tolist()),
+            calibrate_intervals=False,
+        )
+        states = [s for _, s in replay(session.lap_table, monitor=monitor)]
+        assert all(s.lap_time_interval is None for s in states)
+        # The forecast itself is unconditional -- only its interval is optional.
+        assert np.isfinite(states[-1].predicted_lap_time)
+
+    def test_calibration_does_not_disturb_the_filter(self, session) -> None:
+        """Interval calibration observes the filter; it must never feed back into
+        it. Identical state estimates with it on and off is the only way to be
+        sure the audit is not changing what it audits."""
+        drivers = sorted(session.lap_table["driver"].unique().tolist())
+        compounds = sorted(session.lap_table["compound"].unique().tolist())
+
+        on = [s for _, s in replay(session.lap_table, monitor=LiveTyreMonitor(
+            drivers, compounds, calibrate_intervals=True))]
+        off = [s for _, s in replay(session.lap_table, monitor=LiveTyreMonitor(
+            drivers, compounds, calibrate_intervals=False))]
+
+        assert len(on) == len(off)
+        for a, b in zip(on, off, strict=True):
+            assert a.degradation_rate == pytest.approx(b.degradation_rate, abs=1e-12)
+            assert a.performance_loss == pytest.approx(b.performance_loss, abs=1e-12)
+            assert a.innovation == pytest.approx(b.innovation, abs=1e-12)
+
+    def test_coverage_lands_near_nominal_on_a_full_session(self, session) -> None:
+        monitor = LiveTyreMonitor(
+            sorted(session.lap_table["driver"].unique().tolist()), sorted(session.lap_table["compound"].unique().tolist())
+        )
+        states = [s for _, s in replay(session.lap_table, monitor=monitor)]
+        assert states[-1].interval_coverage == pytest.approx(0.95, abs=0.05)

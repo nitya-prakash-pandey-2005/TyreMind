@@ -43,6 +43,7 @@ from dataclasses import dataclass
 import numpy as np
 import pandas as pd
 
+from tyremind.models.conformal import AdaptiveConformal
 from tyremind.models.ssm.kalman import _symmetrise
 from tyremind.models.ssm.tyre_ssm import (
     DIFFUSE_VARIANCE,
@@ -98,6 +99,16 @@ class LiveTyreState:
             model is being surprised, which is worth surfacing.
         innovation_z: That error in units of its own predicted standard
             deviation. Above about 3 the lap was not what the model expected.
+        predicted_lap_time: The model's one-step-ahead forecast for this lap,
+            made *before* the lap was folded in. A genuine forecast, not a fit.
+        lap_time_interval: Calibrated interval around that forecast, or None if
+            interval calibration is switched off. Its nominal level is the
+            monitor's `interval_confidence`, and unlike the raw Kalman interval
+            it is adapted to what this session has actually been doing.
+        lap_time_covered: Whether the lap landed inside that interval.
+        interval_coverage: Coverage achieved across every lap so far. This is the
+            number that makes the interval auditable in flight: a strategist can
+            see whether the 95% has been 95%.
     """
 
     driver: str
@@ -111,6 +122,10 @@ class LiveTyreState:
     laps_observed: int
     innovation: float = float("nan")
     innovation_z: float = float("nan")
+    predicted_lap_time: float = float("nan")
+    lap_time_interval: tuple[float, float] | None = None
+    lap_time_covered: bool | None = None
+    interval_coverage: float = float("nan")
 
     @property
     def health_index(self) -> float:
@@ -142,6 +157,12 @@ class LiveTyreState:
             "laps_observed": self.laps_observed,
             "innovation": self.innovation,
             "innovation_z": self.innovation_z,
+            "predicted_lap_time": self.predicted_lap_time,
+            "lap_time_interval": (
+                list(self.lap_time_interval) if self.lap_time_interval else None
+            ),
+            "lap_time_covered": self.lap_time_covered,
+            "interval_coverage": self.interval_coverage,
             "estimate_type": "filtered",
         }
 
@@ -164,6 +185,16 @@ class LiveTyreMonitor:
             runs into one intercept and corrupt both.
         reference_time: Lap time the model works relative to, for conditioning.
             Defaults to the first observed lap.
+        calibrate_intervals: Wrap the one-step-ahead forecast in an adaptive
+            conformal interval. The Kalman innovation variance is the right
+            answer to "how surprised should I be by this lap under my own
+            model", and measured across 14,802 held-out laps it covers about
+            73% while labelled 95% -- the model is confident about a world it
+            has slightly wrong. Adaptive conformal fixes that without assuming
+            the residuals are exchangeable, which inside a race they are not:
+            the car burns fuel, the track rubbers in, a safety car rearranges
+            everything.
+        interval_alpha: Target miss rate for that interval.
     """
 
     def __init__(
@@ -175,6 +206,8 @@ class LiveTyreMonitor:
         *,
         max_runs_per_driver: int = 8,
         reference_time: float | None = None,
+        calibrate_intervals: bool = True,
+        interval_alpha: float = 0.05,
     ) -> None:
         self.drivers = list(drivers)
         self.compounds = list(compounds)
@@ -182,6 +215,15 @@ class LiveTyreMonitor:
         self.priors = priors or TyreSSMPriors()
         self.max_runs_per_driver = max_runs_per_driver
         self.reference_time = reference_time
+        # Absolute rather than studentised. Studentising divides by the model's
+        # own forecast sd, which helps only when that sd carries information
+        # about which laps are shaky; experiment 13 found it amplifies the
+        # miscalibration when it does not, producing intervals tens of seconds
+        # wide on exactly the rungs that needed help most.
+        self.interval_calibrator = (
+            AdaptiveConformal(alpha=interval_alpha, score="absolute")
+            if calibrate_intervals else None
+        )
 
         cursor = 0
 
@@ -364,6 +406,20 @@ class LiveTyreMonitor:
         F = float(z @ Pz + self.hyper.obs_var)
         v = float(y - z @ self.a)
 
+        # The forecast has to be taken here, from the PRIOR state, before the
+        # Kalman update folds this lap in. Reading it afterwards would score the
+        # model on a lap it had already seen.
+        predicted_lap_time = (self.reference_time or 0.0) + float(z @ self.a)
+        forecast_sd = float(np.sqrt(F))
+        interval = covered = None
+        coverage = float("nan")
+        if self.interval_calibrator is not None:
+            interval = self.interval_calibrator.interval(predicted_lap_time, forecast_sd)
+            covered = self.interval_calibrator.update(
+                predicted_lap_time, forecast_sd, obs.lap_time
+            )
+            coverage = self.interval_calibrator.empirical_coverage
+
         K = Pz / F
         self.a = self.a + K * v
         self.P = _symmetrise(self.P - np.outer(K, Pz))
@@ -384,6 +440,10 @@ class LiveTyreMonitor:
             laps_observed=self._laps_seen[obs.driver],
             innovation=v,
             innovation_z=v / np.sqrt(F),
+            predicted_lap_time=predicted_lap_time,
+            lap_time_interval=interval,
+            lap_time_covered=covered,
+            interval_coverage=coverage,
         )
         self._last_state[obs.driver] = state
         return state
