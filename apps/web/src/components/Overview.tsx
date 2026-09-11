@@ -155,6 +155,38 @@ export function Overview({
                       height={12}
                     />
                   </div>
+
+                  {estimate.race_projection && (
+                    <div className="mt-3 border-t border-line pt-2">
+                      <div className="flex items-baseline justify-between">
+                        <span className="text-[10px] text-ink-faint">
+                          Projected race rate
+                        </span>
+                        <span className="num text-[13px] text-ink">
+                          {fixed(estimate.race_projection.expected_race_rate)}
+                        </span>
+                      </div>
+                      <div className="mt-0.5 text-[10px] text-ink-faint">
+                        {Math.round(estimate.race_projection.confidence * 100)}% interval{' '}
+                        <span className="num">
+                          {fixed(estimate.race_projection.interval[0])} to{' '}
+                          {fixed(estimate.race_projection.interval[1])}
+                        </span>
+                      </div>
+                      {/*
+                        The provenance is deliberately on the card rather than in
+                        a tooltip. An interval is only worth what the evidence
+                        behind it is worth, and "27 events" is the honest measure
+                        of that -- two compounds at one Grand Prix share a track,
+                        a weather window and a fuel correction, so 62 comparisons
+                        are not 62 independent pieces of evidence.
+                      */}
+                      <div className="mt-0.5 text-[10px] text-ink-faint">
+                        calibrated on {estimate.race_projection.calibrated_on.events} events,{' '}
+                        {estimate.race_projection.calibrated_on.seasons.join('/')}
+                      </div>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>

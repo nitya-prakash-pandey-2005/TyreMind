@@ -400,18 +400,46 @@ Every figure in the interface, the model card and the pitch documents is read
 from a JSON file under `experiments/results/`. Regenerating those files
 regenerates the claims.
 
+**Offline — these run against the committed demo sessions:**
+
 ```bash
 python experiments/exp01_ground_truth_recovery.py --n-seeds 25   # ~4 min
 python experiments/exp02_prior_sensitivity.py                    # ~6 min
-python experiments/exp03_practice_to_race.py --year 2024         # ~3 min
 python experiments/exp04_energy_clock.py
 python experiments/exp05_model_ladder.py                         # ~8 min
+python experiments/exp13_lap_time_calibration.py --corpus demo   # ~6 min
+```
+
+**Needs the season corpus.** It is ~113 sessions and 61,396 laps, gitignored
+because it is large and rebuildable. Build it once, then everything below is
+offline too:
+
+```bash
+python scripts/build_corpus.py --years 2024 2023 --sessions R FP2   # hours
+python scripts/build_session_conditions.py --years 2024 2023 --sessions R FP2
+python scripts/build_circuit_features.py --year 2024 --geometry-only
+
+python experiments/exp03_practice_to_race.py --years 2024 2023 --all  # ~25 min
+python experiments/exp08_compound_identity.py --years 2024 2023 2022  # ~8 min
+python experiments/exp09_circuit_transfer.py
+python experiments/exp10_bias_mechanism.py
+python experiments/exp11_depth_matched.py                             # ~35 min
+python experiments/exp12_conformal_intervals.py
+python experiments/exp13_lap_time_calibration.py --corpus season
+```
+
+**Order matters in two places.** `exp09`, `exp10` and `exp11` read the result
+files of `exp08` and `exp03`, and `exp12` reads `exp03`. Running them against a
+stale result file is the single easiest way to produce a number that disagrees
+with the rest of the project.
+
+`exp06` and `exp07` download their own data on first run and are cached
+afterwards:
+
+```bash
 python experiments/exp06_circuit_asymmetry.py
 python experiments/exp07_cross_domain.py --subset FD001          # ~3 min
 ```
-
-`exp03`, `exp06` and `exp07` download data on first run and are cached
-afterwards. The rest are fully offline.
 
 </details>
 

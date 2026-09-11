@@ -15,10 +15,30 @@ export interface SessionRef {
   cached: boolean
 }
 
+export interface RaceProjection {
+  expected_race_rate: number
+  interval: [number, number]
+  confidence: number
+  bias_correction: number
+  calibrated_on: {
+    comparisons: number
+    events: number
+    seasons: number[]
+    score: string
+  }
+}
+
 export interface CompoundEstimate {
   degradation_rate: number
   degradation_rate_sd: number
+  /** Uncertainty about THIS session's rate. Not the same question as the race. */
   ci95: [number, number]
+  /**
+   * What this practice rate implies for Sunday, with a conformally calibrated
+   * interval. Null on race sessions, and on any clone that has not run
+   * experiments/exp12_conformal_intervals.py to produce the calibration.
+   */
+  race_projection: RaceProjection | null
   naive_estimate: number | null
   laps: number
 }
