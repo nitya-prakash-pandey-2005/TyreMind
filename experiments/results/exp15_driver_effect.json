@@ -1,0 +1,70 @@
+{
+  "experiment": "exp15_driver_effect",
+  "generated_at": "2026-09-11T19:20:28.054425+00:00",
+  "n_driver_races": 1055,
+  "n_drivers": 26,
+  "n_races": 56,
+  "driver_mean_spread": 0.011037213858369383,
+  "split_half": {
+    "n_splits": 500,
+    "mean_r": 0.3607025851223255,
+    "p05": 0.09408514280800265,
+    "p95": 0.6117504466856974,
+    "stable": true
+  },
+  "prediction": {
+    "n": 1055,
+    "n_drivers": 26,
+    "driver_mae": 0.025126355255229545,
+    "field_mean_mae": 0.02484555822173302,
+    "improvement_pct": -1.1301699522730153,
+    "wilcoxon_p": 0.27146570190938735,
+    "beats_null": false
+  },
+  "teammates": {
+    "available": true,
+    "n_pairs": 13,
+    "n_observations": 381,
+    "mean_split_half_r": 0.3654757560625355,
+    "p05": -0.13589085552347097,
+    "p95": 0.6953255375048738,
+    "stable": false,
+    "largest_gaps": {
+      "LAW-TSU": 0.0402,
+      "ALB-COL": 0.0369,
+      "ALB-SAR": 0.0261,
+      "ALO-STR": 0.0116,
+      "HUL-MAG": 0.0096
+    }
+  },
+  "reliable_not_useful": true,
+  "signal_to_noise": 0.44423287896646496,
+  "driver_means": {
+    "ALB": 0.0009,
+    "ALO": -0.00946,
+    "BOT": -0.00888,
+    "COL": -0.03388,
+    "DEV": -0.00327,
+    "GAS": 0.01004,
+    "HAM": -0.00525,
+    "HUL": 0.01484,
+    "LAT": 0.00012,
+    "LAW": -0.00922,
+    "LEC": -0.00847,
+    "MAG": 0.00924,
+    "MSC": 0.01913,
+    "NOR": -0.00602,
+    "OCO": 0.00289,
+    "PER": -0.00267,
+    "PIA": 0.00504,
+    "RIC": -0.00689,
+    "RUS": -0.00516,
+    "SAI": 0.00093,
+    "SAR": 0.02167,
+    "STR": 0.00309,
+    "TSU": 0.00344,
+    "VER": 0.00161,
+    "VET": -0.01119,
+    "ZHO": 0.00087
+  }
+}

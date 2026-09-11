@@ -460,10 +460,33 @@ footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);
     <div class="gap">
       <span class="idx">08</span>
       <div>
-        <h4>No driver effect <span class="tag t-hold">modelling</span></h4>
+        <h4>No driver effect <span class="tag t-done">tested &mdash; reliable but not useful</span></h4>
         <p>
-          Driving style materially changes degradation. We pool every car into one compound baseline with a
-          stint-level deviation and never attribute any of it to the driver.
+          Tested across <b>1,055 driver-races, 26 drivers, 56 races</b> (exp15), and the result is the most
+          interesting negative in the project because it splits into two halves that disagree.
+        </p>
+        <p>
+          <b>Reliable.</b> Split the corpus into random halves and the ranking of drivers reproduces:
+          split-half r = <b>+0.36</b>, with a 5th percentile of +0.09, so the correlation stays positive
+          across 500 random partitions. Some drivers genuinely are harder on tyres than others, measurably so.
+        </p>
+        <p>
+          <b>Not useful.</b> Knowing that does not help. Predicting a driver's deviation at a held-out race
+          from their own history scores 0.0251&nbsp;s/lap against <b>0.0248 for simply predicting the field
+          mean</b> &mdash; slightly worse, p&nbsp;=&nbsp;0.27. The reason is the ratio: the spread of driver
+          means is 0.0110&nbsp;s/lap while the race-to-race scatter around them is 0.0248. The trait is real
+          and about <b>half the size of the noise it must be read through</b>, so on any single race a
+          driver's history is worth less than the average.
+        </p>
+        <p>
+          <b>And it may not be the driver at all.</b> Driver and car are perfectly confounded. Teammates share
+          a car, so the within-team difference removes it &mdash; and that contrast is <em>not</em> stable
+          (5&ndash;95%: &minus;0.14 to +0.70). Even the reliable part cannot be attributed to the driver
+          rather than the machinery.
+        </p>
+        <p>
+          A per-driver term would add a parameter, a maintenance burden and a persuasive story, and would not
+          improve a forecast. <b>Not built, deliberately.</b>
         </p>
       </div>
     </div>

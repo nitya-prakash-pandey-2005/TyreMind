@@ -122,11 +122,36 @@ because it is large and rebuildable). The eight sessions committed under
 `data/demo/` are a presentation set chosen to span circuit types, so a fresh
 clone runs offline — they are not the evidence.
 
-Four hypotheses were tested and **not** supported, and are reported as such
+Five hypotheses were tested and **not** supported, and are reported as such
 rather than dropped: compound identity ([exp08](experiments/exp08_compound_identity.py)),
 circuit geometry transfer ([exp09](experiments/exp09_circuit_transfer.py)), the
 practice-to-race temperature gap and traffic ([exp10](experiments/exp10_bias_mechanism.py)),
-and stint-depth matching ([exp11](experiments/exp11_depth_matched.py)).
+stint-depth matching ([exp11](experiments/exp11_depth_matched.py)), and the
+driver effect ([exp15](experiments/exp15_driver_effect.py)).
+
+### Is there a driver effect?
+
+Everyone in the paddock will tell you driving style changes tyre life. Across
+**1,055 driver-races, 26 drivers, 56 races**, that splits into two answers that
+disagree — and the disagreement is the finding.
+
+**Reliable.** Split the corpus into random halves and the ranking of drivers
+reproduces: split-half r = **+0.36**, 5th percentile +0.09 across 500 random
+partitions. Some drivers really are harder on tyres.
+
+**Not useful.** Predicting a driver's deviation at a held-out race from their own
+history scores 0.0251 s/lap against **0.0248 for just predicting the field
+mean** — very slightly worse. The spread of driver means is 0.0110 s/lap while
+the race-to-race scatter is 0.0248: the trait is real and about *half the size of
+the noise it has to be read through*.
+
+**And it may not be the driver.** Driver and car are perfectly confounded.
+Teammates share a car, so the within-team difference removes it — and that
+contrast is not stable. Even the reliable part cannot be pinned on the driver
+rather than the machinery.
+
+A per-driver term would add a parameter, a maintenance burden and a persuasive
+story, and would not improve a forecast. **Not built, deliberately.**
 
 ### Can it recover a degradation rate it was never shown?
 
@@ -470,6 +495,7 @@ offline too:
 python scripts/build_corpus.py --years 2024 2023 --sessions R FP2   # hours
 python scripts/build_session_conditions.py --years 2024 2023 --sessions R FP2
 python scripts/build_circuit_features.py --year 2024 --geometry-only
+python scripts/build_lineups.py --years 2024 2023
 
 python experiments/exp03_practice_to_race.py --years 2024 2023 --all  # ~25 min
 python experiments/exp08_compound_identity.py --years 2024 2023 2022  # ~8 min
@@ -479,6 +505,7 @@ python experiments/exp11_depth_matched.py                             # ~35 min
 python experiments/exp12_conformal_intervals.py
 python experiments/exp13_lap_time_calibration.py --corpus season
 python experiments/exp14_naive_failure_rate.py
+python experiments/exp15_driver_effect.py --refit             # ~20 min, then cached
 ```
 
 **Order matters in two places.** `exp09`, `exp10` and `exp11` read the result

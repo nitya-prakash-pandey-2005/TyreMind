@@ -1479,7 +1479,7 @@ C_b dTb/dt = k_sb(Ts−Tb) − h_b(Tb−T_air)</div>
     state model, the fleet-level pooling, the uncertainty machinery, and
     remaining-life projection to a threshold.
   </p>
-  <h3>08.6 &nbsp; Four hypotheses that did not survive contact with the data</h3>
+  <h3>08.6 &nbsp; Five hypotheses that did not survive contact with the data</h3>
   <p>
     Each of these was built because there was a reason to expect it to work, and
     each is reported because a characterised failure constrains the next attempt
@@ -1528,6 +1528,31 @@ C_b dTb/dt = k_sb(Ts−Tb) − h_b(Tb−T_air)</div>
     moved the bias the wrong way (+0.0422&nbsp;→&nbsp;+0.0457) and the error
     clearly the wrong way (0.0871&nbsp;→&nbsp;0.1005, paired t
     p&nbsp;=&nbsp;0.037).</p>
+
+  <p><b>The driver effect is reliable but not useful, and the split is the
+    finding.</b> Tested across 1,055 driver-races, 26 drivers and 56 races. The
+    per-stint slope is fitted freely by least squares after the model's fuel,
+    track and traffic corrections are removed &mdash; the estimator's own
+    per-driver rate cannot answer the question, because the likelihood drives its
+    per-stint rate spread to the floor of its search range on every session, so
+    the rates it returns differ by around 1e&minus;5&nbsp;s/lap.</p>
+
+  <p><em>Reliable:</em> split the corpus into random halves and the ranking of
+    drivers reproduces, split-half &rho; = <b>+0.36</b> with a 5th percentile of
+    +0.09 across 500 partitions. <em>Not useful:</em> predicting a driver's
+    deviation at a held-out race from their own history scores
+    0.0251&nbsp;s/lap against <b>0.0248 for predicting the field mean</b>, very
+    slightly worse. The spread of driver means is 0.0110&nbsp;s/lap and the
+    race-to-race scatter around them is 0.0248 &mdash; the trait is real and
+    about half the size of the noise it must be read through, so on a single race
+    a driver's history is worth less than the average.</p>
+
+  <p><em>And it may not be the driver.</em> Driver and car are perfectly
+    confounded; teammates share a car, so the within-team difference removes it,
+    and that contrast is <b>not</b> stable (5&ndash;95%: &minus;0.14 to +0.70).
+    Even the reliable part cannot be attributed to the driver rather than the
+    machinery. A per-driver term would add a parameter, a maintenance burden and
+    a persuasive story, and would not improve a forecast.</p>
 
   <div class="panel warn">
     <h4>What the correlation does and does not license</h4>
