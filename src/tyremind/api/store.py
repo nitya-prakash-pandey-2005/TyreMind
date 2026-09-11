@@ -22,7 +22,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from tyremind.data.f1_loader import SessionQuality
+from tyremind.data.f1_loader import SessionQuality, laps_completed_in_run
 from tyremind.models.ssm.tyre_ssm import TyreSSMResult, fit_tyre_ssm
 
 logger = logging.getLogger(__name__)
@@ -158,6 +158,12 @@ class SessionStore:
             if parquet.exists():
                 logger.info("loading %s from local cache", session_id)
                 lap_table = pd.read_parquet(parquet)
+                # The committed demo parquet was written while the fuel counter
+                # was a positional index over surviving rows. Recomputing it here
+                # keeps the dashboard showing the same numbers the experiments
+                # report, without re-scraping the demo set.
+                if {"driver", "run_id", "tyre_age"} <= set(lap_table.columns):
+                    lap_table["lap_in_run"] = laps_completed_in_run(lap_table)
                 quality = (
                     json.loads(quality_path.read_text()) if quality_path.exists() else {}
                 )

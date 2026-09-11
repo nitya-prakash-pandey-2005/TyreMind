@@ -249,6 +249,45 @@ def load_session(
     return loaded
 
 
+def laps_completed_in_run(lap_table: pd.DataFrame) -> pd.Series:
+    """Laps actually completed on the current run, which drives the fuel term.
+
+    Derived from tyre age rather than counted over surviving rows, and the
+    distinction is not cosmetic. This was `groupby("run_id").cumcount()`, a
+    positional counter computed *after* the quality filter had removed laps. When
+    a safety car or an outlier filter drops laps 32-35 of a stint, the driver
+    still completed them and still burned that fuel -- but the counter resumed at
+    the next surviving lap, under-counting fuel for the remainder of the run. The
+    shortfall does not vanish; the model attributes it to the tyre.
+
+    Measured on 2025 Miami, where 163 laps sit in gapped runs, the HARD
+    degradation estimate moved from 0.0389 to 0.0669 s/lap when this was
+    corrected -- a 72% change. At Shanghai, where no run has a gap, it moved by
+    zero, which is the control that says the mechanism is the gaps and not the
+    change itself.
+
+    Tyre age is FastF1's own count of laps on the set and advances once per lap
+    completed, so `age - age.min()` within a run is laps completed on that run,
+    gaps included.
+
+    A second consequence is worth stating because a comment here used to claim
+    the opposite: a scrubbed set arriving with laps already on it does NOT help
+    separate fuel from degradation. That offset is constant within the run, and a
+    free run intercept absorbs it entirely. Experiment 18 works the algebra
+    through; the short version is that within a run the two regressors are the
+    same vector, and only the prior and the tyre term's curvature separate them.
+
+    Args:
+        lap_table: Frame with `driver`, `run_id` and `tyre_age`.
+
+    Returns:
+        Laps completed on the run, per row, as a float Series.
+    """
+    age = lap_table["tyre_age"].astype(float)
+    start = age.groupby([lap_table["driver"], lap_table["run_id"]]).transform("min")
+    return (age - start).astype(float)
+
+
 def _mark_runs(laps: pd.DataFrame) -> pd.DataFrame:
     """Assign a run id to each contiguous block of laps on one tyre set.
 
@@ -438,10 +477,7 @@ def build_lap_table(
         }
     )
 
-    # Laps completed on this run, which drives the fuel term. Distinct from tyre
-    # age: a scrubbed set arrives with laps already on it, and that difference is
-    # one of the few things that helps separate fuel from degradation.
-    lap_table["lap_in_run"] = lap_table.groupby("run_id").cumcount()
+    lap_table["lap_in_run"] = laps_completed_in_run(lap_table)
 
     lap_table = lap_table.sort_values(["session_lap", "driver"]).reset_index(drop=True)
 

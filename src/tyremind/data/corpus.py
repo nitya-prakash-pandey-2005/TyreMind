@@ -45,7 +45,20 @@ class CorpusSession:
     session: str
 
     def load(self) -> pd.DataFrame:
-        return pd.read_parquet(self.path)
+        """Read the cached lap table, repairing `lap_in_run` on the way through.
+
+        The corpus was scraped while `lap_in_run` was a positional counter over
+        surviving rows, which under-counts fuel after a filtered gap. Everything
+        needed to recompute it correctly is stored, so it is recomputed here
+        rather than by re-downloading a hundred sessions. See
+        `tyremind.data.f1_loader.laps_completed_in_run`.
+        """
+        from tyremind.data.f1_loader import laps_completed_in_run
+
+        frame = pd.read_parquet(self.path)
+        if {"driver", "run_id", "tyre_age"} <= set(frame.columns):
+            frame["lap_in_run"] = laps_completed_in_run(frame)
+        return frame
 
 
 def _from_manifest(directory: Path) -> list[CorpusSession]:
