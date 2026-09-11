@@ -118,13 +118,13 @@ def main() -> int:
     failures: dict[str, str] = {}
     started = time.perf_counter()
 
-    for year, rnd, event, location, country, session in plan:
+    def attempt_session(year, rnd, event, location, country, session) -> bool:
+        """Fetch one session into the corpus. True if it landed."""
+        nonlocal added
         session_id = slug(year, event, session)
         parquet = args.out / f"{session_id}.parquet"
         if session_id in existing and parquet.exists():
-            continue
-        if args.limit and added >= args.limit:
-            break
+            return True
 
         # The upstream timing API rate-limits, and a first pass over three
         # seasons hit it 181 times. Those are not missing sessions -- they are the
@@ -145,13 +145,13 @@ def main() -> int:
                 print(f"  {session_id:<38} skip   {type(exc).__name__}")
                 break
         if lap_table is None:
-            continue
+            return False
         time.sleep(args.delay)
 
         if lap_table.empty:
             failures[session_id] = "no usable laps after quality filtering"
             print(f"  {session_id:<38} skip   no usable laps")
-            continue
+            return False
 
         lap_table.to_parquet(parquet, index=False)
         entry = CorpusEntry(
@@ -170,20 +170,67 @@ def main() -> int:
         existing[session_id] = asdict(entry)
         manifest_path.write_text(json.dumps(list(existing.values()), indent=2))
         added += 1
+        failures.pop(session_id, None)
         print(
             f"  {session_id:<38} {entry.n_laps:>5} laps  {entry.n_drivers:>2} cars  "
             f"q{entry.quality_score:>3.0f}  {'/'.join(entry.compounds)}"
         )
+        return True
+
+    for target in plan:
+        if args.limit and added >= args.limit:
+            break
+        attempt_session(*target)
+
+    # A second pass over whatever the upstream refused.
+    #
+    # This is not belt-and-braces, it is the difference between a corpus and a
+    # corpus with holes in it. The first 2025 scrape recorded 6 races of 24 and
+    # then moved on to practice sessions, because each rate-limited race was
+    # written off after its retries and never revisited. Nothing errored. The
+    # corpus simply had gaps where the API had said no, and the gaps were in the
+    # most valuable sessions because those were attempted first, while the limit
+    # was at its tightest.
+    #
+    # Refusals are transient by definition, so they are retried once more at a
+    # deliberately slower pace rather than recorded as missing data.
+    retryable = [
+        target for target in plan
+        if slug(target[0], target[2], target[5]) in failures
+        and "RateLimit" in failures[slug(target[0], target[2], target[5])]
+    ]
+    if retryable and not (args.limit and added >= args.limit):
+        print(f"\n  second pass over {len(retryable)} rate-limited sessions, "
+              f"at {args.delay * 3:.0f}s between requests\n")
+        slow = args.delay
+        args.delay = slow * 3
+        for target in retryable:
+            if args.limit and added >= args.limit:
+                break
+            attempt_session(*target)
+        args.delay = slow
 
     elapsed = time.perf_counter() - started
     print(f"\n  added {added} sessions in {elapsed / 60:.1f} min")
     print(f"  corpus now holds {len(existing)} sessions")
     if failures:
-        print(f"  {len(failures)} unavailable (expected: sessions that never ran, or no timing feed)")
+        rate_limited = sum(1 for reason in failures.values() if "RateLimit" in reason)
+        print(f"  {len(failures)} unavailable (expected: sessions that never ran, "
+              "or no timing feed)")
+        if rate_limited:
+            # Worth separating. A session that never ran is data; a session the
+            # API refused twice is a gap, and re-running this script will try it
+            # again because the corpus is resumable.
+            print(f"  of which {rate_limited} were STILL rate-limited after a second "
+                  "pass -- re-run to pick them up")
 
     if existing:
         df = pd.DataFrame(list(existing.values()))
-        print(f"\n  {df['n_laps'].sum():,} laps · {df['event_name'].nunique()} events · "
+        # Grouped by (year, event), not by name. Event names repeat across
+        # seasons -- there is a British Grand Prix every year -- so counting
+        # unique names reports a quarter of the evidence actually held.
+        n_events = df.groupby(["year", "event_name"]).ngroups
+        print(f"\n  {df['n_laps'].sum():,} laps \u00b7 {n_events} event-seasons \u00b7 "
               f"{df['year'].nunique()} season(s)")
         print(f"  manifest: {manifest_path}")
     return 0
