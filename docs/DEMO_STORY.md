@@ -22,11 +22,12 @@ Point at the two numbers side by side:
 > hard tyre degraded at **−0.004 s/lap** on this race. Negative. It says the tyre
 > got *faster* the longer it ran.
 >
-> That is obviously impossible, and it is not a one-off: the naive method comes out
-> negative on 3 of the 4 races we analysed, on 4 of 11 compound-stints. The car
-> burns fuel, gets lighter, and speeds up by about 0.08 s a lap — which is bigger
-> than the tyre's degradation, so the tyre effect is buried under it and comes out
-> with the wrong sign.
+> That is obviously impossible, and it is not a one-off. Counted across every dry
+> race in our corpus — **56 of them** — the naive method comes out negative in
+> **70% of races** and in **51% of the 152 compound-stints**. More often than not,
+> at the level of an individual compound. The car burns fuel, gets lighter, and
+> speeds up by about 0.08 s a lap — which is bigger than the tyre's degradation,
+> so the tyre effect is buried under it and comes out with the wrong sign.
 >
 > (If asked: Barcelona is the race where it does not go negative. That is not the
 > method working — it is the confounders happening not to swamp the signal there.

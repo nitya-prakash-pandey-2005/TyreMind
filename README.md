@@ -47,11 +47,15 @@ Read lap times alone and you miss a dying tyre completely.
 
 That is not an edge case. Fit the standard method — a straight line through lap
 time against tyre age — and it reports **negative degradation**: tyres apparently
-getting faster the longer they run. It does this on **3 of the 4 races analysed**,
-on **4 of 11 compound-stints**, because fuel burn-off is worth about 0.08 s/lap
-and is simply bigger than the effect being measured. Barcelona is the exception —
-there the confounders happen not to swamp the signal, which is the point: whether
-the standard method has the right sign is a matter of luck.
+getting faster the longer they run. Counted across **every dry race in the corpus,
+56 of them**, it does this in **70% of races** and in **51% of the 152
+compound-stints** — more often than not, at the level of an individual compound.
+
+The cause is not subtlety. Fuel burn-off is worth about 0.08 s/lap and is simply
+bigger than the effect being measured. Where the standard method happens to get
+the sign right, it is because the confounders did not swamp the signal that
+weekend, which is the point: **it is a matter of luck, and it is not on your side
+half the time.**
 
 **TyreMind estimates the latent performance state of a tyre underneath that
 confounded observation** — separating degradation from fuel burn-off, track
@@ -450,6 +454,7 @@ python experiments/exp10_bias_mechanism.py
 python experiments/exp11_depth_matched.py                             # ~35 min
 python experiments/exp12_conformal_intervals.py
 python experiments/exp13_lap_time_calibration.py --corpus season
+python experiments/exp14_naive_failure_rate.py
 ```
 
 **Order matters in two places.** `exp09`, `exp10` and `exp11` read the result
