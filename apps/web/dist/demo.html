@@ -314,12 +314,12 @@ const SCRIPT = [
     do:()=>{ goScroll('#/evidence', 2350); hidePointer(); } },
 
   { at:369, act:'Where I lose',
-    cap:'A gradient-boosted tree beats me. <b>LightGBM predicts lap times better than my model does.</b>',
-    do:()=>pointAt(()=>findText('0.677')) },
+    cap:'Two models beat me. <b>Pooled regression and LightGBM predict lap times better than my model does.</b>',
+    do:()=>pointAt(()=>findText('CRPS')) },
 
   { at:377, act:'Why it does not matter',
-    cap:'But it has no parameter meaning \u201cdegradation rate\u201d, and it cannot extrapolate.',
-    do:()=>pointAt(()=>findText('0.136')) },
+    cap:'But neither has a parameter meaning \u201cdegradation rate\u201d \u2014 there is nothing in them to score.',
+    do:()=>pointAt(()=>findText('Rate MAE')) },
 
   { at:383.5, act:'TyreMind \u00b7 causal tyre intelligence',
     cap:'The hard part was never building a model. <b>It was building a test that could fail.</b>',

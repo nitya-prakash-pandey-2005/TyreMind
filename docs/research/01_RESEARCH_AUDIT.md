@@ -168,21 +168,28 @@ than a quiet retreat.
 
 ## 7. Where a flexible model beats us, and why it does not matter
 
-On lap-time prediction over chronological folds, **LightGBM wins**: CRPS 0.677
-against the state-space model's 0.949.
+On lap-time prediction over chronological folds across **twenty races**, two
+rungs beat us: **pooled regression** at CRPS 0.525 and **LightGBM** at 0.536,
+against the state-space model's 0.757. On four races LightGBM led; at twenty it
+is second, and the correction is recorded rather than quietly absorbed.
 
-It also:
+Both of them:
 
-- has **no parameter meaning "degradation rate"**, so there is nothing to report
-  to an engineer and nothing to carry from Friday to Sunday;
-- is badly overconfident, with 60% coverage on nominal 95% intervals;
-- **cannot extrapolate.** Bias drift across successive folds is +0.340 for
-  LightGBM and +1.29 for the naive baseline, against **−0.136** for the
-  state-space model — the only rung whose error does not grow as it forecasts
-  further past its training window.
+- have **no parameter meaning "degradation rate"**, so there is nothing to report
+  to an engineer and nothing to carry from Friday to Sunday. LightGBM and the MLP
+  cannot appear in the degradation table at all; on that task the state-space
+  model is first at 0.0041 s/lap against pooled regression's 0.0068.
 
-A tuned MLP finishes last on lap-time prediction (CRPS 1.643) and has the *most
-unstable* extrapolation of any rung, with bias drift of −3.324 — its error swings
+LightGBM is additionally badly overconfident, at 62% coverage on nominal 95%
+intervals. On extrapolation, bias drift across successive folds is +0.232 for the
+lap-time leader and +0.497 for the naive baseline, against **−0.483** for the
+state-space model, whose error shrinks most as it forecasts further past its
+training window. An earlier version of this audit called that the *only* rung
+whose error does not grow; at twenty races LightGBM is also roughly flat at
+−0.063, and that claim did not survive.
+
+A tuned MLP finishes last on lap-time prediction (CRPS 2.034) and has the *most
+unstable* extrapolation of any rung, with bias drift of −3.582 — its error swings
 by more than three seconds between folds. It was tuned first, across five
 configurations on held-out folds, because beating a badly-configured competitor
 would prove nothing.
