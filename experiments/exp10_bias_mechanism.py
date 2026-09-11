@@ -1,33 +1,52 @@
 """Experiment 10 -- why does practice over-predict race degradation?
 
-Experiment 03 leaves a residue it does not explain. Across 29 compound
+Experiment 03 leaves a residue it does not explain. Across 62 compound
 comparisons the practice fit is right on average to within a tenth of a second
-per lap, but it is not *unbiased*: it runs +0.048 s/lap high, and the sign is
-consistent enough across events that it cannot be dismissed as noise. A bias we
-cannot explain is a bias we cannot correct, and a model that is knowingly wrong
-in a known direction is not a product.
+per lap, but it is not *unbiased*: it runs +0.042 s/lap high, and the sign is
+consistent enough across events -- 42 of 62 -- that it cannot be dismissed as
+noise. A bias we cannot explain is a bias we cannot correct, and a model that is
+knowingly wrong in a known direction is not a product.
 
-Six candidate explanations, each computable from data already on disk, each
-falsifiable:
+NINE candidate explanations, each computable from data already on disk, each
+falsifiable. Three describe the practice side, three the race side, and three
+the conditions or the model itself:
 
-  practice_stint_len   Short practice runs make degradation and track evolution
-                       harder to separate. The saturating basis and the linear
-                       wear term are only distinguishable over enough laps, so a
-                       six-lap run should over-attribute improvement-shaped
-                       residual to the tyre. This is an IDENTIFIABILITY story.
+  practice_stint_len   How long the fitted practice runs were. Short runs make
+                       degradation and track evolution harder to separate, since
+                       the saturating basis and the linear wear term are only
+                       distinguishable over enough laps. An IDENTIFIABILITY story.
+  practice_runs        How many such runs there were.
+  practice_laps        How many laps in total went into the practice fit.
   race_stint_len       Long race stints mean the driver was managing the tyre to
-                       reach a pit window. Managed laps degrade slower than
-                       pushed ones. This is a BEHAVIOUR story.
-  stops_per_driver     The same story from the other side: a one-stop race is a
-                       managed race.
-  traffic_gap          Practice long runs run in clean air; races do not.
+                       reach a pit window, and managed laps degrade slower than
+                       pushed ones. A BEHAVIOUR story.
+  race_max_stint       The same, measured by the longest stint anyone completed.
+  stops_per_driver     The behaviour story from the other side: a one-stop race
+                       is a managed race.
+  traffic_gap          Practice long runs happen in clean air; races do not.
   temp_gap             Friday afternoon is not Sunday afternoon.
   posterior_sd         Does the model already know when it is about to be wrong?
-                       If error tracks the interval the model reports, the
-                       calibration is doing its job and the bias is at least
-                       flagged even when it is not removed.
+                       If error tracks the interval the model reports, then the
+                       bias is at least flagged even when it is not removed.
 
-The honest outcome is that some of these fail. They are reported either way.
+Nine tests against one target is nine chances to find a p below 0.05 by luck, so
+everything is corrected with Benjamini-Hochberg across all nine. Uncorrected
+significance is kept alongside it, so the correction's effect is visible rather
+than quietly applied.
+
+THE OUTCOME. Two survive the correction: `practice_stint_len` (rho +0.37,
+p 0.003) and `stops_per_driver` (rho +0.33, p 0.009). `posterior_sd` is
+significant raw (p 0.043) and does NOT survive, which is exactly the kind of
+result the correction exists to catch. Six fail outright, including the
+temperature gap and traffic.
+
+A warning about what this does and does not license. The two survivors are a
+CORRELATION. Experiment 11 took the obvious causal reading of them -- that
+practice runs go deeper into the wear curve than pitted race stints -- and
+refuted it: practice runs are 4.4 laps *shallower* than race stints, and forcing
+a common tyre-age window made the error worse. So this experiment identifies
+where to look next, not what the mechanism is. The bias is handled as a measured
+offset by experiment 12, not as an explained one.
 
     python experiments/exp10_bias_mechanism.py
 
@@ -118,6 +137,10 @@ def build_table() -> pd.DataFrame:
             error = case["predicted"] - case["actual"]
             rows.append(
                 {
+                    # Year is carried because event names repeat across seasons:
+                    # "British Grand Prix" exists in both 2023 and 2024, and
+                    # counting unique names reported 17 events where there are 27.
+                    "year": year,
                     "event": event,
                     "compound": label,
                     "error": error,
@@ -141,7 +164,14 @@ def build_table() -> pd.DataFrame:
 
 
 def correlate(df: pd.DataFrame, target: str, predictors: list[str]) -> list[dict]:
-    """Spearman rather than Pearson: 29 points, and no reason to assume linearity."""
+    """Spearman rather than Pearson.
+
+    Sixty-odd points, no reason to assume the relationship is linear, and one or
+    two events (Singapore, Spa) carry errors large enough to drag a Pearson
+    coefficient on their own. Rank correlation answers the question actually
+    being asked -- does the error tend to grow with this quantity -- without
+    letting two circuits decide the answer.
+    """
     from scipy import stats
 
     out = []
@@ -197,8 +227,9 @@ def main() -> None:
     absolute = correlate(df, "abs_error", predictors)
 
     print("=" * 84)
+    n_events = int(df.groupby(["year", "event"]).ngroups)
     print(f"WHY DOES PRACTICE OVER-PREDICT?  ({len(df)} comparisons, "
-          f"{df['event'].nunique()} events)")
+          f"{n_events} events)")
     print("=" * 84)
     print(f"\n  mean signed error {df['error'].mean():+.4f} s/lap   "
           f"mean |error| {df['abs_error'].mean():.4f} s/lap\n")
@@ -240,7 +271,7 @@ def main() -> None:
         "experiment": "exp10_bias_mechanism",
         "generated_at": datetime.now(UTC).isoformat(),
         "n_comparisons": int(len(df)),
-        "n_events": int(df["event"].nunique()),
+        "n_events": n_events,
         "mean_signed_error": float(df["error"].mean()),
         "mean_abs_error": float(df["abs_error"].mean()),
         "signed_error": signed,

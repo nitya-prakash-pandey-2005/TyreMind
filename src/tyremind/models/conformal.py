@@ -278,3 +278,139 @@ def conformal_quantile(scores: np.ndarray, alpha: float) -> float:
     if k > n:
         return float("inf")
     return float(np.sort(scores)[k - 1])
+
+
+class AdaptiveConformal:
+    """Online conformal intervals for a quantity that drifts.
+
+    Split conformal needs the calibration set to be exchangeable with the test
+    point. A degradation rate per compound per event satisfies that; a lap time
+    inside a race does not. The car burns fuel and gets faster, the track rubbers
+    in and gets faster, a safety car rearranges everything. A residual from lap 8
+    and a residual from lap 48 are not draws from one distribution, so a fixed
+    quantile is calibrated for a session that no longer exists.
+
+    Adaptive Conformal Inference (Gibbs & Candes, NeurIPS 2021) drops the
+    assumption instead of hoping it holds. Rather than fixing a quantile it
+    treats the working miss-rate as state and moves it after every observation::
+
+        alpha_{t+1} = alpha_t + gamma * (alpha - err_t)
+
+    where ``err_t`` is 1 when the observation fell outside the interval. Miss too
+    often and the interval widens; miss too rarely and it tightens. Long-run
+    coverage converges to ``1 - alpha`` under *arbitrary* distribution shift,
+    with no exchangeability assumption at all.
+
+    The price is that the guarantee is long-run rather than per-observation, and
+    that it needs a warm-up before it has any scores to take a quantile of.
+
+    Usage is one call per observation, in order::
+
+        aci = AdaptiveConformal(alpha=0.05)
+        for predicted, sd, actual in stream:
+            low, high = aci.interval(predicted, sd)
+            aci.update(predicted, sd, actual)
+    """
+
+    def __init__(
+        self,
+        *,
+        alpha: float = 0.05,
+        gamma: float = 0.02,
+        score: str = "absolute",
+        warmup: int = 19,
+        fallback_z: float = 1.959964,
+    ) -> None:
+        """
+        Args:
+            alpha: Target long-run miss rate.
+            gamma: Step size. Gibbs & Candes use 0.005-0.05. Larger tracks a
+                regime change faster and jitters more between observations.
+            score: "absolute" or "studentised". Studentising divides by the
+                model's own sd, which helps only when that sd carries real
+                information about which predictions are shaky -- when it does
+                not, dividing by it amplifies the miscalibration rather than
+                correcting it.
+            warmup: Observations required before a conformal quantile is used.
+                Below it the Gaussian interval stands in.
+            fallback_z: Multiplier for that stand-in interval.
+
+        Raises:
+            ValueError: On an alpha outside (0, 1), a non-positive gamma, or an
+                unknown score.
+        """
+        if not 0.0 < alpha < 1.0:
+            raise ValueError(f"alpha must lie in (0, 1), got {alpha}")
+        if gamma <= 0.0:
+            raise ValueError(f"gamma must be positive, got {gamma}")
+        if score not in SCORES:
+            raise ValueError(f"unknown score {score!r}, expected one of {SCORES}")
+
+        self.alpha = float(alpha)
+        self.gamma = float(gamma)
+        self.score = score
+        self.warmup = int(warmup)
+        self.fallback_z = float(fallback_z)
+
+        #: The working miss-rate. This is the state the algorithm adapts.
+        self.working_alpha = float(alpha)
+        self._scores: list[float] = []
+        self.n_seen = 0
+        self.n_missed = 0
+
+    def _scale(self, posterior_sd: float) -> float:
+        if self.score == "studentised":
+            return float(posterior_sd) if posterior_sd > 0 else float("nan")
+        return 1.0
+
+    def half_width(self, posterior_sd: float) -> float:
+        """Half-width of the next interval, given this prediction's sd."""
+        scale = self._scale(posterior_sd)
+        if len(self._scores) < self.warmup or not np.isfinite(scale):
+            return self.fallback_z * float(posterior_sd)
+
+        # The working alpha is kept strictly inside (0, 1): at or below 0 the
+        # interval is infinite and at or above 1 it is empty, and neither is
+        # informative.
+        q = conformal_quantile(
+            np.asarray(self._scores), float(np.clip(self.working_alpha, 1e-3, 0.999))
+        )
+        if not np.isfinite(q):
+            # The working alpha has dropped below what the sample can represent.
+            # Falling back to the Gaussian half-width here would be a bug with
+            # the worst possible sign: the alpha fell precisely BECAUSE the
+            # interval has been missing, and answering that by reverting to the
+            # narrowest interval on offer fights the correction. The widest score
+            # yet seen is the honest finite stand-in.
+            q = float(max(self._scores))
+        return float(q * scale)
+
+    def interval(self, predicted: float, posterior_sd: float) -> tuple[float, float]:
+        """Interval for the next observation."""
+        half = self.half_width(posterior_sd)
+        return (predicted - half, predicted + half)
+
+    def update(self, predicted: float, posterior_sd: float, actual: float) -> bool:
+        """Score one observation and adapt. Returns whether it was covered.
+
+        The interval is computed *before* the outcome is used, so what is scored
+        at step t never depends on the truth at step t.
+        """
+        half = self.half_width(posterior_sd)
+        residual = abs(float(actual) - float(predicted))
+        covered = residual <= half
+
+        self.working_alpha += self.gamma * (self.alpha - (0.0 if covered else 1.0))
+        scale = self._scale(posterior_sd)
+        if np.isfinite(scale) and scale > 0:
+            self._scores.append(residual / scale)
+        self.n_seen += 1
+        self.n_missed += int(not covered)
+        return covered
+
+    @property
+    def empirical_coverage(self) -> float:
+        """Coverage achieved so far. NaN before anything has been seen."""
+        if self.n_seen == 0:
+            return float("nan")
+        return 1.0 - self.n_missed / self.n_seen

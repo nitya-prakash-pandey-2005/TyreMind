@@ -1,8 +1,8 @@
 {
   "experiment": "exp10_bias_mechanism",
-  "generated_at": "2026-09-10T06:17:20.018666+00:00",
+  "generated_at": "2026-09-11T17:16:35.750380+00:00",
   "n_comparisons": 62,
-  "n_events": 17,
+  "n_events": 27,
   "mean_signed_error": 0.042205821416997774,
   "mean_abs_error": 0.08707556577192788,
   "signed_error": [
@@ -177,6 +177,7 @@
   ],
   "table": [
     {
+      "year": 2023,
       "event": "Abu Dhabi Grand Prix",
       "compound": "MEDIUM",
       "error": -0.03959938185407748,
@@ -194,6 +195,7 @@
       "temp_gap": 0.12632953466286523
     },
     {
+      "year": 2023,
       "event": "Bahrain Grand Prix",
       "compound": "HARD",
       "error": 0.09318367158571302,
@@ -211,6 +213,7 @@
       "temp_gap": 4.038860065765437
     },
     {
+      "year": 2023,
       "event": "Bahrain Grand Prix",
       "compound": "MEDIUM",
       "error": -0.04430204107328489,
@@ -228,6 +231,7 @@
       "temp_gap": 4.038860065765437
     },
     {
+      "year": 2023,
       "event": "Bahrain Grand Prix",
       "compound": "SOFT",
       "error": 0.06185832035720226,
@@ -245,6 +249,7 @@
       "temp_gap": 4.038860065765437
     },
     {
+      "year": 2023,
       "event": "British Grand Prix",
       "compound": "HARD",
       "error": 0.026622982705956214,
@@ -262,6 +267,7 @@
       "temp_gap": -8.30144039735099
     },
     {
+      "year": 2023,
       "event": "British Grand Prix",
       "compound": "MEDIUM",
       "error": 0.09211647772180662,
@@ -279,6 +285,7 @@
       "temp_gap": -8.30144039735099
     },
     {
+      "year": 2023,
       "event": "British Grand Prix",
       "compound": "SOFT",
       "error": 0.07711848098836739,
@@ -296,6 +303,7 @@
       "temp_gap": -8.30144039735099
     },
     {
+      "year": 2023,
       "event": "Dutch Grand Prix",
       "compound": "HARD",
       "error": 0.13451733326939067,
@@ -313,6 +321,7 @@
       "temp_gap": -7.973666489455962
     },
     {
+      "year": 2023,
       "event": "Dutch Grand Prix",
       "compound": "MEDIUM",
       "error": 0.1047340429941432,
@@ -330,6 +339,7 @@
       "temp_gap": -7.973666489455962
     },
     {
+      "year": 2023,
       "event": "Dutch Grand Prix",
       "compound": "SOFT",
       "error": 0.1200752938832503,
@@ -347,6 +357,7 @@
       "temp_gap": -7.973666489455962
     },
     {
+      "year": 2023,
       "event": "Hungarian Grand Prix",
       "compound": "HARD",
       "error": 0.10897789279683459,
@@ -364,6 +375,7 @@
       "temp_gap": 15.706097560975607
     },
     {
+      "year": 2023,
       "event": "Hungarian Grand Prix",
       "compound": "MEDIUM",
       "error": 0.05394298066235677,
@@ -381,6 +393,7 @@
       "temp_gap": 15.706097560975607
     },
     {
+      "year": 2023,
       "event": "Hungarian Grand Prix",
       "compound": "SOFT",
       "error": -0.04083838502654369,
@@ -398,6 +411,7 @@
       "temp_gap": 15.706097560975607
     },
     {
+      "year": 2023,
       "event": "Italian Grand Prix",
       "compound": "MEDIUM",
       "error": -0.0009373141796049089,
@@ -415,6 +429,7 @@
       "temp_gap": 6.495278298936832
     },
     {
+      "year": 2023,
       "event": "Japanese Grand Prix",
       "compound": "HARD",
       "error": 0.10944433310070345,
@@ -432,6 +447,7 @@
       "temp_gap": 3.51893737508329
     },
     {
+      "year": 2023,
       "event": "Japanese Grand Prix",
       "compound": "MEDIUM",
       "error": 0.12132354436448858,
@@ -449,6 +465,7 @@
       "temp_gap": 3.51893737508329
     },
     {
+      "year": 2023,
       "event": "Japanese Grand Prix",
       "compound": "SOFT",
       "error": 0.14549397887279086,
@@ -466,6 +483,7 @@
       "temp_gap": 3.51893737508329
     },
     {
+      "year": 2023,
       "event": "Las Vegas Grand Prix",
       "compound": "HARD",
       "error": -0.008361508593521362,
@@ -483,6 +501,7 @@
       "temp_gap": 2.79514374514374
     },
     {
+      "year": 2023,
       "event": "Las Vegas Grand Prix",
       "compound": "MEDIUM",
       "error": -0.04165342332609013,
@@ -500,6 +519,7 @@
       "temp_gap": 2.79514374514374
     },
     {
+      "year": 2023,
       "event": "Mexico City Grand Prix",
       "compound": "HARD",
       "error": 0.01891401456708358,
@@ -517,6 +537,7 @@
       "temp_gap": 10.298732943469787
     },
     {
+      "year": 2023,
       "event": "Mexico City Grand Prix",
       "compound": "MEDIUM",
       "error": 0.14943299379123515,
@@ -534,6 +555,7 @@
       "temp_gap": 10.298732943469787
     },
     {
+      "year": 2023,
       "event": "Miami Grand Prix",
       "compound": "MEDIUM",
       "error": -0.08023233758541076,
@@ -551,6 +573,7 @@
       "temp_gap": -2.0865774980330514
     },
     {
+      "year": 2023,
       "event": "Monaco Grand Prix",
       "compound": "HARD",
       "error": -0.28793992708126886,
@@ -568,6 +591,7 @@
       "temp_gap": -3.7739478114478118
     },
     {
+      "year": 2023,
       "event": "Monaco Grand Prix",
       "compound": "MEDIUM",
       "error": -0.05783390742527683,
@@ -585,6 +609,7 @@
       "temp_gap": -3.7739478114478118
     },
     {
+      "year": 2023,
       "event": "Monaco Grand Prix",
       "compound": "SOFT",
       "error": 0.03731082971310917,
@@ -602,6 +627,7 @@
       "temp_gap": -3.7739478114478118
     },
     {
+      "year": 2023,
       "event": "Saudi Arabian Grand Prix",
       "compound": "HARD",
       "error": 0.12754161224249375,
@@ -619,6 +645,7 @@
       "temp_gap": 0.773290459133829
     },
     {
+      "year": 2023,
       "event": "Saudi Arabian Grand Prix",
       "compound": "MEDIUM",
       "error": 0.12282616382327394,
@@ -636,6 +663,7 @@
       "temp_gap": 0.773290459133829
     },
     {
+      "year": 2023,
       "event": "Saudi Arabian Grand Prix",
       "compound": "SOFT",
       "error": 0.10440449640049926,
@@ -653,6 +681,7 @@
       "temp_gap": 0.773290459133829
     },
     {
+      "year": 2023,
       "event": "Singapore Grand Prix",
       "compound": "HARD",
       "error": 0.032520866661014836,
@@ -670,6 +699,7 @@
       "temp_gap": -0.21759994523549153
     },
     {
+      "year": 2023,
       "event": "Singapore Grand Prix",
       "compound": "MEDIUM",
       "error": 0.11455122945358176,
@@ -687,6 +717,7 @@
       "temp_gap": -0.21759994523549153
     },
     {
+      "year": 2023,
       "event": "Singapore Grand Prix",
       "compound": "SOFT",
       "error": -0.02142621216096592,
@@ -704,6 +735,7 @@
       "temp_gap": -0.21759994523549153
     },
     {
+      "year": 2023,
       "event": "Spanish Grand Prix",
       "compound": "MEDIUM",
       "error": -0.12924185623868,
@@ -721,6 +753,7 @@
       "temp_gap": -0.4756731073804161
     },
     {
+      "year": 2023,
       "event": "Spanish Grand Prix",
       "compound": "SOFT",
       "error": 0.03240632034032387,
@@ -738,6 +771,7 @@
       "temp_gap": -0.4756731073804161
     },
     {
+      "year": 2024,
       "event": "Abu Dhabi Grand Prix",
       "compound": "MEDIUM",
       "error": -0.057227808105865516,
@@ -755,6 +789,7 @@
       "temp_gap": 0.1560383167978081
     },
     {
+      "year": 2024,
       "event": "Abu Dhabi Grand Prix",
       "compound": "SOFT",
       "error": -0.09908243537288748,
@@ -772,6 +807,7 @@
       "temp_gap": 0.1560383167978081
     },
     {
+      "year": 2024,
       "event": "Australian Grand Prix",
       "compound": "MEDIUM",
       "error": 0.01657473275789377,
@@ -789,6 +825,7 @@
       "temp_gap": 2.2447662601625993
     },
     {
+      "year": 2024,
       "event": "Australian Grand Prix",
       "compound": "SOFT",
       "error": -0.0784433767953709,
@@ -806,6 +843,7 @@
       "temp_gap": 2.2447662601625993
     },
     {
+      "year": 2024,
       "event": "Azerbaijan Grand Prix",
       "compound": "HARD",
       "error": -0.004280589414344012,
@@ -823,6 +861,7 @@
       "temp_gap": 8.000561617458288
     },
     {
+      "year": 2024,
       "event": "Azerbaijan Grand Prix",
       "compound": "MEDIUM",
       "error": 0.01211414661984464,
@@ -840,6 +879,7 @@
       "temp_gap": 8.000561617458288
     },
     {
+      "year": 2024,
       "event": "Bahrain Grand Prix",
       "compound": "SOFT",
       "error": 0.022035349352391043,
@@ -857,6 +897,7 @@
       "temp_gap": 1.5540857542333448
     },
     {
+      "year": 2024,
       "event": "Belgian Grand Prix",
       "compound": "HARD",
       "error": 0.0702351816483329,
@@ -874,6 +915,7 @@
       "temp_gap": 7.0769093822325075
     },
     {
+      "year": 2024,
       "event": "Belgian Grand Prix",
       "compound": "MEDIUM",
       "error": 0.20834091924715656,
@@ -891,6 +933,7 @@
       "temp_gap": 7.0769093822325075
     },
     {
+      "year": 2024,
       "event": "Belgian Grand Prix",
       "compound": "SOFT",
       "error": 0.2937366910745216,
@@ -908,6 +951,7 @@
       "temp_gap": 7.0769093822325075
     },
     {
+      "year": 2024,
       "event": "British Grand Prix",
       "compound": "MEDIUM",
       "error": 0.01861883952348939,
@@ -925,6 +969,7 @@
       "temp_gap": -1.6262282690854128
     },
     {
+      "year": 2024,
       "event": "British Grand Prix",
       "compound": "SOFT",
       "error": 0.10137340482425093,
@@ -942,6 +987,7 @@
       "temp_gap": -1.6262282690854128
     },
     {
+      "year": 2024,
       "event": "Dutch Grand Prix",
       "compound": "HARD",
       "error": 0.008303467573108445,
@@ -959,6 +1005,7 @@
       "temp_gap": -0.36373790022338426
     },
     {
+      "year": 2024,
       "event": "Dutch Grand Prix",
       "compound": "MEDIUM",
       "error": -0.022828415668170884,
@@ -976,6 +1023,7 @@
       "temp_gap": -0.36373790022338426
     },
     {
+      "year": 2024,
       "event": "Dutch Grand Prix",
       "compound": "SOFT",
       "error": 0.10270934517089622,
@@ -993,6 +1041,7 @@
       "temp_gap": -0.36373790022338426
     },
     {
+      "year": 2024,
       "event": "Hungarian Grand Prix",
       "compound": "HARD",
       "error": -0.01617721328753846,
@@ -1010,6 +1059,7 @@
       "temp_gap": -0.9036240541616891
     },
     {
+      "year": 2024,
       "event": "Hungarian Grand Prix",
       "compound": "MEDIUM",
       "error": 0.06705242110310992,
@@ -1027,6 +1077,7 @@
       "temp_gap": -0.9036240541616891
     },
     {
+      "year": 2024,
       "event": "Hungarian Grand Prix",
       "compound": "SOFT",
       "error": -0.07047513344422812,
@@ -1044,6 +1095,7 @@
       "temp_gap": -0.9036240541616891
     },
     {
+      "year": 2024,
       "event": "Italian Grand Prix",
       "compound": "MEDIUM",
       "error": 0.0824803511968459,
@@ -1061,6 +1113,7 @@
       "temp_gap": 4.960645284096323
     },
     {
+      "year": 2024,
       "event": "Las Vegas Grand Prix",
       "compound": "MEDIUM",
       "error": -0.2569337345233409,
@@ -1078,6 +1131,7 @@
       "temp_gap": 4.852788569455237
     },
     {
+      "year": 2024,
       "event": "Saudi Arabian Grand Prix",
       "compound": "HARD",
       "error": 0.06010184792728517,
@@ -1095,6 +1149,7 @@
       "temp_gap": 0.9963764913831277
     },
     {
+      "year": 2024,
       "event": "Saudi Arabian Grand Prix",
       "compound": "MEDIUM",
       "error": 0.06190463463387863,
@@ -1112,6 +1167,7 @@
       "temp_gap": 0.9963764913831277
     },
     {
+      "year": 2024,
       "event": "Saudi Arabian Grand Prix",
       "compound": "SOFT",
       "error": -0.03314707384636167,
@@ -1129,6 +1185,7 @@
       "temp_gap": 0.9963764913831277
     },
     {
+      "year": 2024,
       "event": "Singapore Grand Prix",
       "compound": "HARD",
       "error": 0.31157595328138293,
@@ -1146,6 +1203,7 @@
       "temp_gap": 3.4956249999999898
     },
     {
+      "year": 2024,
       "event": "Singapore Grand Prix",
       "compound": "MEDIUM",
       "error": 0.2654636695650438,
@@ -1163,6 +1221,7 @@
       "temp_gap": 3.4956249999999898
     },
     {
+      "year": 2024,
       "event": "Singapore Grand Prix",
       "compound": "SOFT",
       "error": 0.15628535044428712,
@@ -1180,6 +1239,7 @@
       "temp_gap": 3.4956249999999898
     },
     {
+      "year": 2024,
       "event": "Spanish Grand Prix",
       "compound": "HARD",
       "error": 0.06175293528555979,
@@ -1197,6 +1257,7 @@
       "temp_gap": -1.9557479557479454
     },
     {
+      "year": 2024,
       "event": "Spanish Grand Prix",
       "compound": "MEDIUM",
       "error": 0.06772683847810766,
@@ -1214,6 +1275,7 @@
       "temp_gap": -1.9557479557479454
     },
     {
+      "year": 2024,
       "event": "Spanish Grand Prix",
       "compound": "SOFT",
       "error": 0.030019062853688994,
