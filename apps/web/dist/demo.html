@@ -262,11 +262,11 @@ const SCRIPT = [
     do:()=>{ scrollTo(1500); hidePointer(); } },
 
   { at:233, act:'Out-of-distribution transfer',
-    cap:'No race data reaches the practice fit. <b>0.0871</b> against the naive <b>0.1442</b> \u2014 62 comparisons.',
+    cap:'No race data reaches the practice fit. <b>0.0858</b> against the naive <b>0.1440</b> \u2014 62 comparisons.',
     do:()=>pointAt(()=>findText('TyreMind error')) },
 
   { at:244, act:'The bias we report, not remove',
-    cap:'And a systematic <b>+0.042</b> bias, in 42 comparisons of 62. Reported, not tuned away.',
+    cap:'And a systematic <b>+0.043</b> bias, in 42 comparisons of 62. Reported, not tuned away.',
     do:()=>pointAt(()=>findText('Systematic bias')) },
 
   { at:255, act:'Live monitor \u00b7 streaming replay',

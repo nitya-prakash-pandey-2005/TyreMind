@@ -169,7 +169,7 @@ than a quiet retreat.
 ## 7. Where a flexible model beats us, and why it does not matter
 
 On lap-time prediction over chronological folds across **twenty races**, two
-rungs beat us: **pooled regression** at CRPS 0.525 and **LightGBM** at 0.536,
+rungs beat us: **pooled regression** at CRPS 0.487 and **LightGBM** at 0.537,
 against the state-space model's 0.757. On four races LightGBM led; at twenty it
 is second, and the correction is recorded rather than quietly absorbed.
 
@@ -181,15 +181,15 @@ Both of them:
   model is first at 0.0041 s/lap against pooled regression's 0.0068.
 
 LightGBM is additionally badly overconfident, at 62% coverage on nominal 95%
-intervals. On extrapolation, bias drift across successive folds is +0.232 for the
-lap-time leader and +0.497 for the naive baseline, against **−0.483** for the
+intervals. On extrapolation, bias drift across successive folds is +0.262 for the
+lap-time leader and +0.398 for the naive baseline, against **−0.452** for the
 state-space model, whose error shrinks most as it forecasts further past its
 training window. An earlier version of this audit called that the *only* rung
 whose error does not grow; at twenty races LightGBM is also roughly flat at
-−0.063, and that claim did not survive.
+−0.021, and that claim did not survive.
 
-A tuned MLP finishes last on lap-time prediction (CRPS 2.034) and has the *most
-unstable* extrapolation of any rung, with bias drift of −3.582 — its error swings
+A tuned MLP finishes last on lap-time prediction (CRPS 2.578) and has the *most
+unstable* extrapolation of any rung, with bias drift of −3.802 — its error swings
 by more than three seconds between folds. It was tuned first, across five
 configurations on held-out folds, because beating a badly-configured competitor
 would prove nothing.
@@ -210,7 +210,7 @@ extrapolation behaves.
 - The identifiability structure of the problem is characterised, and two of three
   collinearities are resolved by stated assumption.
 - Physics recovers circuit geometry it was never told, on 7 of 8 circuits.
-- Practice-derived degradation predicts race degradation at 0.0871 s/lap MAE
+- Practice-derived degradation predicts race degradation at 0.0858 s/lap MAE
   across 27 events and 62 comparisons, 40% better than naive, with 95% interval
   coverage once conformally calibrated. On the original five events this read
   0.0518 and 56%; the small sample was flattering, and the replicated figure is

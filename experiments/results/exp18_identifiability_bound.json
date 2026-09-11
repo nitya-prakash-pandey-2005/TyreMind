@@ -1,16 +1,17 @@
 {
   "experiment": "exp18_identifiability_bound",
-  "generated_at": "2026-09-11T20:35:23.965203+00:00",
-  "n_sessions": 12,
-  "n_runs": 547,
-  "exactly_collinear_runs": 547,
+  "generated_at": "2026-09-11T22:58:25.177465+00:00",
+  "n_sessions": 11,
+  "n_runs": 520,
+  "exactly_collinear_runs": 520,
   "exact_collinearity_rate": 1.0,
   "mean_within_run_correlation": 1.0,
-  "singular_information_sessions": 12,
+  "singular_information_sessions": 11,
   "fuel_prior_sd": 0.016,
-  "median_cramer_rao_sd": 0.01607575360190816,
-  "median_model_reported_sd": 0.02346854337431327,
-  "median_nonlinear_share": 0.07773184862646176,
+  "median_cramer_rao_sd": 0.016066608328454517,
+  "median_model_reported_sd": 0.022148815892029942,
+  "median_nonlinear_share": 0.059590394868713384,
+  "sessions_unidentified_without_prior": 10,
   "per_session": [
     {
       "session_id": "2025-chinese-grand-prix-R",
@@ -153,92 +154,36 @@
       "model_reported_sd": 0.022325638178565123
     },
     {
-      "session_id": "2024-bahrain-grand-prix-R",
-      "sigma": 0.36279066074271626,
+      "session_id": "2025-emilia-romagna-grand-prix-R",
+      "sigma": 0.3328946112406016,
       "geometry": {
-        "n_runs": 62,
+        "n_runs": 55,
         "mean_correlation": 1.0,
         "min_correlation": 0.9999999999999998,
-        "exactly_collinear_runs": 62,
-        "max_abs_deviation_laps": 0.0
+        "exactly_collinear_runs": 55,
+        "max_abs_deviation_laps": 3.552713678800501e-15
       },
       "information": {
-        "n_observations": 1022,
+        "n_observations": 955,
         "determinant": 0.0,
         "smallest_eigenvalue": 0.0,
-        "largest_eigenvalue": 469759.9757726677,
+        "largest_eigenvalue": 936372.0316360831,
         "condition_number": Infinity,
         "rank": 1
       },
-      "var_beta_with_prior": 0.00026025749340758737,
+      "var_beta_with_prior": 0.000258135903179964,
       "var_beta_without_prior": Infinity,
-      "sd_beta_with_prior": 0.016132498052303844,
+      "sd_beta_with_prior": 0.016066608328454517,
       "curvature": {
-        "n_runs": 62,
-        "nonlinear_share": 0.007842106083887824,
-        "linear_share": 0.9921578939161122
+        "n_runs": 55,
+        "nonlinear_share": 0.12072327155623672,
+        "linear_share": 0.8792767284437633
       },
-      "model_reported_sd": 0.01919588850794804
+      "model_reported_sd": 0.02194965581650992
     },
     {
-      "session_id": "2024-saudi-arabian-grand-prix-R",
-      "sigma": 0.36758149242422283,
-      "geometry": {
-        "n_runs": 37,
-        "mean_correlation": 1.0,
-        "min_correlation": 0.9999999999999998,
-        "exactly_collinear_runs": 37,
-        "max_abs_deviation_laps": 1.7763568394002505e-15
-      },
-      "information": {
-        "n_observations": 804,
-        "determinant": 7.332935082381255e-05,
-        "smallest_eigenvalue": 0.0,
-        "largest_eigenvalue": 1259788.6545007427,
-        "condition_number": Infinity,
-        "rank": 1
-      },
-      "var_beta_with_prior": 0.00025758756787724597,
-      "var_beta_without_prior": 8589934592.0,
-      "sd_beta_with_prior": 0.01604953481809507,
-      "curvature": {
-        "n_runs": 37,
-        "nonlinear_share": 0.49653167323161385,
-        "linear_share": 0.5034683267683862
-      },
-      "model_reported_sd": 0.03271181228239164
-    },
-    {
-      "session_id": "2024-australian-grand-prix-R",
-      "sigma": 0.4085188969418256,
-      "geometry": {
-        "n_runs": 51,
-        "mean_correlation": 1.0,
-        "min_correlation": 0.9999999999999998,
-        "exactly_collinear_runs": 51,
-        "max_abs_deviation_laps": 1.7763568394002505e-15
-      },
-      "information": {
-        "n_observations": 843,
-        "determinant": 0.0,
-        "smallest_eigenvalue": 0.0,
-        "largest_eigenvalue": 377927.53211651155,
-        "condition_number": Infinity,
-        "rank": 1
-      },
-      "var_beta_with_prior": 0.0002612920198451796,
-      "var_beta_without_prior": Infinity,
-      "sd_beta_with_prior": 0.016164529682152203,
-      "curvature": {
-        "n_runs": 51,
-        "nonlinear_share": 0.13770017829298817,
-        "linear_share": 0.8622998217070118
-      },
-      "model_reported_sd": 0.0552879369599223
-    },
-    {
-      "session_id": "2024-japanese-grand-prix-R",
-      "sigma": 0.47735574012467163,
+      "session_id": "2025-monaco-grand-prix-R",
+      "sigma": 0.7990748534400199,
       "geometry": {
         "n_runs": 48,
         "mean_correlation": 1.0,
@@ -247,106 +192,134 @@
         "max_abs_deviation_laps": 0.0
       },
       "information": {
-        "n_observations": 768,
+        "n_observations": 1256,
         "determinant": 0.0,
         "smallest_eigenvalue": 0.0,
-        "largest_eigenvalue": 204266.93229991628,
+        "largest_eigenvalue": 538228.6368179333,
         "condition_number": Infinity,
         "rank": 1
       },
-      "var_beta_with_prior": 0.00026579110998281114,
+      "var_beta_with_prior": 0.00025971589295549973,
       "var_beta_without_prior": Infinity,
-      "sd_beta_with_prior": 0.016303101238194256,
+      "sd_beta_with_prior": 0.016115703303160547,
       "curvature": {
         "n_runs": 48,
-        "nonlinear_share": 0.065241595898799,
-        "linear_share": 0.934758404101201
+        "nonlinear_share": 0.1940242912360632,
+        "linear_share": 0.8059757087639368
       },
-      "model_reported_sd": 0.03129579761324252
+      "model_reported_sd": 0.059381145450428045
     },
     {
-      "session_id": "2024-chinese-grand-prix-R",
-      "sigma": 0.2747307122622495,
+      "session_id": "2025-spanish-grand-prix-R",
+      "sigma": 0.42912914552700043,
       "geometry": {
-        "n_runs": 55,
+        "n_runs": 68,
         "mean_correlation": 1.0,
         "min_correlation": 0.9999999999999998,
-        "exactly_collinear_runs": 55,
-        "max_abs_deviation_laps": 0.0
-      },
-      "information": {
-        "n_observations": 754,
-        "determinant": 0.0,
-        "smallest_eigenvalue": 0.0,
-        "largest_eigenvalue": 623128.066634012,
-        "condition_number": Infinity,
-        "rank": 1
-      },
-      "var_beta_with_prior": 0.000259209613090938,
-      "var_beta_without_prior": Infinity,
-      "sd_beta_with_prior": 0.016099987984186135,
-      "curvature": {
-        "n_runs": 55,
-        "nonlinear_share": 0.02676120377328004,
-        "linear_share": 0.9732387962267199
-      },
-      "model_reported_sd": 0.024611448570061412
-    },
-    {
-      "session_id": "2024-miami-grand-prix-R",
-      "sigma": 0.30662102807803093,
-      "geometry": {
-        "n_runs": 45,
-        "mean_correlation": 1.0,
-        "min_correlation": 0.9999999999999998,
-        "exactly_collinear_runs": 45,
+        "exactly_collinear_runs": 68,
         "max_abs_deviation_laps": 8.881784197001252e-16
       },
       "information": {
-        "n_observations": 926,
+        "n_observations": 973,
         "determinant": 0.0,
         "smallest_eigenvalue": 0.0,
-        "largest_eigenvalue": 1146160.8387803806,
+        "largest_eigenvalue": 349832.3744957095,
         "condition_number": Infinity,
         "rank": 1
       },
-      "var_beta_with_prior": 0.000257744955797067,
+      "var_beta_with_prior": 0.00026171702376854856,
       "var_beta_without_prior": Infinity,
-      "sd_beta_with_prior": 0.01605443726192441,
+      "sd_beta_with_prior": 0.01617767052973167,
       "curvature": {
-        "n_runs": 45,
-        "nonlinear_share": 0.09461759388911284,
-        "linear_share": 0.9053824061108872
+        "n_runs": 68,
+        "nonlinear_share": 0.059590394868713384,
+        "linear_share": 0.9404096051312866
       },
-      "model_reported_sd": 0.025686729030303623
+      "model_reported_sd": 0.05496065078974371
     },
     {
-      "session_id": "2024-emilia-romagna-grand-prix-R",
-      "sigma": 0.4574132030058289,
+      "session_id": "2025-canadian-grand-prix-R",
+      "sigma": 0.31744616561720496,
       "geometry": {
-        "n_runs": 44,
+        "n_runs": 49,
         "mean_correlation": 1.0,
         "min_correlation": 0.9999999999999998,
-        "exactly_collinear_runs": 44,
+        "exactly_collinear_runs": 49,
         "max_abs_deviation_laps": 0.0
       },
       "information": {
-        "n_observations": 1151,
+        "n_observations": 1195,
         "determinant": 0.0,
         "smallest_eigenvalue": 0.0,
-        "largest_eigenvalue": 1048681.9045930698,
+        "largest_eigenvalue": 2558526.4344632397,
         "condition_number": Infinity,
         "rank": 1
       },
-      "var_beta_with_prior": 0.00025790715601293416,
+      "var_beta_with_prior": 0.00025678169995551475,
       "var_beta_without_prior": Infinity,
-      "sd_beta_with_prior": 0.01605948803707435,
+      "sd_beta_with_prior": 0.01602440950411324,
       "curvature": {
-        "n_runs": 44,
-        "nonlinear_share": 0.006402319614147269,
-        "linear_share": 0.9935976803858527
+        "n_runs": 49,
+        "nonlinear_share": 0.05198131437364921,
+        "linear_share": 0.9480186856263508
       },
-      "model_reported_sd": 0.04030741197815845
+      "model_reported_sd": 0.019957453134480947
+    },
+    {
+      "session_id": "2025-austrian-grand-prix-R",
+      "sigma": 0.3632801618533372,
+      "geometry": {
+        "n_runs": 47,
+        "mean_correlation": 1.0,
+        "min_correlation": 0.9999999999999998,
+        "exactly_collinear_runs": 47,
+        "max_abs_deviation_laps": 0.0
+      },
+      "information": {
+        "n_observations": 1007,
+        "determinant": 0.0,
+        "smallest_eigenvalue": 0.0,
+        "largest_eigenvalue": 820655.7649738754,
+        "condition_number": Infinity,
+        "rank": 1
+      },
+      "var_beta_with_prior": 0.0002584370754284059,
+      "var_beta_without_prior": Infinity,
+      "sd_beta_with_prior": 0.016075978210622392,
+      "curvature": {
+        "n_runs": 47,
+        "nonlinear_share": 0.035215581162312645,
+        "linear_share": 0.9647844188376874
+      },
+      "model_reported_sd": 0.024717945379061218
+    },
+    {
+      "session_id": "2025-hungarian-grand-prix-R",
+      "sigma": 0.4332648417826096,
+      "geometry": {
+        "n_runs": 48,
+        "mean_correlation": 1.0,
+        "min_correlation": 0.9999999999999998,
+        "exactly_collinear_runs": 48,
+        "max_abs_deviation_laps": 0.0
+      },
+      "information": {
+        "n_observations": 1286,
+        "determinant": 0.0,
+        "smallest_eigenvalue": 0.0,
+        "largest_eigenvalue": 1138337.9235921374,
+        "condition_number": Infinity,
+        "rank": 1
+      },
+      "var_beta_with_prior": 0.00025775694752721835,
+      "var_beta_without_prior": Infinity,
+      "sd_beta_with_prior": 0.016054810728476945,
+      "curvature": {
+        "n_runs": 48,
+        "nonlinear_share": 0.056480164805261135,
+        "linear_share": 0.9435198351947389
+      },
+      "model_reported_sd": 0.02555187271314858
     }
   ]
 }

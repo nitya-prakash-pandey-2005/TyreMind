@@ -1,6 +1,6 @@
 {
   "experiment": "exp14_naive_failure_rate",
-  "generated_at": "2026-09-11T20:35:25.021721+00:00",
+  "generated_at": "2026-09-11T21:52:07.274753+00:00",
   "summary": {
     "n_races": 61,
     "n_races_with_a_negative_compound": 43,

@@ -11,10 +11,10 @@
       2023,
       2024
     ],
-    "generated_at": "2026-09-11T20:34:31.340703+00:00"
+    "generated_at": "2026-09-11T21:51:16.441114+00:00"
   },
   "experiment": "exp12_conformal_intervals",
-  "generated_at": "2026-09-11T20:34:31.340703+00:00",
+  "generated_at": "2026-09-11T21:51:16.442121+00:00",
   "alpha": 0.05,
   "target_coverage": 0.95,
   "min_calibration": 19,

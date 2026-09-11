@@ -45,8 +45,8 @@ telemetry contains no measured tyre wear. That is why we do three other things:
 - **Synthetic ground truth.** We set the true rate, hide it, and measure
   recovery: 0.0044 s/lap error against the standard method's 0.0966.
 - **Practice → race.** Estimate from Friday, score against Sunday, no leakage,
-  across 27 events and 62 compound comparisons in 2024 and 2023: 0.0871 MAE
-  against naive 0.1442, and 95% coverage once conformally calibrated (76%
+  across 27 events and 62 compound comparisons in 2024 and 2023: 0.0858 MAE
+  against naive 0.1440, and 95% coverage once conformally calibrated (76%
   before). On five events this read 0.0518; the small sample was flattering, and
   we quote the number that replicated.
 - **A second asset class.** NASA C-MAPSS turbofans, which *do* have run-to-failure
@@ -184,8 +184,8 @@ commercial product.
 ### "Isn't a neural network going to beat this?"
 
 On lap-time prediction, **two simpler models already beat us** — and over twenty
-races the better of them is plain pooled regression, CRPS 0.525, with LightGBM
-second at 0.536 and our state-space model third at 0.757. We report it.
+races the better of them is plain pooled regression, CRPS 0.487, with LightGBM
+second at 0.537 and our state-space model third at 0.757. We report it.
 
 Neither of the two above us has a parameter meaning "degradation rate", so there
 is nothing to hand an engineer and nothing to carry from Friday to Sunday. They
@@ -194,7 +194,7 @@ is nothing in them to score. On that task we are first, 0.0041 s/lap against
 pooled regression's 0.0068 and the naive method's 0.0748.
 
 LightGBM is also badly overconfident (62% coverage on nominal 95%). On
-extrapolation, the lap-time leader's error grows by +0.232 as each fold forecasts
+extrapolation, the lap-time leader's error grows by +0.262 as each fold forecasts
 further past its training window, while ours falls by 0.483.
 
 That last number is the argument for encoding physics rather than learning it.

@@ -7,7 +7,7 @@
 **Observed performance is not the same thing as tyre degradation.**
 
 ![Python](https://img.shields.io/badge/python-3.11%20%E2%80%93%203.13-1d7d9c?style=flat-square)
-![Tests](https://img.shields.io/badge/tests-202%20passing-1f8a5c?style=flat-square)
+![Tests](https://img.shields.io/badge/tests-298%20passing-1f8a5c?style=flat-square)
 ![Offline](https://img.shields.io/badge/runs-fully%20offline-c4501f?style=flat-square)
 ![Licence](https://img.shields.io/badge/licence-MIT-6b7780?style=flat-square)
 
@@ -48,7 +48,7 @@ Read lap times alone and you miss a dying tyre completely.
 That is not an edge case. Fit the standard method — a straight line through lap
 time against tyre age — and it reports **negative degradation**: tyres apparently
 getting faster the longer they run. Counted across **every dry race in the corpus,
-56 of them**, it does this in **70% of races** and in **51% of the 152
+61 of them**, it does this in **70% of races** and in **51% of the 164
 compound-stints** — more often than not, at the level of an individual compound.
 
 The cause is not subtlety. Fuel burn-off is worth about 0.08 s/lap and is simply
@@ -132,16 +132,19 @@ driver effect ([exp15](experiments/exp15_driver_effect.py)).
 ### Is there a driver effect?
 
 Everyone in the paddock will tell you driving style changes tyre life. Across
-**1,055 driver-races, 26 drivers, 56 races**, that splits into two answers that
+**1,152 driver-races, 31 drivers, 61 races**, that splits into two answers that
 disagree — and the disagreement is the finding.
 
-**Reliable.** Split the corpus into random halves and the ranking of drivers
-reproduces: split-half r = **+0.36**, 5th percentile +0.09 across 500 random
-partitions. Some drivers really are harder on tyres.
+**Reliable, but only just.** Split the corpus into random halves and the ranking
+of drivers reproduces: split-half r = **+0.24**, with a 5th percentile of
+**+0.008** across 500 random partitions. That lower bound clears zero and does
+not clear it comfortably. On an earlier corpus it read +0.36 with a 5th
+percentile of +0.09; correcting the fuel counter and adding 2025 weakened it, and
+the weaker figure is the one quoted.
 
 **Not useful.** Predicting a driver's deviation at a held-out race from their own
-history scores 0.0251 s/lap against **0.0248 for just predicting the field
-mean** — very slightly worse. The spread of driver means is 0.0110 s/lap while
+history scores 0.0248 s/lap against **0.0246 for just predicting the field
+mean** — very slightly worse. The spread of driver means is 0.0113 s/lap while
 the race-to-race scatter is 0.0248: the trait is real and about *half the size of
 the noise it has to be read through*.
 
@@ -174,14 +177,14 @@ practice fit:
 
 | | Naive | **TyreMind** |
 |---|---:|---:|
-| MAE | 0.1442 s/lap | **0.0871 s/lap** |
+| MAE | 0.1440 s/lap | **0.0858 s/lap** |
 | 95% coverage, as fitted | — | 76% |
 | 95% coverage, calibrated | — | **95%** |
 
 **40% error reduction.** This number got *worse* as the evidence grew, and that
 is worth stating plainly: on five events it was 0.0518 s/lap. The small sample
 was flattering. What held is the comparison that matters — the naive method
-worsened too, 0.1166 → 0.1442, and the gap between the two stayed at roughly
+worsened too, 0.1166 → 0.1440, and the gap between the two stayed at roughly
 40%. A claim that survives a six-fold increase in evidence is worth more than a
 prettier one resting on ten comparisons.
 
@@ -189,10 +192,12 @@ Three events are excluded because they were not dry-degradation sessions at all
 (Canada 2024 ran 67% of its race laps on wet rubber). The rule is applied to
 both sides of every comparison and was calibrated, not chosen to flatter.
 
-There is a **systematic +0.042 s/lap bias** — practice over-predicts race
+There is a **systematic +0.043 s/lap bias** — practice over-predicts race
 degradation in 42 of 62 comparisons. Nine candidate explanations were tested
-with a multiplicity correction; two survive, and the causal story built on them
-was then tested and **refuted** ([exp11](experiments/exp11_depth_matched.py)).
+with a multiplicity correction. **One survives** — mean practice stint length
+(ρ +0.39, p 0.002) — and a second, pit stops per driver, misses by a hair
+(p 0.0113 against a threshold of 0.0111). The causal story built on them was
+then tested and **refuted** ([exp11](experiments/exp11_depth_matched.py)).
 So the bias is not explained away. It is corrected as a measured offset, and the
 interval is widened by conformal calibration until it covers what it claims.
 
@@ -227,10 +232,10 @@ Six models, **twenty races**, identical expanding-window chronological folds:
 
 | Model | CRPS (lap time) | Coverage | Bias drift | Degradation rate MAE |
 |---|---:|---:|---:|---:|
-| Pooled regression | **0.525** | 84% | +0.232 | 0.0068 |
-| LightGBM | 0.536 | 62% | −0.063 | *no such parameter* |
-| TyreMind | 0.757 | 81% | **−0.483** | **0.0041** |
-| Naive | 0.991 | 76% | +0.497 | 0.0748 |
+| Pooled regression | **0.487** | 84% | +0.262 | 0.0068 |
+| LightGBM | 0.537 | 62% | −0.021 | *no such parameter* |
+| TyreMind | 0.757 | 81% | **−0.452** | **0.0041** |
+| Naive | 0.974 | 76% | +0.398 | 0.0748 |
 
 **Two models predict lap times better than we do**, and on twenty races the
 better of them is plain pooled regression, not LightGBM. Both beat us on CRPS.
@@ -245,10 +250,10 @@ naive method's 0.0748. *Predicting lap times well is not the same as
 understanding the tyre.*
 
 Bias drift measures how much a model's error grows as it forecasts further past
-its training window. TyreMind's shrinks the most of any usable rung (−0.483)
-while pooled regression's grows (+0.232). An earlier version of this README
+its training window. TyreMind's shrinks the most of any usable rung (−0.452)
+while pooled regression's grows (+0.262). An earlier version of this README
 claimed TyreMind was **the only** model whose error does not grow; at twenty
-races that is no longer true — LightGBM is roughly flat at −0.063 — and the
+races that is no longer true — LightGBM is roughly flat at −0.021 — and the
 claim has been corrected rather than quietly restated.
 
 **Our own lap-time intervals were undercovered too.** Across **66,606 held-out
@@ -266,9 +271,9 @@ retuning the working miss-rate after every lap:
 
 | | Coverage | Median width |
 |---|---:|---:|
-| Gaussian, as reported | 75.5% | — |
+| Gaussian, as reported | 75.1% | — |
 | Split conformal | 89.3% | 6.11 s |
-| **Adaptive conformal** | **95.2%** | 7.37 s |
+| **Adaptive conformal** | **95.4%** | 7.12 s |
 
 It lifts LightGBM from 63% to 95% at only 3.5 s of width — its lap-time
 *predictions* were always fine, its *sd* was wrong.
@@ -277,10 +282,17 @@ It lifts LightGBM from 63% to 95% at only 3.5 s of width — its lap-time
 ([exp16](experiments/exp16_calibration_shape.py)). A model can hit 95% exactly
 while being far too confident in the middle and too timid in the tails. The PIT
 histogram — where the truth lands inside its own predicted distribution — comes
-out **U-shaped for all six rungs**, which is overconfidence seen directly rather
-than inferred. Sweeping the nominal level from 50% to 99%, the Gaussian sits a
-mean 0.191 from the reliability diagonal and adaptive conformal sits 0.005 away:
-**37× closer, at every level and not only at 95%.** The live monitor now carries the same machinery and reports the
+out **U-shaped for five of the six rungs**, which is overconfidence seen directly
+rather than inferred.
+
+The sixth is ours, and it fails the *opposite* way: the state-space model is
+**hump-shaped — intervals too wide, underconfident**. That is the same
+conservatism as the 100% coverage on the synthetic benchmark, and it is the safer
+direction to err, but it is still a miscalibration.
+
+Sweeping the nominal level from 50% to 99%, the Gaussian sits a mean 0.195 from
+the reliability diagonal and adaptive conformal sits 0.006 away: **33× closer, at
+every level and not only at 95%.** The live monitor now carries the same machinery and reports the
 coverage it has actually achieved, so the claimed 95% is auditable in flight
 rather than after the race.
 
@@ -396,7 +408,7 @@ interval visibly collapsing as evidence arrives. Every view is deep-linkable —
 **Verify the install:**
 
 ```bash
-pytest              # 202 tests, about 10 s
+pytest              # 298 tests, about 10 s
 ruff check .        # lint
 ```
 
@@ -516,12 +528,22 @@ python experiments/exp13_lap_time_calibration.py --corpus season
 python experiments/exp14_naive_failure_rate.py
 python experiments/exp15_driver_effect.py --refit             # ~20 min, then cached
 python experiments/exp16_calibration_shape.py                 # ~10 min
+python experiments/exp17_degradation_cliff.py --refit         # ~20 min, then cached
+python experiments/exp18_identifiability_bound.py --limit 12
+```
+
+Or run the whole set in dependency order, which is what the ordering note below
+is about:
+
+```bash
+bash scripts/rerun_all.sh
 ```
 
 **Order matters in two places.** `exp09`, `exp10` and `exp11` read the result
 files of `exp08` and `exp03`, and `exp12` reads `exp03`. Running them against a
 stale result file is the single easiest way to produce a number that disagrees
-with the rest of the project.
+with the rest of the project — which is why `scripts/rerun_all.sh` exists and
+why `scripts/check_results_fresh.py` will tell you when it has happened.
 
 **Check the results still match their scripts.** Every figure in the README, the
 model card, the deck and the dashboard is read from `experiments/results/`, so a

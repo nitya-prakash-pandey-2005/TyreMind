@@ -305,7 +305,7 @@ figcaption b { color: var(--ink); font-weight: 600; }
       <dt>Challenge</dt><dd>TrackShift Innovation Challenge — Problem 3, AI Motorsport Intelligence</dd>
       <dt>Brief</dt><dd>Isolate true tyre wear rates from confounding practice variables; validate predicted wear against actual race-day pace</dd>
       <dt>Repository</dt><dd><code>github.com/nitya-prakash-pandey-2005/TyreMind</code></dd>
-      <dt>Scale</dt><dd>18,762 lines of Python · 6,583 lines of TypeScript · 202 tests · 24 API endpoints · 16 recorded experiments</dd>
+      <dt>Scale</dt><dd>20,354 lines of Python · 7,049 lines of TypeScript · 298 tests · 24 API endpoints · 18 recorded experiments</dd>
       <dt>Status</dt><dd>Runs fully offline. Every figure in this document is read from a committed result file, not typed by hand.</dd>
     </dl>
 
@@ -1353,7 +1353,7 @@ C_b dTb/dt = k_sb(Ts−Tb) − h_b(Tb−T_air)</div>
   <div class="sec-head">
     <div class="sec-no">08</div>
     <div>
-      <h2>Evidence: sixteen experiments</h2>
+      <h2>Evidence: eighteen experiments</h2>
       <div class="kicker">Including one that failed and one where a competitor wins</div>
     </div>
   </div>
@@ -1402,9 +1402,9 @@ C_b dTb/dt = k_sb(Ts−Tb) − h_b(Tb−T_air)</div>
   </p>
 
   <div class="stat-row">
-    <div class="stat key"><div class="v">0.0871</div><div class="l">TyreMind error</div><div class="s">s/lap MAE</div></div>
-    <div class="stat"><div class="v">0.1442</div><div class="l">Naive error</div><div class="s">s/lap MAE</div></div>
-    <div class="stat"><div class="v">+0.042</div><div class="l">Systematic bias</div><div class="s">reported, not tuned away</div></div>
+    <div class="stat key"><div class="v">0.0858</div><div class="l">TyreMind error</div><div class="s">s/lap MAE</div></div>
+    <div class="stat"><div class="v">0.1440</div><div class="l">Naive error</div><div class="s">s/lap MAE</div></div>
+    <div class="stat"><div class="v">+0.043</div><div class="l">Systematic bias</div><div class="s">reported, not tuned away</div></div>
     <div class="stat"><div class="v">95%</div><div class="l">Interval coverage</div><div class="s">calibrated; 76% before</div></div>
   </div>
   <div class="prov">experiments/results/exp03_practice_to_race.json · 27 events, 62 comparisons, 2024 + 2023, FP2 → race</div>
@@ -1413,27 +1413,29 @@ C_b dTb/dt = k_sb(Ts−Tb) − h_b(Tb−T_air)</div>
     <h4>This number got worse as the evidence grew, and that is the point</h4>
     <p>
       On five events this section read <b>0.0518&nbsp;s/lap</b>. On 27 events across
-      two seasons it reads <b>0.0871</b>. The small sample was flattering us, and the
+      two seasons it reads <b>0.0858</b>. The small sample was flattering us, and the
       earlier figure did not replicate. What did hold is the comparison that carries
-      the argument: the naive method worsened in step, 0.1166&nbsp;→&nbsp;0.1442, and
+      the argument: the naive method worsened in step, 0.1166&nbsp;→&nbsp;0.1440, and
       the <b>40% gap between them is stable</b>. A claim that survives a six-fold
       increase in evidence is worth more than a prettier one resting on ten comparisons.
     </p>
     <p>
       The earlier version of this section warned that a correction fitted on five
       events “would not survive the sixth”. It did not. Nine candidate explanations
-      for the +0.042&nbsp;s/lap bias were tested against the signed error with a
-      Benjamini–Hochberg correction across all nine. Two survive: mean practice stint
-      length (ρ +0.37, p 0.003) and pit stops per driver (ρ +0.33, p 0.009). Three
-      failed outright — the practice-to-race temperature gap, traffic, and the model's
-      own posterior standard deviation.
+      for the +0.043&nbsp;s/lap bias were tested against the signed error with a
+      Benjamini–Hochberg correction across all nine. <b>One survives</b>: mean practice
+      stint length (ρ&nbsp;+0.39, p&nbsp;0.0017 against a threshold of 0.0056). Pit stops
+      per driver misses by a hair — p&nbsp;0.0113 against 0.0111 — and is reported as a
+      near-miss rather than rounded into significance or quietly dropped. The
+      practice-to-race temperature gap, traffic, and the model&rsquo;s own posterior
+      standard deviation all fail outright.
     </p>
     <p>
       The causal story those two implied — that practice long runs reach the punishing
       part of the wear curve while a pitted race stays on the flat part — was then
       tested directly and <b>refuted</b>. Practice runs are on average 4.4 laps
       <i>shallower</i> than race stints, not deeper, and forcing both sides into a
-      common tyre-age window made bias and error both worse (paired t p = 0.037).
+      common tyre-age window made bias and error both worse (paired t p = 0.026).
       <b>The bias is therefore corrected as a measured offset, not an explained one.</b>
     </p>
     <p>
@@ -1458,12 +1460,12 @@ C_b dTb/dt = k_sb(Ts−Tb) − h_b(Tb−T_air)</div>
   <table>
     <thead><tr><th>Model</th><th class="n">CRPS</th><th class="n">MAE</th><th class="n">95% coverage</th><th class="n">Bias drift</th><th class="n">Fit time</th></tr></thead>
     <tbody>
-      <tr><td><b>Pooled regression</b></td><td class="n win">0.525</td><td class="n">0.684</td><td class="n">84%</td><td class="n">+0.232</td><td class="n">0.04 s</td></tr>
-      <tr><td>LightGBM</td><td class="n">0.536</td><td class="n">0.684</td><td class="n">62%</td><td class="n">&minus;0.063</td><td class="n">0.9 s</td></tr>
-      <tr class="hl"><td>TyreMind state-space</td><td class="n">0.757</td><td class="n">0.930</td><td class="n">81%</td><td class="n win">&minus;0.483</td><td class="n">38 s</td></tr>
-      <tr><td>Fuel-corrected regression</td><td class="n">0.985</td><td class="n">1.349</td><td class="n">76%</td><td class="n">+0.443</td><td class="n">0.01 s</td></tr>
-      <tr><td>Naive (lap time vs tyre age)</td><td class="n">0.991</td><td class="n">1.359</td><td class="n">76%</td><td class="n">+0.497</td><td class="n">0.008 s</td></tr>
-      <tr><td>Neural network (MLP)</td><td class="n">2.034</td><td class="n">2.486</td><td class="n">69%</td><td class="n">&minus;3.582</td><td class="n">95 s</td></tr>
+      <tr><td><b>Pooled regression</b></td><td class="n win">0.487</td><td class="n">0.684</td><td class="n">84%</td><td class="n">+0.262</td><td class="n">0.04 s</td></tr>
+      <tr><td>LightGBM</td><td class="n">0.537</td><td class="n">0.684</td><td class="n">62%</td><td class="n">&minus;0.021</td><td class="n">0.9 s</td></tr>
+      <tr class="hl"><td>TyreMind state-space</td><td class="n">0.757</td><td class="n">0.930</td><td class="n">81%</td><td class="n win">&minus;0.452</td><td class="n">38 s</td></tr>
+      <tr><td>Fuel-corrected regression</td><td class="n">0.984</td><td class="n">1.349</td><td class="n">76%</td><td class="n">+0.375</td><td class="n">0.01 s</td></tr>
+      <tr><td>Naive (lap time vs tyre age)</td><td class="n">0.974</td><td class="n">1.359</td><td class="n">76%</td><td class="n">+0.398</td><td class="n">0.008 s</td></tr>
+      <tr><td>Neural network (MLP)</td><td class="n">2.578</td><td class="n">2.486</td><td class="n">69%</td><td class="n">&minus;3.802</td><td class="n">95 s</td></tr>
     </tbody>
   </table>
 
@@ -1492,12 +1494,12 @@ C_b dTb/dt = k_sb(Ts−Tb) − h_b(Tb−T_air)</div>
     </p>
     <p style="margin-top:2mm">
       LightGBM remains badly overconfident — 62% coverage on nominal 95%
-      intervals. On extrapolation, bias drift is +0.232 for the lap-time leader
-      and +0.497 for the naive baseline, against <b>&minus;0.483</b> for the
+      intervals. On extrapolation, bias drift is +0.262 for the lap-time leader
+      and +0.398 for the naive baseline, against <b>&minus;0.452</b> for the
       state-space model, whose error shrinks most as it forecasts further past
       its training window. An earlier version of this section called that the
       <em>only</em> rung whose error does not grow; at twenty races LightGBM is
-      also roughly flat at &minus;0.063, and the claim is corrected here rather
+      also roughly flat at &minus;0.021, and the claim is corrected here rather
       than quietly restated.
     </p>
     <p style="margin-top:2mm">
@@ -1609,21 +1611,21 @@ C_b dTb/dt = k_sb(Ts−Tb) − h_b(Tb−T_air)</div>
     p&nbsp;=&nbsp;0.20).</p>
 
   <p><b>Matching stint depth makes the bias worse.</b> Of nine candidate
-    explanations for the +0.042&nbsp;s/lap over-prediction, two survive a
+    explanations for the +0.043&nbsp;s/lap over-prediction, <b>one survives</b> a
     Benjamini–Hochberg correction across all nine: mean practice stint length
-    (ρ&nbsp;=&nbsp;+0.37, p&nbsp;=&nbsp;0.003) and pit stops per driver
-    (ρ&nbsp;=&nbsp;+0.33, p&nbsp;=&nbsp;0.009). The obvious causal reading is
+    (ρ&nbsp;=&nbsp;+0.39, p&nbsp;=&nbsp;0.0017). Pit stops per driver misses by a
+    hair, p&nbsp;0.0113 against a threshold of 0.0111. The obvious causal reading is
     that practice long runs reach the punishing part of the wear curve while a
     heavily-pitted race never leaves the flat part. <b>Measuring the premise
     killed it:</b> practice runs are on average <b>4.4 laps shallower</b> than
     race stints, not deeper — teams do 10–15 lap evaluation runs on Friday and
     20–30 lap stints on Sunday. Forcing both sides into a common tyre-age window
-    moved the bias the wrong way (+0.0422&nbsp;→&nbsp;+0.0457) and the error
-    clearly the wrong way (0.0871&nbsp;→&nbsp;0.1005, paired t
-    p&nbsp;=&nbsp;0.037).</p>
+    moved the bias the wrong way (+0.0429&nbsp;→&nbsp;+0.0477) and the error
+    clearly the wrong way (0.0858&nbsp;→&nbsp;0.1001, paired t
+    p&nbsp;=&nbsp;0.026).</p>
 
   <p><b>The driver effect is reliable but not useful, and the split is the
-    finding.</b> Tested across 1,055 driver-races, 26 drivers and 56 races. The
+    finding.</b> Tested across 1,152 driver-races, 31 drivers and 61 races. The
     per-stint slope is fitted freely by least squares after the model's fuel,
     track and traffic corrections are removed &mdash; the estimator's own
     per-driver rate cannot answer the question, because the likelihood drives its
@@ -1634,8 +1636,8 @@ C_b dTb/dt = k_sb(Ts−Tb) − h_b(Tb−T_air)</div>
     drivers reproduces, split-half &rho; = <b>+0.36</b> with a 5th percentile of
     +0.09 across 500 partitions. <em>Not useful:</em> predicting a driver's
     deviation at a held-out race from their own history scores
-    0.0251&nbsp;s/lap against <b>0.0248 for predicting the field mean</b>, very
-    slightly worse. The spread of driver means is 0.0110&nbsp;s/lap and the
+    0.0251&nbsp;s/lap against <b>0.0246 for predicting the field mean</b>, very
+    slightly worse. The spread of driver means is 0.0113&nbsp;s/lap and the
     race-to-race scatter around them is 0.0248 &mdash; the trait is real and
     about half the size of the noise it must be read through, so on a single race
     a driver's history is worth less than the average.</p>
@@ -1683,7 +1685,7 @@ C_b dTb/dt = k_sb(Ts−Tb) − h_b(Tb−T_air)</div>
     each other; calibrating on one to predict the other would report a coverage
     we could not reproduce on Sunday.</p>
 
-  <p><b>Lap time: 75.5% while labelled 95%, across 66,606 held-out laps.</b> The
+  <p><b>Lap time: 75.1% while labelled 95%, across 66,606 held-out laps.</b> The
     same instrument is the wrong one here, and the reason is the interesting
     part. Split conformal needs the calibration set to be exchangeable with the
     test point. One rate per compound per event is — the events could be shuffled
@@ -1695,9 +1697,9 @@ C_b dTb/dt = k_sb(Ts−Tb) − h_b(Tb−T_air)</div>
   <table>
     <thead><tr><th>Construction</th><th class="n">Coverage</th><th class="n">Mean width</th><th class="n">Median width</th></tr></thead>
     <tbody>
-      <tr><td>Gaussian, as the ladder reports it</td><td class="n">75.5%</td><td class="n">3.00 s</td><td class="n">—</td></tr>
+      <tr><td>Gaussian, as the ladder reports it</td><td class="n">75.1%</td><td class="n">3.00 s</td><td class="n">—</td></tr>
       <tr><td>Split conformal (studentised)</td><td class="n">89.3%</td><td class="n">6.70 s</td><td class="n">6.11 s</td></tr>
-      <tr class="hl"><td><b>Adaptive conformal (absolute)</b></td><td class="n win">95.2%</td><td class="n">7.43 s</td><td class="n">7.37 s</td></tr>
+      <tr class="hl"><td><b>Adaptive conformal (absolute)</b></td><td class="n win">95.4%</td><td class="n">7.43 s</td><td class="n">7.12 s</td></tr>
     </tbody>
   </table>
 
@@ -1743,6 +1745,96 @@ C_b dTb/dt = k_sb(Ts−Tb) − h_b(Tb−T_air)</div>
     calibration holds it at 95% rather than rescuing it.
   </p>
   <div class="prov">experiments/results/exp12_conformal_intervals.json · exp13_lap_time_calibration.json · 20 races, 66,606 held-out laps</div>
+
+  <h3>08.8 &nbsp; A rate is not a curve</h3>
+  <p>
+    The brief asks for degradation <em>curves</em>. Everything above estimates a
+    degradation <em>rate</em> &mdash; one number, seconds per lap &mdash; which
+    answers &ldquo;how fast is this tyre losing performance&rdquo; and cannot
+    answer &ldquo;how many laps have I got left&rdquo;. Those are the same
+    question only if the curve is a line.
+  </p>
+  <p>
+    A continuous broken stick is fitted to every de-confounded stint:
+  </p>
+  <p class="mono" style="margin-left:6mm">
+    L(a) = &alpha; + &beta;a<br>
+    L(a) = &alpha; + &beta;&tau; + (&beta; + &delta;)(a &minus; &tau;) &nbsp;&nbsp; for a &gt; &tau;
+  </p>
+  <p>
+    on the basis [1,&nbsp;a,&nbsp;max(a&minus;&tau;,&nbsp;0)], which is continuous
+    at &tau; by construction rather than by constraint. &tau; is found by
+    exhaustive search over admissible laps, because the least-squares surface in
+    &tau; is piecewise-smooth with many local minima and a gradient method lands
+    in whichever one it started nearest. BIC charges the extra two parameters,
+    &tau; included &mdash; searching a grid is still fitting.
+  </p>
+
+  <table>
+    <thead><tr><th>Regime</th><th class="n">Stints</th><th class="n">Share</th><th class="n">Rate before</th><th class="n">Step</th><th class="n">Position</th></tr></thead>
+    <tbody>
+      <tr><td>Linear</td><td class="n">1,257</td><td class="n">57%</td><td class="n">&mdash;</td><td class="n">&mdash;</td><td class="n">&mdash;</td></tr>
+      <tr><td>Recovery</td><td class="n">429</td><td class="n">19%</td><td class="n">+0.208</td><td class="n">&minus;0.192</td><td class="n">30%</td></tr>
+      <tr><td>Warm-up</td><td class="n">277</td><td class="n">13%</td><td class="n">&minus;0.112</td><td class="n">+0.292</td><td class="n">30%</td></tr>
+      <tr class="hl"><td><b>Cliff</b></td><td class="n">246</td><td class="n">11%</td><td class="n">+0.054</td><td class="n win">+0.216</td><td class="n">73%</td></tr>
+    </tbody>
+  </table>
+  <div class="prov">experiments/results/exp17_degradation_cliff.json &middot; 2,209 stints across 61 dry races</div>
+
+  <div class="panel warn">
+    <h4>Two opposite events with the same arithmetic</h4>
+    <p>
+      WARM-UP and CLIFF are both a changepoint with a positive step in slope, and
+      they are separated only by the sign of the rate <em>before</em> the break.
+      A warm-up is a tyre coming to temperature or a graining phase clearing
+      &mdash; it is <b>improving</b> at &minus;0.112&nbsp;s/lap beforehand, and it
+      sits 30% into the stint. A cliff is a tyre already degrading at
+      +0.054&nbsp;s/lap that then falls away, and it sits <b>73%</b> in.
+    </p>
+    <p style="margin-top:2mm">
+      An earlier version of this analysis pooled them and reported a
+      &ldquo;cliff&rdquo; a third of the way through a stint. That was a tyre
+      coming to temperature. The classification is the reason this is a model and
+      not a changepoint fitter.
+    </p>
+  </div>
+
+  <h4>Does knowing the shape predict better?</h4>
+  <p>
+    Fit the opening 70% of a stint, forecast the rest. This is the only test that
+    matters, because a cliff is precisely a claim about extrapolation.
+  </p>
+  <table>
+    <thead><tr><th>Regime</th><th class="n">n</th><th class="n">Line MAE</th><th class="n">Stick MAE</th><th class="n">Gain</th><th class="n">p</th><th class="n">Line bias</th></tr></thead>
+    <tbody>
+      <tr class="hl"><td>Warm-up</td><td class="n">256</td><td class="n">0.769</td><td class="n win">0.539</td><td class="n win">+29.9%</td><td class="n">&lt;0.001</td><td class="n">&minus;0.735</td></tr>
+      <tr><td>Recovery</td><td class="n">405</td><td class="n">0.708</td><td class="n">0.720</td><td class="n">&minus;1.7%</td><td class="n">0.044</td><td class="n">+0.641</td></tr>
+      <tr><td>Cliff</td><td class="n">235</td><td class="n">0.638</td><td class="n">0.702</td><td class="n">&minus;10.1%</td><td class="n">0.064</td><td class="n hot">&minus;0.526</td></tr>
+      <tr><td>Linear</td><td class="n">1,190</td><td class="n win">0.434</td><td class="n">0.715</td><td class="n">&minus;64.8%</td><td class="n">&lt;0.001</td><td class="n">&minus;0.015</td></tr>
+    </tbody>
+  </table>
+
+  <p>
+    <b>Warm-up is worth modelling and a cliff is not</b> &mdash; not because the
+    cliff is less real, but because of <em>when</em> it happens. A warm-up
+    boundary sits 30% into a stint, so fitting the opening 70% contains it and
+    knowing about it improves the forecast by 30%. A cliff sits at 73%, outside
+    the fitting window, so the broken stick has nothing to find and performs
+    slightly worse than a straight line for the extra parameters it spent.
+  </p>
+  <div class="panel">
+    <h4>What the cliff column does establish</h4>
+    <p>
+      Look at the last column rather than the gain. On stints that end in a cliff,
+      a straight-line fit carries a bias of <b class="hot">&minus;0.53&nbsp;s</b>
+      &mdash; it under-predicts lap time, which is to say it is
+      <b>systematically optimistic about the end of a stint</b>, which is the part
+      a pit wall is actually asking about. We cannot tell you <em>when</em> the
+      cliff will arrive from the first 70% of a stint. We can tell you that the
+      linear answer is wrong in a known direction and by a known amount when it
+      does, and that is a usable thing to hand a strategist.
+    </p>
+  </div>
 
 </section>
 
@@ -2086,8 +2178,8 @@ C_b dTb/dt = k_sb(Ts−Tb) − h_b(Tb−T_air)</div>
   </div>
 
   <div class="stat-row">
-    <div class="stat"><div class="v">18,762</div><div class="l">Lines of Python</div><div class="s">57 modules</div></div>
-    <div class="stat"><div class="v">6,583</div><div class="l">Lines of TypeScript</div><div class="s">19 modules</div></div>
+    <div class="stat"><div class="v">20,354</div><div class="l">Lines of Python</div><div class="s">57 modules</div></div>
+    <div class="stat"><div class="v">7,049</div><div class="l">Lines of TypeScript</div><div class="s">19 modules</div></div>
     <div class="stat"><div class="v">97</div><div class="l">Tests passing</div><div class="s">unit, physics, integration, timing</div></div>
     <div class="stat"><div class="v">24</div><div class="l">API endpoints</div><div class="s">OpenAPI documented</div></div>
   </div>
@@ -2550,7 +2642,7 @@ C_b dTb/dt = k_sb(Ts−Tb) − h_b(Tb−T_air)</div>
         <text x="0" y="78">Estimator, physics, validation suite</text>
         <text x="0" y="94">9-view interface, 24 endpoints</text>
         <text x="0" y="110">MCP server, hybrid RAG</text>
-        <text x="0" y="126">Offline demo, 202 tests</text>
+        <text x="0" y="126">Offline demo, 298 tests</text>
         <text x="0" y="142">C-MAPSS transfer validated</text>
 
         <text x="208" y="78">Live timing feed adapter</text>

@@ -23,8 +23,8 @@ Point at the two numbers side by side:
 > got *faster* the longer it ran.
 >
 > That is obviously impossible, and it is not a one-off. Counted across every dry
-> race in our corpus — **56 of them** — the naive method comes out negative in
-> **70% of races** and in **51% of the 152 compound-stints**. More often than not,
+> race in our corpus — **61 of them** — the naive method comes out negative in
+> **70% of races** and in **51% of the 164 compound-stints**. More often than not,
 > at the level of an individual compound. The car burns fuel, gets lighter, and
 > speeds up by about 0.08 s a lap — which is bigger than the tyre's degradation,
 > so the tyre effect is buried under it and comes out with the wrong sign.
@@ -101,9 +101,9 @@ Then the numbers:
 
 - **Ground truth recovery:** 0.0044 s/lap against naive 0.0966. 95.5% better,
   100% interval coverage, 25 sessions.
-- **Practice → race:** 0.0871 vs 0.1442 MAE across 27 events and 62 compound
+- **Practice → race:** 0.0858 vs 0.1440 MAE across 27 events and 62 compound
   comparisons, 95% coverage after conformal calibration — and a systematic
-  +0.042 s/lap bias we report rather than tune away.
+  +0.043 s/lap bias we report rather than tune away.
 
 ### 7. **Beyond racing** (60 s)
 

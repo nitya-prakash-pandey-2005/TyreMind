@@ -260,7 +260,7 @@ footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);
     <div class="row" style="padding-top:0">
       <span class="small" style="grid-column:1/-1;max-width:82ch">
         Runs offline from one command, no Node and no API key. Nine views, 24 endpoints, live streaming replay,
-        MCP server, 202 tests, verified from a clean clone. Most finalists will demo a notebook.
+        MCP server, 298 tests, verified from a clean clone. Most finalists will demo a notebook.
       </span>
     </div>
 
@@ -302,20 +302,20 @@ footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);
       <h4>Estimator</h4>
       <p>Hierarchical linear-Gaussian state-space model in tyre age, fitted across the whole grid.
          Kalman filter + RTS smoother written in NumPy, six hyperparameters by L-BFGS-B on the exact likelihood.</p>
-      <p class="mono small">10,654 lines in src · 41 modules · 18,762 Python lines in all</p>
+      <p class="mono small">10,654 lines in src · 41 modules · 20,354 Python lines in all</p>
     </div>
     <div class="card">
       <h4>Evidence</h4>
-      <p>Sixteen recorded experiments. Ground-truth recovery <span class="mono">0.0044</span> vs naive
-         <span class="mono">0.0966</span> over 25 sessions. Practice→race <span class="mono">0.0871</span> vs
-         <span class="mono">0.1442</span> over <b>27 events and 62 comparisons</b>, two seasons.</p>
-      <p class="mono small">16 result files · 113 sessions · 61,396 laps · every figure read, none typed</p>
+      <p>Eighteen recorded experiments. Ground-truth recovery <span class="mono">0.0044</span> vs naive
+         <span class="mono">0.0966</span> over 25 sessions. Practice→race <span class="mono">0.0858</span> vs
+         <span class="mono">0.1440</span> over <b>27 events and 62 comparisons</b>, two seasons.</p>
+      <p class="mono small">18 result files · 113 sessions · 61,396 laps · every figure read, none typed</p>
     </div>
     <div class="card">
       <h4>Product</h4>
       <p>Nine views, 3D racing line, live lap-by-lap replay at 0.22 ms/lap, hybrid retrieval over our own
          research corpus, MCP server with seven read-only tools.</p>
-      <p class="mono small">6,583 lines TypeScript · 24 endpoints · 202 tests</p>
+      <p class="mono small">7,049 lines TypeScript · 24 endpoints · 298 tests</p>
     </div>
   </div>
 
@@ -329,9 +329,9 @@ footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);
     <p>
       The risk register below predicted that results might get worse at scale and said that would be
       <i>“a feature, not a failure”</i>. It was right on both counts. Practice→race MAE went from
-      <span class="mono">0.0518</span> to <span class="mono">0.0871</span> s/lap: the five-event sample had
+      <span class="mono">0.0518</span> to <span class="mono">0.0858</span> s/lap: the five-event sample had
       been flattering us. The naive baseline worsened in step (<span class="mono">0.1166</span> →
-      <span class="mono">0.1442</span>) and the <b>40% gap held</b>, which is the part of the claim that was
+      <span class="mono">0.1440</span>) and the <b>40% gap held</b>, which is the part of the claim that was
       ever real. Interval coverage told the same story &mdash; 90% on ten comparisons was not good calibration,
       it was too small a sample to detect that the true figure is 76%.
     </p>
@@ -381,12 +381,14 @@ footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);
         <h4>We report the practice→race bias but never explain it <span class="tag t-done">tested &mdash; mechanism still open, consequence closed</span></h4>
         <p>
           Nine candidate explanations were tested against the signed error with a Benjamini–Hochberg correction
-          across all nine (exp10). <b>Two survive:</b> mean practice stint length (ρ +0.37, p 0.003) and pit stops
-          per driver (ρ +0.33, p 0.009). <b>Three failed:</b> the practice→race temperature gap, traffic, and the
-          model's own posterior sd. The fuel-load hypothesis this card proposed was not among the survivors.
+          across all nine (exp10). <b>One survives:</b> mean practice stint length (ρ +0.39, p 0.0017 against a
+          threshold of 0.0056). Pit stops per driver <b>misses by a hair</b> &mdash; p 0.0113 against 0.0111 &mdash;
+          and is reported as a near-miss rather than rounded into significance or quietly dropped. The
+          practice&rarr;race temperature gap, traffic and the model's own posterior sd all fail outright, and the
+          fuel-load hypothesis this card proposed is not among them.
         </p>
         <p>
-          The causal story those two implied &mdash; practice going deeper into the wear curve than a pitted race
+          The causal story those predictors implied &mdash; practice going deeper into the wear curve than a pitted race
           &mdash; was then built and <b>refuted</b> (exp11). Practice runs are 4.4 laps <i>shallower</i> than race
           stints, not deeper, and forcing a common tyre-age window made bias and error both worse. The mechanism
           remains unidentified and is now stated as such rather than guessed at; the <i>consequence</i> is closed
@@ -410,9 +412,9 @@ footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);
           stints at 25 venues:
         </p>
         <p class="mono small">
-          geometry only &nbsp;&minus;7.1% &nbsp;p&nbsp;0.008 &nbsp;HURTS<br>
-          thermal only &nbsp;&nbsp;&minus;2.5% &nbsp;p&nbsp;0.000 &nbsp;HURTS<br>
-          everything &nbsp;&nbsp;&nbsp;&nbsp;&minus;9.9% &nbsp;p&nbsp;0.003 &nbsp;HURTS
+          geometry only &nbsp;&minus;7.5% &nbsp;p&nbsp;0.010 &nbsp;HURTS<br>
+          thermal only &nbsp;&nbsp;&minus;2.4% &nbsp;p&nbsp;0.000 &nbsp;HURTS<br>
+          everything &nbsp;&nbsp;&nbsp;&nbsp;&minus;10.4% &nbsp;p&nbsp;0.001 &nbsp;HURTS
         </p>
         <p>
           Track temperature, including the squared term that lets the ridge find the bidirectional
@@ -449,7 +451,7 @@ footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);
     <div class="gap">
       <span class="idx">06</span>
       <div>
-        <h4>Lap-time intervals are undercovered <span class="tag t-done">closed &mdash; 95.2% on 66,606 laps</span></h4>
+        <h4>Lap-time intervals are undercovered <span class="tag t-done">closed &mdash; 95.4% on 66,606 laps</span></h4>
         <p>
           The <b>practice→race</b> half of this is fixed. Coverage was 76% against a nominal 95% &mdash; worse than
           the 90% previously reported, which was a ten-comparison sample failing to detect the problem. Split
@@ -468,8 +470,8 @@ footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);
         <p>
           Adaptive Conformal Inference (exp13) drops that assumption rather than hoping it holds, moving the
           working miss-rate by <span class="mono">&gamma;(&alpha;&nbsp;&minus;&nbsp;err)</span> after every
-          lap. Measured over <b>66,606 held-out laps from twenty races</b>: Gaussian 75.5%, split conformal
-          89.3%, <b>adaptive conformal 95.2%</b> at a median width of 7.37&nbsp;s. It lifts LightGBM from 63%
+          lap. Measured over <b>66,606 held-out laps from twenty races</b>: Gaussian 75.1%, split conformal
+          89.3%, <b>adaptive conformal 95.4%</b> at a median width of 7.12&nbsp;s. It lifts LightGBM from 63%
           to 95% at only 3.5&nbsp;s of width &mdash; its predictions were always fine, its sd was wrong.
         </p>
         <p>
@@ -485,15 +487,31 @@ footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);
         </p>
         <p>
           The <b>PIT histogram</b> asks where the truth landed inside its own predicted distribution; under a
-          correct distribution those values are uniform. <b>All six rungs come out U-shaped</b> &mdash; too
-          much mass in the tails &mdash; which is overconfidence seen as a shape rather than inferred from one
-          level. A four-race pilot had shown the state-space model hump-shaped instead; ten races showed that
-          was a small-sample artefact, which is the argument for not stopping at the first plausible answer.
+          correct distribution those values are uniform. <b>Five of the six rungs come out U-shaped</b> &mdash;
+          too much mass in the tails &mdash; which is overconfidence seen as a shape rather than inferred from
+          one level.
         </p>
         <p>
+          <b>The sixth is ours, and it fails the opposite way.</b> The state-space model is
+          <b>hump-shaped</b>: intervals too wide, underconfident. That is the same conservatism as the 100%
+          coverage on the synthetic benchmark and it is the safer direction to err, but it is a miscalibration
+          and is reported as one.
+        </p>
+        <div class="note">
+          <h3>A wrong explanation, corrected</h3>
+          <p>
+            An earlier pass saw this rung hump-shaped on four races and U-shaped on ten, and concluded the
+            hump was a small-sample artefact. <b>It was not.</b> It was the fuel-counter defect: the fuel
+            regressor counted rows surviving the quality filter rather than laps completed, and correcting it
+            restored the hump at ten races. The lesson is not "use more data" &mdash; it is that a difference
+            between two runs is evidence about <em>whatever changed between them</em>, and the sample size was
+            not the only thing that had.
+          </p>
+        </div>
+        <p>
           The <b>reliability curve</b> sweeps the nominal level from 50% to 99%. The Gaussian intervals sit a
-          mean <span class="mono">0.191</span> from the diagonal; adaptive conformal sits
-          <span class="mono">0.005</span> away &mdash; <b>37&times; closer, at every level and not only at
+          mean <span class="mono">0.195</span> from the diagonal; adaptive conformal sits
+          <span class="mono">0.006</span> away &mdash; <b>37&times; closer, at every level and not only at
           95%</b>. A method tuned to look right at one level and wrong everywhere else would fail here, and
           this is the only test in the project that would have caught it. The calibrator is run per race and
           started cold each time, so it never inherits a head start it would not have on a Sunday morning.
@@ -537,7 +555,7 @@ footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);
       <div>
         <h4>No driver effect <span class="tag t-done">tested &mdash; reliable but not useful</span></h4>
         <p>
-          Tested across <b>1,055 driver-races, 26 drivers, 56 races</b> (exp15), and the result is the most
+          Tested across <b>1,152 driver-races, 31 drivers, 61 races</b> (exp15), and the result is the most
           interesting negative in the project because it splits into two halves that disagree.
         </p>
         <p>
@@ -547,9 +565,9 @@ footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);
         </p>
         <p>
           <b>Not useful.</b> Knowing that does not help. Predicting a driver's deviation at a held-out race
-          from their own history scores 0.0251&nbsp;s/lap against <b>0.0248 for simply predicting the field
+          from their own history scores 0.0251&nbsp;s/lap against <b>0.0246 for simply predicting the field
           mean</b> &mdash; slightly worse, p&nbsp;=&nbsp;0.27. The reason is the ratio: the spread of driver
-          means is 0.0110&nbsp;s/lap while the race-to-race scatter around them is 0.0248. The trait is real
+          means is 0.0113&nbsp;s/lap while the race-to-race scatter around them is 0.0248. The trait is real
           and about <b>half the size of the noise it must be read through</b>, so on any single race a
           driver's history is worth less than the average.
         </p>

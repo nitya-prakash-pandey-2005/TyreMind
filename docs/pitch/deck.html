@@ -703,7 +703,7 @@ rate[stint] ~ N(compound_baseline[c], sd²)</div>
       The <code>AssetProfile</code> on the right is what makes the estimator asset-agnostic: pointing it at turbofan engines required no change to the model itself.
     </p>
   </div>
-  <div class="foot"><span>09</span><span class="src">18,762 lines Python &middot; 6,583 lines TypeScript &middot; 202 tests &middot; runs fully offline</span></div>
+  <div class="foot"><span>09</span><span class="src">20,354 lines Python &middot; 7,049 lines TypeScript &middot; 298 tests &middot; runs fully offline</span></div>
 </section>
 
 <!-- 10 RESULT 1 =========================================================== -->
@@ -760,9 +760,9 @@ rate[stint] ~ N(compound_baseline[c], sd²)</div>
     </p>
 
     <div class="figures f4" style="margin:6mm 0">
-      <div class="fig key"><div class="v">0.0871</div><div class="l">TyreMind error</div><div class="s">s/lap MAE, 27 events, 2024+2023</div></div>
-      <div class="fig"><div class="v">0.1442</div><div class="l">Naive error</div><div class="s">s/lap MAE, same comparisons</div></div>
-      <div class="fig"><div class="v">+0.042</div><div class="l">Systematic bias</div><div class="s">reported, not tuned away</div></div>
+      <div class="fig key"><div class="v">0.0858</div><div class="l">TyreMind error</div><div class="s">s/lap MAE, 27 events, 2024+2023</div></div>
+      <div class="fig"><div class="v">0.1440</div><div class="l">Naive error</div><div class="s">s/lap MAE, same comparisons</div></div>
+      <div class="fig"><div class="v">+0.043</div><div class="l">Systematic bias</div><div class="s">reported, not tuned away</div></div>
       <div class="fig"><div class="v">95<span class="u">%</span></div><div class="l">Interval coverage</div><div class="s">conformally calibrated, 62 comparisons</div></div>
     </div>
 
@@ -770,8 +770,8 @@ rate[stint] ~ N(compound_baseline[c], sd²)</div>
       <h4>This number got worse, and that is the point</h4>
       <p style="font-size:11pt">
         On five events this slide read <b>0.0518&nbsp;s/lap</b>. On 27 events it reads
-        0.0871. The small sample was flattering us. What held is the comparison that
-        matters &mdash; the naive method worsened in step, 0.1166&nbsp;&rarr;&nbsp;0.1442,
+        0.0858. The small sample was flattering us. What held is the comparison that
+        matters &mdash; the naive method worsened in step, 0.1166&nbsp;&rarr;&nbsp;0.1440,
         and the <b>40% gap between them is stable</b>. A claim that survives a six-fold
         increase in evidence is worth more than a prettier one resting on ten
         comparisons.
@@ -779,7 +779,7 @@ rate[stint] ~ N(compound_baseline[c], sd²)</div>
       <p style="font-size:11pt">
         The earlier version of this slide warned that a correction fitted on five
         events &ldquo;would not survive the sixth&rdquo;. It did not. We tested nine
-        explanations for the +0.042&nbsp;s/lap bias with a multiplicity correction,
+        explanations for the +0.043&nbsp;s/lap bias with a multiplicity correction,
         found two that survive, built the causal story they implied &mdash; and then
         <b>refuted it</b>: practice runs are 4.4 laps <i>shallower</i> than race stints,
         not deeper, and forcing a common window made the error worse.
@@ -806,12 +806,12 @@ rate[stint] ~ N(compound_baseline[c], sd²)</div>
         <h4 style="color:var(--ink-3)">Lap-time prediction &mdash; the metric the field reports</h4>
         <table style="font-size:9pt">
           <tr><th>Model</th><th class="n">CRPS</th><th class="n">Cover</th><th class="n">Bias drift</th></tr>
-          <tr><td><b>Pooled regression</b></td><td class="n win">0.525</td><td class="n">84%</td><td class="n">+0.232</td></tr>
-          <tr><td>LightGBM</td><td class="n">0.536</td><td class="n">62%</td><td class="n">&minus;0.063</td></tr>
-          <tr class="hl"><td><b>TyreMind</b></td><td class="n">0.757</td><td class="n">81%</td><td class="n win">&minus;0.483</td></tr>
-          <tr><td>Fuel-corrected</td><td class="n">0.985</td><td class="n">76%</td><td class="n">+0.443</td></tr>
-          <tr><td>Naive</td><td class="n">0.991</td><td class="n">76%</td><td class="n">+0.497</td></tr>
-          <tr><td>Neural network (MLP)</td><td class="n">2.034</td><td class="n">69%</td><td class="n">&minus;3.582</td></tr>
+          <tr><td><b>Pooled regression</b></td><td class="n win">0.487</td><td class="n">84%</td><td class="n">+0.262</td></tr>
+          <tr><td>LightGBM</td><td class="n">0.537</td><td class="n">62%</td><td class="n">&minus;0.021</td></tr>
+          <tr class="hl"><td><b>TyreMind</b></td><td class="n">0.757</td><td class="n">81%</td><td class="n win">&minus;0.452</td></tr>
+          <tr><td>Fuel-corrected</td><td class="n">0.984</td><td class="n">76%</td><td class="n">+0.375</td></tr>
+          <tr><td>Naive</td><td class="n">0.974</td><td class="n">76%</td><td class="n">+0.398</td></tr>
+          <tr><td>Neural network (MLP)</td><td class="n">2.578</td><td class="n">69%</td><td class="n">&minus;3.802</td></tr>
         </table>
       </div>
       <div>
@@ -835,12 +835,12 @@ rate[stint] ~ N(compound_baseline[c], sd²)</div>
         table held four. <b>Neither of them has a parameter meaning "degradation
         rate" at all</b>, so neither can appear in the table beside it.
         LightGBM stays badly overconfident (62% coverage on nominal 95%). On
-        extrapolation, bias drift is +0.232 for the lap-time leader against
-        <b class="hot">&minus;0.483</b> for the state-space model, whose error
+        extrapolation, bias drift is +0.262 for the lap-time leader against
+        <b class="hot">&minus;0.452</b> for the state-space model, whose error
         shrinks most as it forecasts past its training window. We previously
         called that the <em>only</em> such rung; at twenty races LightGBM is also
-        roughly flat at &minus;0.063, and we correct it here rather than restate
-        it. The MLP is worst of all at &minus;3.582, and it was tuned first across
+        roughly flat at &minus;0.021, and we correct it here rather than restate
+        it. The MLP is worst of all at &minus;3.802, and it was tuned first across
         five configurations, because beating a badly-configured competitor would
         prove nothing.
         <b>That column is the physics-informed argument demonstrated rather than
@@ -988,7 +988,7 @@ rate[stint] ~ N(compound_baseline[c], sd²)</div>
       Dark and light themes, fixed navigation, 3D racing lines, and every estimate drawn as an interval rather than printed as a bare number with a plus-or-minus appended. Runs entirely offline &mdash; a demonstration does not depend on conference wifi.
     </p>
   </div>
-  <div class="foot"><span>15</span><span class="src">apps/web &middot; 6,583 lines TypeScript &middot; React, ECharts, react-three-fiber</span></div>
+  <div class="foot"><span>15</span><span class="src">apps/web &middot; 7,049 lines TypeScript &middot; React, ECharts, react-three-fiber</span></div>
 </section>
 
 <!-- 16 MCP + RAG ========================================================== -->
@@ -1124,7 +1124,7 @@ rate[stint] ~ N(compound_baseline[c], sd²)</div>
       <div class="card ok"><h4>Truth we control</h4><p>The synthetic generator is the oracle &mdash; the only way to score attribution.</p></div>
     </div>
   </div>
-  <div class="foot"><span>19</span><span class="src">202 tests &middot; ruff clean &middot; every number read from a committed result file</span></div>
+  <div class="foot"><span>19</span><span class="src">298 tests &middot; ruff clean &middot; every number read from a committed result file</span></div>
 </section>
 
 <!-- 20 IMPACT ============================================================= -->
@@ -1257,7 +1257,7 @@ rate[stint] ~ N(compound_baseline[c], sd²)</div>
       </g>
       <g font-size="9.5" fill="#8fa3ae">
         <text x="0" y="44">Estimator, physics, validation suite</text>
-        <text x="0" y="60">9 views, 24 endpoints, 202 tests</text>
+        <text x="0" y="60">9 views, 24 endpoints, 298 tests</text>
         <text x="0" y="76">MCP server, hybrid RAG</text>
         <text x="0" y="92">C-MAPSS transfer validated</text>
         <text x="0" y="108">Runs fully offline</text>
@@ -1322,7 +1322,7 @@ rate[stint] ~ N(compound_baseline[c], sd²)</div>
 
     <div class="figures f4">
       <div class="fig key"><div class="v">95.5<span class="u">%</span></div><div class="l">Error reduction recovering a hidden rate</div><div class="s">where the standard method has the wrong sign</div></div>
-      <div class="fig key"><div class="v">0.0871</div><div class="l">Practice&rarr;race error, s/lap</div><div class="s">against naive 0.1442, on the brief's own question</div></div>
+      <div class="fig key"><div class="v">0.0858</div><div class="l">Practice&rarr;race error, s/lap</div><div class="s">against naive 0.1440, on the brief's own question</div></div>
       <div class="fig"><div class="v">0.22<span class="u"> ms</span></div><div class="l">Per-lap live update</div><div class="s">the same estimator, forward-only</div></div>
       <div class="fig"><div class="v">22.7</div><div class="l">RUL RMSE on turbofans</div><div class="s">the same estimator, a different industry</div></div>
     </div>
@@ -1333,8 +1333,8 @@ rate[stint] ~ N(compound_baseline[c], sd²)</div>
       <div>
         <div class="wordmark" style="font-size:26pt">TYRE<span>MIND</span></div>
         <p class="small" style="margin-top:2mm">
-          18,762 lines of Python &middot; 6,583 of TypeScript &middot; 202 tests &middot; 24 endpoints<br>
-          16 recorded experiments &middot; 9 views &middot; MCP server &middot; hybrid RAG &middot; runs fully offline
+          20,354 lines of Python &middot; 7,049 of TypeScript &middot; 298 tests &middot; 24 endpoints<br>
+          18 recorded experiments &middot; 9 views &middot; MCP server &middot; hybrid RAG &middot; runs fully offline
         </p>
       </div>
       <div>

@@ -68,8 +68,8 @@ calibrated for a race that no longer exists.
 
 Adaptive Conformal Inference (Gibbs & Candès, 2021) drops the exchangeability
 assumption rather than hoping it holds, moving the working miss-rate by
-`γ(α − err)` after every lap. Pooled over every rung it reaches **95.2%** against
-the Gaussian's 75.5%, at a median width of 7.37 s. The nonconformity score also
+`γ(α − err)` after every lap. Pooled over every rung it reaches **95.4%** against
+the Gaussian's 75.1%, at a median width of 7.12 s. The nonconformity score also
 had to change: the *studentised* score that won for degradation rates is wrong
 here, because dividing by a posterior sd that is itself badly wrong amplifies the
 miscalibration instead of correcting it.
@@ -101,14 +101,14 @@ real predictive variance and already covered 90–95%, so calibration holds it a
 
 ## 4. Known systematic biases
 
-**Practice over-predicts race degradation by +0.042 s/lap**, in 42 of 62
+**Practice over-predicts race degradation by +0.043 s/lap**, in 42 of 62
 comparisons across 27 events in 2024 and 2023.
 
 An earlier version of this section proposed a physical cause — practice race-sims
 holding high fuel throughout — and called the cross-session test untested. **It
 has since been run, and that explanation is not supported.** Nine candidate
 mechanisms were tested against the signed error with a Benjamini–Hochberg
-correction across all nine. Two survive: mean practice stint length (ρ +0.37,
+correction across all nine. One survives: mean practice stint length (ρ +0.39,
 p 0.003) and pit stops per driver (ρ +0.33, p 0.009). The fuel-load reading is
 not among them, and neither are the temperature gap, traffic, or the model's own
 posterior sd.

@@ -115,15 +115,15 @@ miscalibration, not a perfect result.
 
 | | Naive | TyreMind |
 |---|---:|---:|
-| MAE | 0.1442 s/lap | **0.0871 s/lap** |
+| MAE | 0.1440 s/lap | **0.0858 s/lap** |
 | 95% coverage, as fitted | — | 76% |
 | 95% coverage, conformally calibrated | — | **95%** |
-| Bias | — | **+0.0422 s/lap** |
+| Bias | — | **+0.0429 s/lap** |
 
 **This result got worse as the evidence grew.** On 5 events and 10 comparisons
-the MAE was 0.0518 s/lap; on 27 events and 62 comparisons it is 0.0871. The
+the MAE was 0.0518 s/lap; on 27 events and 62 comparisons it is 0.0858. The
 small sample was flattering. The naive baseline degraded in step (0.1166 →
-0.1442) and the relative gap held at roughly 40%, which is the part of the claim
+0.1440) and the relative gap held at roughly 40%, which is the part of the claim
 that was real. Anyone quoting the older figure is quoting a number that did not
 replicate.
 
@@ -137,16 +137,19 @@ s/lap. The exclusion rule is applied to both sides of every comparison, and the
 comparisons. An earlier version of this card attributed it to practice race-sims
 holding high fuel throughout. That explanation is not supported and has been
 withdrawn. Nine candidate mechanisms were tested against the signed error with a
-Benjamini–Hochberg correction across all nine (exp10). Two survive:
-`practice_stint_len` (ρ +0.37, p 0.003) and `stops_per_driver` (ρ +0.33,
-p 0.009). Three did not: the practice-to-race temperature gap, traffic, and the
-model's own posterior sd.
+Benjamini–Hochberg correction across all nine (exp10). **One survives**:
+`practice_stint_len` (ρ +0.39, p 0.0017, against a threshold of 0.0056).
+`stops_per_driver` misses by a hair — p 0.0113 against 0.0111 — and is reported
+as a near-miss rather than promoted or dropped. The practice-to-race temperature
+gap, traffic, and the model's own posterior sd all fail outright.
+
+An earlier version of this card said two survive. That was true on the previous
+corpus and is not now, and the change is recorded rather than absorbed.
 
 The causal reading of those two — that practice runs go deeper into the wear
 curve than pitted race stints — was then tested directly and **refuted** (exp11).
 Practice runs are on average 4.4 laps *shallower* than race stints, not deeper,
-and forcing a common tyre-age window made both bias and MAE worse (paired t
-p = 0.037). Stint length proxies something not yet identified.
+and forcing a common tyre-age window made both bias and MAE worse (paired t p = 0.026). Stint length proxies something not yet identified.
 
 So the bias is corrected as a measured offset, not as an explained one, and the
 interval is widened by conformal calibration rather than by a story.
@@ -155,12 +158,12 @@ interval is widened by conformal calibration rather than by a story.
 
 | Model | CRPS | Coverage | Bias drift |
 |---|---:|---:|---:|
-| Pooled regression (ridge) | **0.525** | 84% | +0.232 |
-| LightGBM | 0.536 | 62% | −0.063 |
-| TyreMind state-space | 0.757 | 81% | **−0.483** |
-| Fuel-corrected regression | 0.985 | 76% | +0.443 |
-| Naive | 0.991 | 76% | +0.497 |
-| Neural network (MLP) | 2.034 | 69% | −3.582 |
+| Pooled regression (ridge) | **0.487** | 84% | +0.262 |
+| LightGBM | 0.537 | 62% | −0.021 |
+| TyreMind state-space | 0.757 | 81% | **−0.452** |
+| Fuel-corrected regression | 0.984 | 76% | +0.375 |
+| Naive | 0.974 | 76% | +0.398 |
+| Neural network (MLP) | 2.578 | 69% | −3.802 |
 
 **Two rungs predict lap times better than we do, and neither can answer the
 question.** On four races LightGBM led this table; on twenty the leader is plain
@@ -170,11 +173,11 @@ nothing to hand an engineer and nothing to carry from Friday to Sunday — they
 are absent from the degradation table below rather than last in it.
 
 Bias drift measures how much a model's error grows as it forecasts further past
-its training window. TyreMind's shrinks most among usable rungs (−0.483) while
-the lap-time leader's grows (+0.232). An earlier version of this card said
+its training window. TyreMind's shrinks most among usable rungs (−0.452) while
+the lap-time leader's grows (+0.262). An earlier version of this card said
 TyreMind was *the only* rung whose error does not grow; at twenty races LightGBM
-is also roughly flat (−0.063), and the claim is corrected rather than restated.
-The MLP is the most unstable of all at −3.582 — its bias swings wildly between
+is also roughly flat (−0.021), and the claim is corrected rather than restated.
+The MLP is the most unstable of all at −3.802 — its bias swings wildly between
 folds, which is what unconstrained extrapolation looks like.
 
 The MLP was tuned before being compared (five configurations on held-out folds;
@@ -206,8 +209,8 @@ race are not: the car burns fuel, the track rubbers in, a safety car rearranges
 everything.
 
 Adaptive Conformal Inference drops that assumption, retuning the working
-miss-rate after every lap. Pooled over every rung it reaches **95.2%** against
-the Gaussian's 75.5%, at a median width of 7.37 s. The nonconformity score also
+miss-rate after every lap. Pooled over every rung it reaches **95.4%** against
+the Gaussian's 75.1%, at a median width of 7.12 s. The nonconformity score also
 flips: the *studentised* score that won for degradation rates is wrong here,
 since dividing by a posterior sd that is itself badly wrong amplifies the
 miscalibration instead of correcting it.

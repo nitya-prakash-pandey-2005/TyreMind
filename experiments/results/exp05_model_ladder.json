@@ -1,6 +1,6 @@
 {
   "experiment": "exp05_model_ladder",
-  "generated_at": "2026-09-11T21:12:53.517338+00:00",
+  "generated_at": "2026-09-11T22:29:24.693058+00:00",
   "corpus": "season",
   "sessions": [
     "2025-chinese-grand-prix-R",
@@ -35,7 +35,7 @@
       "interval_width_95": 2.1285288600852517,
       "bias": -0.057438830564578255,
       "bias_drift": 0.26200086465064065,
-      "fit_seconds": 0.01678540499851806,
+      "fit_seconds": 0.018740634998539462,
       "n_sessions": 20
     },
     {
@@ -47,7 +47,7 @@
       "interval_width_95": 1.5662139756758715,
       "bias": 0.3318863486592221,
       "bias_drift": -0.020864869952213542,
-      "fit_seconds": 0.501347254999564,
+      "fit_seconds": 0.5634335250011645,
       "n_sessions": 20
     },
     {
@@ -59,7 +59,7 @@
       "interval_width_95": 2.8769204593207705,
       "bias": 0.3976304534489795,
       "bias_drift": -0.45210582209924166,
-      "fit_seconds": 11.42680452500208,
+      "fit_seconds": 11.674974504996499,
       "n_sessions": 20
     },
     {
@@ -71,7 +71,7 @@
       "interval_width_95": 3.826760217717802,
       "bias": 0.8577057963659872,
       "bias_drift": 0.3979649452979455,
-      "fit_seconds": 0.00478154000302311,
+      "fit_seconds": 0.005358220000925939,
       "n_sessions": 20
     },
     {
@@ -83,7 +83,7 @@
       "interval_width_95": 3.843213472228071,
       "bias": 0.8587282120750628,
       "bias_drift": 0.3754807909793074,
-      "fit_seconds": 0.005658214997674804,
+      "fit_seconds": 0.006343935000768397,
       "n_sessions": 20
     },
     {
@@ -95,7 +95,7 @@
       "interval_width_95": 5.12635057594044,
       "bias": 2.3181658065940742,
       "bias_drift": -3.801923596400519,
-      "fit_seconds": 32.239130319994004,
+      "fit_seconds": 33.62426004000154,
       "n_sessions": 20
     }
   ],
@@ -138,7 +138,7 @@
       {
         "model": "Naive (lap time vs tyre age)",
         "failed": null,
-        "fit_seconds": 0.0060671999817714095,
+        "fit_seconds": 0.007055199996102601,
         "mae": 1.124832021810474,
         "rmse": 1.2899800849652476,
         "crps": 0.7953585745869247,
@@ -196,7 +196,7 @@
       {
         "model": "Fuel-corrected regression",
         "failed": null,
-        "fit_seconds": 0.005906400008825585,
+        "fit_seconds": 0.007414399995468557,
         "mae": 1.130617736096221,
         "rmse": 1.2999238989610098,
         "crps": 0.8008096267713414,
@@ -254,7 +254,7 @@
       {
         "model": "Pooled regression",
         "failed": null,
-        "fit_seconds": 0.01734829999622889,
+        "fit_seconds": 0.02517519998946227,
         "mae": 0.45748031829565017,
         "rmse": 0.5792715400791614,
         "crps": 0.326266207717084,
@@ -312,7 +312,7 @@
       {
         "model": "LightGBM",
         "failed": null,
-        "fit_seconds": 0.8111142000125255,
+        "fit_seconds": 0.8041252999973949,
         "mae": 0.46012154957624185,
         "rmse": 0.5888152079376847,
         "crps": 0.358028998883369,
@@ -370,7 +370,7 @@
       {
         "model": "Neural network (MLP)",
         "failed": null,
-        "fit_seconds": 34.232055599975865,
+        "fit_seconds": 35.9196351999999,
         "mae": 1.565708542612436,
         "rmse": 2.0265598441544346,
         "crps": 1.1954070377159514,
@@ -428,7 +428,7 @@
       {
         "model": "TyreMind state-space",
         "failed": null,
-        "fit_seconds": 7.988574300019536,
+        "fit_seconds": 8.182803700008662,
         "mae": 0.49732474045178576,
         "rmse": 0.8228333124843606,
         "crps": 0.40958869906718753,
@@ -488,7 +488,7 @@
       {
         "model": "Naive (lap time vs tyre age)",
         "failed": null,
-        "fit_seconds": 0.004855500010307878,
+        "fit_seconds": 0.005049600003985688,
         "mae": 1.38111748423148,
         "rmse": 1.5404590448305575,
         "crps": 1.019704085075918,
@@ -546,7 +546,7 @@
       {
         "model": "Fuel-corrected regression",
         "failed": null,
-        "fit_seconds": 0.006488699989859015,
+        "fit_seconds": 0.006052499986253679,
         "mae": 1.3746108804092896,
         "rmse": 1.5322910773113398,
         "crps": 1.0145620095491408,
@@ -604,7 +604,7 @@
       {
         "model": "Pooled regression",
         "failed": null,
-        "fit_seconds": 0.01758059998974204,
+        "fit_seconds": 0.017080999998142943,
         "mae": 0.3284417784518924,
         "rmse": 0.46121652632090593,
         "crps": 0.2468358333885898,
@@ -662,7 +662,7 @@
       {
         "model": "LightGBM",
         "failed": null,
-        "fit_seconds": 0.49846380000235513,
+        "fit_seconds": 0.5749795000010636,
         "mae": 0.6277229157702106,
         "rmse": 0.7658663780555252,
         "crps": 0.5260898734866724,
@@ -720,7 +720,7 @@
       {
         "model": "Neural network (MLP)",
         "failed": null,
-        "fit_seconds": 34.839735999994446,
+        "fit_seconds": 36.36806139998953,
         "mae": 2.423642972873751,
         "rmse": 4.2341048921840265,
         "crps": 2.027204101321742,
@@ -778,7 +778,7 @@
       {
         "model": "TyreMind state-space",
         "failed": null,
-        "fit_seconds": 11.489398500008974,
+        "fit_seconds": 11.850209100026404,
         "mae": 0.5686980429063877,
         "rmse": 0.8139595960051733,
         "crps": 0.46646812289960754,
@@ -838,7 +838,7 @@
       {
         "model": "Naive (lap time vs tyre age)",
         "failed": null,
-        "fit_seconds": 0.004523700015852228,
+        "fit_seconds": 0.005742600013036281,
         "mae": 1.040599685331026,
         "rmse": 1.24605417802742,
         "crps": 0.7679902624703694,
@@ -896,7 +896,7 @@
       {
         "model": "Fuel-corrected regression",
         "failed": null,
-        "fit_seconds": 0.006770500011043623,
+        "fit_seconds": 0.006745299993781373,
         "mae": 1.0779909507642875,
         "rmse": 1.291363043410504,
         "crps": 0.7956524547484303,
@@ -954,7 +954,7 @@
       {
         "model": "Pooled regression",
         "failed": null,
-        "fit_seconds": 0.01801040000282228,
+        "fit_seconds": 0.02080779999960214,
         "mae": 0.5717368649538987,
         "rmse": 0.7229801583669978,
         "crps": 0.4326381963997275,
@@ -1012,7 +1012,7 @@
       {
         "model": "LightGBM",
         "failed": null,
-        "fit_seconds": 0.4899057000002358,
+        "fit_seconds": 0.5614773999841418,
         "mae": 0.5018313762009649,
         "rmse": 0.6464558226757514,
         "crps": 0.403485902650038,
@@ -1070,7 +1070,7 @@
       {
         "model": "Neural network (MLP)",
         "failed": null,
-        "fit_seconds": 33.262418199999956,
+        "fit_seconds": 34.616743899998255,
         "mae": 1.7173389234100953,
         "rmse": 2.272012928365553,
         "crps": 1.3044652056342907,
@@ -1128,7 +1128,7 @@
       {
         "model": "TyreMind state-space",
         "failed": null,
-        "fit_seconds": 16.60692829999607,
+        "fit_seconds": 17.147153499972774,
         "mae": 0.8489931070958264,
         "rmse": 1.0964208578982855,
         "crps": 0.7014996605976755,
@@ -1188,7 +1188,7 @@
       {
         "model": "Naive (lap time vs tyre age)",
         "failed": null,
-        "fit_seconds": 0.00419450001209043,
+        "fit_seconds": 0.005812399991555139,
         "mae": 1.4024799763855949,
         "rmse": 1.5990274689508672,
         "crps": 0.9910106647086527,
@@ -1246,7 +1246,7 @@
       {
         "model": "Fuel-corrected regression",
         "failed": null,
-        "fit_seconds": 0.005197899998165667,
+        "fit_seconds": 0.007824499974958599,
         "mae": 1.3326957062394593,
         "rmse": 1.5259891436837978,
         "crps": 0.9382850831192449,
@@ -1304,7 +1304,7 @@
       {
         "model": "Pooled regression",
         "failed": null,
-        "fit_seconds": 0.014629799989052117,
+        "fit_seconds": 0.022166600014315918,
         "mae": 0.45574496605900383,
         "rmse": 0.6239502570508367,
         "crps": 0.34149526084074266,
@@ -1362,7 +1362,7 @@
       {
         "model": "LightGBM",
         "failed": null,
-        "fit_seconds": 0.45952490001218393,
+        "fit_seconds": 0.5638978000206407,
         "mae": 0.5483854043825377,
         "rmse": 0.6995541090150502,
         "crps": 0.42697476585211647,
@@ -1420,7 +1420,7 @@
       {
         "model": "Neural network (MLP)",
         "failed": null,
-        "fit_seconds": 30.677302600000985,
+        "fit_seconds": 31.166763600020204,
         "mae": 1.8553477314625304,
         "rmse": 2.7888484477077693,
         "crps": 1.4109986977280773,
@@ -1478,7 +1478,7 @@
       {
         "model": "TyreMind state-space",
         "failed": null,
-        "fit_seconds": 8.426138200011337,
+        "fit_seconds": 8.78164500001003,
         "mae": 0.6354453533634092,
         "rmse": 0.8784085635381884,
         "crps": 0.4948129490926495,
@@ -1538,7 +1538,7 @@
       {
         "model": "Naive (lap time vs tyre age)",
         "failed": null,
-        "fit_seconds": 0.0040717000083532184,
+        "fit_seconds": 0.005342299991752952,
         "mae": 1.0933567659231336,
         "rmse": 1.3101849972140078,
         "crps": 0.8203561326303744,
@@ -1596,7 +1596,7 @@
       {
         "model": "Fuel-corrected regression",
         "failed": null,
-        "fit_seconds": 0.004738499992527068,
+        "fit_seconds": 0.005802100000437349,
         "mae": 1.0556382213420288,
         "rmse": 1.2617377379949402,
         "crps": 0.7890747803853757,
@@ -1654,7 +1654,7 @@
       {
         "model": "Pooled regression",
         "failed": null,
-        "fit_seconds": 0.01229730001068674,
+        "fit_seconds": 0.015636500000255182,
         "mae": 0.49251238267923686,
         "rmse": 0.6444057278135307,
         "crps": 0.3724966364037189,
@@ -1712,7 +1712,7 @@
       {
         "model": "LightGBM",
         "failed": null,
-        "fit_seconds": 0.32381460000760853,
+        "fit_seconds": 0.45113380000111647,
         "mae": 0.7289237930838616,
         "rmse": 0.8842323665745908,
         "crps": 0.5865592045338215,
@@ -1770,7 +1770,7 @@
       {
         "model": "Neural network (MLP)",
         "failed": null,
-        "fit_seconds": 17.10907729997416,
+        "fit_seconds": 18.13345500000287,
         "mae": 9.501883387732956,
         "rmse": 11.063670688158773,
         "crps": 7.969664710450882,
@@ -1828,7 +1828,7 @@
       {
         "model": "TyreMind state-space",
         "failed": null,
-        "fit_seconds": 7.129288399999496,
+        "fit_seconds": 7.1482580000010785,
         "mae": 0.7160398519666523,
         "rmse": 0.9644794788728346,
         "crps": 0.6029782787596137,
@@ -1888,7 +1888,7 @@
       {
         "model": "Naive (lap time vs tyre age)",
         "failed": null,
-        "fit_seconds": 0.004448099993169308,
+        "fit_seconds": 0.005102300026919693,
         "mae": 1.303914004904805,
         "rmse": 1.540119329296032,
         "crps": 0.95329958882548,
@@ -1946,7 +1946,7 @@
       {
         "model": "Fuel-corrected regression",
         "failed": null,
-        "fit_seconds": 0.0053114999900572,
+        "fit_seconds": 0.005681200011167675,
         "mae": 1.2828923126816878,
         "rmse": 1.5100580389799267,
         "crps": 0.9313353056540246,
@@ -2004,7 +2004,7 @@
       {
         "model": "Pooled regression",
         "failed": null,
-        "fit_seconds": 0.017097399977501482,
+        "fit_seconds": 0.021459799987496808,
         "mae": 0.33183212162772163,
         "rmse": 0.4772887292444328,
         "crps": 0.24641512830702472,
@@ -2062,7 +2062,7 @@
       {
         "model": "LightGBM",
         "failed": null,
-        "fit_seconds": 0.5196804000006523,
+        "fit_seconds": 0.5906716999888886,
         "mae": 0.5093293565982276,
         "rmse": 0.6579484014024395,
         "crps": 0.39985990970627106,
@@ -2120,7 +2120,7 @@
       {
         "model": "Neural network (MLP)",
         "failed": null,
-        "fit_seconds": 35.62381049999385,
+        "fit_seconds": 37.14791040000273,
         "mae": 2.792036793406439,
         "rmse": 4.829764817503987,
         "crps": 2.25802802322003,
@@ -2178,7 +2178,7 @@
       {
         "model": "TyreMind state-space",
         "failed": null,
-        "fit_seconds": 13.345641099993372,
+        "fit_seconds": 13.523604299989529,
         "mae": 0.9056398238473541,
         "rmse": 1.4000460960197207,
         "crps": 0.8066460694018541,
@@ -2238,7 +2238,7 @@
       {
         "model": "Naive (lap time vs tyre age)",
         "failed": null,
-        "fit_seconds": 0.004497600020840764,
+        "fit_seconds": 0.0057339000049978495,
         "mae": 1.0716806877241436,
         "rmse": 1.322726754779012,
         "crps": 0.7554116172688625,
@@ -2296,7 +2296,7 @@
       {
         "model": "Fuel-corrected regression",
         "failed": null,
-        "fit_seconds": 0.005397300003096461,
+        "fit_seconds": 0.00693239999236539,
         "mae": 1.0698184330967386,
         "rmse": 1.3354782415228144,
         "crps": 0.7589460979106348,
@@ -2354,7 +2354,7 @@
       {
         "model": "Pooled regression",
         "failed": null,
-        "fit_seconds": 0.017556299979332834,
+        "fit_seconds": 0.021445399994263425,
         "mae": 0.5249472520009817,
         "rmse": 0.6886452624989488,
         "crps": 0.38702619513179126,
@@ -2412,7 +2412,7 @@
       {
         "model": "LightGBM",
         "failed": null,
-        "fit_seconds": 0.4897501999803353,
+        "fit_seconds": 0.5725477999949362,
         "mae": 0.5466589606562015,
         "rmse": 0.7165895228320865,
         "crps": 0.4327640399475223,
@@ -2470,7 +2470,7 @@
       {
         "model": "Neural network (MLP)",
         "failed": null,
-        "fit_seconds": 30.283711199997924,
+        "fit_seconds": 31.73267610001494,
         "mae": 2.361594813005796,
         "rmse": 3.2050135475934467,
         "crps": 1.7431296445927553,
@@ -2528,7 +2528,7 @@
       {
         "model": "TyreMind state-space",
         "failed": null,
-        "fit_seconds": 8.847285299998475,
+        "fit_seconds": 8.846473500016145,
         "mae": 0.5227430374152974,
         "rmse": 0.805265411467391,
         "crps": 0.43009716647693247,
@@ -2588,7 +2588,7 @@
       {
         "model": "Naive (lap time vs tyre age)",
         "failed": null,
-        "fit_seconds": 0.004381300008390099,
+        "fit_seconds": 0.0046085000212769955,
         "mae": 1.0345021136655803,
         "rmse": 1.2072307677705347,
         "crps": 0.7534134211250073,
@@ -2646,7 +2646,7 @@
       {
         "model": "Fuel-corrected regression",
         "failed": null,
-        "fit_seconds": 0.005326099984813482,
+        "fit_seconds": 0.005699000001186505,
         "mae": 1.046102226260164,
         "rmse": 1.2196237703584942,
         "crps": 0.7617350916398328,
@@ -2704,7 +2704,7 @@
       {
         "model": "Pooled regression",
         "failed": null,
-        "fit_seconds": 0.015673199988668784,
+        "fit_seconds": 0.01753320000716485,
         "mae": 0.4865686000384312,
         "rmse": 0.6872098038093712,
         "crps": 0.36008514295813043,
@@ -2762,7 +2762,7 @@
       {
         "model": "LightGBM",
         "failed": null,
-        "fit_seconds": 0.6282422000076622,
+        "fit_seconds": 0.572894200013252,
         "mae": 0.5054703359415289,
         "rmse": 0.6955468715389069,
         "crps": 0.41659393080632473,
@@ -2820,7 +2820,7 @@
       {
         "model": "Neural network (MLP)",
         "failed": null,
-        "fit_seconds": 30.970266899996204,
+        "fit_seconds": 32.571023600001354,
         "mae": 1.5076422589160037,
         "rmse": 2.0791040883723766,
         "crps": 1.1896789383789304,
@@ -2878,7 +2878,7 @@
       {
         "model": "TyreMind state-space",
         "failed": null,
-        "fit_seconds": 10.80616330000339,
+        "fit_seconds": 11.148325299989665,
         "mae": 0.788946540617843,
         "rmse": 1.1180674068833905,
         "crps": 0.6376505396879532,
@@ -2938,7 +2938,7 @@
       {
         "model": "Naive (lap time vs tyre age)",
         "failed": null,
-        "fit_seconds": 0.0044636999955400825,
+        "fit_seconds": 0.005150400014827028,
         "mae": 1.930043730111008,
         "rmse": 2.1070569120901133,
         "crps": 1.3796553726475855,
@@ -2996,7 +2996,7 @@
       {
         "model": "Fuel-corrected regression",
         "failed": null,
-        "fit_seconds": 0.006113000010373071,
+        "fit_seconds": 0.006137799995485693,
         "mae": 1.8993110855687996,
         "rmse": 2.0789380241931776,
         "crps": 1.358520323181239,
@@ -3054,7 +3054,7 @@
       {
         "model": "Pooled regression",
         "failed": null,
-        "fit_seconds": 0.015600200014887378,
+        "fit_seconds": 0.015924899984383956,
         "mae": 0.5206524631839018,
         "rmse": 0.6858488359331929,
         "crps": 0.38369937128600007,
@@ -3112,7 +3112,7 @@
       {
         "model": "LightGBM",
         "failed": null,
-        "fit_seconds": 0.4579387999838218,
+        "fit_seconds": 0.5256100999831688,
         "mae": 0.7454016758233584,
         "rmse": 0.8940912860522182,
         "crps": 0.5950672992522591,
@@ -3170,7 +3170,7 @@
       {
         "model": "Neural network (MLP)",
         "failed": null,
-        "fit_seconds": 29.21322199999122,
+        "fit_seconds": 30.61333290001494,
         "mae": 2.2530757233742347,
         "rmse": 2.836721179129241,
         "crps": 1.8069191408104497,
@@ -3228,7 +3228,7 @@
       {
         "model": "TyreMind state-space",
         "failed": null,
-        "fit_seconds": 11.977663500001654,
+        "fit_seconds": 12.347455599985551,
         "mae": 1.278208918470189,
         "rmse": 1.9088370674631643,
         "crps": 1.0787705143771573,
@@ -3288,7 +3288,7 @@
       {
         "model": "Naive (lap time vs tyre age)",
         "failed": null,
-        "fit_seconds": 0.00466700000106357,
+        "fit_seconds": 0.004546000011032447,
         "mae": 1.3046952999829553,
         "rmse": 1.6284932202733584,
         "crps": 1.0017964826743717,
@@ -3346,7 +3346,7 @@
       {
         "model": "Fuel-corrected regression",
         "failed": null,
-        "fit_seconds": 0.0053527000127360225,
+        "fit_seconds": 0.005974100000457838,
         "mae": 1.4740207758793114,
         "rmse": 1.794010324082714,
         "crps": 1.1375410912224941,
@@ -3404,7 +3404,7 @@
       {
         "model": "Pooled regression",
         "failed": null,
-        "fit_seconds": 0.018734000012045726,
+        "fit_seconds": 0.01619709999067709,
         "mae": 0.4170230061615559,
         "rmse": 0.5667096950623581,
         "crps": 0.31432870809682323,
@@ -3462,7 +3462,7 @@
       {
         "model": "LightGBM",
         "failed": null,
-        "fit_seconds": 0.4847203000099398,
+        "fit_seconds": 0.5052496000134852,
         "mae": 0.6224012642264111,
         "rmse": 0.7881450990625036,
         "crps": 0.5133138044021934,
@@ -3520,7 +3520,7 @@
       {
         "model": "Neural network (MLP)",
         "failed": null,
-        "fit_seconds": 26.35940549999941,
+        "fit_seconds": 27.708617199998116,
         "mae": 7.387860087040305,
         "rmse": 8.626034915269061,
         "crps": 6.396190134511951,
@@ -3578,7 +3578,7 @@
       {
         "model": "TyreMind state-space",
         "failed": null,
-        "fit_seconds": 13.492933700006688,
+        "fit_seconds": 13.339063699997496,
         "mae": 0.9683163314730379,
         "rmse": 1.3478212128576912,
         "crps": 0.8454153652785701,
@@ -3638,7 +3638,7 @@
       {
         "model": "Naive (lap time vs tyre age)",
         "failed": null,
-        "fit_seconds": 0.004740799980936572,
+        "fit_seconds": 0.005854999995790422,
         "mae": 0.9815627258774282,
         "rmse": 1.158245946187261,
         "crps": 0.7174059992696911,
@@ -3696,7 +3696,7 @@
       {
         "model": "Fuel-corrected regression",
         "failed": null,
-        "fit_seconds": 0.005396799999289215,
+        "fit_seconds": 0.0073803000268526375,
         "mae": 1.0912771464647488,
         "rmse": 1.277900042992747,
         "crps": 0.8064349344698378,
@@ -3754,7 +3754,7 @@
       {
         "model": "Pooled regression",
         "failed": null,
-        "fit_seconds": 0.021088300010887906,
+        "fit_seconds": 0.02183569999760948,
         "mae": 0.4579763968195607,
         "rmse": 0.6049926181709252,
         "crps": 0.34362800135614147,
@@ -3812,7 +3812,7 @@
       {
         "model": "LightGBM",
         "failed": null,
-        "fit_seconds": 0.5248754000058398,
+        "fit_seconds": 0.6130269000132103,
         "mae": 0.5265971210924801,
         "rmse": 0.6482469068872007,
         "crps": 0.40076770343365314,
@@ -3870,7 +3870,7 @@
       {
         "model": "Neural network (MLP)",
         "failed": null,
-        "fit_seconds": 33.69768439998734,
+        "fit_seconds": 35.12112600001274,
         "mae": 2.2156389095515383,
         "rmse": 2.845302055197235,
         "crps": 1.6985797398541609,
@@ -3928,7 +3928,7 @@
       {
         "model": "TyreMind state-space",
         "failed": null,
-        "fit_seconds": 11.336782600003062,
+        "fit_seconds": 11.791074699984165,
         "mae": 0.5482545302297872,
         "rmse": 0.7394600761090871,
         "crps": 0.42286195002052823,
@@ -3988,7 +3988,7 @@
       {
         "model": "Naive (lap time vs tyre age)",
         "failed": null,
-        "fit_seconds": 0.005288299988023937,
+        "fit_seconds": 0.004871999990427867,
         "mae": 1.060619261095933,
         "rmse": 1.229182398162933,
         "crps": 0.7680633206944459,
@@ -4046,7 +4046,7 @@
       {
         "model": "Fuel-corrected regression",
         "failed": null,
-        "fit_seconds": 0.00594569998793304,
+        "fit_seconds": 0.006384600012097508,
         "mae": 1.0849926100531004,
         "rmse": 1.2531241250867082,
         "crps": 0.7858146160968364,
@@ -4104,7 +4104,7 @@
       {
         "model": "Pooled regression",
         "failed": null,
-        "fit_seconds": 0.018174099997850135,
+        "fit_seconds": 0.020427600014954805,
         "mae": 0.5368323169885375,
         "rmse": 0.6686343003664439,
         "crps": 0.39773688604323465,
@@ -4162,7 +4162,7 @@
       {
         "model": "LightGBM",
         "failed": null,
-        "fit_seconds": 0.5356213999912143,
+        "fit_seconds": 0.6057868000061717,
         "mae": 0.5303598835785324,
         "rmse": 0.6735220366247642,
         "crps": 0.4035156196982578,
@@ -4220,7 +4220,7 @@
       {
         "model": "Neural network (MLP)",
         "failed": null,
-        "fit_seconds": 36.7645429999975,
+        "fit_seconds": 38.1043125000142,
         "mae": 1.0372122230293193,
         "rmse": 1.2871423504014425,
         "crps": 0.7746195644079558,
@@ -4278,7 +4278,7 @@
       {
         "model": "TyreMind state-space",
         "failed": null,
-        "fit_seconds": 10.75460089999251,
+        "fit_seconds": 11.016878199996427,
         "mae": 0.8786282325407256,
         "rmse": 1.3168181652758149,
         "crps": 0.7018626950055168,
@@ -4338,7 +4338,7 @@
       {
         "model": "Naive (lap time vs tyre age)",
         "failed": null,
-        "fit_seconds": 0.005654600012348965,
+        "fit_seconds": 0.004806999990250915,
         "mae": 1.7359144985301147,
         "rmse": 2.332597162863271,
         "crps": 1.3309891852849849,
@@ -4396,7 +4396,7 @@
       {
         "model": "Fuel-corrected regression",
         "failed": null,
-        "fit_seconds": 0.005508200003532693,
+        "fit_seconds": 0.005593699985183775,
         "mae": 1.7108923530450535,
         "rmse": 2.3099557906650574,
         "crps": 1.3149917403167861,
@@ -4454,7 +4454,7 @@
       {
         "model": "Pooled regression",
         "failed": null,
-        "fit_seconds": 0.016409100004239008,
+        "fit_seconds": 0.016615599975921214,
         "mae": 1.04091079137012,
         "rmse": 1.4708037581735849,
         "crps": 0.7896079101515912,
@@ -4512,7 +4512,7 @@
       {
         "model": "LightGBM",
         "failed": null,
-        "fit_seconds": 0.5258701000129804,
+        "fit_seconds": 0.6204723999835551,
         "mae": 0.9657018772535252,
         "rmse": 1.2969650345758506,
         "crps": 0.7273355320535572,
@@ -4570,7 +4570,7 @@
       {
         "model": "Neural network (MLP)",
         "failed": null,
-        "fit_seconds": 40.29433789997711,
+        "fit_seconds": 42.08150780000142,
         "mae": 1.6866750174669574,
         "rmse": 2.2079401443164257,
         "crps": 1.3233487052912072,
@@ -4628,7 +4628,7 @@
       {
         "model": "TyreMind state-space",
         "failed": null,
-        "fit_seconds": 10.697055900003761,
+        "fit_seconds": 10.919478399999207,
         "mae": 0.9122475422769483,
         "rmse": 1.3445256147080442,
         "crps": 0.7062796384717767,
@@ -4688,7 +4688,7 @@
       {
         "model": "Naive (lap time vs tyre age)",
         "failed": null,
-        "fit_seconds": 0.0038001000066287816,
+        "fit_seconds": 0.004295799997635186,
         "mae": 2.042787423947246,
         "rmse": 2.4703960606719764,
         "crps": 1.5005055035207846,
@@ -4746,7 +4746,7 @@
       {
         "model": "Fuel-corrected regression",
         "failed": null,
-        "fit_seconds": 0.0048411999887321144,
+        "fit_seconds": 0.005193499993765727,
         "mae": 2.078096857585875,
         "rmse": 2.5129299018871962,
         "crps": 1.5311211536789093,
@@ -4804,7 +4804,7 @@
       {
         "model": "Pooled regression",
         "failed": null,
-        "fit_seconds": 0.012216100003570318,
+        "fit_seconds": 0.012539199989987537,
         "mae": 1.993060499194998,
         "rmse": 2.4384515551795687,
         "crps": 1.6711469717609484,
@@ -4862,7 +4862,7 @@
       {
         "model": "LightGBM",
         "failed": null,
-        "fit_seconds": 0.2931703999929596,
+        "fit_seconds": 0.3006945000088308,
         "mae": 1.293444562802238,
         "rmse": 1.5232582739576213,
         "crps": 0.9665442773193679,
@@ -4920,7 +4920,7 @@
       {
         "model": "Neural network (MLP)",
         "failed": null,
-        "fit_seconds": 12.698286099999677,
+        "fit_seconds": 13.18245239998214,
         "mae": 12.575099365842107,
         "rmse": 14.76705772774544,
         "crps": 11.299440094572121,
@@ -4978,7 +4978,7 @@
       {
         "model": "TyreMind state-space",
         "failed": null,
-        "fit_seconds": 2.824966999993194,
+        "fit_seconds": 2.8390210999932606,
         "mae": 1.570491319616566,
         "rmse": 1.9387562230385924,
         "crps": 1.189059005576901,
@@ -5038,7 +5038,7 @@
       {
         "model": "Naive (lap time vs tyre age)",
         "failed": null,
-        "fit_seconds": 0.004432299989275634,
+        "fit_seconds": 0.005511299998033792,
         "mae": 1.452149918618321,
         "rmse": 1.6685577219556733,
         "crps": 1.066402244915672,
@@ -5096,7 +5096,7 @@
       {
         "model": "Fuel-corrected regression",
         "failed": null,
-        "fit_seconds": 0.00595900000189431,
+        "fit_seconds": 0.0060249000089243054,
         "mae": 1.455344917911149,
         "rmse": 1.6834831554287875,
         "crps": 1.069809239121099,
@@ -5154,7 +5154,7 @@
       {
         "model": "Pooled regression",
         "failed": null,
-        "fit_seconds": 0.018278000003192574,
+        "fit_seconds": 0.017837599996710196,
         "mae": 0.5619846133346791,
         "rmse": 0.7565635948495644,
         "crps": 0.4183883871754249,
@@ -5212,7 +5212,7 @@
       {
         "model": "LightGBM",
         "failed": null,
-        "fit_seconds": 0.5047608999884687,
+        "fit_seconds": 0.577354800014291,
         "mae": 0.6728918470321041,
         "rmse": 0.8423784169217463,
         "crps": 0.5240379293780293,
@@ -5270,7 +5270,7 @@
       {
         "model": "Neural network (MLP)",
         "failed": null,
-        "fit_seconds": 36.435366399993654,
+        "fit_seconds": 37.88082409999333,
         "mae": 2.419425339591568,
         "rmse": 4.864696144187562,
         "crps": 2.068067288266842,
@@ -5328,7 +5328,7 @@
       {
         "model": "TyreMind state-space",
         "failed": null,
-        "fit_seconds": 19.13989030002267,
+        "fit_seconds": 19.377051999996183,
         "mae": 1.1416866340090754,
         "rmse": 1.6339545120407732,
         "crps": 0.9375126417065401,
@@ -5388,7 +5388,7 @@
       {
         "model": "Naive (lap time vs tyre age)",
         "failed": null,
-        "fit_seconds": 0.004932000010740012,
+        "fit_seconds": 0.005343299999367446,
         "mae": 0.8407732177712371,
         "rmse": 1.0127053781537199,
         "crps": 0.6118454090915775,
@@ -5446,7 +5446,7 @@
       {
         "model": "Fuel-corrected regression",
         "failed": null,
-        "fit_seconds": 0.005651199986459687,
+        "fit_seconds": 0.0064070000080391765,
         "mae": 0.8564557837559852,
         "rmse": 1.0332723154938326,
         "crps": 0.6265757586265663,
@@ -5504,7 +5504,7 @@
       {
         "model": "Pooled regression",
         "failed": null,
-        "fit_seconds": 0.018310599989490584,
+        "fit_seconds": 0.020166500005871058,
         "mae": 0.3556042532547071,
         "rmse": 0.4875651851694681,
         "crps": 0.2643404881840162,
@@ -5562,7 +5562,7 @@
       {
         "model": "LightGBM",
         "failed": null,
-        "fit_seconds": 0.5514329000143334,
+        "fit_seconds": 0.6122716999961995,
         "mae": 0.44762423752176117,
         "rmse": 0.5722626426205111,
         "crps": 0.35004364495789014,
@@ -5620,7 +5620,7 @@
       {
         "model": "Neural network (MLP)",
         "failed": null,
-        "fit_seconds": 44.27174329999252,
+        "fit_seconds": 46.244232000026386,
         "mae": 0.9500224109329722,
         "rmse": 1.2412320529078544,
         "crps": 0.7066086714371815,
@@ -5678,7 +5678,7 @@
       {
         "model": "TyreMind state-space",
         "failed": null,
-        "fit_seconds": 17.301602699997602,
+        "fit_seconds": 17.77946229997906,
         "mae": 0.9437294708699,
         "rmse": 1.4606686139631937,
         "crps": 0.8152092022308921,
@@ -5738,7 +5738,7 @@
       {
         "model": "Naive (lap time vs tyre age)",
         "failed": null,
-        "fit_seconds": 0.004344899993157014,
+        "fit_seconds": 0.005625899997539818,
         "mae": 2.1885402796371607,
         "rmse": 2.4434377028305825,
         "crps": 1.683555583039185,
@@ -5796,7 +5796,7 @@
       {
         "model": "Fuel-corrected regression",
         "failed": null,
-        "fit_seconds": 0.005622800003038719,
+        "fit_seconds": 0.006982699997024611,
         "mae": 2.1987509603024904,
         "rmse": 2.4575225370298392,
         "crps": 1.6936428012777287,
@@ -5854,7 +5854,7 @@
       {
         "model": "Pooled regression",
         "failed": null,
-        "fit_seconds": 0.014730499999132007,
+        "fit_seconds": 0.01778220001142472,
         "mae": 1.6714722245522233,
         "rmse": 1.932525567274442,
         "crps": 1.3411349369044887,
@@ -5912,7 +5912,7 @@
       {
         "model": "LightGBM",
         "failed": null,
-        "fit_seconds": 0.42577060000621714,
+        "fit_seconds": 0.4800781999947503,
         "mae": 1.551599285647248,
         "rmse": 1.8185755333532456,
         "crps": 1.2797667227840295,
@@ -5970,7 +5970,7 @@
       {
         "model": "Neural network (MLP)",
         "failed": null,
-        "fit_seconds": 24.297451499995077,
+        "fit_seconds": 25.741636999999173,
         "mae": 3.276938752756563,
         "rmse": 4.484382462963217,
         "crps": 2.471409429945383,
@@ -6028,7 +6028,7 @@
       {
         "model": "TyreMind state-space",
         "failed": null,
-        "fit_seconds": 5.4343902000109665,
+        "fit_seconds": 5.671155899995938,
         "mae": 2.041387021711368,
         "rmse": 2.448120332703972,
         "crps": 1.6744312390023917,
@@ -6088,7 +6088,7 @@
       {
         "model": "Naive (lap time vs tyre age)",
         "failed": null,
-        "fit_seconds": 0.0058142000052612275,
+        "fit_seconds": 0.005590799992205575,
         "mae": 1.3073267071177703,
         "rmse": 1.5267922375408045,
         "crps": 0.934263305038884,
@@ -6146,7 +6146,7 @@
       {
         "model": "Fuel-corrected regression",
         "failed": null,
-        "fit_seconds": 0.006136500014690682,
+        "fit_seconds": 0.006309699994744733,
         "mae": 1.31185748179266,
         "rmse": 1.5304012984062747,
         "crps": 0.9373587699511747,
@@ -6204,7 +6204,7 @@
       {
         "model": "Pooled regression",
         "failed": null,
-        "fit_seconds": 0.018489500012947246,
+        "fit_seconds": 0.018747299996903166,
         "mae": 0.5686136271805824,
         "rmse": 0.7865851422284892,
         "crps": 0.42491110418944567,
@@ -6262,7 +6262,7 @@
       {
         "model": "LightGBM",
         "failed": null,
-        "fit_seconds": 0.5377537999884225,
+        "fit_seconds": 0.6157836000202224,
         "mae": 0.712083968684431,
         "rmse": 0.9276327894122034,
         "crps": 0.549767306189444,
@@ -6320,7 +6320,7 @@
       {
         "model": "Neural network (MLP)",
         "failed": null,
-        "fit_seconds": 41.7838044000091,
+        "fit_seconds": 43.44774069997948,
         "mae": 0.8560384073068205,
         "rmse": 1.1702783186932924,
         "crps": 0.6338257232625643,
@@ -6378,7 +6378,7 @@
       {
         "model": "TyreMind state-space",
         "failed": null,
-        "fit_seconds": 14.553653600014513,
+        "fit_seconds": 14.749400200002128,
         "mae": 1.0807867245028406,
         "rmse": 1.6328826193167478,
         "crps": 0.8828946669436978,
@@ -6438,7 +6438,7 @@
       {
         "model": "Naive (lap time vs tyre age)",
         "failed": null,
-        "fit_seconds": 0.004683700011810288,
+        "fit_seconds": 0.0053807999938726425,
         "mae": 1.1404618803399909,
         "rmse": 1.3805211939731097,
         "crps": 0.8290135164226798,
@@ -6496,7 +6496,7 @@
       {
         "model": "Fuel-corrected regression",
         "failed": null,
-        "fit_seconds": 0.005431999976281077,
+        "fit_seconds": 0.006420300022000447,
         "mae": 1.1404618803399869,
         "rmse": 1.380521193973105,
         "crps": 0.8290135164226766,
@@ -6554,7 +6554,7 @@
       {
         "model": "Pooled regression",
         "failed": null,
-        "fit_seconds": 0.015243600006215274,
+        "fit_seconds": 0.016954499995335937,
         "mae": 0.4901986422264145,
         "rmse": 0.6619675064042232,
         "crps": 0.3682739320699522,
@@ -6612,7 +6612,7 @@
       {
         "model": "LightGBM",
         "failed": null,
-        "fit_seconds": 0.44253929998376407,
+        "fit_seconds": 0.49986479998915456,
         "mae": 0.568272534708536,
         "rmse": 0.7025172959917435,
         "crps": 0.43772840518085865,
@@ -6670,7 +6670,7 @@
       {
         "model": "Neural network (MLP)",
         "failed": null,
-        "fit_seconds": 27.79925480001839,
+        "fit_seconds": 28.81196709998767,
         "mae": 3.126995411572817,
         "rmse": 3.8702874744254543,
         "crps": 2.4576491291141203,
@@ -6728,7 +6728,7 @@
       {
         "model": "TyreMind state-space",
         "failed": null,
-        "fit_seconds": 11.706428299978143,
+        "fit_seconds": 11.975355599977775,
         "mae": 0.7734381765213102,
         "rmse": 1.0908329309355727,
         "crps": 0.6112366317104777,
@@ -6788,7 +6788,7 @@
       {
         "model": "Naive (lap time vs tyre age)",
         "failed": null,
-        "fit_seconds": 0.005769600014900789,
+        "fit_seconds": 0.005739299987908453,
         "mae": 1.1003640994564887,
         "rmse": 1.2877514940967951,
         "crps": 0.7949812359438267,
@@ -6846,7 +6846,7 @@
       {
         "model": "Fuel-corrected regression",
         "failed": null,
-        "fit_seconds": 0.006068299990147352,
+        "fit_seconds": 0.005918700015172362,
         "mae": 1.104944612976233,
         "rmse": 1.2969975771476736,
         "crps": 0.7994269949714274,
@@ -6904,7 +6904,7 @@
       {
         "model": "Pooled regression",
         "failed": null,
-        "fit_seconds": 0.018240799981867895,
+        "fit_seconds": 0.018479000020306557,
         "mae": 0.413273534123759,
         "rmse": 0.5672663419779636,
         "crps": 0.3019237958301336,
@@ -6962,7 +6962,7 @@
       {
         "model": "LightGBM",
         "failed": null,
-        "fit_seconds": 0.5219951999897603,
+        "fit_seconds": 0.6207495999988168,
         "mae": 0.5633844440625184,
         "rmse": 0.7158436510931132,
         "crps": 0.4422242749450649,
@@ -7020,7 +7020,7 @@
       {
         "model": "Neural network (MLP)",
         "failed": null,
-        "fit_seconds": 44.16912879998563,
+        "fit_seconds": 45.89118189999135,
         "mae": 1.107328329912365,
         "rmse": 1.415382847975035,
         "crps": 0.8310595062776086,
@@ -7078,7 +7078,7 @@
       {
         "model": "TyreMind state-space",
         "failed": null,
-        "fit_seconds": 14.676704399986193,
+        "fit_seconds": 15.065620000008494,
         "mae": 0.8831365386352785,
         "rmse": 1.2754973846925473,
         "crps": 0.7246350149346635,

@@ -1,6 +1,6 @@
 {
   "experiment": "exp08_compound_identity",
-  "generated_at": "2026-09-11T20:34:26.890499+00:00",
+  "generated_at": "2026-09-11T21:51:12.504972+00:00",
   "year": null,
   "years": [
     2024,
@@ -12,22 +12,22 @@
   "n_estimates": 142,
   "n_events": 57,
   "variance_decomposition": {
-    "overall_sd": 0.07043827473203297,
-    "within_label_sd": 0.06976951018378315,
-    "within_compound_sd": 0.07330912354191832,
+    "overall_sd": 0.07000858722686386,
+    "within_label_sd": 0.06943947073226207,
+    "within_compound_sd": 0.0728543345164447,
     "n_label_groups": 3,
     "n_compound_groups": 5,
     "compound_is_tighter": false,
-    "reduction_pct": -5.0732954105759225
+    "reduction_pct": -4.917756066069864
   },
   "leave_one_event_out": {
     "n": 58,
-    "mae_by_label": 0.04690685581433601,
-    "mae_by_compound": 0.04985580847138198,
-    "mean_paired_difference": 0.0029489526570459623,
-    "wilcoxon_p": 0.16108926475033924,
+    "mae_by_label": 0.04751305588841034,
+    "mae_by_compound": 0.050551029936689314,
+    "mean_paired_difference": 0.0030379740482789786,
+    "wilcoxon_p": 0.09594804666479091,
     "significant_at_5pct": false,
-    "improvement_pct": -6.286826532817157,
+    "improvement_pct": -6.393977384687684,
     "compound_wins": 22,
     "compound_win_rate": 0.3793103448275862
   },
@@ -39,8 +39,8 @@
       "event": "Bahrain Grand Prix",
       "label": "HARD",
       "compound_id": null,
-      "rate": 0.17121050936368803,
-      "sd": 0.02905911766201652,
+      "rate": 0.1807327481907883,
+      "sd": 0.02868899789369672,
       "n_laps": 91
     },
     {
@@ -50,8 +50,8 @@
       "event": "Bahrain Grand Prix",
       "label": "MEDIUM",
       "compound_id": null,
-      "rate": 0.17579754622779753,
-      "sd": 0.02146710599234919,
+      "rate": 0.1850994728347897,
+      "sd": 0.021622826101892853,
       "n_laps": 294
     },
     {
@@ -61,8 +61,8 @@
       "event": "Bahrain Grand Prix",
       "label": "SOFT",
       "compound_id": null,
-      "rate": 0.22689970088697656,
-      "sd": 0.01952291600078948,
+      "rate": 0.23928371012424302,
+      "sd": 0.02033346504699489,
       "n_laps": 507
     },
     {
@@ -72,8 +72,8 @@
       "event": "Saudi Arabian Grand Prix",
       "label": "HARD",
       "compound_id": null,
-      "rate": -0.009614370935385103,
-      "sd": 0.020297515864728628,
+      "rate": 0.00029133962596947227,
+      "sd": 0.02230752446630613,
       "n_laps": 428
     },
     {
@@ -83,8 +83,8 @@
       "event": "Saudi Arabian Grand Prix",
       "label": "MEDIUM",
       "compound_id": null,
-      "rate": 0.1343826823876166,
-      "sd": 0.03194968114508021,
+      "rate": 0.1326283223281539,
+      "sd": 0.03237350436466756,
       "n_laps": 222
     },
     {
@@ -94,8 +94,8 @@
       "event": "Australian Grand Prix",
       "label": "HARD",
       "compound_id": null,
-      "rate": 0.012536377218113043,
-      "sd": 0.019198133287751176,
+      "rate": 0.019877473613833727,
+      "sd": 0.020968316773466483,
       "n_laps": 590
     },
     {
@@ -105,8 +105,8 @@
       "event": "Australian Grand Prix",
       "label": "MEDIUM",
       "compound_id": null,
-      "rate": 0.13785958269014664,
-      "sd": 0.029468360861865908,
+      "rate": 0.1430365535059355,
+      "sd": 0.030524664410405272,
       "n_laps": 217
     },
     {
@@ -116,8 +116,8 @@
       "event": "Emilia Romagna Grand Prix",
       "label": "HARD",
       "compound_id": null,
-      "rate": 0.027946658285887487,
-      "sd": 0.020895761480017327,
+      "rate": 0.03630363495822751,
+      "sd": 0.02190075574707867,
       "n_laps": 28
     },
     {
@@ -127,8 +127,8 @@
       "event": "Emilia Romagna Grand Prix",
       "label": "MEDIUM",
       "compound_id": null,
-      "rate": 0.07382195097330152,
-      "sd": 0.016087581456958346,
+      "rate": 0.07534110002905046,
+      "sd": 0.016299353042223255,
       "n_laps": 633
     },
     {
@@ -138,8 +138,8 @@
       "event": "Emilia Romagna Grand Prix",
       "label": "SOFT",
       "compound_id": null,
-      "rate": 0.16243262801165625,
-      "sd": 0.026965001708327732,
+      "rate": 0.16405290195855254,
+      "sd": 0.02704472403557005,
       "n_laps": 41
     },
     {
@@ -149,8 +149,8 @@
       "event": "Miami Grand Prix",
       "label": "HARD",
       "compound_id": null,
-      "rate": 0.036446363626607324,
-      "sd": 0.014663227684615109,
+      "rate": 0.042331317610196074,
+      "sd": 0.0186460194860433,
       "n_laps": 517
     },
     {
@@ -160,8 +160,8 @@
       "event": "Miami Grand Prix",
       "label": "MEDIUM",
       "compound_id": null,
-      "rate": 0.05058665283599626,
-      "sd": 0.017773754835954947,
+      "rate": 0.05165997049175599,
+      "sd": 0.021191343689473254,
       "n_laps": 322
     },
     {
@@ -171,8 +171,8 @@
       "event": "Miami Grand Prix",
       "label": "SOFT",
       "compound_id": null,
-      "rate": 0.026848290840828522,
-      "sd": 0.043308457949683216,
+      "rate": 0.018284342044813787,
+      "sd": 0.04608755506973575,
       "n_laps": 33
     },
     {
@@ -182,8 +182,8 @@
       "event": "Spanish Grand Prix",
       "label": "HARD",
       "compound_id": null,
-      "rate": 0.2128706040333809,
-      "sd": 0.052501952243942177,
+      "rate": 0.2124121215139064,
+      "sd": 0.05263374938447106,
       "n_laps": 33
     },
     {
@@ -193,8 +193,8 @@
       "event": "Spanish Grand Prix",
       "label": "MEDIUM",
       "compound_id": null,
-      "rate": 0.16861765050695943,
-      "sd": 0.022220247948013038,
+      "rate": 0.16605773156959708,
+      "sd": 0.022247589611413682,
       "n_laps": 463
     },
     {
@@ -204,8 +204,8 @@
       "event": "Spanish Grand Prix",
       "label": "SOFT",
       "compound_id": null,
-      "rate": 0.19922308195857935,
-      "sd": 0.021429660041436743,
+      "rate": 0.19688748837101064,
+      "sd": 0.021493591090764243,
       "n_laps": 604
     },
     {
@@ -215,8 +215,8 @@
       "event": "Azerbaijan Grand Prix",
       "label": "HARD",
       "compound_id": null,
-      "rate": 0.04625402261671473,
-      "sd": 0.019559919069284958,
+      "rate": 0.06262564933475372,
+      "sd": 0.020424751358736545,
       "n_laps": 541
     },
     {
@@ -226,8 +226,8 @@
       "event": "Azerbaijan Grand Prix",
       "label": "MEDIUM",
       "compound_id": null,
-      "rate": 0.15819958023172095,
-      "sd": 0.02817015250346825,
+      "rate": 0.17451281992595888,
+      "sd": 0.028489747921255217,
       "n_laps": 209
     },
     {
@@ -237,8 +237,8 @@
       "event": "Canadian Grand Prix",
       "label": "HARD",
       "compound_id": null,
-      "rate": 0.069943009614953,
-      "sd": 0.014982847286251494,
+      "rate": 0.07748228189077017,
+      "sd": 0.017995849396691025,
       "n_laps": 753
     },
     {
@@ -248,8 +248,8 @@
       "event": "Canadian Grand Prix",
       "label": "MEDIUM",
       "compound_id": null,
-      "rate": 0.06790106991382043,
-      "sd": 0.018995578383448883,
+      "rate": 0.07850673210050813,
+      "sd": 0.02177455405485998,
       "n_laps": 263
     },
     {
@@ -259,8 +259,8 @@
       "event": "British Grand Prix",
       "label": "HARD",
       "compound_id": null,
-      "rate": 0.034006078754194875,
-      "sd": 0.02132163828493152,
+      "rate": 0.03234525198595206,
+      "sd": 0.022317305357952247,
       "n_laps": 148
     },
     {
@@ -270,8 +270,8 @@
       "event": "British Grand Prix",
       "label": "MEDIUM",
       "compound_id": null,
-      "rate": 0.050390209137704624,
-      "sd": 0.018439752938893616,
+      "rate": 0.04746251078427388,
+      "sd": 0.019234772524398435,
       "n_laps": 342
     },
     {
@@ -281,8 +281,8 @@
       "event": "British Grand Prix",
       "label": "SOFT",
       "compound_id": null,
-      "rate": 0.10261613507529752,
-      "sd": 0.022778451439298197,
+      "rate": 0.0992047148826844,
+      "sd": 0.023517474574614068,
       "n_laps": 161
     },
     {
@@ -292,8 +292,8 @@
       "event": "French Grand Prix",
       "label": "HARD",
       "compound_id": null,
-      "rate": 0.0682468150301062,
-      "sd": 0.01715768863620662,
+      "rate": 0.07902828071768528,
+      "sd": 0.018293053480858548,
       "n_laps": 519
     },
     {
@@ -303,8 +303,8 @@
       "event": "French Grand Prix",
       "label": "MEDIUM",
       "compound_id": null,
-      "rate": 0.08623129464700782,
-      "sd": 0.019301265196742533,
+      "rate": 0.095152099880582,
+      "sd": 0.02002031737458661,
       "n_laps": 307
     },
     {
@@ -347,8 +347,8 @@
       "event": "Dutch Grand Prix",
       "label": "HARD",
       "compound_id": null,
-      "rate": 0.06993089318307293,
-      "sd": 0.018282817041493083,
+      "rate": 0.07299218446997459,
+      "sd": 0.019694436778035437,
       "n_laps": 258
     },
     {
@@ -358,8 +358,8 @@
       "event": "Dutch Grand Prix",
       "label": "MEDIUM",
       "compound_id": null,
-      "rate": 0.10102464575939614,
-      "sd": 0.01783221537482676,
+      "rate": 0.10221593465191713,
+      "sd": 0.018401298783335664,
       "n_laps": 447
     },
     {
@@ -369,8 +369,8 @@
       "event": "Dutch Grand Prix",
       "label": "SOFT",
       "compound_id": null,
-      "rate": 0.11196938915079216,
-      "sd": 0.019098892496077772,
+      "rate": 0.12243693940801788,
+      "sd": 0.01965500728438333,
       "n_laps": 428
     },
     {
@@ -380,8 +380,8 @@
       "event": "Italian Grand Prix",
       "label": "HARD",
       "compound_id": null,
-      "rate": 0.0709779687873079,
-      "sd": 0.016177894021966167,
+      "rate": 0.08568962824684573,
+      "sd": 0.01808689747986572,
       "n_laps": 253
     },
     {
@@ -391,8 +391,8 @@
       "event": "Italian Grand Prix",
       "label": "MEDIUM",
       "compound_id": null,
-      "rate": 0.08051446363186317,
-      "sd": 0.015313860251342635,
+      "rate": 0.08514168930959812,
+      "sd": 0.01775423485155875,
       "n_laps": 357
     },
     {
@@ -402,8 +402,8 @@
       "event": "Italian Grand Prix",
       "label": "SOFT",
       "compound_id": null,
-      "rate": 0.0757232340505566,
-      "sd": 0.016484553500931507,
+      "rate": 0.08613638478311916,
+      "sd": 0.019579856240453514,
       "n_laps": 154
     },
     {
@@ -413,8 +413,8 @@
       "event": "Bahrain Grand Prix",
       "label": "HARD",
       "compound_id": null,
-      "rate": 0.11386468716924915,
-      "sd": 0.018036973541343777,
+      "rate": 0.12329285475604933,
+      "sd": 0.018759067323824125,
       "n_laps": 511
     },
     {
@@ -424,8 +424,8 @@
       "event": "Bahrain Grand Prix",
       "label": "SOFT",
       "compound_id": null,
-      "rate": 0.17337851318187394,
-      "sd": 0.0195658804778469,
+      "rate": 0.18100740165202336,
+      "sd": 0.019925784344370402,
       "n_laps": 389
     },
     {
@@ -435,8 +435,8 @@
       "event": "Saudi Arabian Grand Prix",
       "label": "HARD",
       "compound_id": null,
-      "rate": 0.022910083778680628,
-      "sd": 0.022507210800955645,
+      "rate": 0.010035513975168345,
+      "sd": 0.022305001477680993,
       "n_laps": 475
     },
     {
@@ -446,8 +446,8 @@
       "event": "Saudi Arabian Grand Prix",
       "label": "MEDIUM",
       "compound_id": null,
-      "rate": 0.02986279988710367,
-      "sd": 0.026753318752562767,
+      "rate": 0.03389401577269065,
+      "sd": 0.026470717430935233,
       "n_laps": 323
     },
     {
@@ -457,8 +457,8 @@
       "event": "Saudi Arabian Grand Prix",
       "label": "SOFT",
       "compound_id": null,
-      "rate": 0.08014644591783499,
-      "sd": 0.06580913274227666,
+      "rate": 0.08196092736830056,
+      "sd": 0.06564907619234125,
       "n_laps": 27
     },
     {
@@ -468,8 +468,8 @@
       "event": "Australian Grand Prix",
       "label": "HARD",
       "compound_id": null,
-      "rate": 0.027644573518811628,
-      "sd": 0.015909257104381017,
+      "rate": 0.03367864227430341,
+      "sd": 0.017151862667580394,
       "n_laps": 632
     },
     {
@@ -479,8 +479,8 @@
       "event": "Australian Grand Prix",
       "label": "MEDIUM",
       "compound_id": null,
-      "rate": 0.09283043495080864,
-      "sd": 0.02055227697022556,
+      "rate": 0.09954210930400573,
+      "sd": 0.021759330286798825,
       "n_laps": 55
     },
     {
@@ -490,8 +490,8 @@
       "event": "Azerbaijan Grand Prix",
       "label": "HARD",
       "compound_id": null,
-      "rate": 0.021382411568766982,
-      "sd": 0.016930228915716328,
+      "rate": 0.031319686660066175,
+      "sd": 0.01793728421272493,
       "n_laps": 695
     },
     {
@@ -501,8 +501,8 @@
       "event": "Azerbaijan Grand Prix",
       "label": "MEDIUM",
       "compound_id": null,
-      "rate": 0.13271090919502362,
-      "sd": 0.0319144740001855,
+      "rate": 0.1385389690114465,
+      "sd": 0.03188216299248996,
       "n_laps": 134
     },
     {
@@ -512,8 +512,8 @@
       "event": "Miami Grand Prix",
       "label": "HARD",
       "compound_id": null,
-      "rate": 0.057543625811374524,
-      "sd": 0.01716152767873286,
+      "rate": 0.05839666028783298,
+      "sd": 0.0171934346387955,
       "n_laps": 784
     },
     {
@@ -523,8 +523,8 @@
       "event": "Miami Grand Prix",
       "label": "MEDIUM",
       "compound_id": null,
-      "rate": 0.07404680912111257,
-      "sd": 0.019136075706838417,
+      "rate": 0.07471762028223003,
+      "sd": 0.019124537022080196,
       "n_laps": 284
     },
     {
@@ -534,8 +534,8 @@
       "event": "Monaco Grand Prix",
       "label": "HARD",
       "compound_id": null,
-      "rate": 0.10799178930460185,
-      "sd": 0.02127102880799475,
+      "rate": 0.10840522080684677,
+      "sd": 0.021299620749161377,
       "n_laps": 608
     },
     {
@@ -545,8 +545,8 @@
       "event": "Monaco Grand Prix",
       "label": "MEDIUM",
       "compound_id": null,
-      "rate": 0.09671127561552251,
-      "sd": 0.024847511079527353,
+      "rate": 0.09720160140936578,
+      "sd": 0.02488165066929855,
       "n_laps": 329
     },
     {
@@ -556,8 +556,8 @@
       "event": "Monaco Grand Prix",
       "label": "SOFT",
       "compound_id": null,
-      "rate": 0.19349331893267657,
-      "sd": 0.06560274660821336,
+      "rate": 0.1937564833213896,
+      "sd": 0.0656051528669504,
       "n_laps": 25
     },
     {
@@ -600,8 +600,8 @@
       "event": "Austrian Grand Prix",
       "label": "HARD",
       "compound_id": null,
-      "rate": 0.09920923238040673,
-      "sd": 0.01620383620524089,
+      "rate": 0.10636415205736952,
+      "sd": 0.017212453424791163,
       "n_laps": 662
     },
     {
@@ -611,8 +611,8 @@
       "event": "Austrian Grand Prix",
       "label": "MEDIUM",
       "compound_id": null,
-      "rate": 0.10366048550336222,
-      "sd": 0.016754030432970295,
+      "rate": 0.11026124455475524,
+      "sd": 0.017638323460289363,
       "n_laps": 518
     },
     {
@@ -622,8 +622,8 @@
       "event": "British Grand Prix",
       "label": "HARD",
       "compound_id": null,
-      "rate": 0.0576641081603145,
-      "sd": 0.017610065297570365,
+      "rate": 0.08043023104403824,
+      "sd": 0.020344062433415796,
       "n_laps": 115
     },
     {
@@ -633,8 +633,8 @@
       "event": "British Grand Prix",
       "label": "MEDIUM",
       "compound_id": null,
-      "rate": 0.05406331848228527,
-      "sd": 0.01662744229270518,
+      "rate": 0.07279637699439746,
+      "sd": 0.01895756501672331,
       "n_laps": 433
     },
     {
@@ -644,8 +644,8 @@
       "event": "British Grand Prix",
       "label": "SOFT",
       "compound_id": null,
-      "rate": 0.054616936979891964,
-      "sd": 0.01661551941915218,
+      "rate": 0.07454713357362006,
+      "sd": 0.01917561932082061,
       "n_laps": 246
     },
     {
@@ -655,8 +655,8 @@
       "event": "Hungarian Grand Prix",
       "label": "HARD",
       "compound_id": null,
-      "rate": 0.10878965570578966,
-      "sd": 0.017229365106741328,
+      "rate": 0.10686376802093364,
+      "sd": 0.01734110146393032,
       "n_laps": 720
     },
     {
@@ -666,8 +666,8 @@
       "event": "Hungarian Grand Prix",
       "label": "MEDIUM",
       "compound_id": null,
-      "rate": 0.10517980993591473,
-      "sd": 0.01852903278210231,
+      "rate": 0.10288370319040102,
+      "sd": 0.018575937643824345,
       "n_laps": 408
     },
     {
@@ -677,8 +677,8 @@
       "event": "Hungarian Grand Prix",
       "label": "SOFT",
       "compound_id": null,
-      "rate": 0.14945363856949642,
-      "sd": 0.045144357397396896,
+      "rate": 0.14729948162837878,
+      "sd": 0.04527827235715496,
       "n_laps": 27
     },
     {
@@ -688,8 +688,8 @@
       "event": "Belgian Grand Prix",
       "label": "MEDIUM",
       "compound_id": null,
-      "rate": 0.264210453276257,
-      "sd": 0.034793380941192185,
+      "rate": 0.26445200210789066,
+      "sd": 0.034695637907438716,
       "n_laps": 362
     },
     {
@@ -699,8 +699,8 @@
       "event": "Belgian Grand Prix",
       "label": "SOFT",
       "compound_id": null,
-      "rate": 0.20150754374361923,
-      "sd": 0.03701024012484018,
+      "rate": 0.20214386050066632,
+      "sd": 0.036913990391705474,
       "n_laps": 335
     },
     {
@@ -710,8 +710,8 @@
       "event": "Dutch Grand Prix",
       "label": "HARD",
       "compound_id": null,
-      "rate": 0.03554467184959471,
-      "sd": 0.04087160719673518,
+      "rate": 0.02691062353589139,
+      "sd": 0.04212532836388957,
       "n_laps": 38
     },
     {
@@ -721,8 +721,8 @@
       "event": "Dutch Grand Prix",
       "label": "MEDIUM",
       "compound_id": null,
-      "rate": 0.06306717400292301,
-      "sd": 0.024305651814569933,
+      "rate": 0.05692512624150854,
+      "sd": 0.025871134227312603,
       "n_laps": 156
     },
     {
@@ -732,8 +732,8 @@
       "event": "Dutch Grand Prix",
       "label": "SOFT",
       "compound_id": null,
-      "rate": 0.05760042576297372,
-      "sd": 0.016747773112211272,
+      "rate": 0.056850920755446684,
+      "sd": 0.019363768819929565,
       "n_laps": 566
     },
     {
@@ -743,8 +743,8 @@
       "event": "Italian Grand Prix",
       "label": "HARD",
       "compound_id": null,
-      "rate": 0.11663510636365966,
-      "sd": 0.018314664492547428,
+      "rate": 0.1121788950699321,
+      "sd": 0.018013916839511614,
       "n_laps": 468
     },
     {
@@ -754,8 +754,8 @@
       "event": "Italian Grand Prix",
       "label": "MEDIUM",
       "compound_id": null,
-      "rate": 0.13477868361417752,
-      "sd": 0.019237851695384608,
+      "rate": 0.1393962116106606,
+      "sd": 0.01894595497245725,
       "n_laps": 401
     },
     {
@@ -765,8 +765,8 @@
       "event": "Singapore Grand Prix",
       "label": "HARD",
       "compound_id": null,
-      "rate": 0.07032563237137196,
-      "sd": 0.02099731623757328,
+      "rate": 0.08199638222881835,
+      "sd": 0.02202431028565786,
       "n_laps": 514
     },
     {
@@ -776,8 +776,8 @@
       "event": "Singapore Grand Prix",
       "label": "MEDIUM",
       "compound_id": null,
-      "rate": 0.09676295629766415,
-      "sd": 0.024983283058948022,
+      "rate": 0.1072359921089261,
+      "sd": 0.025627962349551055,
       "n_laps": 379
     },
     {
@@ -787,8 +787,8 @@
       "event": "Singapore Grand Prix",
       "label": "SOFT",
       "compound_id": null,
-      "rate": 0.10167876176309078,
-      "sd": 0.050505752227450726,
+      "rate": 0.10886408927366072,
+      "sd": 0.05063496478995629,
       "n_laps": 51
     },
     {
@@ -798,8 +798,8 @@
       "event": "Japanese Grand Prix",
       "label": "HARD",
       "compound_id": null,
-      "rate": 0.1358681261619456,
-      "sd": 0.01889661967682678,
+      "rate": 0.141297035107315,
+      "sd": 0.019047124672979445,
       "n_laps": 417
     },
     {
@@ -809,8 +809,8 @@
       "event": "Japanese Grand Prix",
       "label": "MEDIUM",
       "compound_id": null,
-      "rate": 0.1407716710568376,
-      "sd": 0.0207420142038895,
+      "rate": 0.15049830168687522,
+      "sd": 0.02136355062809595,
       "n_laps": 225
     },
     {
@@ -820,8 +820,8 @@
       "event": "Japanese Grand Prix",
       "label": "SOFT",
       "compound_id": null,
-      "rate": 0.15187729276558398,
-      "sd": 0.035694331665016725,
+      "rate": 0.15920712871959988,
+      "sd": 0.035142218227464925,
       "n_laps": 54
     },
     {
@@ -831,8 +831,8 @@
       "event": "Qatar Grand Prix",
       "label": "HARD",
       "compound_id": null,
-      "rate": 0.051410193653783944,
-      "sd": 0.021769649405011717,
+      "rate": 0.05177521533835567,
+      "sd": 0.021807984802359077,
       "n_laps": 367
     },
     {
@@ -842,8 +842,8 @@
       "event": "Qatar Grand Prix",
       "label": "MEDIUM",
       "compound_id": null,
-      "rate": 0.01668054229880546,
-      "sd": 0.021845075104754117,
+      "rate": 0.01677884733212856,
+      "sd": 0.021841726650849793,
       "n_laps": 452
     },
     {
@@ -853,8 +853,8 @@
       "event": "United States Grand Prix",
       "label": "HARD",
       "compound_id": null,
-      "rate": 0.08678363435825003,
-      "sd": 0.023290494361112864,
+      "rate": 0.09765347652971501,
+      "sd": 0.01996800962438709,
       "n_laps": 392
     },
     {
@@ -864,8 +864,8 @@
       "event": "United States Grand Prix",
       "label": "MEDIUM",
       "compound_id": null,
-      "rate": 0.09716212551130796,
-      "sd": 0.022346761921757295,
+      "rate": 0.10978043540973094,
+      "sd": 0.019679882407880267,
       "n_laps": 513
     },
     {
@@ -875,8 +875,8 @@
       "event": "Mexico City Grand Prix",
       "label": "HARD",
       "compound_id": null,
-      "rate": 0.10499237748934714,
-      "sd": 0.018355749087420912,
+      "rate": 0.1118961658162298,
+      "sd": 0.018668082469049507,
       "n_laps": 481
     },
     {
@@ -886,8 +886,8 @@
       "event": "Mexico City Grand Prix",
       "label": "MEDIUM",
       "compound_id": null,
-      "rate": 0.09923297242461344,
-      "sd": 0.01802072276512928,
+      "rate": 0.10593928726135304,
+      "sd": 0.018274253702059092,
       "n_laps": 620
     },
     {
@@ -897,8 +897,8 @@
       "event": "S\u00e3o Paulo Grand Prix",
       "label": "MEDIUM",
       "compound_id": null,
-      "rate": 0.1066910097729526,
-      "sd": 0.02046138284893096,
+      "rate": 0.10598135521494144,
+      "sd": 0.02051994680382454,
       "n_laps": 333
     },
     {
@@ -908,8 +908,8 @@
       "event": "S\u00e3o Paulo Grand Prix",
       "label": "SOFT",
       "compound_id": null,
-      "rate": 0.10103829504970542,
-      "sd": 0.01865413536666406,
+      "rate": 0.11068541863605182,
+      "sd": 0.01876990253901249,
       "n_laps": 636
     },
     {
@@ -919,8 +919,8 @@
       "event": "Las Vegas Grand Prix",
       "label": "HARD",
       "compound_id": null,
-      "rate": 0.012412106497216309,
-      "sd": 0.021212985426436792,
+      "rate": 0.007950904872827042,
+      "sd": 0.021950117865552718,
       "n_laps": 570
     },
     {
@@ -930,8 +930,8 @@
       "event": "Las Vegas Grand Prix",
       "label": "MEDIUM",
       "compound_id": null,
-      "rate": 0.08155300151923685,
-      "sd": 0.036457786704956245,
+      "rate": 0.07322422653983937,
+      "sd": 0.036646680746246024,
       "n_laps": 158
     },
     {
@@ -963,8 +963,8 @@
       "event": "Bahrain Grand Prix",
       "label": "HARD",
       "compound_id": "C1",
-      "rate": 0.1280823837655539,
-      "sd": 0.017948593446052187,
+      "rate": 0.13342164266139217,
+      "sd": 0.017994184326224426,
       "n_laps": 729
     },
     {
@@ -974,8 +974,8 @@
       "event": "Bahrain Grand Prix",
       "label": "SOFT",
       "compound_id": "C3",
-      "rate": 0.15102288365197197,
-      "sd": 0.02044428748696079,
+      "rate": 0.15608894522853492,
+      "sd": 0.020397592689671652,
       "n_laps": 293
     },
     {
@@ -985,8 +985,8 @@
       "event": "Saudi Arabian Grand Prix",
       "label": "HARD",
       "compound_id": "C2",
-      "rate": 0.020872518805020508,
-      "sd": 0.02055140740404416,
+      "rate": 0.019570454439339316,
+      "sd": 0.02070144214825527,
       "n_laps": 562
     },
     {
@@ -996,8 +996,8 @@
       "event": "Saudi Arabian Grand Prix",
       "label": "MEDIUM",
       "compound_id": "C3",
-      "rate": 0.043169901597164065,
-      "sd": 0.029138192032597505,
+      "rate": 0.04829726906393177,
+      "sd": 0.029852230078235068,
       "n_laps": 191
     },
     {
@@ -1007,8 +1007,8 @@
       "event": "Saudi Arabian Grand Prix",
       "label": "SOFT",
       "compound_id": "C4",
-      "rate": 0.07730562692516552,
-      "sd": 0.04753391829800956,
+      "rate": 0.07586556058298435,
+      "sd": 0.04758176462068458,
       "n_laps": 55
     },
     {
@@ -1018,8 +1018,8 @@
       "event": "Australian Grand Prix",
       "label": "HARD",
       "compound_id": "C3",
-      "rate": 0.06995426176710683,
-      "sd": 0.018236173645702018,
+      "rate": 0.07929026482059363,
+      "sd": 0.018776679495741813,
       "n_laps": 696
     },
     {
@@ -1029,8 +1029,8 @@
       "event": "Australian Grand Prix",
       "label": "MEDIUM",
       "compound_id": "C4",
-      "rate": 0.1216854213690441,
-      "sd": 0.030969027139129073,
+      "rate": 0.12860756790550934,
+      "sd": 0.03084471389896733,
       "n_laps": 146
     },
     {
@@ -1073,8 +1073,8 @@
       "event": "Chinese Grand Prix",
       "label": "HARD",
       "compound_id": "C2",
-      "rate": 0.11569351244455756,
-      "sd": 0.018018912149746703,
+      "rate": 0.13150420619157355,
+      "sd": 0.019308658573040104,
       "n_laps": 421
     },
     {
@@ -1084,8 +1084,8 @@
       "event": "Chinese Grand Prix",
       "label": "MEDIUM",
       "compound_id": "C3",
-      "rate": 0.17155670862772415,
-      "sd": 0.02029418263681701,
+      "rate": 0.1870135023694893,
+      "sd": 0.020997041121184203,
       "n_laps": 277
     },
     {
@@ -1095,8 +1095,8 @@
       "event": "Chinese Grand Prix",
       "label": "SOFT",
       "compound_id": "C4",
-      "rate": 0.17890008558998802,
-      "sd": 0.033916729334083115,
+      "rate": 0.19110441963497382,
+      "sd": 0.03352864601595993,
       "n_laps": 56
     },
     {
@@ -1106,8 +1106,8 @@
       "event": "Miami Grand Prix",
       "label": "HARD",
       "compound_id": "C2",
-      "rate": 0.054685409427604866,
-      "sd": 0.017068884185676675,
+      "rate": 0.06758622738752135,
+      "sd": 0.018919597404778263,
       "n_laps": 412
     },
     {
@@ -1117,8 +1117,8 @@
       "event": "Miami Grand Prix",
       "label": "MEDIUM",
       "compound_id": "C3",
-      "rate": 0.05113534945275435,
-      "sd": 0.018007207980884732,
+      "rate": 0.06504285107276972,
+      "sd": 0.019110115226072904,
       "n_laps": 484
     },
     {
@@ -1128,8 +1128,8 @@
       "event": "Miami Grand Prix",
       "label": "SOFT",
       "compound_id": "C4",
-      "rate": 0.04467526582847767,
-      "sd": 0.03890319585661051,
+      "rate": 0.0574380188845195,
+      "sd": 0.0390304744600597,
       "n_laps": 34
     },
     {
@@ -1139,8 +1139,8 @@
       "event": "Emilia Romagna Grand Prix",
       "label": "HARD",
       "compound_id": "C3",
-      "rate": 0.1017046773979103,
-      "sd": 0.016858248604181763,
+      "rate": 0.1041373335417555,
+      "sd": 0.017075373585865958,
       "n_laps": 677
     },
     {
@@ -1150,8 +1150,8 @@
       "event": "Emilia Romagna Grand Prix",
       "label": "MEDIUM",
       "compound_id": "C4",
-      "rate": 0.1220845776467786,
-      "sd": 0.017502217697953987,
+      "rate": 0.12376575191190249,
+      "sd": 0.01757904923129648,
       "n_laps": 463
     },
     {
@@ -1161,8 +1161,8 @@
       "event": "Monaco Grand Prix",
       "label": "HARD",
       "compound_id": "C3",
-      "rate": 0.0372447663430177,
-      "sd": 0.019890736269459232,
+      "rate": 0.03840162802228153,
+      "sd": 0.01971547737266794,
       "n_laps": 758
     },
     {
@@ -1172,8 +1172,8 @@
       "event": "Monaco Grand Prix",
       "label": "MEDIUM",
       "compound_id": "C4",
-      "rate": 0.01895103589248608,
-      "sd": 0.022991134992182815,
+      "rate": 0.020617363947665012,
+      "sd": 0.02293765847343795,
       "n_laps": 385
     },
     {
@@ -1183,8 +1183,8 @@
       "event": "Monaco Grand Prix",
       "label": "SOFT",
       "compound_id": "C5",
-      "rate": 0.0568846199792897,
-      "sd": 0.061253770599586845,
+      "rate": 0.054058327010021445,
+      "sd": 0.06198507531401264,
       "n_laps": 32
     },
     {
@@ -1194,8 +1194,8 @@
       "event": "Canadian Grand Prix",
       "label": "HARD",
       "compound_id": "C3",
-      "rate": -0.17650799072347464,
-      "sd": 0.040607418237910836,
+      "rate": -0.16512197823010227,
+      "sd": 0.04202277682796105,
       "n_laps": 79
     },
     {
@@ -1205,8 +1205,8 @@
       "event": "Canadian Grand Prix",
       "label": "MEDIUM",
       "compound_id": "C4",
-      "rate": -0.1512086522237654,
-      "sd": 0.02788100922088896,
+      "rate": -0.14082460135637423,
+      "sd": 0.029821546563638612,
       "n_laps": 226
     },
     {
@@ -1216,8 +1216,8 @@
       "event": "Spanish Grand Prix",
       "label": "HARD",
       "compound_id": "C1",
-      "rate": 0.1198253806120846,
-      "sd": 0.020924982048453895,
+      "rate": 0.12071638732435465,
+      "sd": 0.020912772796314257,
       "n_laps": 345
     },
     {
@@ -1227,8 +1227,8 @@
       "event": "Spanish Grand Prix",
       "label": "MEDIUM",
       "compound_id": "C2",
-      "rate": 0.11892433067997073,
-      "sd": 0.020805484291091983,
+      "rate": 0.11987551738780905,
+      "sd": 0.020805740453920786,
       "n_laps": 401
     },
     {
@@ -1238,8 +1238,8 @@
       "event": "Spanish Grand Prix",
       "label": "SOFT",
       "compound_id": "C3",
-      "rate": 0.13535567186095784,
-      "sd": 0.020598255007845706,
+      "rate": 0.13656073336269953,
+      "sd": 0.02063546680455286,
       "n_laps": 458
     },
     {
@@ -1249,8 +1249,8 @@
       "event": "Austrian Grand Prix",
       "label": "HARD",
       "compound_id": "C3",
-      "rate": 0.08427167120890675,
-      "sd": 0.015412938393015371,
+      "rate": 0.11897791875101545,
+      "sd": 0.016861922961263376,
       "n_laps": 661
     },
     {
@@ -1260,8 +1260,8 @@
       "event": "Austrian Grand Prix",
       "label": "MEDIUM",
       "compound_id": "C4",
-      "rate": 0.1086186421757598,
-      "sd": 0.015790528264280183,
+      "rate": 0.1405354575086938,
+      "sd": 0.017050709053602616,
       "n_laps": 586
     },
     {
@@ -1271,8 +1271,8 @@
       "event": "British Grand Prix",
       "label": "HARD",
       "compound_id": "C1",
-      "rate": 0.11881557052223163,
-      "sd": 0.06398962198475314,
+      "rate": 0.12360001158958879,
+      "sd": 0.06399086386363403,
       "n_laps": 39
     },
     {
@@ -1282,8 +1282,8 @@
       "event": "British Grand Prix",
       "label": "MEDIUM",
       "compound_id": "C2",
-      "rate": 0.1491419916731927,
-      "sd": 0.024605601342177763,
+      "rate": 0.15834599088390292,
+      "sd": 0.025230310531600138,
       "n_laps": 426
     },
     {
@@ -1293,8 +1293,8 @@
       "event": "British Grand Prix",
       "label": "SOFT",
       "compound_id": "C3",
-      "rate": 0.12314805033302349,
-      "sd": 0.037028523905669804,
+      "rate": 0.1280642553120683,
+      "sd": 0.03706955162671132,
       "n_laps": 153
     },
     {
@@ -1304,8 +1304,8 @@
       "event": "Hungarian Grand Prix",
       "label": "HARD",
       "compound_id": "C3",
-      "rate": 0.13183662590561435,
-      "sd": 0.018797745015026585,
+      "rate": 0.13241664416155066,
+      "sd": 0.01889646320594694,
       "n_laps": 816
     },
     {
@@ -1315,8 +1315,8 @@
       "event": "Hungarian Grand Prix",
       "label": "MEDIUM",
       "compound_id": "C4",
-      "rate": 0.12052612884804319,
-      "sd": 0.021974115058742635,
+      "rate": 0.12096219780264991,
+      "sd": 0.022032552724348148,
       "n_laps": 395
     },
     {
@@ -1326,8 +1326,8 @@
       "event": "Hungarian Grand Prix",
       "label": "SOFT",
       "compound_id": "C5",
-      "rate": 0.1559326650634301,
-      "sd": 0.06641406887921986,
+      "rate": 0.1561449882910034,
+      "sd": 0.06640606642877611,
       "n_laps": 34
     },
     {
@@ -1370,8 +1370,8 @@
       "event": "Dutch Grand Prix",
       "label": "HARD",
       "compound_id": "C1",
-      "rate": 0.08694645290898234,
-      "sd": 0.01699641216566884,
+      "rate": 0.08743666407137395,
+      "sd": 0.017080551965195555,
       "n_laps": 776
     },
     {
@@ -1381,8 +1381,8 @@
       "event": "Dutch Grand Prix",
       "label": "MEDIUM",
       "compound_id": "C2",
-      "rate": 0.0941824585961809,
-      "sd": 0.01777712896013411,
+      "rate": 0.09442973187255026,
+      "sd": 0.01781452129647544,
       "n_laps": 470
     },
     {
@@ -1392,8 +1392,8 @@
       "event": "Dutch Grand Prix",
       "label": "SOFT",
       "compound_id": "C3",
-      "rate": 0.11490253044353646,
-      "sd": 0.021908754488387812,
+      "rate": 0.11519066277418236,
+      "sd": 0.02194069781055227,
       "n_laps": 104
     },
     {
@@ -1403,8 +1403,8 @@
       "event": "Italian Grand Prix",
       "label": "HARD",
       "compound_id": "C3",
-      "rate": 0.07405077381517502,
-      "sd": 0.018144990504873802,
+      "rate": 0.0727248308813764,
+      "sd": 0.018159669167148285,
       "n_laps": 685
     },
     {
@@ -1414,8 +1414,8 @@
       "event": "Italian Grand Prix",
       "label": "MEDIUM",
       "compound_id": "C4",
-      "rate": 0.11289363190544831,
-      "sd": 0.022923643379130245,
+      "rate": 0.11166646127364815,
+      "sd": 0.022950665400481938,
       "n_laps": 236
     },
     {
@@ -1425,8 +1425,8 @@
       "event": "Azerbaijan Grand Prix",
       "label": "HARD",
       "compound_id": "C3",
-      "rate": 0.05318057807191434,
-      "sd": 0.019250119178724833,
+      "rate": 0.053578129268559434,
+      "sd": 0.019377497074190113,
       "n_laps": 686
     },
     {
@@ -1436,8 +1436,8 @@
       "event": "Azerbaijan Grand Prix",
       "label": "MEDIUM",
       "compound_id": "C4",
-      "rate": 0.1426308637633033,
-      "sd": 0.029657658543786814,
+      "rate": 0.14300139186501895,
+      "sd": 0.02975427301942229,
       "n_laps": 178
     },
     {
@@ -1447,8 +1447,8 @@
       "event": "Singapore Grand Prix",
       "label": "HARD",
       "compound_id": "C3",
-      "rate": 0.11141744900893757,
-      "sd": 0.018348354333188856,
+      "rate": 0.11098787780308256,
+      "sd": 0.018522203970345357,
       "n_laps": 506
     },
     {
@@ -1458,8 +1458,8 @@
       "event": "Singapore Grand Prix",
       "label": "MEDIUM",
       "compound_id": "C4",
-      "rate": 0.11455236050926626,
-      "sd": 0.018662113635926306,
+      "rate": 0.11411387531479451,
+      "sd": 0.018830593532987515,
       "n_laps": 500
     },
     {
@@ -1469,8 +1469,8 @@
       "event": "Singapore Grand Prix",
       "label": "SOFT",
       "compound_id": "C5",
-      "rate": 0.10573733769635321,
-      "sd": 0.028033431981202367,
+      "rate": 0.10506656040284057,
+      "sd": 0.02818552252950419,
       "n_laps": 89
     },
     {
@@ -1480,8 +1480,8 @@
       "event": "United States Grand Prix",
       "label": "HARD",
       "compound_id": "C2",
-      "rate": 0.05782403896063745,
-      "sd": 0.017941091061886454,
+      "rate": 0.05796544077383596,
+      "sd": 0.018320073821368108,
       "n_laps": 533
     },
     {
@@ -1491,8 +1491,8 @@
       "event": "United States Grand Prix",
       "label": "MEDIUM",
       "compound_id": "C3",
-      "rate": 0.07822804869066705,
-      "sd": 0.019213681418050802,
+      "rate": 0.07978551586476076,
+      "sd": 0.01977962193116923,
       "n_laps": 396
     },
     {
@@ -1502,8 +1502,8 @@
       "event": "Mexico City Grand Prix",
       "label": "HARD",
       "compound_id": "C2",
-      "rate": 0.0741204704445278,
-      "sd": 0.017186934063488056,
+      "rate": 0.07276778442797359,
+      "sd": 0.017299784362414184,
       "n_laps": 635
     },
     {
@@ -1513,8 +1513,8 @@
       "event": "Mexico City Grand Prix",
       "label": "MEDIUM",
       "compound_id": "C3",
-      "rate": 0.11551555505827775,
-      "sd": 0.018030631910067516,
+      "rate": 0.11382982540286592,
+      "sd": 0.0180786352541448,
       "n_laps": 417
     },
     {
@@ -1524,8 +1524,8 @@
       "event": "Las Vegas Grand Prix",
       "label": "HARD",
       "compound_id": "C3",
-      "rate": 0.08340365367166797,
-      "sd": 0.021003102103015092,
+      "rate": 0.08260960568223213,
+      "sd": 0.021317853212329402,
       "n_laps": 635
     },
     {
@@ -1535,8 +1535,8 @@
       "event": "Las Vegas Grand Prix",
       "label": "MEDIUM",
       "compound_id": "C4",
-      "rate": 0.3138248341707893,
-      "sd": 0.036660119049961554,
+      "rate": 0.31147988385388964,
+      "sd": 0.03671005853711227,
       "n_laps": 179
     },
     {
@@ -1579,8 +1579,8 @@
       "event": "Abu Dhabi Grand Prix",
       "label": "HARD",
       "compound_id": "C3",
-      "rate": 0.08993610911369955,
-      "sd": 0.017779604807523317,
+      "rate": 0.09113919280455622,
+      "sd": 0.017911081064109595,
       "n_laps": 646
     },
     {
@@ -1590,8 +1590,8 @@
       "event": "Abu Dhabi Grand Prix",
       "label": "MEDIUM",
       "compound_id": "C4",
-      "rate": 0.12525434816782502,
-      "sd": 0.020845862995122623,
+      "rate": 0.12581061670114876,
+      "sd": 0.02085854017284569,
       "n_laps": 243
     }
   ],
@@ -1600,581 +1600,581 @@
       "event": "Bahrain Grand Prix",
       "label": "HARD",
       "compound_id": "C1",
-      "actual": 0.1280823837655539,
-      "pred_label": 0.06622816048468565,
-      "pred_compound": 0.08033483253276943,
-      "err_label": 0.061854223280868245,
-      "err_compound": 0.04774755123278446
+      "actual": 0.13342164266139217,
+      "pred_label": 0.07036510112133745,
+      "pred_compound": 0.08156796432117319,
+      "err_label": 0.06305654154005472,
+      "err_compound": 0.05185367834021898
     },
     {
       "event": "Bahrain Grand Prix",
       "label": "SOFT",
       "compound_id": "C3",
-      "actual": 0.15102288365197197,
-      "pred_label": 0.11102021351321552,
-      "pred_compound": 0.08526537971095947,
-      "err_label": 0.040002670138756455,
-      "err_compound": 0.0657575039410125
+      "actual": 0.15608894522853492,
+      "pred_label": 0.11324118622447148,
+      "pred_compound": 0.08978454657846346,
+      "err_label": 0.04284775900406344,
+      "err_compound": 0.06630439865007146
     },
     {
       "event": "Saudi Arabian Grand Prix",
       "label": "HARD",
       "compound_id": "C2",
-      "actual": 0.020872518805020508,
-      "pred_label": 0.07110133616470989,
-      "pred_compound": 0.08824047004399103,
-      "err_label": 0.05022881735968938,
-      "err_compound": 0.06736795123897052
+      "actual": 0.019570454439339316,
+      "pred_label": 0.07554015513143077,
+      "pred_compound": 0.0920307387138405,
+      "err_label": 0.05596970069209145,
+      "err_compound": 0.07246028427450119
     },
     {
       "event": "Saudi Arabian Grand Prix",
       "label": "MEDIUM",
       "compound_id": "C3",
-      "actual": 0.043169901597164065,
-      "pred_label": 0.10299029359164284,
-      "pred_compound": 0.090167787986178,
-      "err_label": 0.05982039199447878,
-      "err_compound": 0.046997886389013935
+      "actual": 0.04829726906393177,
+      "pred_label": 0.10725511580968798,
+      "pred_compound": 0.09468416822230906,
+      "err_label": 0.05895784674575621,
+      "err_compound": 0.046386899158377286
     },
     {
       "event": "Saudi Arabian Grand Prix",
       "label": "SOFT",
       "compound_id": "C4",
-      "actual": 0.07730562692516552,
-      "pred_label": 0.1171633182404494,
-      "pred_compound": 0.10132701247351497,
-      "err_label": 0.03985769131528388,
-      "err_compound": 0.024021385548349455
+      "actual": 0.07586556058298435,
+      "pred_label": 0.11992646827826735,
+      "pred_compound": 0.10667628830241464,
+      "err_label": 0.044060907695282994,
+      "err_compound": 0.03081072771943029
     },
     {
       "event": "Australian Grand Prix",
       "label": "HARD",
       "compound_id": "C3",
-      "actual": 0.06995426176710683,
-      "pred_label": 0.06887034784825143,
-      "pred_compound": 0.08895031706936242,
-      "err_label": 0.0010839139188554003,
-      "err_compound": 0.018996055302255593
+      "actual": 0.07929026482059363,
+      "pred_label": 0.07282561829591921,
+      "pred_compound": 0.09327539568791533,
+      "err_label": 0.0064646465246744195,
+      "err_compound": 0.013985130867321699
     },
     {
       "event": "Australian Grand Prix",
       "label": "MEDIUM",
       "compound_id": "C4",
-      "actual": 0.1216854213690441,
-      "pred_label": 0.0992514593167914,
-      "pred_compound": 0.09815702715609508,
-      "err_label": 0.022433962052252704,
-      "err_compound": 0.023528394212949028
+      "actual": 0.12860756790550934,
+      "pred_label": 0.10343081586485095,
+      "pred_compound": 0.10290900206509143,
+      "err_label": 0.02517675204065839,
+      "err_compound": 0.02569856584041791
     },
     {
       "event": "Japanese Grand Prix",
       "label": "HARD",
       "compound_id": "C1",
       "actual": 0.12039387271489518,
-      "pred_label": 0.06657763825971558,
-      "pred_compound": 0.08187253474290117,
-      "err_label": 0.05381623445517961,
-      "err_compound": 0.038521337971994016
+      "pred_label": 0.07095727248254187,
+      "pred_compound": 0.08417351831047258,
+      "err_label": 0.049436600232353314,
+      "err_compound": 0.0362203544044226
     },
     {
       "event": "Japanese Grand Prix",
       "label": "MEDIUM",
       "compound_id": "C2",
       "actual": 0.12222875975330104,
-      "pred_label": 0.09922558606039823,
-      "pred_compound": 0.07810484594916298,
-      "err_label": 0.023003173692902806,
-      "err_compound": 0.04412391380413806
+      "pred_label": 0.10373456863400374,
+      "pred_compound": 0.08176490818244433,
+      "err_label": 0.0184941911192973,
+      "err_compound": 0.040463851570856704
     },
     {
       "event": "Japanese Grand Prix",
       "label": "SOFT",
       "compound_id": "C3",
       "actual": 0.19508941823801107,
-      "pred_label": 0.10734800229771228,
-      "pred_compound": 0.08326235541159405,
-      "err_label": 0.08774141594029879,
-      "err_compound": 0.11182706282641702
+      "pred_label": 0.10999114680701512,
+      "pred_compound": 0.08801179780530545,
+      "err_label": 0.08509827143099595,
+      "err_compound": 0.10707762043270562
     },
     {
       "event": "Chinese Grand Prix",
       "label": "HARD",
       "compound_id": "C2",
-      "actual": 0.11569351244455756,
-      "pred_label": 0.06679129099927639,
-      "pred_compound": 0.07875837068003734,
-      "err_label": 0.04890222144528117,
-      "err_compound": 0.036935141764520216
+      "actual": 0.13150420619157355,
+      "pred_label": 0.07045225732451103,
+      "pred_compound": 0.08083736353861708,
+      "err_label": 0.061051948867062514,
+      "err_compound": 0.05066684265295647
     },
     {
       "event": "Chinese Grand Prix",
       "label": "MEDIUM",
       "compound_id": "C3",
-      "actual": 0.17155670862772415,
-      "pred_label": 0.09687663611399712,
-      "pred_compound": 0.08433202403024345,
-      "err_label": 0.07468007251372703,
-      "err_compound": 0.0872246845974807
+      "actual": 0.1870135023694893,
+      "pred_label": 0.10064958089037572,
+      "pred_compound": 0.08837888489023826,
+      "err_label": 0.08636392147911358,
+      "err_compound": 0.09863461747925104
     },
     {
       "event": "Chinese Grand Prix",
       "label": "SOFT",
       "compound_id": "C4",
-      "actual": 0.17890008558998802,
-      "pred_label": 0.10869711335171418,
-      "pred_compound": 0.09407026542602766,
-      "err_label": 0.07020297223827383,
-      "err_compound": 0.08482982016396036
+      "actual": 0.19110441963497382,
+      "pred_label": 0.1103232300239349,
+      "pred_compound": 0.09844494122727254,
+      "err_label": 0.08078118961103892,
+      "err_compound": 0.09265947840770128
     },
     {
       "event": "Miami Grand Prix",
       "label": "HARD",
       "compound_id": "C2",
-      "actual": 0.054685409427604866,
-      "pred_label": 0.06956438659095605,
-      "pred_compound": 0.08485918098173259,
-      "err_label": 0.014878977163351188,
-      "err_compound": 0.030173771554127725
+      "actual": 0.06758622738752135,
+      "pred_label": 0.0733576199974225,
+      "pred_compound": 0.0872291614190223,
+      "err_label": 0.0057713926099011575,
+      "err_compound": 0.019642934031500955
     },
     {
       "event": "Miami Grand Prix",
       "label": "MEDIUM",
       "compound_id": "C3",
-      "actual": 0.05113534945275435,
-      "pred_label": 0.10261098655090044,
-      "pred_compound": 0.08980572217456027,
-      "err_label": 0.051475637098146086,
-      "err_compound": 0.03867037272180592
+      "actual": 0.06504285107276972,
+      "pred_label": 0.10645770714260047,
+      "pred_compound": 0.09392300540372553,
+      "err_label": 0.04141485606983075,
+      "err_compound": 0.02888015433095581
     },
     {
       "event": "Miami Grand Prix",
       "label": "SOFT",
       "compound_id": "C4",
-      "actual": 0.04467526582847767,
-      "pred_label": 0.11988251499850672,
-      "pred_compound": 0.10365775255184982,
-      "err_label": 0.07520724917002905,
-      "err_compound": 0.058982486723372154
+      "actual": 0.0574380188845195,
+      "pred_label": 0.12146209675313942,
+      "pred_compound": 0.10799254128087642,
+      "err_label": 0.06402407786861991,
+      "err_compound": 0.05055452239635692
     },
     {
       "event": "Emilia Romagna Grand Prix",
       "label": "HARD",
       "compound_id": "C3",
-      "actual": 0.1017046773979103,
-      "pred_label": 0.06742714713776035,
-      "pred_compound": 0.08750711635887136,
-      "err_label": 0.034277530260149944,
-      "err_compound": 0.014197561039038936
+      "actual": 0.1041373335417555,
+      "pred_label": 0.07169620608132093,
+      "pred_compound": 0.09214598347331707,
+      "err_label": 0.032441127460434566,
+      "err_compound": 0.011991350068438433
     },
     {
       "event": "Emilia Romagna Grand Prix",
       "label": "MEDIUM",
       "compound_id": "C4",
-      "actual": 0.1220845776467786,
-      "pred_label": 0.09923245187499455,
-      "pred_compound": 0.09812851599339975,
-      "err_label": 0.022852125771784054,
-      "err_compound": 0.023956061653378852
+      "actual": 0.12376575191190249,
+      "pred_label": 0.10366137853121318,
+      "pred_compound": 0.10325484606463477,
+      "err_label": 0.020104373380689308,
+      "err_compound": 0.020510905847267724
     },
     {
       "event": "Monaco Grand Prix",
       "label": "HARD",
       "compound_id": "C3",
-      "actual": 0.0372447663430177,
-      "pred_label": 0.07035714309480091,
-      "pred_compound": 0.09043711231591194,
-      "err_label": 0.03311237675178321,
-      "err_compound": 0.05319234597289423
+      "actual": 0.03840162802228153,
+      "pred_label": 0.07468419269584249,
+      "pred_compound": 0.09513397008783862,
+      "err_label": 0.03628256467356096,
+      "err_compound": 0.05673234206555709
     },
     {
       "event": "Monaco Grand Prix",
       "label": "MEDIUM",
       "compound_id": "C4",
-      "actual": 0.01895103589248608,
-      "pred_label": 0.10414357291091322,
-      "pred_compound": 0.10549519754727778,
-      "err_label": 0.08519253701842715,
-      "err_compound": 0.0865441616547917
+      "actual": 0.020617363947665012,
+      "pred_label": 0.10857320652951022,
+      "pred_compound": 0.11062258806208032,
+      "err_label": 0.0879558425818452,
+      "err_compound": 0.0900052241144153
     },
     {
       "event": "Monaco Grand Prix",
       "label": "SOFT",
       "compound_id": "C5",
-      "actual": 0.0568846199792897,
-      "pred_label": 0.11886506881927239,
-      "pred_compound": 0.13083500137989165,
-      "err_label": 0.06198044883998269,
-      "err_compound": 0.07395038140060195
+      "actual": 0.054058327010021445,
+      "pred_label": 0.12174373774268094,
+      "pred_compound": 0.130605774346922,
+      "err_label": 0.06768541073265949,
+      "err_compound": 0.07654744733690055
     },
     {
       "event": "Canadian Grand Prix",
       "label": "HARD",
       "compound_id": "C3",
-      "actual": -0.17650799072347464,
-      "pred_label": 0.08007317750691421,
-      "pred_compound": 0.10015314672802522,
-      "err_label": 0.25658116823038885,
-      "err_compound": 0.2766611374514999
+      "actual": -0.16512197823010227,
+      "pred_label": 0.08393526570731448,
+      "pred_compound": 0.10438504309931061,
+      "err_label": 0.24905724393741674,
+      "err_compound": 0.2695070213294129
     },
     {
       "event": "Canadian Grand Prix",
       "label": "MEDIUM",
       "compound_id": "C4",
-      "actual": -0.1512086522237654,
-      "pred_label": 0.11224641520216329,
-      "pred_compound": 0.11764946098415288,
-      "err_label": 0.26345506742592867,
-      "err_compound": 0.2688581132079183
+      "actual": -0.14082460135637423,
+      "pred_label": 0.1162609191630359,
+      "pred_compound": 0.12215415701236883,
+      "err_label": 0.25708552051941014,
+      "err_compound": 0.26297875836874307
     },
     {
       "event": "Spanish Grand Prix",
       "label": "HARD",
       "compound_id": "C1",
-      "actual": 0.1198253806120846,
-      "pred_label": 0.06660347880984334,
-      "pred_compound": 0.08198623316346329,
-      "err_label": 0.05322190180224126,
-      "err_compound": 0.03783914744862131
+      "actual": 0.12071638732435465,
+      "pred_label": 0.07094261272756643,
+      "pred_compound": 0.08410901538858069,
+      "err_label": 0.04977377459678822,
+      "err_compound": 0.03660737193577396
     },
     {
       "event": "Spanish Grand Prix",
       "label": "MEDIUM",
       "compound_id": "C2",
-      "actual": 0.11892433067997073,
-      "pred_label": 0.09938293982579491,
-      "pred_compound": 0.078435288856496,
-      "err_label": 0.01954139085417582,
-      "err_compound": 0.04048904182347472
+      "actual": 0.11987551738780905,
+      "pred_label": 0.10384662779426526,
+      "pred_compound": 0.08200023241899354,
+      "err_label": 0.016028889593543788,
+      "err_compound": 0.03787528496881551
     },
     {
       "event": "Spanish Grand Prix",
       "label": "SOFT",
       "compound_id": "C3",
-      "actual": 0.13535567186095784,
-      "pred_label": 0.11232581449580004,
-      "pred_compound": 0.0859775257014601,
-      "err_label": 0.023029857365157808,
-      "err_compound": 0.049378146159497746
+      "actual": 0.13656073336269953,
+      "pred_label": 0.11486853721329109,
+      "pred_compound": 0.09067219257236507,
+      "err_label": 0.02169219614940844,
+      "err_compound": 0.045888540790334456
     },
     {
       "event": "Austrian Grand Prix",
       "label": "HARD",
       "compound_id": "C3",
-      "actual": 0.08427167120890675,
-      "pred_label": 0.06821955650998779,
-      "pred_compound": 0.0882995257310988,
-      "err_label": 0.016052114698918957,
-      "err_compound": 0.004027854522192051
+      "actual": 0.11897791875101545,
+      "pred_label": 0.07102163402635459,
+      "pred_compound": 0.09147141141835072,
+      "err_label": 0.04795628472466086,
+      "err_compound": 0.02750650733266473
     },
     {
       "event": "Austrian Grand Prix",
       "label": "MEDIUM",
       "compound_id": "C4",
-      "actual": 0.1086186421757598,
-      "pred_label": 0.099873686897424,
-      "pred_compound": 0.09909036852704396,
-      "err_label": 0.008744955278335798,
-      "err_compound": 0.009528273648715835
+      "actual": 0.1405354575086938,
+      "pred_label": 0.10286282112184217,
+      "pred_compound": 0.10205700995057825,
+      "err_label": 0.03767263638685164,
+      "err_compound": 0.03847844755811557
     },
     {
       "event": "British Grand Prix",
       "label": "HARD",
       "compound_id": "C1",
-      "actual": 0.11881557052223163,
-      "pred_label": 0.06664937926847302,
-      "pred_compound": 0.08218819518143387,
-      "err_label": 0.05216619125375861,
-      "err_compound": 0.036627375340797755
+      "actual": 0.12360001158958879,
+      "pred_label": 0.07081153889732851,
+      "pred_compound": 0.08353229053553386,
+      "err_label": 0.05278847269226028,
+      "err_compound": 0.04006772105405493
     },
     {
       "event": "British Grand Prix",
       "label": "MEDIUM",
       "compound_id": "C2",
-      "actual": 0.1491419916731927,
-      "pred_label": 0.09794400358802244,
-      "pred_compound": 0.07541352275717382,
-      "err_label": 0.05119798808517026,
-      "err_compound": 0.07372846891601888
+      "actual": 0.15834599088390292,
+      "pred_label": 0.10201470048492747,
+      "pred_compound": 0.07815318506938415,
+      "err_label": 0.05633129039897544,
+      "err_compound": 0.08019280581451876
     },
     {
       "event": "British Grand Prix",
       "label": "SOFT",
       "compound_id": "C3",
-      "actual": 0.12314805033302349,
-      "pred_label": 0.11334311628979458,
-      "pred_compound": 0.08653241758909348,
-      "err_label": 0.009804934043228908,
-      "err_compound": 0.03661563274393001
+      "actual": 0.1280642553120683,
+      "pred_label": 0.11557657705084369,
+      "pred_compound": 0.09105839612012102,
+      "err_label": 0.012487678261224613,
+      "err_compound": 0.03700585919194728
     },
     {
       "event": "Hungarian Grand Prix",
       "label": "HARD",
       "compound_id": "C3",
-      "actual": 0.13183662590561435,
-      "pred_label": 0.0660575131146829,
-      "pred_compound": 0.0861374823357939,
-      "err_label": 0.06577911279093145,
-      "err_compound": 0.04569914356982045
+      "actual": 0.13241664416155066,
+      "pred_label": 0.07041078287133025,
+      "pred_compound": 0.09086056026332638,
+      "err_label": 0.06200586129022041,
+      "err_compound": 0.04155608389822428
     },
     {
       "event": "Hungarian Grand Prix",
       "label": "MEDIUM",
       "compound_id": "C4",
-      "actual": 0.12052612884804319,
-      "pred_label": 0.09930666372255337,
-      "pred_compound": 0.098239833764738,
-      "err_label": 0.02121946512548982,
-      "err_compound": 0.022286295083305194
+      "actual": 0.12096219780264991,
+      "pred_label": 0.10379488110784427,
+      "pred_compound": 0.10345509992958138,
+      "err_label": 0.017167316694805645,
+      "err_compound": 0.017507097873068533
     },
     {
       "event": "Hungarian Grand Prix",
       "label": "SOFT",
       "compound_id": "C5",
-      "actual": 0.1559326650634301,
-      "pred_label": 0.11061106506226069,
-      "pred_compound": 0.08131097883782146,
-      "err_label": 0.0453216000011694,
-      "err_compound": 0.07462168622560864
+      "actual": 0.1561449882910034,
+      "pred_label": 0.11323651596926576,
+      "pred_compound": 0.07956244370643101,
+      "err_label": 0.04290847232173764,
+      "err_compound": 0.07658254458457239
     },
     {
       "event": "Belgian Grand Prix",
       "label": "HARD",
       "compound_id": "C2",
       "actual": 0.07165684233641312,
-      "pred_label": 0.06879295782237387,
-      "pred_compound": 0.08316203769085177,
-      "err_label": 0.0028638845140392527,
-      "err_compound": 0.011505195354438655
+      "pred_label": 0.07317259204520014,
+      "pred_compound": 0.08682209992413312,
+      "err_label": 0.0015157497087870259,
+      "err_compound": 0.015165257587719999
     },
     {
       "event": "Belgian Grand Prix",
       "label": "MEDIUM",
       "compound_id": "C3",
       "actual": 0.08812288454392822,
-      "pred_label": 0.10084967535608265,
-      "pred_compound": 0.08812447057950691,
-      "err_label": 0.012726790812154429,
-      "err_compound": 1.5860355786906366e-06
+      "pred_label": 0.10535865792968815,
+      "pred_compound": 0.09287391297321833,
+      "err_label": 0.017235773385759934,
+      "err_compound": 0.004751028429290108
     },
     {
       "event": "Belgian Grand Prix",
       "label": "SOFT",
       "compound_id": "C4",
       "actual": 0.0451896309857653,
-      "pred_label": 0.11983965123539941,
-      "pred_compound": 0.10362101218347212,
-      "err_label": 0.07465002024963412,
-      "err_compound": 0.05843138119770683
+      "pred_label": 0.12248279574470228,
+      "pred_compound": 0.10886742613078744,
+      "err_label": 0.07729316475893698,
+      "err_compound": 0.06367779514502214
     },
     {
       "event": "Dutch Grand Prix",
       "label": "HARD",
       "compound_id": "C1",
-      "actual": 0.08694645290898234,
-      "pred_label": 0.06809797552362072,
-      "pred_compound": 0.08856201870408373,
-      "err_label": 0.01884847738536162,
-      "err_compound": 0.0016155657951013869
+      "actual": 0.08743666407137395,
+      "pred_label": 0.07245532742088373,
+      "pred_compound": 0.09076496003917683,
+      "err_label": 0.014981336650490215,
+      "err_compound": 0.0033282959678028884
     },
     {
       "event": "Dutch Grand Prix",
       "label": "MEDIUM",
       "compound_id": "C2",
-      "actual": 0.0941824585961809,
-      "pred_label": 0.10056112421073728,
-      "pred_compound": 0.080909476064875,
-      "err_label": 0.00637866561455637,
-      "err_compound": 0.013272982531305905
+      "actual": 0.09442973187255026,
+      "pred_label": 0.10505833186642045,
+      "pred_compound": 0.08454481097051941,
+      "err_label": 0.010628599993870197,
+      "err_compound": 0.009884920902030844
     },
     {
       "event": "Dutch Grand Prix",
       "label": "SOFT",
       "compound_id": "C3",
-      "actual": 0.11490253044353646,
-      "pred_label": 0.11403024294725182,
-      "pred_compound": 0.08690721394770652,
-      "err_label": 0.0008722874962846378,
-      "err_compound": 0.02799531649582994
+      "actual": 0.11519066277418236,
+      "pred_label": 0.11664937642900085,
+      "pred_compound": 0.09164355941729768,
+      "err_label": 0.0014587136548184915,
+      "err_compound": 0.023547103356884674
     },
     {
       "event": "Italian Grand Prix",
       "label": "HARD",
       "compound_id": "C3",
-      "actual": 0.07405077381517502,
-      "pred_label": 0.06868414275515741,
-      "pred_compound": 0.08876411197626842,
-      "err_label": 0.005366631060017613,
-      "err_compound": 0.014713338161093395
+      "actual": 0.0727248308813764,
+      "pred_label": 0.07312404711133817,
+      "pred_compound": 0.0935738245033343,
+      "err_label": 0.00039921622996176576,
+      "err_compound": 0.020848993621957898
     },
     {
       "event": "Italian Grand Prix",
       "label": "MEDIUM",
       "compound_id": "C4",
-      "actual": 0.11289363190544831,
-      "pred_label": 0.09967011595791501,
-      "pred_compound": 0.09878501211778049,
-      "err_label": 0.013223515947533293,
-      "err_compound": 0.014108619787667823
+      "actual": 0.11166646127364815,
+      "pred_label": 0.10423753522827292,
+      "pred_compound": 0.10411908111022437,
+      "err_label": 0.007428926045375234,
+      "err_compound": 0.007547380163423781
     },
     {
       "event": "Azerbaijan Grand Prix",
       "label": "HARD",
       "compound_id": "C3",
-      "actual": 0.05318057807191434,
-      "pred_label": 0.06963278801621471,
-      "pred_compound": 0.08971275723732572,
-      "err_label": 0.01645220994430037,
-      "err_compound": 0.03653217916541138
+      "actual": 0.053578129268559434,
+      "pred_label": 0.07399435173010259,
+      "pred_compound": 0.09444412912209872,
+      "err_label": 0.020416222461543156,
+      "err_compound": 0.04086599985353929
     },
     {
       "event": "Azerbaijan Grand Prix",
       "label": "MEDIUM",
       "compound_id": "C4",
-      "actual": 0.1426308637633033,
-      "pred_label": 0.09825405729801716,
-      "pred_compound": 0.0966609241279337,
-      "err_label": 0.04437680646528615,
-      "err_compound": 0.045969939635369605
+      "actual": 0.14300139186501895,
+      "pred_label": 0.10274539567630288,
+      "pred_compound": 0.10188087178226932,
+      "err_label": 0.04025599618871607,
+      "err_compound": 0.041120520082749634
     },
     {
       "event": "Singapore Grand Prix",
       "label": "HARD",
       "compound_id": "C3",
-      "actual": 0.11141744900893757,
-      "pred_label": 0.0669856575190773,
-      "pred_compound": 0.0870656267401883,
-      "err_label": 0.044431791489860276,
-      "err_compound": 0.024351822268749268
+      "actual": 0.11098787780308256,
+      "pred_label": 0.07138481770580608,
+      "pred_compound": 0.0918345950978022,
+      "err_label": 0.039603060097276474,
+      "err_compound": 0.019153282705280356
     },
     {
       "event": "Singapore Grand Prix",
       "label": "MEDIUM",
       "compound_id": "C4",
-      "actual": 0.11455236050926626,
-      "pred_label": 0.09959112888154274,
-      "pred_compound": 0.09866653150322205,
-      "err_label": 0.014961231627723517,
-      "err_compound": 0.01588582900604421
+      "actual": 0.11411387531479451,
+      "pred_label": 0.10412099170250404,
+      "pred_compound": 0.10394426582157106,
+      "err_label": 0.009992883612290476,
+      "err_compound": 0.010169609493223458
     },
     {
       "event": "Singapore Grand Prix",
       "label": "SOFT",
       "compound_id": "C5",
-      "actual": 0.10573733769635321,
-      "pred_label": 0.1147940090095171,
-      "pred_compound": 0.1064086425213599,
-      "err_label": 0.009056671313163886,
-      "err_compound": 0.0006713048250066855
+      "actual": 0.10506656040284057,
+      "pred_label": 0.11749305162661267,
+      "pred_compound": 0.10510165765051242,
+      "err_label": 0.012426491223772096,
+      "err_compound": 3.509724767185307e-05
     },
     {
       "event": "United States Grand Prix",
       "label": "HARD",
       "compound_id": "C2",
-      "actual": 0.05782403896063745,
-      "pred_label": 0.06942172161218184,
-      "pred_compound": 0.08454531802842934,
-      "err_label": 0.011597682651544386,
-      "err_compound": 0.026721279067791884
+      "actual": 0.05796544077383596,
+      "pred_label": 0.07379492847986274,
+      "pred_compound": 0.08819124008039084,
+      "err_label": 0.015829487706026782,
+      "err_compound": 0.030225799306554876
     },
     {
       "event": "United States Grand Prix",
       "label": "MEDIUM",
       "compound_id": "C3",
-      "actual": 0.07822804869066705,
-      "pred_label": 0.10132085801576174,
-      "pred_compound": 0.08857423584556423,
-      "err_label": 0.023092809325094693,
-      "err_compound": 0.010346187154897185
+      "actual": 0.07978551586476076,
+      "pred_label": 0.10575567548583897,
+      "pred_compound": 0.09325288427681683,
+      "err_label": 0.02597015962107821,
+      "err_compound": 0.013467368412056063
     },
     {
       "event": "Mexico City Grand Prix",
       "label": "HARD",
       "compound_id": "C2",
-      "actual": 0.0741204704445278,
-      "pred_label": 0.06868097472655046,
-      "pred_compound": 0.08291567488004031,
-      "err_label": 0.005439495717977333,
-      "err_compound": 0.008795204435512516
+      "actual": 0.07276778442797359,
+      "pred_label": 0.07312209467740194,
+      "pred_compound": 0.08671100571497707,
+      "err_label": 0.00035431024942834954,
+      "err_compound": 0.013943221287003482
     },
     {
       "event": "Mexico City Grand Prix",
       "label": "MEDIUM",
       "compound_id": "C3",
-      "actual": 0.11551555505827775,
-      "pred_label": 0.09954526247444695,
-      "pred_compound": 0.08687934919249102,
-      "err_label": 0.0159702925838308,
-      "err_compound": 0.028636205865786732
+      "actual": 0.11382982540286592,
+      "pred_label": 0.10413451788878636,
+      "pred_compound": 0.09170541566144842,
+      "err_label": 0.009695307514079557,
+      "err_compound": 0.022124409741417495
     },
     {
       "event": "Las Vegas Grand Prix",
       "label": "HARD",
       "compound_id": "C3",
-      "actual": 0.08340365367166797,
-      "pred_label": 0.06825901185258955,
-      "pred_compound": 0.08833898107370056,
-      "err_label": 0.015144641819078417,
-      "err_compound": 0.004935327402032591
+      "actual": 0.08260960568223213,
+      "pred_label": 0.07267473916584473,
+      "pred_compound": 0.09312451655784088,
+      "err_label": 0.009934866516387406,
+      "err_compound": 0.01051491087560874
     },
     {
       "event": "Las Vegas Grand Prix",
       "label": "MEDIUM",
       "compound_id": "C4",
-      "actual": 0.3138248341707893,
-      "pred_label": 0.09010196346908926,
-      "pred_compound": 0.08443278338454184,
-      "err_label": 0.22372287070170005,
-      "err_compound": 0.22939205078624747
+      "actual": 0.31147988385388964,
+      "pred_label": 0.09472261034349952,
+      "pred_compound": 0.08984669378306427,
+      "err_label": 0.21675727351039012,
+      "err_compound": 0.22163319007082538
     },
     {
       "event": "Qatar Grand Prix",
       "label": "HARD",
       "compound_id": "C1",
       "actual": -0.044307114094346636,
-      "pred_label": 0.07406404675104476,
-      "pred_compound": 0.11481273210474954,
-      "err_label": 0.1183711608453914,
-      "err_compound": 0.1591198461990962
+      "pred_label": 0.07844368097387104,
+      "pred_compound": 0.11711371567232094,
+      "err_label": 0.12275079506821768,
+      "err_compound": 0.16142082976666758
     },
     {
       "event": "Qatar Grand Prix",
       "label": "MEDIUM",
       "compound_id": "C2",
       "actual": 0.023946886123524212,
-      "pred_label": 0.10390567528086378,
-      "pred_compound": 0.08793303331214067,
-      "err_label": 0.07995878915733956,
-      "err_compound": 0.06398614718861645
+      "pred_label": 0.10841465785446928,
+      "pred_compound": 0.09159309554542201,
+      "err_label": 0.08446777173094508,
+      "err_compound": 0.06764620942189781
     },
     {
       "event": "Qatar Grand Prix",
       "label": "SOFT",
       "compound_id": "C3",
       "actual": 0.09912165921458801,
-      "pred_label": 0.11534531554966419,
-      "pred_compound": 0.08762452627629509,
-      "err_label": 0.016223656335076178,
-      "err_compound": 0.011497132938292923
+      "pred_label": 0.11798846005896706,
+      "pred_compound": 0.09237396867000651,
+      "err_label": 0.018866800844379042,
+      "err_compound": 0.0067476905445815055
     },
     {
       "event": "Abu Dhabi Grand Prix",
       "label": "HARD",
       "compound_id": "C3",
-      "actual": 0.08993610911369955,
-      "pred_label": 0.06796208205976993,
-      "pred_compound": 0.08804205128088094,
-      "err_label": 0.021974027053929618,
-      "err_compound": 0.0018940578328186103
+      "actual": 0.09113919280455622,
+      "pred_label": 0.07228703066028454,
+      "pred_compound": 0.09273680805228067,
+      "err_label": 0.018852162144271684,
+      "err_compound": 0.0015976152477244487
     },
     {
       "event": "Abu Dhabi Grand Prix",
       "label": "MEDIUM",
       "compound_id": "C4",
-      "actual": 0.12525434816782502,
-      "pred_label": 0.09908151042161137,
-      "pred_compound": 0.09790210381332501,
-      "err_label": 0.02617283774621365,
-      "err_compound": 0.02735224435450001
+      "actual": 0.12581061670114876,
+      "pred_label": 0.10356400401743955,
+      "pred_compound": 0.10310878429397433,
+      "err_label": 0.022246612683709213,
+      "err_compound": 0.022701832407174438
     }
   ]
 }

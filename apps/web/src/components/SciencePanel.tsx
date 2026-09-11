@@ -651,11 +651,12 @@ export function CalibrationPanel() {
               <p className="max-w-[74ch] text-[12px] leading-relaxed text-ink-dim">
                 A PIT histogram asks where the truth landed inside its own predicted
                 distribution; under a correct distribution those values are uniform.
-                Every rung comes out <strong className="text-ink">U-shaped</strong> — too
-                much mass in the tails — which is overconfidence seen directly rather than
-                inferred from one level. A four-race pilot showed the state-space model
-                hump-shaped instead, the opposite fault; ten races showed that was a
-                small-sample artefact.
+                Five of the six rungs come out{' '}
+                <strong className="text-ink">U-shaped</strong> — too much mass in the
+                tails — which is overconfidence seen directly rather than inferred from
+                one level. The sixth is ours and fails the opposite way:{' '}
+                <strong className="text-ink">hump-shaped</strong>, intervals too wide.
+                That is the safer direction to err and still a miscalibration.
               </p>
             </div>
           </>
