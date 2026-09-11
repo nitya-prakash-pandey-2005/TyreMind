@@ -1,6 +1,6 @@
 {
   "experiment": "exp10_bias_mechanism",
-  "generated_at": "2026-09-11T17:16:35.750380+00:00",
+  "generated_at": "2026-09-11T17:52:19.788353+00:00",
   "n_comparisons": 62,
   "n_events": 27,
   "mean_signed_error": 0.042205821416997774,
