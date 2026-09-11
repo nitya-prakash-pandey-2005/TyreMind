@@ -151,30 +151,66 @@ p = 0.037). Stint length proxies something not yet identified.
 So the bias is corrected as a measured offset, not as an explained one, and the
 interval is widened by conformal calibration rather than by a story.
 
-### Lap-time prediction — 4 real races, chronological folds
+### Lap-time prediction — 20 real races, chronological folds
 
 | Model | CRPS | Coverage | Bias drift |
 |---|---:|---:|---:|
-| LightGBM | **0.677** | 60% | +0.340 |
-| Pooled regression (ridge) | 0.813 | 79% | +0.663 |
-| TyreMind state-space | 0.949 | 73% | **−0.136** |
-| Naive | 1.119 | 69% | +1.280 |
-| Fuel-corrected regression | 1.120 | 69% | +1.293 |
-| Neural network (MLP) | 1.643 | 69% | −3.324 |
+| Pooled regression (ridge) | **0.525** | 84% | +0.232 |
+| LightGBM | 0.536 | 62% | −0.063 |
+| TyreMind state-space | 0.757 | 81% | **−0.483** |
+| Fuel-corrected regression | 0.985 | 76% | +0.443 |
+| Naive | 0.991 | 76% | +0.497 |
+| Neural network (MLP) | 2.034 | 69% | −3.582 |
 
-**LightGBM predicts lap times better than we do, and cannot answer the
-question.** Neither it nor the neural network has a parameter meaning
-"degradation rate", so there is nothing to hand an engineer and nothing to carry
-from Friday to Sunday.
+**Two rungs predict lap times better than we do, and neither can answer the
+question.** On four races LightGBM led this table; on twenty the leader is plain
+pooled regression, with LightGBM second and TyreMind third. Neither LightGBM nor
+the neural network has a parameter meaning "degradation rate", so there is
+nothing to hand an engineer and nothing to carry from Friday to Sunday — they
+are absent from the degradation table below rather than last in it.
 
 Bias drift measures how much a model's error grows as it forecasts further past
-its training window. TyreMind is the only rung whose error does not grow. The MLP
-is the most unstable of all at −3.324 — its bias swings wildly between folds,
-which is what unconstrained extrapolation looks like.
+its training window. TyreMind's shrinks most among usable rungs (−0.483) while
+the lap-time leader's grows (+0.232). An earlier version of this card said
+TyreMind was *the only* rung whose error does not grow; at twenty races LightGBM
+is also roughly flat (−0.063), and the claim is corrected rather than restated.
+The MLP is the most unstable of all at −3.582 — its bias swings wildly between
+folds, which is what unconstrained extrapolation looks like.
 
 The MLP was tuned before being compared (five configurations on held-out folds;
 disabling early stopping, which was validating on ~30 rows, was worth roughly a
 full second of CRPS). Beating a badly-configured competitor would prove nothing.
+
+### Degradation recovery — the task the lap-time table cannot score
+
+| Model | Rate MAE | 95% coverage |
+|---|---:|---:|
+| TyreMind state-space | **0.0041 s/lap** | **100%** |
+| Pooled regression (ridge) | 0.0068 s/lap | 78% |
+| Fuel-corrected regression | 0.0230 s/lap | 44% |
+| Naive | 0.0748 s/lap | 0% |
+| LightGBM | *no degradation parameter* | — |
+| Neural network (MLP) | *no degradation parameter* | — |
+
+The two rungs that beat us on lap time are the two that cannot appear here at
+all. That is the entire argument of the ladder, and it is why both tables are
+always printed together: **predicting lap times well is not the same as
+understanding the tyre.**
+
+### Lap-time interval calibration
+
+Every rung undercovers on lap time — measured across 66,606 held-out laps, none
+reaches 85%. Split conformal is the wrong instrument here, because it needs the
+calibration set to be exchangeable with the test point and lap times inside a
+race are not: the car burns fuel, the track rubbers in, a safety car rearranges
+everything.
+
+Adaptive Conformal Inference drops that assumption, retuning the working
+miss-rate after every lap. Pooled over every rung it reaches **95.2%** against
+the Gaussian's 75.5%, at a median width of 7.37 s. The nonconformity score also
+flips: the *studentised* score that won for degradation rates is wrong here,
+since dividing by a posterior sd that is itself badly wrong amplifies the
+miscalibration instead of correcting it.
 
 ### Sensitivity to the assumptions
 

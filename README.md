@@ -191,22 +191,39 @@ transfer, not competitiveness. That figure is scored on **40 of the 100 engines 
 
 ### Where we lose
 
-| Model | CRPS (lap time) | Coverage | Bias drift |
-|---|---:|---:|---:|
-| LightGBM | **0.677** | 60% | +0.340 |
-| TyreMind | 0.949 | 73% | **−0.136** |
+Six models, **twenty races**, identical expanding-window chronological folds:
 
-**LightGBM predicts lap times better than we do.** It also has no parameter
-meaning "degradation rate", is badly overconfident, and cannot extrapolate — bias
-drift measures how much a model's error grows as it forecasts further past its
-training window, and TyreMind is the only model tested whose error does not grow.
+| Model | CRPS (lap time) | Coverage | Bias drift | Degradation rate MAE |
+|---|---:|---:|---:|---:|
+| Pooled regression | **0.525** | 84% | +0.232 | 0.0068 |
+| LightGBM | 0.536 | 62% | −0.063 | *no such parameter* |
+| TyreMind | 0.757 | 81% | **−0.483** | **0.0041** |
+| Naive | 0.991 | 76% | +0.497 | 0.0748 |
 
-**Our own lap-time intervals were undercovered too.** Measured across **66,606
-held-out laps from twenty races**, every rung in the ladder undercovers and none
-reaches 86%: LightGBM 64%, the neural network 70%, naive 76%, TyreMind 82%,
-pooled regression 85%. Ours is not the worst and is not the best, and that is
-the opposite direction of error from the conservative 100% we report on the
-degradation task.
+**Two models predict lap times better than we do**, and on twenty races the
+better of them is plain pooled regression, not LightGBM. Both beat us on CRPS.
+We are third.
+
+That is the whole argument, stated against ourselves. **Neither of them has a
+parameter that means "degradation rate" at all** — LightGBM and the neural
+network cannot be scored on the degradation task because there is nothing in
+them to score. On the task that matters, recovering a known hidden rate,
+TyreMind is first at 0.0041 s/lap against pooled regression's 0.0068 and the
+naive method's 0.0748. *Predicting lap times well is not the same as
+understanding the tyre.*
+
+Bias drift measures how much a model's error grows as it forecasts further past
+its training window. TyreMind's shrinks the most of any usable rung (−0.483)
+while pooled regression's grows (+0.232). An earlier version of this README
+claimed TyreMind was **the only** model whose error does not grow; at twenty
+races that is no longer true — LightGBM is roughly flat at −0.063 — and the
+claim has been corrected rather than quietly restated.
+
+**Our own lap-time intervals were undercovered too.** Across **66,606 held-out
+laps**, every rung undercovers and none reaches 85%: LightGBM 63%, the neural
+network 71%, naive 76%, TyreMind 81%, pooled regression 84%. Ours is neither the
+worst nor the best, and that is the opposite direction of error from the
+conservative 100% we report on the degradation task.
 
 **Fixed** ([exp13](experiments/exp13_lap_time_calibration.py)). Split conformal
 is the wrong tool here — it needs the calibration set to be exchangeable with
@@ -217,12 +234,12 @@ retuning the working miss-rate after every lap:
 
 | | Coverage | Median width |
 |---|---:|---:|
-| Gaussian, as reported | 75.4% | — |
-| Split conformal | 89.3% | 6.33 s |
-| **Adaptive conformal** | **95.3%** | 7.64 s |
+| Gaussian, as reported | 75.5% | — |
+| Split conformal | 89.3% | 6.11 s |
+| **Adaptive conformal** | **95.2%** | 7.37 s |
 
-It lifts LightGBM from 64% to 95% — its lap-time *predictions* were fine, its
-*sd* was wrong. The live monitor now carries the same machinery and reports the
+It lifts LightGBM from 63% to 95% at only 3.5 s of width — its lap-time
+*predictions* were always fine, its *sd* was wrong. The live monitor now carries the same machinery and reports the
 coverage it has actually achieved, so the claimed 95% is auditable in flight
 rather than after the race.
 

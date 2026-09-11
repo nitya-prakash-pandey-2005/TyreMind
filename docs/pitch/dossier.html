@@ -1353,7 +1353,7 @@ C_b dTb/dt = k_sb(Ts−Tb) − h_b(Tb−T_air)</div>
     </p>
   </div>
 
-  <h3>08.3 &nbsp; Six models, two metrics that disagree</h3>
+  <h3>08.3 &nbsp; Six models, twenty races, two metrics that disagree</h3>
   <p>
     Five competing approaches plus ours, scored on identical expanding-window
     chronological folds. A random split would let a model see lap 40 while
@@ -1365,12 +1365,12 @@ C_b dTb/dt = k_sb(Ts−Tb) − h_b(Tb−T_air)</div>
   <table>
     <thead><tr><th>Model</th><th class="n">CRPS</th><th class="n">MAE</th><th class="n">95% coverage</th><th class="n">Bias drift</th><th class="n">Fit time</th></tr></thead>
     <tbody>
-      <tr><td><b>LightGBM</b></td><td class="n win">0.677</td><td class="n">0.847</td><td class="n">60%</td><td class="n">+0.340</td><td class="n">0.7 s</td></tr>
-      <tr><td>Pooled regression</td><td class="n">0.813</td><td class="n">0.990</td><td class="n">79%</td><td class="n">+0.663</td><td class="n">0.03 s</td></tr>
-      <tr class="hl"><td>TyreMind state-space</td><td class="n">0.949</td><td class="n">1.169</td><td class="n">73%</td><td class="n win">&minus;0.136</td><td class="n">30.1 s</td></tr>
-      <tr><td>Naive (lap time vs tyre age)</td><td class="n">1.119</td><td class="n">1.511</td><td class="n">69%</td><td class="n">+1.280</td><td class="n">0.007 s</td></tr>
-      <tr><td>Fuel-corrected regression</td><td class="n">1.120</td><td class="n">1.511</td><td class="n">69%</td><td class="n">+1.293</td><td class="n">0.010 s</td></tr>
-      <tr><td>Neural network (MLP)</td><td class="n">1.643</td><td class="n">1.997</td><td class="n">69%</td><td class="n">&minus;3.324</td><td class="n">85.6 s</td></tr>
+      <tr><td><b>Pooled regression</b></td><td class="n win">0.525</td><td class="n">0.684</td><td class="n">84%</td><td class="n">+0.232</td><td class="n">0.04 s</td></tr>
+      <tr><td>LightGBM</td><td class="n">0.536</td><td class="n">0.684</td><td class="n">62%</td><td class="n">&minus;0.063</td><td class="n">0.9 s</td></tr>
+      <tr class="hl"><td>TyreMind state-space</td><td class="n">0.757</td><td class="n">0.930</td><td class="n">81%</td><td class="n win">&minus;0.483</td><td class="n">38 s</td></tr>
+      <tr><td>Fuel-corrected regression</td><td class="n">0.985</td><td class="n">1.349</td><td class="n">76%</td><td class="n">+0.443</td><td class="n">0.01 s</td></tr>
+      <tr><td>Naive (lap time vs tyre age)</td><td class="n">0.991</td><td class="n">1.359</td><td class="n">76%</td><td class="n">+0.497</td><td class="n">0.008 s</td></tr>
+      <tr><td>Neural network (MLP)</td><td class="n">2.034</td><td class="n">2.486</td><td class="n">69%</td><td class="n">&minus;3.582</td><td class="n">95 s</td></tr>
     </tbody>
   </table>
 
@@ -1378,24 +1378,34 @@ C_b dTb/dt = k_sb(Ts−Tb) − h_b(Tb−T_air)</div>
   <table>
     <thead><tr><th>Model</th><th class="n">Rate MAE</th><th class="n">Rate bias</th><th class="n">Coverage</th><th class="n">n</th></tr></thead>
     <tbody>
-      <tr class="hl"><td>TyreMind state-space</td><td class="n win">0.0047</td><td class="n">+0.0020</td><td class="n">100%</td><td class="n">15</td></tr>
-      <tr><td>Pooled regression</td><td class="n">0.0066</td><td class="n">+0.0002</td><td class="n">73%</td><td class="n">15</td></tr>
-      <tr><td>Fuel-corrected regression</td><td class="n">0.0227</td><td class="n">&minus;0.0202</td><td class="n">47%</td><td class="n">15</td></tr>
-      <tr><td>Naive (lap time vs tyre age)</td><td class="n">0.0737</td><td class="n">&minus;0.0737</td><td class="n">0%</td><td class="n">15</td></tr>
+      <tr class="hl"><td>TyreMind state-space</td><td class="n win">0.0041</td><td class="n">+0.0016</td><td class="n">100%</td><td class="n">18</td></tr>
+      <tr><td>Pooled regression</td><td class="n">0.0068</td><td class="n">&minus;0.0011</td><td class="n">78%</td><td class="n">18</td></tr>
+      <tr><td>Fuel-corrected regression</td><td class="n">0.0230</td><td class="n">&minus;0.0209</td><td class="n">44%</td><td class="n">18</td></tr>
+      <tr><td>Naive (lap time vs tyre age)</td><td class="n">0.0748</td><td class="n">&minus;0.0748</td><td class="n">0%</td><td class="n">18</td></tr>
       <tr><td colspan="5" style="color:var(--traffic)"><b>LightGBM and the MLP cannot appear in this table.</b> Neither has a parameter that means "degradation rate", so there is nothing to score, nothing to report to an engineer, and nothing to carry from Friday to Sunday.</td></tr>
     </tbody>
   </table>
-  <div class="prov">experiments/results/exp05_model_ladder.json · 4 real sessions + 5 synthetic seeds, expanding-window folds</div>
+  <div class="prov">experiments/results/exp05_model_ladder.json · 20 real races + 6 synthetic seeds, expanding-window chronological folds</div>
 
   <div class="panel tyre">
     <h4>The disagreement is the finding</h4>
     <p>
-      LightGBM wins lap-time prediction and cannot compete on attribution. It is
-      also badly overconfident — 60% coverage on nominal 95% intervals — and
-      <b>cannot extrapolate</b>: bias drift is +0.340 for LightGBM and +1.280 for
-      the naive baseline, against <b>&minus;0.136</b> for the state-space model,
-      the only rung whose error does not grow as it forecasts further past its
-      training window.
+      Two rungs win lap-time prediction and neither can compete on attribution —
+      and on twenty races the winner is not the one it used to be. At four races
+      LightGBM led this table; at twenty, plain pooled regression does, with
+      LightGBM second and the state-space model third. <b>Neither of the two
+      above us has a parameter that means "degradation rate" at all</b>, so
+      neither can appear in the table below.
+    </p>
+    <p style="margin-top:2mm">
+      LightGBM remains badly overconfident — 62% coverage on nominal 95%
+      intervals. On extrapolation, bias drift is +0.232 for the lap-time leader
+      and +0.497 for the naive baseline, against <b>&minus;0.483</b> for the
+      state-space model, whose error shrinks most as it forecasts further past
+      its training window. An earlier version of this section called that the
+      <em>only</em> rung whose error does not grow; at twenty races LightGBM is
+      also roughly flat at &minus;0.063, and the claim is corrected here rather
+      than quietly restated.
     </p>
     <p style="margin-top:2mm">
       A tuned MLP finishes last on lap-time prediction and has the most unstable
@@ -1532,6 +1542,89 @@ C_b dTb/dt = k_sb(Ts−Tb) − h_b(Tb−T_air)</div>
     </p>
   </div>
   <div class="prov">experiments/results/exp08…exp11 · 2024, 2023 and 2022 · leave-one-event-out and leave-one-circuit-out</div>
+
+  <h3>08.7 &nbsp; Making an interval mean what it says</h3>
+  <p>
+    A model that is overconfident in a known direction is worse than one that
+    says nothing, because a strategist can plan around a wide interval and cannot
+    plan around a wrong one. Two intervals in this project were miscalibrated,
+    in opposite directions, and they needed different instruments.
+  </p>
+
+  <p><b>Practice → race: 76% while labelled 95%.</b> The cause is not a broken
+    filter. The posterior standard deviation correctly answers <em>how well do
+    these practice laps pin down the practice rate</em>, which is not the
+    question the number gets used for — nothing about the transfer to Sunday,
+    fuel and track state and driving style and tyre management, is inside it. The
+    interval was honest and answering the wrong question. Split conformal
+    prediction repairs it to <b>95%</b> at a widened ±0.25&nbsp;s/lap against the
+    Gaussian's ±0.14, with a finite-sample guarantee that assumes neither
+    Gaussian errors nor a correctly specified model. Calibration folds are
+    grouped by <em>event</em>, because two compounds at one Grand Prix share a
+    track, a weather window and a fuel correction and are not exchangeable with
+    each other; calibrating on one to predict the other would report a coverage
+    we could not reproduce on Sunday.</p>
+
+  <p><b>Lap time: 75.5% while labelled 95%, across 66,606 held-out laps.</b> The
+    same instrument is the wrong one here, and the reason is the interesting
+    part. Split conformal needs the calibration set to be exchangeable with the
+    test point. One rate per compound per event is — the events could be shuffled
+    and nothing would change. Lap times inside a race are the opposite: the car
+    burns fuel, the track rubbers in, a safety car rearranges the order. A fixed
+    quantile calibrated on the first half of a race is calibrated for a race that
+    no longer exists.</p>
+
+  <table>
+    <thead><tr><th>Construction</th><th class="n">Coverage</th><th class="n">Mean width</th><th class="n">Median width</th></tr></thead>
+    <tbody>
+      <tr><td>Gaussian, as the ladder reports it</td><td class="n">75.5%</td><td class="n">3.00 s</td><td class="n">—</td></tr>
+      <tr><td>Split conformal (studentised)</td><td class="n">89.3%</td><td class="n">6.70 s</td><td class="n">6.11 s</td></tr>
+      <tr class="hl"><td><b>Adaptive conformal (absolute)</b></td><td class="n win">95.2%</td><td class="n">7.43 s</td><td class="n">7.37 s</td></tr>
+    </tbody>
+  </table>
+
+  <p>
+    <b>Adaptive Conformal Inference</b> (Gibbs &amp; Candès, NeurIPS 2021) drops
+    the exchangeability assumption rather than hoping it holds. The working
+    miss-rate is state, moved by <span class="mono">γ(α − err)</span> after every
+    lap: miss too often and the interval widens, miss too rarely and it tightens.
+    Coverage converges to 1&nbsp;−&nbsp;α under <em>arbitrary</em> distribution
+    shift, which is the property a drifting session needs.
+  </p>
+
+  <div class="panel warn">
+    <h4>The same machinery, the opposite answer</h4>
+    <p>
+      The nonconformity score had to change too. The <b>studentised</b> score —
+      residual divided by the model's own posterior sd — won for degradation
+      rates, because there the sd carried real information about which estimates
+      were shaky. For lap times it is actively wrong: LightGBM's intervals are so
+      under-dispersed that they cover 63% while claiming 95%, so dividing by them
+      <em>amplifies</em> the miscalibration instead of correcting it, and
+      produces intervals averaging 16.5&nbsp;s against 7.4&nbsp;s for the
+      absolute score. A method is not a mechanism, and which score to use is a
+      question about the model being calibrated rather than about conformal
+      prediction.
+    </p>
+  </div>
+
+  <p>
+    Both are shipped rather than merely measured:
+    <span class="mono">tyremind.models.conformal</span> holds the split
+    calibrator and the adaptive one, the API serves the race projection as
+    <span class="mono">race_projection</span>, and the live monitor carries an
+    adaptive interval around its one-step-ahead forecast together with the
+    coverage it has actually achieved — so the claimed 95% is auditable during
+    the session rather than after it.
+  </p>
+  <p>
+    <b>Two things this does not claim.</b> A wider interval is not a better
+    model: this makes the uncertainty truthful, not the prediction sharper. And
+    the live filter was never as badly off as the batch ladder — its innovation
+    variance is a genuine predictive variance and already covered 90–95%, so
+    calibration holds it at 95% rather than rescuing it.
+  </p>
+  <div class="prov">experiments/results/exp12_conformal_intervals.json · exp13_lap_time_calibration.json · 20 races, 66,606 held-out laps</div>
 
 </section>
 

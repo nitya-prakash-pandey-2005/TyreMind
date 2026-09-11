@@ -806,22 +806,22 @@ rate[stint] ~ N(compound_baseline[c], sd²)</div>
         <h4 style="color:var(--ink-3)">Lap-time prediction &mdash; the metric the field reports</h4>
         <table style="font-size:9pt">
           <tr><th>Model</th><th class="n">CRPS</th><th class="n">Cover</th><th class="n">Bias drift</th></tr>
-          <tr><td><b>LightGBM</b></td><td class="n win">0.677</td><td class="n">60%</td><td class="n">+0.340</td></tr>
-          <tr><td>Pooled regression</td><td class="n">0.813</td><td class="n">79%</td><td class="n">+0.663</td></tr>
-          <tr class="hl"><td><b>TyreMind</b></td><td class="n">0.949</td><td class="n">73%</td><td class="n win">&minus;0.136</td></tr>
-          <tr><td>Naive</td><td class="n">1.119</td><td class="n">69%</td><td class="n">+1.280</td></tr>
-          <tr><td>Fuel-corrected</td><td class="n">1.120</td><td class="n">69%</td><td class="n">+1.293</td></tr>
-          <tr><td>Neural network (MLP)</td><td class="n">1.643</td><td class="n">69%</td><td class="n">&minus;3.324</td></tr>
+          <tr><td><b>Pooled regression</b></td><td class="n win">0.525</td><td class="n">84%</td><td class="n">+0.232</td></tr>
+          <tr><td>LightGBM</td><td class="n">0.536</td><td class="n">62%</td><td class="n">&minus;0.063</td></tr>
+          <tr class="hl"><td><b>TyreMind</b></td><td class="n">0.757</td><td class="n">81%</td><td class="n win">&minus;0.483</td></tr>
+          <tr><td>Fuel-corrected</td><td class="n">0.985</td><td class="n">76%</td><td class="n">+0.443</td></tr>
+          <tr><td>Naive</td><td class="n">0.991</td><td class="n">76%</td><td class="n">+0.497</td></tr>
+          <tr><td>Neural network (MLP)</td><td class="n">2.034</td><td class="n">69%</td><td class="n">&minus;3.582</td></tr>
         </table>
       </div>
       <div>
         <h4 style="color:var(--ink-3)">Degradation recovery &mdash; the metric the product exists for</h4>
         <table style="font-size:9pt">
           <tr><th>Model</th><th class="n">Rate MAE</th><th class="n">Coverage</th></tr>
-          <tr class="hl"><td><b>TyreMind</b></td><td class="n win">0.0047</td><td class="n">100%</td></tr>
-          <tr><td>Pooled regression</td><td class="n">0.0066</td><td class="n">73%</td></tr>
-          <tr><td>Fuel-corrected</td><td class="n">0.0227</td><td class="n">47%</td></tr>
-          <tr><td>Naive</td><td class="n">0.0737</td><td class="n">0%</td></tr>
+          <tr class="hl"><td><b>TyreMind</b></td><td class="n win">0.0041</td><td class="n">100%</td></tr>
+          <tr><td>Pooled regression</td><td class="n">0.0068</td><td class="n">78%</td></tr>
+          <tr><td>Fuel-corrected</td><td class="n">0.0230</td><td class="n">44%</td></tr>
+          <tr><td>Naive</td><td class="n">0.0748</td><td class="n">0%</td></tr>
           <tr><td colspan="3" style="color:var(--traffic);padding-top:3mm"><b>LightGBM and the MLP cannot appear here.</b> Neither has a parameter meaning "degradation rate" &mdash; nothing to score, nothing to report to an engineer, nothing to carry from Friday to Sunday.</td></tr>
         </table>
       </div>
@@ -830,13 +830,19 @@ rate[stint] ~ N(compound_baseline[c], sd²)</div>
     <div class="card hot" style="margin-top:5mm">
       <h4>The disagreement is the finding &mdash; and we ship it inside the product</h4>
       <p style="font-size:10.5pt">
-        <b>LightGBM beats us on lap-time prediction.</b> It is also badly
-        overconfident (60% coverage on nominal 95%) and <b>cannot extrapolate</b>:
-        bias drift +0.340, against <b class="hot">&minus;0.136</b> for the
-        state-space model &mdash; the only rung whose error does not grow as it
-        forecasts past its training window. The MLP is worst of all at
-        &minus;3.324, and it was tuned first across five configurations, because
-        beating a badly-configured competitor would prove nothing.
+        <b>Two rungs beat us on lap-time prediction</b> &mdash; and on twenty races
+        the leader is plain pooled regression, not LightGBM, which led when this
+        table held four. <b>Neither of them has a parameter meaning "degradation
+        rate" at all</b>, so neither can appear in the table beside it.
+        LightGBM stays badly overconfident (62% coverage on nominal 95%). On
+        extrapolation, bias drift is +0.232 for the lap-time leader against
+        <b class="hot">&minus;0.483</b> for the state-space model, whose error
+        shrinks most as it forecasts past its training window. We previously
+        called that the <em>only</em> such rung; at twenty races LightGBM is also
+        roughly flat at &minus;0.063, and we correct it here rather than restate
+        it. The MLP is worst of all at &minus;3.582, and it was tuned first across
+        five configurations, because beating a badly-configured competitor would
+        prove nothing.
         <b>That column is the physics-informed argument demonstrated rather than
         asserted:</b> encoding fuel as physics lets a model extrapolate it;
         learning fuel as a pattern does not.
