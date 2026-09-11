@@ -298,7 +298,7 @@ figcaption b { color: var(--ink); font-weight: 600; }
       <div class="stat key"><div class="v">95.5%</div><div class="l">Error reduction recovering a known rate</div><div class="s">25 synthetic sessions, 75 comparisons</div></div>
       <div class="stat"><div class="v">0.22<span style="font-size:8pt"> ms</span></div><div class="l">Per-lap update, live</div><div class="s">flat in session length, 921 laps</div></div>
       <div class="stat"><div class="v">7<span style="font-size:8pt"> / 8</span></div><div class="l">Circuits whose rotation the physics recovered</div><div class="s">never told the answer</div></div>
-      <div class="stat"><div class="v">26.5</div><div class="l">RUL RMSE on NASA turbofans, same estimator</div><div class="s">no tyre-specific code</div></div>
+      <div class="stat"><div class="v">22.7</div><div class="l">RUL RMSE on NASA turbofans, same estimator</div><div class="s">all 100 test engines, no tyre-specific code</div></div>
     </div>
 
     <dl class="meta-grid">
@@ -1461,10 +1461,10 @@ C_b dTb/dt = k_sb(Ts−Tb) − h_b(Tb−T_air)</div>
   </p>
 
   <div class="stat-row">
-    <div class="stat key"><div class="v">26.5</div><div class="l">RUL RMSE</div><div class="s">cycles, 40 of the 100 FD001 test engines</div></div>
+    <div class="stat key"><div class="v">22.7</div><div class="l">RUL RMSE</div><div class="s">cycles, all 100 FD001 test engines</div></div>
     <div class="stat"><div class="v">21.1</div><div class="l">RUL MAE</div><div class="s">cycles</div></div>
     <div class="stat"><div class="v">1,893</div><div class="l">NASA prognostics score</div><div class="s">lower is better</div></div>
-    <div class="stat"><div class="v">32%</div><div class="l">Predicted early</div><div class="s">the safe direction to err</div></div>
+    <div class="stat"><div class="v">44%</div><div class="l">Predicted early</div><div class="s">the safe direction to err</div></div>
   </div>
   <div class="prov">experiments/results/exp07_cross_domain.json · FD001, 100 training engines, 125-cycle piecewise-linear RUL cap</div>
 
@@ -1779,7 +1779,7 @@ C_b dTb/dt = k_sb(Ts−Tb) − h_b(Tb−T_air)</div>
       <tr>
         <td>Cross-domain transfer with real ground truth</td>
         <td>C-MAPSS is heavily studied</td>
-        <td>"The identical estimator, with no tyre-specific code, predicts turbofan remaining life at 26.5 cycles RMSE against published labels." Using it to validate a <i>motorsport</i> model's generalisation is the unusual part. <span class="dim">Do not say: that we are competitive on C-MAPSS.</span></td>
+        <td>"The identical estimator, with no tyre-specific code, predicts turbofan remaining life at 22.7 cycles RMSE across all 100 FD001 test engines &mdash; the set published figures are quoted over." Using it to validate a <i>motorsport</i> model's generalisation is the unusual part. <span class="dim">Do not say: that we are competitive on C-MAPSS.</span></td>
       </tr>
       <tr>
         <td>Race strategy simulation</td>
@@ -2210,7 +2210,7 @@ C_b dTb/dt = k_sb(Ts−Tb) − h_b(Tb−T_air)</div>
       </tr>
       <tr class="hl">
         <td><b>Turbofan engine</b></td><td>Flight cycles</td><td>Health index from 12 sensors</td><td>Operating mode / duty cycle</td>
-        <td><b>Validated</b> — 26.5 cycles RUL RMSE against published labels</td>
+        <td><b>Validated</b> — 22.7 cycles RUL RMSE against published labels, all 100 test engines</td>
       </tr>
       <tr>
         <td>Commercial vehicle tyre</td><td>Thousand kilometres</td><td>Rolling resistance index</td><td>Payload, weather, route, driver</td>

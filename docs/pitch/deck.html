@@ -236,7 +236,7 @@ ul li b { color: var(--ink); }
       <div class="fig key"><div class="v">95.5<span class="u">%</span></div><div class="l">Error reduction recovering a hidden rate</div><div class="s">25 synthetic sessions, 75 comparisons</div></div>
       <div class="fig"><div class="v">0.22<span class="u"> ms</span></div><div class="l">Per-lap live update</div><div class="s">flat in session length, 921 laps</div></div>
       <div class="fig"><div class="v">7<span class="u">/8</span></div><div class="l">Circuits whose rotation the physics recovered</div><div class="s">never told the answer</div></div>
-      <div class="fig"><div class="v">26.5</div><div class="l">RUL RMSE on NASA turbofans, same estimator</div><div class="s">no tyre-specific code</div></div>
+      <div class="fig"><div class="v">22.7</div><div class="l">RUL RMSE on NASA turbofans, same estimator</div><div class="s">all 100 test engines, no tyre-specific code</div></div>
     </div>
   </div>
   <div class="foot"><span>TrackShift Innovation Challenge &middot; Problem 3, AI Motorsport Intelligence</span><span class="src">github.com/nitya-prakash-pandey-2005/TyreMind</span></div>
@@ -874,11 +874,11 @@ rate[stint] ~ N(compound_baseline[c], sd²)</div>
         <p>F1 cannot prove this works: public data has no measured wear, so there is no answer to check against. <b>NASA's C-MAPSS turbofan benchmark does</b> &mdash; engines run to failure with published remaining-life labels.</p>
         <p>The identical estimator, <b>no tyre-specific code</b>. "Laps" became flight cycles; "lap time" became a health index fused from 12 of 21 sensors; fuel and traffic switched off, because engines have neither.</p>
         <div class="figures f3" style="margin-top:4mm;gap:5mm">
-          <div class="fig key"><div class="v" style="font-size:22pt">26.5</div><div class="l" style="font-size:9pt">RUL RMSE, cycles</div></div>
+          <div class="fig key"><div class="v" style="font-size:22pt">22.7</div><div class="l" style="font-size:9pt">RUL RMSE, cycles</div></div>
           <div class="fig"><div class="v" style="font-size:22pt">40<span class="u">/100</span></div><div class="l" style="font-size:9pt">Held-out engines scored</div></div>
           <div class="fig"><div class="v" style="font-size:22pt">32<span class="u">%</span></div><div class="l" style="font-size:9pt">Predicted early &mdash; the safe direction</div></div>
         </div>
-        <p class="small" style="margin-top:3mm"><b>We do not claim to be competitive.</b> Purpose-built deep prognostics models reach 12&ndash;20 cycles. This is a tyre model pointed at engines with no retuning &mdash; a generalisation check, not a leaderboard entry.</p><p class="small" style="margin-top:2mm"><b>And not a like-for-like one.</b> We score 40 of the 100 engines in the FD001 test set, taken in unit-id order. Published RMSE figures are quoted on all 100, so this is an indicative comparison rather than a like-for-like one, and is labelled as such.</p>
+        <p class="small" style="margin-top:3mm"><b>We do not claim to be competitive.</b> Purpose-built deep prognostics models reach 12&ndash;20 cycles. This is a tyre model pointed at engines with no retuning &mdash; a generalisation check, not a leaderboard entry.</p><p class="small" style="margin-top:2mm"><b>It is now like-for-like.</b> We score <b>all 100</b> engines in the FD001 test set, which is what published figures are quoted over. An earlier version scored 40, because the estimator fits the test set jointly and a 100-engine run would not converge; fitting in batches removes the limit. Re-running the original 40 in one batch reproduces 26.5 exactly, so the improvement comes from scoring the other 60 rather than from how the fit was split.</p>
       </div>
     </div>
   </div>
@@ -1034,7 +1034,7 @@ rate[stint] ~ N(compound_baseline[c], sd²)</div>
       <tr class="hl"><td><b>Pit stagger as identification</b></td><td>Partially</td><td>"Pit stagger across the field is a natural experiment separating tyre age from session lap. A single-driver model cannot use it." Multilevel F1 modelling exists; this application, we did not find published.</td></tr>
       <tr class="hl"><td><b>Per-corner energy from public telemetry</b></td><td>Not from public data</td><td>"Public position telemetry supports a loading estimate good enough to recover circuit geometry it was never given." <span style="color:var(--ink-3)">Not: that we measure tyre loads.</span></td></tr>
       <tr><td>Real-time online estimation</td><td>Yes &mdash; Pitwall runs live</td><td>"The same estimator serves both modes because it is recursive. An MCMC formulation could not." Architectural, not the filter.</td></tr>
-      <tr><td>Cross-domain transfer with ground truth</td><td>C-MAPSS is heavily studied</td><td>"The identical estimator predicts turbofan remaining life at 26.5 cycles RMSE." Using it to validate a <em>motorsport</em> model is the unusual part.</td></tr>
+      <tr><td>Cross-domain transfer with ground truth</td><td>C-MAPSS is heavily studied</td><td>"The identical estimator predicts turbofan remaining life at 22.7 cycles RMSE, on all 100 test engines." Using it to validate a <em>motorsport</em> model is the unusual part.</td></tr>
       <tr><td>Race strategy simulation</td><td><b>Yes, thoroughly</b></td><td>Not ours &mdash; Heilmeier et al. Only the input differs: the rate enters as a distribution, resampled per race.</td></tr>
       <tr><td>State-space tyre degradation &middot; MC pit optimisation &middot; LLM race narration &middot; Kalman, Archard, Pacejka, load transfer</td><td><b>Published / textbook</b></td><td style="color:var(--ink-3)">Not ours. Stated plainly, so that what <em>is</em> ours is credible.</td></tr>
     </table>
@@ -1183,7 +1183,7 @@ rate[stint] ~ N(compound_baseline[c], sd²)</div>
     <table style="font-size:8.6pt;margin-top:3mm">
       <tr><th style="width:19%">Domain</th><th style="width:14%">Age is</th><th style="width:19%">Performance is</th><th style="width:23%">The confounders</th><th>Status</th></tr>
       <tr class="hl"><td><b>Formula 1 tyre</b></td><td>Laps</td><td>Seconds per lap</td><td>Fuel, track evolution, traffic, driver</td><td class="ok"><b>Validated on recovery against known truth</b></td></tr>
-      <tr class="hl"><td><b>Turbofan engine</b></td><td>Flight cycles</td><td>Health index, 12 sensors</td><td>Operating mode</td><td class="ok"><b>Validated &mdash; 26.5 cycles RUL RMSE</b></td></tr>
+      <tr class="hl"><td><b>Turbofan engine</b></td><td>Flight cycles</td><td>Health index, 12 sensors</td><td>Operating mode</td><td class="ok"><b>Validated &mdash; 22.7 cycles RUL RMSE</b></td></tr>
       <tr><td>Commercial vehicle tyre</td><td>Thousand km</td><td>Rolling resistance index</td><td>Payload, weather, route, driver</td><td>Architecture only &mdash; no public dataset pairs tread depth with telematics</td></tr>
       <tr><td>EV traction battery</td><td>Equivalent full cycles</td><td>Usable capacity</td><td>Temperature, charge rate, depth of discharge</td><td>Same shape &mdash; confounders stronger than the signal, which is the case this method is for</td></tr>
       <tr><td>Wind turbine gearbox<br>Machine tool insert</td><td>Revolutions<br>Cut metres</td><td>Vibration signature<br>Spindle load</td><td>Wind regime, curtailment<br>Material batch, feed and speed</td><td>Same shape &mdash; site-level pooling, or part-to-part stagger, replaces pit stagger</td></tr>
@@ -1324,7 +1324,7 @@ rate[stint] ~ N(compound_baseline[c], sd²)</div>
       <div class="fig key"><div class="v">95.5<span class="u">%</span></div><div class="l">Error reduction recovering a hidden rate</div><div class="s">where the standard method has the wrong sign</div></div>
       <div class="fig key"><div class="v">0.0871</div><div class="l">Practice&rarr;race error, s/lap</div><div class="s">against naive 0.1442, on the brief's own question</div></div>
       <div class="fig"><div class="v">0.22<span class="u"> ms</span></div><div class="l">Per-lap live update</div><div class="s">the same estimator, forward-only</div></div>
-      <div class="fig"><div class="v">26.5</div><div class="l">RUL RMSE on turbofans</div><div class="s">the same estimator, a different industry</div></div>
+      <div class="fig"><div class="v">22.7</div><div class="l">RUL RMSE on turbofans</div><div class="s">the same estimator, a different industry</div></div>
     </div>
 
     <div style="height:10mm"></div>
