@@ -21,6 +21,14 @@ The last two are the interesting ones. If neither beats the label mean, then
 circuit geometry adds nothing we do not already get for free from Pirelli's
 nomination -- which would be worth knowing, and worth saying.
 
+An ablation runs alongside, scoring each feature family on its own through the
+identical procedure. The headline test throws geometry and temperature in
+together and so cannot say which is carrying the result -- or, as it turns out,
+which is carrying the damage. It also answers a question asked directly of the
+thermal layer elsewhere in this project: does it improve a number, or is it
+decoration? Every family, including temperature on its own, makes the label-mean
+baseline significantly WORSE.
+
     python experiments/exp09_circuit_transfer.py
 
 Writes experiments/results/exp09_circuit_transfer.json.
@@ -193,6 +201,50 @@ def score(cases: list[dict]) -> dict:
     return out
 
 
+def ablation(df: pd.DataFrame, available: list[str]) -> dict:
+    """Score each feature family on its own, against the label-mean baseline.
+
+    The headline test throws geometry and temperature in together, which cannot
+    say which of them is carrying the result -- or, as it turns out, which is
+    carrying the damage. The roadmap asks a specific question of the thermal
+    layer: does it improve a number, or is it decoration? Bundling it with four
+    geometric features is not an answer to that question.
+
+    Each family is run through the identical leave-one-circuit-out procedure, so
+    the only thing that changes between rows is which descriptors the ridge is
+    allowed to see.
+    """
+    from scipy import stats
+
+    families = {
+        "geometry only": [c for c in GEOMETRIC if c in available],
+        "thermal only": [c for c in THERMAL if c in available],
+        "energetics only": [c for c in ENERGETIC if c in available],
+        "everything": list(available),
+    }
+
+    out: dict[str, dict] = {}
+    for name, columns in families.items():
+        if not columns:
+            continue
+        cases = leave_one_circuit_out(df, columns)["cases"]
+        if len(cases) < 20:
+            continue
+        errors = [abs(c["label_plus_circuit"] - c["actual"]) for c in cases]
+        baseline = [abs(c["label_mean"] - c["actual"]) for c in cases]
+        _, p_value = stats.wilcoxon(errors, baseline)
+        out[name] = {
+            "features": columns,
+            "mae": st.fmean(errors),
+            "baseline_mae": st.fmean(baseline),
+            "vs_label_mean_pct": 100.0 * (st.fmean(baseline) - st.fmean(errors)) / st.fmean(baseline),
+            "wilcoxon_p": float(p_value),
+            "helps": bool(st.fmean(errors) < st.fmean(baseline) and p_value < 0.05),
+            "hurts": bool(st.fmean(errors) > st.fmean(baseline) and p_value < 0.05),
+        }
+    return out
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--alpha", type=float, default=5.0)
@@ -216,6 +268,15 @@ def main() -> None:
         p = s.get("wilcoxon_p_vs_label_mean")
         print(f"  {name:<26} {s['mae']:>9.4f} {s['rmse']:>9.4f} "
               f"{s['vs_label_mean_pct']:>+9.1f}% {('' if p is None else f'{p:>8.3f}')}")
+
+    families = ablation(df, feature_cols)
+    if families:
+        print("\n  Each family on its own, same leave-one-circuit-out procedure:")
+        print(f"  {'feature family':<20}{'MAE':>9}{'vs label':>11}{'p':>9}   verdict")
+        for name, f in families.items():
+            verdict = "helps" if f["helps"] else ("HURTS" if f["hurts"] else "no effect")
+            print(f"  {name:<20}{f['mae']:>9.4f}{f['vs_label_mean_pct']:>+10.1f}%"
+                  f"{f['wilcoxon_p']:>9.3f}   {verdict}")
 
     best = min(scores.items(), key=lambda kv: kv[1]["mae"])
     winner = [n for n, s in scores.items() if s.get("beats_baseline")]
@@ -256,6 +317,7 @@ def main() -> None:
                 "has_energetics": any(c in feature_cols for c in ENERGETIC),
                 "scores": scores,
                 "harmful_predictors": harmful,
+                "feature_family_ablation": families,
                 "cases": loco["cases"],
             },
             indent=2,

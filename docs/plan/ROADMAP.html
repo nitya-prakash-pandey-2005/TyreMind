@@ -398,11 +398,31 @@ footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);
     <div class="gap">
       <span class="idx">04</span>
       <div>
-        <h4>The thermal and wear layer is unearned depth <span class="tag t-hold">decorative</span></h4>
+        <h4>The thermal and wear layer is unearned depth <span class="tag t-done">tested &mdash; exploratory, and labelled so</span></h4>
         <p>
-          A two-state thermal model and an energy-based wear formulation exist, are physically motivated, and
-          feed nothing the headline estimate depends on. Either wire them into the estimator and show they
-          improve a number, or present them as exploratory. Physics that changes no result is theatre.
+          The demand was: <i>either wire them into the estimator and show they improve a number, or present
+          them as exploratory. Physics that changes no result is theatre.</i>
+        </p>
+        <p>
+          <b>Tested, and it does not improve a number.</b> exp09 now runs an ablation over feature families
+          through the identical leave-one-circuit-out procedure, so temperature can be judged on its own
+          rather than bundled with four geometric descriptors. Against the label-mean baseline over 140
+          stints at 25 venues:
+        </p>
+        <p class="mono small">
+          geometry only &nbsp;&minus;7.1% &nbsp;p&nbsp;0.008 &nbsp;HURTS<br>
+          thermal only &nbsp;&nbsp;&minus;2.5% &nbsp;p&nbsp;0.000 &nbsp;HURTS<br>
+          everything &nbsp;&nbsp;&nbsp;&nbsp;&minus;9.9% &nbsp;p&nbsp;0.003 &nbsp;HURTS
+        </p>
+        <p>
+          Track temperature, including the squared term that lets the ridge find the bidirectional
+          cold-graining/hot-abrasion curvature our own wear model predicts, makes out-of-sample prediction
+          <b>significantly worse</b>. The effect is small and highly reliable, which is the worst combination
+          to discover late: it would never have shown up as an obvious regression.
+        </p>
+        <p>
+          So the layer is <b>presented as exploratory</b> and no headline number depends on it. That is the
+          second branch of the demand, taken because the first failed &mdash; not because it was easier.
         </p>
       </div>
     </div>
@@ -429,7 +449,7 @@ footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);
     <div class="gap">
       <span class="idx">06</span>
       <div>
-        <h4>Lap-time intervals are undercovered <span class="tag t-risk">partly closed</span></h4>
+        <h4>Lap-time intervals are undercovered <span class="tag t-done">closed &mdash; 95.2% on 66,606 laps</span></h4>
         <p>
           The <b>practice→race</b> half of this is fixed. Coverage was 76% against a nominal 95% &mdash; worse than
           the 90% previously reported, which was a ten-comparison sample failing to detect the problem. Split
@@ -439,9 +459,28 @@ footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);
           <span class="mono">race_projection</span>.
         </p>
         <p>
-          <b>Still open:</b> lap-time interval coverage in the model ladder sits at 73% and pooled regression still
-          does better at 79%. The same conformal machinery applies and has not yet been pointed at it, and no PIT
-          histogram or reliability diagram has been drawn.
+          <b>The lap-time half is now closed too,</b> and it needed a different instrument. Split conformal
+          requires the calibration set to be exchangeable with the test point; lap times inside a race are
+          the opposite, because the car burns fuel, the track rubbers in and a safety car rearranges the
+          order. A fixed quantile calibrated on the first half of a race is calibrated for a race that no
+          longer exists.
+        </p>
+        <p>
+          Adaptive Conformal Inference (exp13) drops that assumption rather than hoping it holds, moving the
+          working miss-rate by <span class="mono">&gamma;(&alpha;&nbsp;&minus;&nbsp;err)</span> after every
+          lap. Measured over <b>66,606 held-out laps from twenty races</b>: Gaussian 75.5%, split conformal
+          89.3%, <b>adaptive conformal 95.2%</b> at a median width of 7.37&nbsp;s. It lifts LightGBM from 63%
+          to 95% at only 3.5&nbsp;s of width &mdash; its predictions were always fine, its sd was wrong.
+        </p>
+        <p>
+          Shipped rather than measured: <span class="mono">AdaptiveConformal</span> lives in the library and
+          the live monitor now carries an adaptive interval around its one-step-ahead forecast <i>together
+          with the coverage it has actually achieved</i>, so the claimed 95% is auditable during the session
+          rather than after it.
+        </p>
+        <p>
+          <b>Still open:</b> no PIT histogram or reliability diagram has been drawn. Coverage is now correct
+          on average; its <i>shape</i> across the distribution has not been inspected.
         </p>
       </div>
     </div>
@@ -449,10 +488,30 @@ footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);
     <div class="gap">
       <span class="idx">07</span>
       <div>
-        <h4>Rain is excluded, not handled <span class="tag t-hold">scope</span></h4>
+        <h4>Rain is excluded, not handled <span class="tag t-risk">partly closed &mdash; detected, not modelled</span></h4>
         <p>
-          Wet and intermediate compounds are dropped at ingestion. Correct for now, indefensible for a product:
-          a wet Friday is exactly when a team most needs help reading a dry race.
+          Wet and intermediate compounds are still dropped at ingestion, and modelling wet degradation remains
+          out of scope: it is a different physical process and the priors do not describe it.
+        </p>
+        <p>
+          <b>What has changed is that we now notice.</b> Dropping the wet laps and fitting whatever remained
+          was quietly producing nonsense: Canada 2024 ran 846 of 1,272 laps on wet rubber, and the dry
+          remainder &mdash; which sits on a <i>drying</i> track, improving faster and for longer than the
+          saturating basis can represent &mdash; yielded <b>&minus;0.151&nbsp;s/lap</b>. A tyre getting faster
+          with age. Precisely the impossible number we criticise the naive method for, produced by us, in
+          silence.
+        </p>
+        <p>
+          <span class="mono">session_conditions.json</span> now records the wet-lap fraction of every session
+          and every experiment refuses sessions above 40%. The threshold is <b>calibrated, not chosen</b>:
+          Canada at 66.5% gave the impossible number, Britain at 24.4% gave +0.12 to +0.15 which is entirely
+          ordinary, so the boundary sits between them. Rainfall alone is deliberately not a criterion &mdash;
+          Spain and Austria both recorded rain with zero wet-tyre laps and unremarkable estimates, so rain
+          that never forces a wet tyre is carried as an advisory rather than an exclusion.
+        </p>
+        <p>
+          <b>Still open:</b> a wet Friday is exactly when a team most needs help reading a dry race, and we
+          still cannot offer one. Detecting that we should keep quiet is a floor, not a product.
         </p>
       </div>
     </div>

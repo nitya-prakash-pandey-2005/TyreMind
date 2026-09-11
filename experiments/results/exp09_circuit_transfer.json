@@ -1,6 +1,6 @@
 {
   "experiment": "exp09_circuit_transfer",
-  "generated_at": "2026-09-10T06:10:55.076758+00:00",
+  "generated_at": "2026-09-11T19:27:54.714240+00:00",
   "n_stints": 140,
   "n_circuits": 25,
   "feature_columns": [
@@ -44,6 +44,50 @@
     "label_plus_circuit",
     "compound_plus_circuit"
   ],
+  "feature_family_ablation": {
+    "geometry only": {
+      "features": [
+        "n_corners",
+        "n_tight_corners",
+        "mean_corner_angle",
+        "median_corner_spacing_m"
+      ],
+      "mae": 0.04423055644312074,
+      "baseline_mae": 0.04128976064448671,
+      "vs_label_mean_pct": -7.122336755484934,
+      "wilcoxon_p": 0.007683205396545532,
+      "helps": false,
+      "hurts": true
+    },
+    "thermal only": {
+      "features": [
+        "track_temp_c",
+        "track_temp_sq"
+      ],
+      "mae": 0.04232177233261602,
+      "baseline_mae": 0.04128976064448671,
+      "vs_label_mean_pct": -2.4994373230088245,
+      "wilcoxon_p": 9.206853646106875e-11,
+      "helps": false,
+      "hurts": true
+    },
+    "everything": {
+      "features": [
+        "n_corners",
+        "n_tight_corners",
+        "mean_corner_angle",
+        "median_corner_spacing_m",
+        "track_temp_c",
+        "track_temp_sq"
+      ],
+      "mae": 0.0453675531137239,
+      "baseline_mae": 0.04128976064448671,
+      "vs_label_mean_pct": -9.876038043300426,
+      "wilcoxon_p": 0.0034722843527080563,
+      "helps": false,
+      "hurts": true
+    }
+  },
   "cases": [
     {
       "circuit": "Austin",
