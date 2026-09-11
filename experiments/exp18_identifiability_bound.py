@@ -316,8 +316,20 @@ def main() -> None:
 
     print("\n  2. WITHOUT THE PRIOR, THE VARIANCE IS INFINITE")
     finite = frame["crb_sd"].notna()
+    # Counted, not asserted. An earlier version printed "infinite in N/N" as a
+    # literal; it happened to be wrong then (a filtering artefact was breaking
+    # the collinearity) and is right now, which is exactly why it should be
+    # measured rather than written.
+    diverged = int(sum(not np.isfinite(s["var_beta_without_prior"]) for s in per_session))
+    finite_without = [
+        s["var_beta_without_prior"] for s in per_session
+        if np.isfinite(s["var_beta_without_prior"])
+    ]
     print(f"     Var(beta) with a flat prior on phi : infinite in "
-          f"{len(frame)}/{len(frame)} sessions")
+          f"{diverged}/{len(frame)} sessions")
+    if finite_without:
+        print(f"     where finite, sd without the prior : "
+              f"{np.sqrt(np.median(finite_without)):.4f} s/lap")
     if finite.any():
         print(f"     Cramer-Rao sd with the shipped prior (0.016 s/lap): "
               f"{frame.loc[finite, 'crb_sd'].median():.4f} s/lap")
@@ -362,6 +374,7 @@ def main() -> None:
         "median_cramer_rao_sd": float(frame.loc[finite, "crb_sd"].median()) if finite.any() else None,
         "median_model_reported_sd": float(frame.loc[finite, "model_sd"].median()) if finite.any() else None,
         "median_nonlinear_share": float(share.median()) if len(share) else None,
+        "sessions_unidentified_without_prior": diverged,
         "per_session": per_session,
     }, indent=2, default=float))
     print(f"\nwrote {RESULTS}")

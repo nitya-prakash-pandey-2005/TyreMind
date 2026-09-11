@@ -598,6 +598,99 @@ figcaption b { color: var(--ink); font-weight: 600; }
     not as an argument.
   </p>
 
+  <h4>The algebra, in full</h4>
+  <p>
+    &ldquo;Not separable&rdquo; is a strong claim and deserves the two lines that
+    establish it rather than an assertion. Within one run, lap time under the
+    structural model is
+  </p>
+  <p class="mono" style="margin-left:6mm">
+    y<sub>t</sub> &nbsp;=&nbsp; c<sub>r</sub> &nbsp;&minus;&nbsp; &phi;&thinsp;f<sub>t</sub>
+    &nbsp;+&nbsp; &beta;&thinsp;a<sub>t</sub> &nbsp;+&nbsp; &epsilon;<sub>t</sub>
+  </p>
+  <p>
+    with <span class="mono">f<sub>t</sub></span> the laps completed on the run
+    (fuel burned) and <span class="mono">a<sub>t</sub></span> the tyre's age. A run
+    puts exactly one lap on the tyre per lap completed, so
+    <span class="mono">a<sub>t</sub> = a<sub>0</sub> + f<sub>t</sub></span>, and
+    substituting gives
+  </p>
+  <p class="mono" style="margin-left:6mm">
+    y<sub>t</sub> &nbsp;=&nbsp; [ c<sub>r</sub> + &beta;&thinsp;a<sub>0</sub> ]
+    &nbsp;+&nbsp; (&beta; &minus; &phi;)&thinsp;f<sub>t</sub> &nbsp;+&nbsp;
+    &epsilon;<sub>t</sub>
+  </p>
+  <p>
+    The run intercept <span class="mono">c<sub>r</sub></span> is free, so it swallows
+    <span class="mono">&beta;&thinsp;a<sub>0</sub></span> whole. What remains is a
+    single slope multiplying a single regressor. <b>Only the combination
+    (&beta;&nbsp;&minus;&nbsp;&phi;) is identified.</b> The Fisher information matrix
+    for the pair is singular by construction, and its determinant is zero rather
+    than small.
+  </p>
+  <div class="panel warn">
+    <h4>This rules out the obvious rescue</h4>
+    <p>
+      Pit-stop stagger does <em>not</em> fix it. Different cars starting a stint on
+      tyres of different ages varies <span class="mono">a<sub>0</sub></span>, and
+      <span class="mono">a<sub>0</sub></span> is absorbed by the run intercept. More
+      cars does not help. More laps does not help. A longer season does not help.
+      The whole-field pooling that identifies <em>other</em> parts of this model
+      contributes nothing here.
+    </p>
+  </div>
+
+  <h4>Measured, not argued</h4>
+  <p>
+    Experiment 18 checks the algebra against the data rather than trusting it.
+    Across 547 runs in 12 sessions, the within-run correlation between the two
+    regressors is <b class="mono">1.000000000</b> and the Fisher information is
+    rank-deficient in <b>12 of 12</b> sessions. With a flat prior on &phi; the
+    posterior variance of &beta; diverges in every one of them.
+  </p>
+  <p>
+    This got <em>stronger</em> during development, which is worth recording. An
+    earlier corpus showed ~95% exact collinearity and two ranks of two, because the
+    fuel regressor was a positional counter over rows surviving the quality filter
+    rather than laps actually completed. The residual identification was a
+    <b>filtering artefact</b>, not physics. Correcting the counter removed it and
+    made the result exact &mdash; a fix that made the project's own position harder
+    to defend, which is the direction a real correction usually runs.
+  </p>
+
+  <h4>So what buys it back?</h4>
+  <p>
+    Two channels, and there are only two.
+  </p>
+  <p>
+    <b>The prior.</b> With &phi;&nbsp;~&nbsp;N(&mu;,&nbsp;&tau;&sup2;), the posterior
+    precision of &beta; is finite; let &tau;&nbsp;&rarr;&nbsp;&infin; and it
+    diverges. The prior is not a refinement of this estimate, it is the reason the
+    estimate exists. The Cram&eacute;r&ndash;Rao bound it implies is
+    <b class="mono">0.0161&nbsp;s/lap</b>, against the model's own reported
+    <b class="mono">0.0235</b> &mdash; the estimator sits <b>1.46&times;</b> off the
+    theoretical floor, which is a tighter efficiency check than anything else in
+    this document.
+  </p>
+  <p>
+    <b>Curvature.</b> Fuel burns at a constant rate, so its effect is exactly linear
+    in laps. The tyre's is not: the degradation rate is carried as a random walk, so
+    accumulated loss may bend, and any departure from a straight line is orthogonal
+    to the fuel term and identified by data alone. Measured, that channel is
+    <b>7.8%</b> of the tyre term (median across sessions, range 0.6% to 49.7%).
+  </p>
+  <div class="panel warn">
+    <h4>The uncomfortable corollary</h4>
+    <p>
+      The flatter the true degradation curve, the more the answer rests on the
+      prior. A perfectly linear tyre is one whose degradation cannot be separated
+      from fuel by any quantity of data, at any circuit, in any season. Every
+      degradation figure in this document should be read as conditional on
+      0.030&nbsp;s/kg &mdash; and section 11 quantifies how far the answer moves when
+      that assumption is wrong by a full standard deviation.
+    </p>
+  </div>
+
   <h3>3.2 &nbsp; Track evolution against a uniform shift in degradation</h3>
   <p>
     <b>Not anticipated.</b> This one was found by diagnosing a stubborn
