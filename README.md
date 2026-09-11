@@ -271,7 +271,16 @@ retuning the working miss-rate after every lap:
 | **Adaptive conformal** | **95.2%** | 7.37 s |
 
 It lifts LightGBM from 63% to 95% at only 3.5 s of width — its lap-time
-*predictions* were always fine, its *sd* was wrong. The live monitor now carries the same machinery and reports the
+*predictions* were always fine, its *sd* was wrong.
+
+**And the shape is right, not just the size**
+([exp16](experiments/exp16_calibration_shape.py)). A model can hit 95% exactly
+while being far too confident in the middle and too timid in the tails. The PIT
+histogram — where the truth lands inside its own predicted distribution — comes
+out **U-shaped for all six rungs**, which is overconfidence seen directly rather
+than inferred. Sweeping the nominal level from 50% to 99%, the Gaussian sits a
+mean 0.191 from the reliability diagonal and adaptive conformal sits 0.005 away:
+**37× closer, at every level and not only at 95%.** The live monitor now carries the same machinery and reports the
 coverage it has actually achieved, so the claimed 95% is auditable in flight
 rather than after the race.
 
@@ -506,6 +515,7 @@ python experiments/exp12_conformal_intervals.py
 python experiments/exp13_lap_time_calibration.py --corpus season
 python experiments/exp14_naive_failure_rate.py
 python experiments/exp15_driver_effect.py --refit             # ~20 min, then cached
+python experiments/exp16_calibration_shape.py                 # ~10 min
 ```
 
 **Order matters in two places.** `exp09`, `exp10` and `exp11` read the result

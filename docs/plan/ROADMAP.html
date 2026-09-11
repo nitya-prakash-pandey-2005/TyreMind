@@ -479,8 +479,24 @@ footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);
           rather than after it.
         </p>
         <p>
-          <b>Still open:</b> no PIT histogram or reliability diagram has been drawn. Coverage is now correct
-          on average; its <i>shape</i> across the distribution has not been inspected.
+          <b>And the shape has now been inspected too</b> (exp16), because a single coverage figure is a weak
+          check: a model can hit 95% exactly while being far too confident in the middle and far too timid in
+          the tails, and every number reported above would still look perfect.
+        </p>
+        <p>
+          The <b>PIT histogram</b> asks where the truth landed inside its own predicted distribution; under a
+          correct distribution those values are uniform. <b>All six rungs come out U-shaped</b> &mdash; too
+          much mass in the tails &mdash; which is overconfidence seen as a shape rather than inferred from one
+          level. A four-race pilot had shown the state-space model hump-shaped instead; ten races showed that
+          was a small-sample artefact, which is the argument for not stopping at the first plausible answer.
+        </p>
+        <p>
+          The <b>reliability curve</b> sweeps the nominal level from 50% to 99%. The Gaussian intervals sit a
+          mean <span class="mono">0.191</span> from the diagonal; adaptive conformal sits
+          <span class="mono">0.005</span> away &mdash; <b>37&times; closer, at every level and not only at
+          95%</b>. A method tuned to look right at one level and wrong everywhere else would fail here, and
+          this is the only test in the project that would have caught it. The calibrator is run per race and
+          started cold each time, so it never inherits a head start it would not have on a Sunday morning.
         </p>
       </div>
     </div>
