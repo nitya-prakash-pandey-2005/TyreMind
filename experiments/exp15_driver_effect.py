@@ -26,12 +26,26 @@ Three tests, each answering a different question:
 
   C. TEAMMATE CONTRAST. Driver and car are perfectly confounded: "this driver is
      hard on tyres" and "this car is hard on tyres" make identical predictions.
-     Teammates share a car, so the within-team difference removes it. If the
-     teammate gap is stable across races, the effect is genuinely the driver. If
-     only the raw deviation is stable, we have measured the car.
+     Teammates share a car, so the within-team difference removes it.
 
 The deviation is taken within (race, compound), which removes circuit severity,
-weather, and compound identity in one step. What remains is who was driving.
+weather, and compound identity in one step. What remains is who was driving --
+and, until test C, which car they were driving.
+
+WHAT THE FULL CORPUS SAYS, and it inverted partway through. On two seasons the
+raw deviation was stable and the teammate contrast was not, which reads as
+"we measured the car". On four seasons it is the other way round: the raw
+deviation no longer clears zero (5th percentile -0.079) while the teammate
+contrast does (+0.031 over 21 pairs).
+
+Removing a nuisance should not IMPROVE a signal unless the nuisance was large.
+The car is exactly that -- it changes between seasons, it changes with upgrades
+inside one, and pooling across the field buries a small driver contrast
+underneath it. Holding the car fixed is what makes the contrast legible, which
+is a better-identified result than the one this experiment started with.
+
+It is still not useful. Test B is unmoved: a driver's history does not beat the
+field mean at a held-out race. Real, identified, and too small to act on.
 
     python experiments/exp15_driver_effect.py
     python experiments/exp15_driver_effect.py --limit 40
@@ -434,6 +448,31 @@ def main() -> None:
         print("           A per-driver term would therefore add a parameter, a maintenance")
         print("           burden and a story, and would not improve a forecast. It is not")
         print("           built.")
+    elif car_free:
+        print("  VERDICT: the raw driver deviation is NOT stable, and the teammate")
+        print("           contrast IS. That inversion is the finding.")
+        print()
+        print("           Pooled across the field, a driver's deviation reproduces at")
+        print(f"           r = {reliability['mean_r']:+.2f} with a 5th percentile of")
+        print(f"           {reliability['p05']:+.3f} -- it does not clear zero. Difference out")
+        print("           the car by comparing teammates and the same measurement")
+        print(f"           reproduces at r = {teammates['mean_split_half_r']:+.2f}, 5th percentile")
+        print(f"           {teammates['p05']:+.3f}, over {teammates['n_pairs']} pairs.")
+        print()
+        print("           Removing a nuisance should not IMPROVE a signal unless the")
+        print("           nuisance was large. The car is: it changes between seasons, it")
+        print("           changes with upgrades inside one, and pooling across the field")
+        print("           buries a small driver contrast underneath it. Holding the car")
+        print("           fixed is what makes the contrast legible.")
+        print()
+        print("           It is still not USEFUL. Predicting a driver's deviation at a")
+        print("           held-out race from their history scores")
+        print(f"           {prediction['driver_mae']:.4f} s/lap against")
+        print(f"           {prediction['field_mean_mae']:.4f} for the field mean")
+        print(f"           (p = {prediction['wilcoxon_p']:.2f}). The spread of driver means is")
+        print(f"           {spread:.4f} s/lap against race-to-race scatter of")
+        print(f"           {prediction['field_mean_mae']:.4f}. Real, identified, and too small")
+        print("           to act on. Not built.")
     else:
         print("  VERDICT: driver identity does not beat the field mean out of sample, and")
         print("           the trait is not stable across halves of the corpus either.")
@@ -459,6 +498,9 @@ def main() -> None:
         "prediction": prediction,
         "teammates": teammates,
         "reliable_not_useful": bool(reliability["stable"] and not prediction.get("beats_null")),
+        "teammate_contrast_cleaner_than_raw": bool(
+            teammates.get("stable") and not reliability["stable"]
+        ),
         "signal_to_noise": (
             spread / prediction["field_mean_mae"] if prediction.get("field_mean_mae") else None
         ),
