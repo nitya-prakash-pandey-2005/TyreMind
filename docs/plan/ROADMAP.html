@@ -307,9 +307,9 @@ footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);
     <div class="card">
       <h4>Evidence</h4>
       <p>Eighteen recorded experiments. Ground-truth recovery <span class="mono">0.0044</span> vs naive
-         <span class="mono">0.0966</span> over 25 sessions. Practice→race <span class="mono">0.0858</span> vs
-         <span class="mono">0.1440</span> over <b>27 events and 62 comparisons</b>, two seasons.</p>
-      <p class="mono small">18 result files · 113 sessions · 61,396 laps · every figure read, none typed</p>
+         <span class="mono">0.0966</span> over 25 sessions. Practice→race <span class="mono">0.0807</span> vs
+         <span class="mono">0.1471</span> over <b>42 events and 94 comparisons</b>, two seasons.</p>
+      <p class="mono small">18 result files · 203 sessions · 92,326 laps · every figure read, none typed</p>
     </div>
     <div class="card">
       <h4>Product</h4>
@@ -323,15 +323,15 @@ footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);
     <h3>The number that used to worry us &mdash; and what it cost to fix</h3>
     <p>
       This section previously read: <i>“our entire real-data claim rests on 10 comparisons across 5 events,
-      all from 2024.”</i> That is now <b>62 comparisons across 27 events over 2024 and 2023</b>, drawn from a
-      corpus of <b>113 sessions and 61,396 laps</b> spanning three seasons.
+      all from 2024.”</i> That is now <b>94 comparisons across 42 events over 2023, 2024 and 2025</b>, drawn from a
+      corpus of <b>203 sessions and 92,326 laps</b> spanning four seasons.
     </p>
     <p>
       The risk register below predicted that results might get worse at scale and said that would be
       <i>“a feature, not a failure”</i>. It was right on both counts. Practice→race MAE went from
-      <span class="mono">0.0518</span> to <span class="mono">0.0858</span> s/lap: the five-event sample had
+      <span class="mono">0.0518</span> to <span class="mono">0.0807</span> s/lap: the five-event sample had
       been flattering us. The naive baseline worsened in step (<span class="mono">0.1166</span> →
-      <span class="mono">0.1440</span>) and the <b>40% gap held</b>, which is the part of the claim that was
+      <span class="mono">0.1471</span>) and the <b>45% gap held</b>, which is the part of the claim that was
       ever real. Interval coverage told the same story &mdash; 90% on ten comparisons was not good calibration,
       it was too small a sample to detect that the true figure is 76%.
     </p>
@@ -365,11 +365,11 @@ footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);
     <div class="gap">
       <span class="idx">02</span>
       <div>
-        <h4>The evidence base is thin <span class="tag t-done">closed &mdash; 113 sessions, 61,396 laps</span></h4>
+        <h4>The evidence base is thin <span class="tag t-done">closed &mdash; 203 sessions, 92,326 laps</span></h4>
         <p>
-          <s>Four circuits, one season, ten real comparisons.</s> The corpus now spans 2024, 2023 and 2022;
-          the practice→race claim rests on 27 events and 62 comparisons across two seasons, and the
-          circuit-transfer work on 140 stint estimates at 25 venues. "Would this hold over a full season?"
+          <s>Four circuits, one season, ten real comparisons.</s> The corpus now spans 2022, 2023, 2024 and 2025;
+          the practice→race claim rests on 42 events and 94 comparisons across two seasons, and the
+          circuit-transfer work on 193 stint estimates at 26 venues. "Would this hold over a full season?"
           now has an answer, and the answer is that the headline got worse and the margin held.
         </p>
       </div>
@@ -408,19 +408,26 @@ footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);
         <p>
           <b>Tested, and it does not improve a number.</b> exp09 now runs an ablation over feature families
           through the identical leave-one-circuit-out procedure, so temperature can be judged on its own
-          rather than bundled with four geometric descriptors. Against the label-mean baseline over 140
-          stints at 25 venues:
+          rather than bundled with four geometric descriptors. Against the label-mean baseline over 193
+          stints at 26 venues:
         </p>
         <p class="mono small">
-          geometry only &nbsp;&minus;7.5% &nbsp;p&nbsp;0.010 &nbsp;HURTS<br>
-          thermal only &nbsp;&nbsp;&minus;2.4% &nbsp;p&nbsp;0.000 &nbsp;HURTS<br>
-          everything &nbsp;&nbsp;&nbsp;&nbsp;&minus;10.4% &nbsp;p&nbsp;0.001 &nbsp;HURTS
+          geometry only &nbsp;&minus;3.3% &nbsp;p&nbsp;0.22 &nbsp;&nbsp;no effect<br>
+          thermal only &nbsp;&nbsp;&minus;1.5% &nbsp;p&nbsp;0.001 &nbsp;HURTS<br>
+          everything &nbsp;&nbsp;&nbsp;&nbsp;&minus;5.5% &nbsp;p&nbsp;0.056 &nbsp;no effect
         </p>
         <p>
           Track temperature, including the squared term that lets the ridge find the bidirectional
-          cold-graining/hot-abrasion curvature our own wear model predicts, makes out-of-sample prediction
-          <b>significantly worse</b>. The effect is small and highly reliable, which is the worst combination
-          to discover late: it would never have shown up as an obvious regression.
+          cold-graining/hot-abrasion curvature our own wear model predicts, is the <b>only</b> family that
+          still makes out-of-sample prediction significantly worse. The effect is small and highly reliable,
+          which is the worst combination to discover late: it would never have shown up as an obvious
+          regression.
+        </p>
+        <p>
+          <b>Geometry's verdict softened with the fourth season</b> &mdash; from significantly harmful
+          (&minus;7.5%, p&nbsp;0.010) to simply not helpful (&minus;3.3%, p&nbsp;0.22) across 193 stints at
+          26 venues. The conclusion for the product is unchanged, since neither family earns a place, but
+          "hurts" and "does nothing" are different claims and only the second is now supported.
         </p>
         <p>
           So the layer is <b>presented as exploratory</b> and no headline number depends on it. That is the
@@ -434,10 +441,11 @@ footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);
       <div>
         <h4>No pre-event capability <span class="tag t-done">tested &mdash; hypothesis not supported</span></h4>
         <p>
-          Built and tested by leave-one-<i>circuit</i>-out over 140 stint estimates at 25 venues (exp09), so the
+          Built and tested by leave-one-<i>circuit</i>-out over 193 stint estimates at 26 venues (exp09), so the
           model has never seen the venue in any form &mdash; exactly Thursday's situation. <b>Circuit geometry does
-          not merely fail to help, it makes the label-mean baseline significantly worse</b> (p 0.003; p 0.001 with
-          compound identity). At 2.4× the data this is a firm negative, not an underpowered null.
+          not beat the label mean</b> (&minus;3.3%, p 0.22), and adding compound identity on top is significantly
+          worse. On two seasons we reported geometry as significantly harmful (&minus;7.5%, p 0.010); four seasons
+          walked that back to "does nothing", and the weaker claim is the one that holds.
         </p>
         <p>
           The mechanism is the one exp08 found: <b>Pirelli nominates to equalise</b> &mdash; harder rubber for
@@ -451,7 +459,7 @@ footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);
     <div class="gap">
       <span class="idx">06</span>
       <div>
-        <h4>Lap-time intervals are undercovered <span class="tag t-done">closed &mdash; 95.4% on 66,606 laps</span></h4>
+        <h4>Lap-time intervals are undercovered <span class="tag t-done">closed &mdash; 95.2% on 66,606 laps</span></h4>
         <p>
           The <b>practice→race</b> half of this is fixed. Coverage was 76% against a nominal 95% &mdash; worse than
           the 90% previously reported, which was a ten-comparison sample failing to detect the problem. Split
@@ -470,8 +478,8 @@ footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);
         <p>
           Adaptive Conformal Inference (exp13) drops that assumption rather than hoping it holds, moving the
           working miss-rate by <span class="mono">&gamma;(&alpha;&nbsp;&minus;&nbsp;err)</span> after every
-          lap. Measured over <b>66,606 held-out laps from twenty races</b>: Gaussian 75.1%, split conformal
-          89.3%, <b>adaptive conformal 95.4%</b> at a median width of 7.12&nbsp;s. It lifts LightGBM from 63%
+          lap. Measured over <b>66,606 held-out laps from twenty races</b>: Gaussian 75.9%, split conformal
+          89.3%, <b>adaptive conformal 95.2%</b> at a median width of 5.74&nbsp;s. It lifts LightGBM from 63%
           to 95% at only 3.5&nbsp;s of width &mdash; its predictions were always fine, its sd was wrong.
         </p>
         <p>
@@ -492,26 +500,37 @@ footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);
           one level.
         </p>
         <p>
-          <b>The sixth is ours, and it fails the opposite way.</b> The state-space model is
-          <b>hump-shaped</b>: intervals too wide, underconfident. That is the same conservatism as the 100%
-          coverage on the synthetic benchmark and it is the safer direction to err, but it is a miscalibration
-          and is reported as one.
+          <b>The sixth is ours, and it fails differently.</b> The state-space model is <b>leptokurtic</b>:
+          heavy at both ends <em>and</em> heavy in the middle, drained from the shoulders. The width is not
+          the problem, the assumed shape is &mdash; which is what a Gaussian summary of heavy-tailed residuals
+          looks like, and the model assumes heavy-tailed observation noise by construction. The model knows;
+          the interval it publishes does not carry the knowledge.
         </p>
         <div class="note">
-          <h3>A wrong explanation, corrected</h3>
+          <h3>Three attempts to diagnose one histogram</h3>
           <p>
-            An earlier pass saw this rung hump-shaped on four races and U-shaped on ten, and concluded the
-            hump was a small-sample artefact. <b>It was not.</b> It was the fuel-counter defect: the fuel
-            regressor counted rows surviving the quality filter rather than laps completed, and correcting it
-            restored the hump at ten races. The lesson is not "use more data" &mdash; it is that a difference
-            between two runs is evidence about <em>whatever changed between them</em>, and the sample size was
-            not the only thing that had.
+            This rung's verdict flipped twice before the cause was understood, and each flip was written up as
+            a finding first. On four races it read hump-shaped, on ten U-shaped, and that was blamed on
+            <b>sample size</b>. Fixing the fuel counter restored the hump, and that was blamed on the
+            <b>data defect</b>. Adding 2025 flipped it again.
+          </p>
+          <p>
+            Neither explanation was the real one. Classifying on tails-versus-middle alone, this rung sits on
+            the boundary &mdash; <b>1.38&times;</b> the expected tail mass and <b>1.20&times;</b> the expected
+            middle &mdash; so whichever threshold fired first won, and which one fired depended on noise. The
+            fix is a third region: tails, shoulders, middle. A distribution heavy at both the ends and the
+            centre is leptokurtic, not mis-sized, and that verdict is stable.
+          </p>
+          <p>
+            The lesson is not "use more data". It is that an unstable answer is a statement about the
+            <em>instrument</em>, and two rounds of explaining the instability away cost more than examining
+            the instrument would have.
           </p>
         </div>
         <p>
           The <b>reliability curve</b> sweeps the nominal level from 50% to 99%. The Gaussian intervals sit a
-          mean <span class="mono">0.195</span> from the diagonal; adaptive conformal sits
-          <span class="mono">0.006</span> away &mdash; <b>37&times; closer, at every level and not only at
+          mean <span class="mono">0.189</span> from the diagonal; adaptive conformal sits
+          <span class="mono">0.005</span> away &mdash; <b>37&times; closer, at every level and not only at
           95%</b>. A method tuned to look right at one level and wrong everywhere else would fail here, and
           this is the only test in the project that would have caught it. The calibrator is run per race and
           started cold each time, so it never inherits a head start it would not have on a Sunday morning.
@@ -555,7 +574,7 @@ footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);
       <div>
         <h4>No driver effect <span class="tag t-done">tested &mdash; reliable but not useful</span></h4>
         <p>
-          Tested across <b>1,152 driver-races, 31 drivers, 61 races</b> (exp15), and the result is the most
+          Tested across <b>1,458 driver-races, 31 drivers, 77 races</b> (exp15), and the result is the most
           interesting negative in the project because it splits into two halves that disagree.
         </p>
         <p>
@@ -565,9 +584,9 @@ footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);
         </p>
         <p>
           <b>Not useful.</b> Knowing that does not help. Predicting a driver's deviation at a held-out race
-          from their own history scores 0.0251&nbsp;s/lap against <b>0.0246 for simply predicting the field
+          from their own history scores 0.0251&nbsp;s/lap against <b>0.0248 for simply predicting the field
           mean</b> &mdash; slightly worse, p&nbsp;=&nbsp;0.27. The reason is the ratio: the spread of driver
-          means is 0.0113&nbsp;s/lap while the race-to-race scatter around them is 0.0248. The trait is real
+          means is 0.0092&nbsp;s/lap while the race-to-race scatter around them is 0.0248. The trait is real
           and about <b>half the size of the noise it must be read through</b>, so on any single race a
           driver's history is worth less than the average.
         </p>

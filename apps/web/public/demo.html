@@ -257,16 +257,16 @@ const SCRIPT = [
     cap:'A <b>95.5%</b> reduction \u2014 and the true value falls inside my interval every single time.',
     do:()=>pointAt(()=>findText('95.5')) },
 
-  { at:222, act:'Practice \u2192 race \u00b7 27 events, 2024+2023',
+  { at:222, act:'Practice \u2192 race \u00b7 42 events, 2024+2023',
     cap:'Then the question the brief asks: estimate from Friday, score it against Sunday.',
     do:()=>{ scrollTo(1500); hidePointer(); } },
 
   { at:233, act:'Out-of-distribution transfer',
-    cap:'No race data reaches the practice fit. <b>0.0858</b> against the naive <b>0.1440</b> \u2014 62 comparisons.',
+    cap:'No race data reaches the practice fit. <b>0.0807</b> against the naive <b>0.1471</b> \u2014 94 comparisons.',
     do:()=>pointAt(()=>findText('TyreMind error')) },
 
   { at:244, act:'The bias we report, not remove',
-    cap:'And a systematic <b>+0.043</b> bias, in 42 comparisons of 62. Reported, not tuned away.',
+    cap:'And a systematic <b>+0.027</b> bias, in 42 comparisons of 62. Reported, not tuned away.',
     do:()=>pointAt(()=>findText('Systematic bias')) },
 
   { at:255, act:'Live monitor \u00b7 streaming replay',

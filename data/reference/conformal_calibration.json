@@ -1,13 +1,14 @@
 {
-  "score": "studentised",
+  "score": "absolute",
   "alpha": 0.05,
-  "quantile": 3.4624844004983855,
-  "bias": 0.042947215287445016,
-  "n_calibration": 62,
-  "n_events": 27,
+  "quantile": 0.27573772136360575,
+  "bias": 0.026757158413257185,
+  "n_calibration": 94,
+  "n_events": 42,
   "seasons": [
     2023,
-    2024
+    2024,
+    2025
   ],
-  "generated_at": "2026-09-11T21:51:16.441114+00:00"
+  "generated_at": "2026-09-11T23:56:11.236293+00:00"
 }

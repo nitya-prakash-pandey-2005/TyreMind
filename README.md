@@ -48,7 +48,7 @@ Read lap times alone and you miss a dying tyre completely.
 That is not an edge case. Fit the standard method — a straight line through lap
 time against tyre age — and it reports **negative degradation**: tyres apparently
 getting faster the longer they run. Counted across **every dry race in the corpus,
-61 of them**, it does this in **70% of races** and in **51% of the 164
+77 of them**, it does this in **74% of races** and in **53% of the 208
 compound-stints** — more often than not, at the level of an individual compound.
 
 The cause is not subtlety. Fuel burn-off is worth about 0.08 s/lap and is simply
@@ -116,7 +116,7 @@ bare number with a plus-or-minus appended.
 Every figure below is produced by a script in `experiments/` and read from
 `experiments/results/*.json`. Nothing here is typed by hand.
 
-The evidence base is **113 sessions and 61,396 laps** across 2024, 2023 and 2022
+The evidence base is **203 sessions and 92,326 laps** across 2022, 2023, 2024 and 2025
 (`scripts/build_corpus.py` builds it into `data/season/`, which is gitignored
 because it is large and rebuildable). The eight sessions committed under
 `data/demo/` are a presentation set chosen to span circuit types, so a fresh
@@ -132,7 +132,7 @@ driver effect ([exp15](experiments/exp15_driver_effect.py)).
 ### Is there a driver effect?
 
 Everyone in the paddock will tell you driving style changes tyre life. Across
-**1,152 driver-races, 31 drivers, 61 races**, that splits into two answers that
+**1,458 driver-races, 31 drivers, 77 races**, that splits into two answers that
 disagree — and the disagreement is the finding.
 
 **Reliable, but only just.** Split the corpus into random halves and the ranking
@@ -143,8 +143,8 @@ percentile of +0.09; correcting the fuel counter and adding 2025 weakened it, an
 the weaker figure is the one quoted.
 
 **Not useful.** Predicting a driver's deviation at a held-out race from their own
-history scores 0.0248 s/lap against **0.0246 for just predicting the field
-mean** — very slightly worse. The spread of driver means is 0.0113 s/lap while
+history scores 0.0250 s/lap against **0.0248 for just predicting the field
+mean** — very slightly worse. The spread of driver means is 0.0092 s/lap while
 the race-to-race scatter is 0.0248: the trait is real and about *half the size of
 the noise it has to be read through*.
 
@@ -172,28 +172,27 @@ theory predicts — the collinearity showing up as a measured quantity.
 
 ### Does a Friday curve predict Sunday?
 
-2024 and 2023, **27 events, 62 compound comparisons**. No race data reaches the
+2023, 2024 and 2025, **42 events, 94 compound comparisons**. No race data reaches the
 practice fit:
 
 | | Naive | **TyreMind** |
 |---|---:|---:|
-| MAE | 0.1440 s/lap | **0.0858 s/lap** |
+| MAE | 0.1471 s/lap | **0.0807 s/lap** |
 | 95% coverage, as fitted | — | 76% |
 | 95% coverage, calibrated | — | **95%** |
 
-**40% error reduction.** This number got *worse* as the evidence grew, and that
+**45% error reduction.** This number got *worse* as the evidence grew, and that
 is worth stating plainly: on five events it was 0.0518 s/lap. The small sample
 was flattering. What held is the comparison that matters — the naive method
-worsened too, 0.1166 → 0.1440, and the gap between the two stayed at roughly
-40%. A claim that survives a six-fold increase in evidence is worth more than a
+worsened too, 0.1166 → 0.1471, and the gap between the two stayed at roughly 45%. A claim that survives a six-fold increase in evidence is worth more than a
 prettier one resting on ten comparisons.
 
 Three events are excluded because they were not dry-degradation sessions at all
 (Canada 2024 ran 67% of its race laps on wet rubber). The rule is applied to
 both sides of every comparison and was calibrated, not chosen to flatter.
 
-There is a **systematic +0.043 s/lap bias** — practice over-predicts race
-degradation in 42 of 62 comparisons. Nine candidate explanations were tested
+There is a **systematic +0.027 s/lap bias** — practice over-predicts race
+degradation in 42 of 94 comparisons. Nine candidate explanations were tested
 with a multiplicity correction. **One survives** — mean practice stint length
 (ρ +0.39, p 0.002) — and a second, pit stops per driver, misses by a hair
 (p 0.0113 against a threshold of 0.0111). The causal story built on them was
@@ -232,10 +231,10 @@ Six models, **twenty races**, identical expanding-window chronological folds:
 
 | Model | CRPS (lap time) | Coverage | Bias drift | Degradation rate MAE |
 |---|---:|---:|---:|---:|
-| Pooled regression | **0.487** | 84% | +0.262 | 0.0068 |
-| LightGBM | 0.537 | 62% | −0.021 | *no such parameter* |
-| TyreMind | 0.757 | 81% | **−0.452** | **0.0041** |
-| Naive | 0.974 | 76% | +0.398 | 0.0748 |
+| Pooled regression | **0.396** | 84% | +0.031 | 0.0068 |
+| LightGBM | 0.469 | 62% | −0.109 | *no such parameter* |
+| TyreMind | 0.645 | 81% | **−0.432** | **0.0041** |
+| Naive | 0.879 | 76% | +0.439 | 0.0748 |
 
 **Two models predict lap times better than we do**, and on twenty races the
 better of them is plain pooled regression, not LightGBM. Both beat us on CRPS.
@@ -250,10 +249,10 @@ naive method's 0.0748. *Predicting lap times well is not the same as
 understanding the tyre.*
 
 Bias drift measures how much a model's error grows as it forecasts further past
-its training window. TyreMind's shrinks the most of any usable rung (−0.452)
-while pooled regression's grows (+0.262). An earlier version of this README
+its training window. TyreMind's shrinks the most of any usable rung (−0.432)
+while pooled regression's grows (+0.031). An earlier version of this README
 claimed TyreMind was **the only** model whose error does not grow; at twenty
-races that is no longer true — LightGBM is roughly flat at −0.021 — and the
+races that is no longer true — LightGBM is roughly flat at −0.109 — and the
 claim has been corrected rather than quietly restated.
 
 **Our own lap-time intervals were undercovered too.** Across **66,606 held-out
@@ -271,9 +270,9 @@ retuning the working miss-rate after every lap:
 
 | | Coverage | Median width |
 |---|---:|---:|
-| Gaussian, as reported | 75.1% | — |
+| Gaussian, as reported | 75.9% | — |
 | Split conformal | 89.3% | 6.11 s |
-| **Adaptive conformal** | **95.4%** | 7.12 s |
+| **Adaptive conformal** | **95.2%** | 5.74 s |
 
 It lifts LightGBM from 63% to 95% at only 3.5 s of width — its lap-time
 *predictions* were always fine, its *sd* was wrong.
@@ -285,13 +284,23 @@ histogram — where the truth lands inside its own predicted distribution — co
 out **U-shaped for five of the six rungs**, which is overconfidence seen directly
 rather than inferred.
 
-The sixth is ours, and it fails the *opposite* way: the state-space model is
-**hump-shaped — intervals too wide, underconfident**. That is the same
-conservatism as the 100% coverage on the synthetic benchmark, and it is the safer
-direction to err, but it is still a miscalibration.
+The sixth is ours, and it fails differently: the state-space model is
+**leptokurtic** — heavy at both ends *and* heavy in the middle, drained from the
+shoulders. The width is not the problem; the assumed *shape* is. That is what a
+Gaussian summary of heavy-tailed residuals looks like, and the model assumes
+heavy-tailed observation noise by construction. The model knows; the interval it
+reports does not carry the knowledge.
 
-Sweeping the nominal level from 50% to 99%, the Gaussian sits a mean 0.195 from
-the reliability diagonal and adaptive conformal sits 0.006 away: **33× closer, at
+**This one took three attempts to get right, and the failures are instructive.**
+Diagnosing on tails-versus-middle alone, this rung sits exactly on the boundary
+(1.38× the expected tail mass, 1.20× the expected middle), so its verdict flipped
+between race sets twice while nothing about the model changed. I reported each
+flip as a finding before understanding the cause — once blaming sample size, once
+a data bug. The fix was a third region: tails, shoulders, middle, which separates
+"too narrow" from "wrong shape" and is stable.
+
+Sweeping the nominal level from 50% to 99%, the Gaussian sits a mean 0.189 from
+the reliability diagonal and adaptive conformal sits 0.005 away: **33× closer, at
 every level and not only at 95%.** The live monitor now carries the same machinery and reports the
 coverage it has actually achieved, so the claimed 95% is auditable in flight
 rather than after the race.
@@ -508,7 +517,7 @@ Both of those also take `--corpus season` once the corpus below exists, which
 scores the model ladder and the interval calibration on twenty races instead of
 four.
 
-**Needs the season corpus.** It is ~113 sessions and 61,396 laps, gitignored
+**Needs the season corpus.** It is ~203 sessions and 92,326 laps, gitignored
 because it is large and rebuildable. Build it once, then everything below is
 offline too:
 

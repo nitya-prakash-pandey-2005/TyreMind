@@ -567,10 +567,12 @@ function ModelLadderPanel({ ladder }: { ladder: ModelLadder }) {
         <p className="mt-1.5 max-w-[70ch] text-[12px] leading-relaxed text-ink-dim">
           <strong className="text-ink">Drift</strong> is how much a model&rsquo;s error grows
           as each fold forecasts further past its training window. TyreMind&rsquo;s
-          shrinks the most of any usable rung while the lap-time leader&rsquo;s grows —
-          which is what encoding fuel as physics buys, rather than learning it as a
-          pattern. On four races we called it the <em>only</em> such rung; on twenty
-          that was no longer true, and the claim is corrected rather than restated.
+          falls the most of any rung by a wide margin — which is what encoding fuel
+          as physics buys, rather than learning it as a pattern. This claim has
+          narrowed twice under more data: it was once &ldquo;the only rung whose
+          error does not grow&rdquo;, then &ldquo;the leader&rsquo;s grows while ours
+          shrinks&rdquo;, and across four seasons the leader is simply flat. What
+          survives is that ours extrapolates best, by roughly 4&times;.
         </p>
       </div>
     </Panel>
@@ -654,9 +656,11 @@ export function CalibrationPanel() {
                 Five of the six rungs come out{' '}
                 <strong className="text-ink">U-shaped</strong> — too much mass in the
                 tails — which is overconfidence seen directly rather than inferred from
-                one level. The sixth is ours and fails the opposite way:{' '}
-                <strong className="text-ink">hump-shaped</strong>, intervals too wide.
-                That is the safer direction to err and still a miscalibration.
+                one level. The sixth is ours and fails differently:{' '}
+                <strong className="text-ink">leptokurtic</strong>, heavy at both ends
+                and in the middle. The width is not the problem, the assumed shape is —
+                which is what a Gaussian summary of heavy-tailed residuals looks like,
+                and this model assumes heavy-tailed noise by construction.
               </p>
             </div>
           </>

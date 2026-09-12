@@ -115,7 +115,7 @@ the answer moves when those priors move.
 | FastF1 ingestion + quality engine | GREEN | Built. 454 raw laps → 143 usable at Monza FP2, every exclusion counted. |
 | Hierarchical state-space estimator | YELLOW | Built. Hand-written Kalman + RTS smoother; 5.8s per session fit. |
 | Ground-truth synthetic benchmark | GREEN | Built. The headline result. |
-| Practice → race validation | GREEN | Built. 27 events, 62 comparisons, two seasons, wet sessions excluded on evidence. |
+| Practice → race validation | GREEN | Built. 42 events, 94 comparisons, two seasons, wet sessions excluded on evidence. |
 | Model ladder with time-aware CV | GREEN | Built. Five rungs, chronological folds. |
 | Real-time online estimation | GREEN | Built. 0.22 ms/lap mean. |
 | Curvature → per-corner energy | YELLOW | Built and independently validated (§5). |
@@ -169,8 +169,8 @@ than a quiet retreat.
 ## 7. Where a flexible model beats us, and why it does not matter
 
 On lap-time prediction over chronological folds across **twenty races**, two
-rungs beat us: **pooled regression** at CRPS 0.487 and **LightGBM** at 0.537,
-against the state-space model's 0.757. On four races LightGBM led; at twenty it
+rungs beat us: **pooled regression** at CRPS 0.396 and **LightGBM** at 0.469,
+against the state-space model's 0.645. On four races LightGBM led; at twenty it
 is second, and the correction is recorded rather than quietly absorbed.
 
 Both of them:
@@ -181,15 +181,15 @@ Both of them:
   model is first at 0.0041 s/lap against pooled regression's 0.0068.
 
 LightGBM is additionally badly overconfident, at 62% coverage on nominal 95%
-intervals. On extrapolation, bias drift across successive folds is +0.262 for the
-lap-time leader and +0.398 for the naive baseline, against **−0.452** for the
+intervals. On extrapolation, bias drift across successive folds is +0.031 for the
+lap-time leader and +0.439 for the naive baseline, against **−0.432** for the
 state-space model, whose error shrinks most as it forecasts further past its
 training window. An earlier version of this audit called that the *only* rung
 whose error does not grow; at twenty races LightGBM is also roughly flat at
-−0.021, and that claim did not survive.
+−0.109, and that claim did not survive.
 
-A tuned MLP finishes last on lap-time prediction (CRPS 2.578) and has the *most
-unstable* extrapolation of any rung, with bias drift of −3.802 — its error swings
+A tuned MLP finishes last on lap-time prediction (CRPS 1.548) and has the *most
+unstable* extrapolation of any rung, with bias drift of −2.130 — its error swings
 by more than three seconds between folds. It was tuned first, across five
 configurations on held-out folds, because beating a badly-configured competitor
 would prove nothing.
@@ -210,8 +210,8 @@ extrapolation behaves.
 - The identifiability structure of the problem is characterised, and two of three
   collinearities are resolved by stated assumption.
 - Physics recovers circuit geometry it was never told, on 7 of 8 circuits.
-- Practice-derived degradation predicts race degradation at 0.0858 s/lap MAE
-  across 27 events and 62 comparisons, 40% better than naive, with 95% interval
+- Practice-derived degradation predicts race degradation at 0.0807 s/lap MAE
+  across 42 events and 94 comparisons, 45% better than naive, with 95% interval
   coverage once conformally calibrated. On the original five events this read
   0.0518 and 56%; the small sample was flattering, and the replicated figure is
   the one quoted.

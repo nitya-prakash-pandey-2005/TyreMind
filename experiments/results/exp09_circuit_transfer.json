@@ -1,8 +1,8 @@
 {
   "experiment": "exp09_circuit_transfer",
-  "generated_at": "2026-09-11T21:51:14.269778+00:00",
-  "n_stints": 140,
-  "n_circuits": 25,
+  "generated_at": "2026-09-11T23:56:08.690809+00:00",
+  "n_stints": 193,
+  "n_circuits": 26,
   "feature_columns": [
     "n_corners",
     "n_tight_corners",
@@ -14,34 +14,33 @@
   "has_energetics": false,
   "scores": {
     "global_mean": {
-      "mae": 0.04298094314826374,
-      "rmse": 0.056846660926207854,
-      "vs_label_mean_pct": -3.4562126794754335,
-      "wilcoxon_p_vs_label_mean": 0.6434898398070694,
+      "mae": 0.040683996053902396,
+      "rmse": 0.0533669536594579,
+      "vs_label_mean_pct": -6.956243583791506,
+      "wilcoxon_p_vs_label_mean": 0.07198356674257528,
       "beats_baseline": false
     },
     "label_mean": {
-      "mae": 0.041545057599803946,
-      "rmse": 0.05408965501108565,
+      "mae": 0.03803798141249211,
+      "rmse": 0.050045471858901826,
       "vs_label_mean_pct": 0.0
     },
     "label_plus_circuit": {
-      "mae": 0.04587894969010549,
-      "rmse": 0.05913409028406098,
-      "vs_label_mean_pct": -10.431787415122022,
-      "wilcoxon_p_vs_label_mean": 0.000956024091839402,
+      "mae": 0.040124697081276056,
+      "rmse": 0.05345577512408387,
+      "vs_label_mean_pct": -5.485873832670433,
+      "wilcoxon_p_vs_label_mean": 0.05606672812943618,
       "beats_baseline": false
     },
     "compound_plus_circuit": {
-      "mae": 0.04879993694722527,
-      "rmse": 0.06356612672694519,
-      "vs_label_mean_pct": -17.462677311237048,
-      "wilcoxon_p_vs_label_mean": 0.0003903447461752902,
+      "mae": 0.04401505469671065,
+      "rmse": 0.0579918749634631,
+      "vs_label_mean_pct": -15.71343447330148,
+      "wilcoxon_p_vs_label_mean": 0.00040826775380813123,
       "beats_baseline": false
     }
   },
   "harmful_predictors": [
-    "label_plus_circuit",
     "compound_plus_circuit"
   ],
   "feature_family_ablation": {
@@ -52,22 +51,22 @@
         "mean_corner_angle",
         "median_corner_spacing_m"
       ],
-      "mae": 0.044649056279937954,
-      "baseline_mae": 0.041545057599803946,
-      "vs_label_mean_pct": -7.471403000651168,
-      "wilcoxon_p": 0.009691960841074375,
+      "mae": 0.03930887540020287,
+      "baseline_mae": 0.03803798141249211,
+      "vs_label_mean_pct": -3.3411183783095977,
+      "wilcoxon_p": 0.22243440628482436,
       "helps": false,
-      "hurts": true
+      "hurts": false
     },
     "thermal only": {
       "features": [
         "track_temp_c",
         "track_temp_sq"
       ],
-      "mae": 0.04254422236180292,
-      "baseline_mae": 0.041545057599803946,
-      "vs_label_mean_pct": -2.4050147471782295,
-      "wilcoxon_p": 1.2934825628965915e-08,
+      "mae": 0.038622539954967235,
+      "baseline_mae": 0.03803798141249211,
+      "vs_label_mean_pct": -1.5367759296584296,
+      "wilcoxon_p": 0.0012449323235904518,
       "helps": false,
       "hurts": true
     },
@@ -80,12 +79,12 @@
         "track_temp_c",
         "track_temp_sq"
       ],
-      "mae": 0.04587894969010549,
-      "baseline_mae": 0.041545057599803946,
-      "vs_label_mean_pct": -10.431787415122022,
-      "wilcoxon_p": 0.000956024091839402,
+      "mae": 0.040124697081276056,
+      "baseline_mae": 0.03803798141249211,
+      "vs_label_mean_pct": -5.485873832670433,
+      "wilcoxon_p": 0.05606672812943618,
       "helps": false,
-      "hurts": true
+      "hurts": false
     }
   },
   "cases": [
@@ -95,10 +94,10 @@
       "label": "HARD",
       "compound_id": null,
       "actual": 0.09765347652971501,
-      "global_mean": 0.1049134849041711,
-      "label_mean": 0.08170513800715205,
-      "label_plus_circuit": 0.0732340326725264,
-      "compound_plus_circuit": 0.09499972198877651
+      "global_mean": 0.1031757171942083,
+      "label_mean": 0.08025564125792588,
+      "label_plus_circuit": 0.07188185298258098,
+      "compound_plus_circuit": 0.09213980431403235
     },
     {
       "circuit": "Austin",
@@ -106,10 +105,10 @@
       "label": "MEDIUM",
       "compound_id": null,
       "actual": 0.10978043540973094,
-      "global_mean": 0.1049134849041711,
-      "label_mean": 0.11434303581064545,
-      "label_plus_circuit": 0.10519318692544509,
-      "compound_plus_circuit": 0.09499972198877651
+      "global_mean": 0.1031757171942083,
+      "label_mean": 0.10974711830939096,
+      "label_plus_circuit": 0.10082929074379542,
+      "compound_plus_circuit": 0.09213980431403235
     },
     {
       "circuit": "Austin",
@@ -117,10 +116,10 @@
       "label": "HARD",
       "compound_id": "C2",
       "actual": 0.05796544077383596,
-      "global_mean": 0.1049134849041711,
-      "label_mean": 0.08170513800715205,
-      "label_plus_circuit": 0.07153340627336058,
-      "compound_plus_circuit": 0.07739124686323218
+      "global_mean": 0.1031757171942083,
+      "label_mean": 0.08025564125792588,
+      "label_plus_circuit": 0.07159331915232638,
+      "compound_plus_circuit": 0.07922263904128511
     },
     {
       "circuit": "Austin",
@@ -128,10 +127,43 @@
       "label": "MEDIUM",
       "compound_id": "C3",
       "actual": 0.07978551586476076,
-      "global_mean": 0.1049134849041711,
-      "label_mean": 0.11434303581064545,
-      "label_plus_circuit": 0.10349256052627928,
-      "compound_plus_circuit": 0.0924486859218293
+      "global_mean": 0.1031757171942083,
+      "label_mean": 0.10974711830939096,
+      "label_plus_circuit": 0.1005407569135408,
+      "compound_plus_circuit": 0.09411465572802608
+    },
+    {
+      "circuit": "Austin",
+      "event": "United States Grand Prix",
+      "label": "HARD",
+      "compound_id": null,
+      "actual": 0.06653813178445406,
+      "global_mean": 0.1031757171942083,
+      "label_mean": 0.08025564125792588,
+      "label_plus_circuit": 0.07174019684511529,
+      "compound_plus_circuit": 0.09112684187308875
+    },
+    {
+      "circuit": "Austin",
+      "event": "United States Grand Prix",
+      "label": "MEDIUM",
+      "compound_id": null,
+      "actual": 0.09676353176245268,
+      "global_mean": 0.1031757171942083,
+      "label_mean": 0.10974711830939096,
+      "label_plus_circuit": 0.10068763460632972,
+      "compound_plus_circuit": 0.09112684187308875
+    },
+    {
+      "circuit": "Austin",
+      "event": "United States Grand Prix",
+      "label": "SOFT",
+      "compound_id": null,
+      "actual": 0.09628518970634062,
+      "global_mean": 0.1031757171942083,
+      "label_mean": 0.13001721745427566,
+      "label_plus_circuit": 0.12104830592409567,
+      "compound_plus_circuit": 0.09112684187308875
     },
     {
       "circuit": "Baku",
@@ -139,10 +171,10 @@
       "label": "HARD",
       "compound_id": null,
       "actual": 0.06262564933475372,
-      "global_mean": 0.10455106096626499,
-      "label_mean": 0.0834659338904329,
-      "label_plus_circuit": 0.07813932207311922,
-      "compound_plus_circuit": 0.09999126778444463
+      "global_mean": 0.10316984286553058,
+      "label_mean": 0.08187695874468008,
+      "label_plus_circuit": 0.07958484791660138,
+      "compound_plus_circuit": 0.10115626011486169
     },
     {
       "circuit": "Baku",
@@ -150,10 +182,10 @@
       "label": "MEDIUM",
       "compound_id": null,
       "actual": 0.17451281992595888,
-      "global_mean": 0.10455106096626499,
-      "label_mean": 0.11135981632599275,
-      "label_plus_circuit": 0.10551171615917064,
-      "compound_plus_circuit": 0.09999126778444463
+      "global_mean": 0.10316984286553058,
+      "label_mean": 0.1080001165881036,
+      "label_plus_circuit": 0.1052566937704659,
+      "compound_plus_circuit": 0.10115626011486169
     },
     {
       "circuit": "Baku",
@@ -161,10 +193,10 @@
       "label": "HARD",
       "compound_id": null,
       "actual": 0.031319686660066175,
-      "global_mean": 0.10455106096626499,
-      "label_mean": 0.0834659338904329,
-      "label_plus_circuit": 0.08061122124944498,
-      "compound_plus_circuit": 0.10399379926145563
+      "global_mean": 0.10316984286553058,
+      "label_mean": 0.08187695874468008,
+      "label_plus_circuit": 0.08098971322199064,
+      "compound_plus_circuit": 0.10347245463501945
     },
     {
       "circuit": "Baku",
@@ -172,10 +204,10 @@
       "label": "MEDIUM",
       "compound_id": null,
       "actual": 0.1385389690114465,
-      "global_mean": 0.10455106096626499,
-      "label_mean": 0.11135981632599275,
-      "label_plus_circuit": 0.10798361533549641,
-      "compound_plus_circuit": 0.10399379926145563
+      "global_mean": 0.10316984286553058,
+      "label_mean": 0.1080001165881036,
+      "label_plus_circuit": 0.10666155907585516,
+      "compound_plus_circuit": 0.10347245463501945
     },
     {
       "circuit": "Baku",
@@ -183,10 +215,10 @@
       "label": "HARD",
       "compound_id": "C3",
       "actual": 0.053578129268559434,
-      "global_mean": 0.10455106096626499,
-      "label_mean": 0.0834659338904329,
-      "label_plus_circuit": 0.07938763747276203,
-      "compound_plus_circuit": 0.10456673479693109
+      "global_mean": 0.10316984286553058,
+      "label_mean": 0.08187695874468008,
+      "label_plus_circuit": 0.08035604048237298,
+      "compound_plus_circuit": 0.10685745740783449
     },
     {
       "circuit": "Baku",
@@ -194,10 +226,32 @@
       "label": "MEDIUM",
       "compound_id": "C4",
       "actual": 0.14300139186501895,
-      "global_mean": 0.10455106096626499,
-      "label_mean": 0.11135981632599275,
-      "label_plus_circuit": 0.10676003155881347,
-      "compound_plus_circuit": 0.11970035084679839
+      "global_mean": 0.10316984286553058,
+      "label_mean": 0.1080001165881036,
+      "label_plus_circuit": 0.10602788633623748,
+      "compound_plus_circuit": 0.12138054021816712
+    },
+    {
+      "circuit": "Baku",
+      "event": "Azerbaijan Grand Prix",
+      "label": "HARD",
+      "compound_id": null,
+      "actual": 0.04139700100975776,
+      "global_mean": 0.10316984286553058,
+      "label_mean": 0.08187695874468008,
+      "label_plus_circuit": 0.08062694267445344,
+      "compound_plus_circuit": 0.10500511277073067
+    },
+    {
+      "circuit": "Baku",
+      "event": "Azerbaijan Grand Prix",
+      "label": "MEDIUM",
+      "compound_id": null,
+      "actual": 0.06406054275531356,
+      "global_mean": 0.10316984286553058,
+      "label_mean": 0.1080001165881036,
+      "label_plus_circuit": 0.10629878852831795,
+      "compound_plus_circuit": 0.10500511277073067
     },
     {
       "circuit": "Barcelona",
@@ -205,10 +259,10 @@
       "label": "HARD",
       "compound_id": null,
       "actual": 0.2124121215139064,
-      "global_mean": 0.10185911522953518,
-      "label_mean": 0.07770522385538431,
-      "label_plus_circuit": 0.07637428636349401,
-      "compound_plus_circuit": 0.09445872950045775
+      "global_mean": 0.10035580949652295,
+      "label_mean": 0.0771688436809843,
+      "label_plus_circuit": 0.07158379196963571,
+      "compound_plus_circuit": 0.08885092844641014
     },
     {
       "circuit": "Barcelona",
@@ -216,10 +270,10 @@
       "label": "MEDIUM",
       "compound_id": null,
       "actual": 0.16605773156959708,
-      "global_mean": 0.10185911522953518,
-      "label_mean": 0.11263721797770862,
-      "label_plus_circuit": 0.11082579666324671,
-      "compound_plus_circuit": 0.09445872950045775
+      "global_mean": 0.10035580949652295,
+      "label_mean": 0.108375135104651,
+      "label_plus_circuit": 0.10252564784191394,
+      "compound_plus_circuit": 0.08885092844641014
     },
     {
       "circuit": "Barcelona",
@@ -227,10 +281,10 @@
       "label": "SOFT",
       "compound_id": null,
       "actual": 0.19688748837101064,
-      "global_mean": 0.10185911522953518,
-      "label_mean": 0.12538205384763343,
-      "label_plus_circuit": 0.1238500529613577,
-      "compound_plus_circuit": 0.09445872950045775
+      "global_mean": 0.10035580949652295,
+      "label_mean": 0.12727837086467678,
+      "label_plus_circuit": 0.12097290227054618,
+      "compound_plus_circuit": 0.08885092844641014
     },
     {
       "circuit": "Barcelona",
@@ -238,10 +292,10 @@
       "label": "HARD",
       "compound_id": null,
       "actual": 0.10819116821259653,
-      "global_mean": 0.10185911522953518,
-      "label_mean": 0.07770522385538431,
-      "label_plus_circuit": 0.08933452375437372,
-      "compound_plus_circuit": 0.1128908154658162
+      "global_mean": 0.10035580949652295,
+      "label_mean": 0.0771688436809843,
+      "label_plus_circuit": 0.0889919043052455,
+      "compound_plus_circuit": 0.11127576304435663
     },
     {
       "circuit": "Barcelona",
@@ -249,10 +303,10 @@
       "label": "MEDIUM",
       "compound_id": null,
       "actual": 0.10497244760750918,
-      "global_mean": 0.10185911522953518,
-      "label_mean": 0.11263721797770862,
-      "label_plus_circuit": 0.12378603405412641,
-      "compound_plus_circuit": 0.1128908154658162
+      "global_mean": 0.10035580949652295,
+      "label_mean": 0.108375135104651,
+      "label_plus_circuit": 0.11993376017752373,
+      "compound_plus_circuit": 0.11127576304435663
     },
     {
       "circuit": "Barcelona",
@@ -260,10 +314,10 @@
       "label": "SOFT",
       "compound_id": null,
       "actual": 0.10420112512671967,
-      "global_mean": 0.10185911522953518,
-      "label_mean": 0.12538205384763343,
-      "label_plus_circuit": 0.1368102903522374,
-      "compound_plus_circuit": 0.1128908154658162
+      "global_mean": 0.10035580949652295,
+      "label_mean": 0.12727837086467678,
+      "label_plus_circuit": 0.13838101460615598,
+      "compound_plus_circuit": 0.11127576304435663
     },
     {
       "circuit": "Barcelona",
@@ -271,10 +325,10 @@
       "label": "HARD",
       "compound_id": "C1",
       "actual": 0.12071638732435465,
-      "global_mean": 0.10185911522953518,
-      "label_mean": 0.07770522385538431,
-      "label_plus_circuit": 0.08588451015724224,
-      "compound_plus_circuit": 0.08249332994839287
+      "global_mean": 0.10035580949652295,
+      "label_mean": 0.0771688436809843,
+      "label_plus_circuit": 0.08758857528154292,
+      "compound_plus_circuit": 0.08759333165752502
     },
     {
       "circuit": "Barcelona",
@@ -282,10 +336,10 @@
       "label": "MEDIUM",
       "compound_id": "C2",
       "actual": 0.11987551738780905,
-      "global_mean": 0.10185911522953518,
-      "label_mean": 0.11263721797770862,
-      "label_plus_circuit": 0.12033602045699496,
-      "compound_plus_circuit": 0.09060042346855798
+      "global_mean": 0.10035580949652295,
+      "label_mean": 0.108375135104651,
+      "label_plus_circuit": 0.11853043115382114,
+      "compound_plus_circuit": 0.09388187560983789
     },
     {
       "circuit": "Barcelona",
@@ -293,10 +347,32 @@
       "label": "SOFT",
       "compound_id": "C3",
       "actual": 0.13656073336269953,
-      "global_mean": 0.10185911522953518,
-      "label_mean": 0.12538205384763343,
-      "label_plus_circuit": 0.13336027675510595,
-      "compound_plus_circuit": 0.10894944460444253
+      "global_mean": 0.10035580949652295,
+      "label_mean": 0.12727837086467678,
+      "label_plus_circuit": 0.13697768558245338,
+      "compound_plus_circuit": 0.11211713318186353
+    },
+    {
+      "circuit": "Barcelona",
+      "event": "Spanish Grand Prix",
+      "label": "MEDIUM",
+      "compound_id": null,
+      "actual": 0.10258171231795822,
+      "global_mean": 0.10035580949652295,
+      "label_mean": 0.108375135104651,
+      "label_plus_circuit": 0.11526576167557738,
+      "compound_plus_circuit": 0.10236441665034694
+    },
+    {
+      "circuit": "Barcelona",
+      "event": "Spanish Grand Prix",
+      "label": "SOFT",
+      "compound_id": null,
+      "actual": 0.1582413587926937,
+      "global_mean": 0.10035580949652295,
+      "label_mean": 0.12727837086467678,
+      "label_plus_circuit": 0.1337130161042096,
+      "compound_plus_circuit": 0.10236441665034694
     },
     {
       "circuit": "Budapest",
@@ -304,10 +380,10 @@
       "label": "HARD",
       "compound_id": null,
       "actual": 0.10686376802093364,
-      "global_mean": 0.10333468680933129,
-      "label_mean": 0.0800962631056341,
-      "label_plus_circuit": 0.08416187156299383,
-      "compound_plus_circuit": 0.10439702885533891
+      "global_mean": 0.10154213389038559,
+      "label_mean": 0.07865337207986758,
+      "label_plus_circuit": 0.08305829343638765,
+      "compound_plus_circuit": 0.10312995635264892
     },
     {
       "circuit": "Budapest",
@@ -315,10 +391,10 @@
       "label": "MEDIUM",
       "compound_id": null,
       "actual": 0.10288370319040102,
-      "global_mean": 0.10333468680933129,
-      "label_mean": 0.11368380600836546,
-      "label_plus_circuit": 0.11710664881685094,
-      "compound_plus_circuit": 0.10439702885533891
+      "global_mean": 0.10154213389038559,
+      "label_mean": 0.10918587245002648,
+      "label_plus_circuit": 0.11308836129423254,
+      "compound_plus_circuit": 0.10312995635264892
     },
     {
       "circuit": "Budapest",
@@ -326,10 +402,10 @@
       "label": "SOFT",
       "compound_id": null,
       "actual": 0.14729948162837878,
-      "global_mean": 0.10333468680933129,
-      "label_mean": 0.12567614795074722,
-      "label_plus_circuit": 0.1299861277975152,
-      "compound_plus_circuit": 0.10439702885533891
+      "global_mean": 0.10154213389038559,
+      "label_mean": 0.12775561955508394,
+      "label_plus_circuit": 0.13159540688825722,
+      "compound_plus_circuit": 0.10312995635264892
     },
     {
       "circuit": "Budapest",
@@ -337,10 +413,10 @@
       "label": "HARD",
       "compound_id": "C3",
       "actual": 0.13241664416155066,
-      "global_mean": 0.10333468680933129,
-      "label_mean": 0.0800962631056341,
-      "label_plus_circuit": 0.08595868803247508,
-      "compound_plus_circuit": 0.10712393849651045
+      "global_mean": 0.10154213389038559,
+      "label_mean": 0.07865337207986758,
+      "label_plus_circuit": 0.08397559155787268,
+      "compound_plus_circuit": 0.10689734228979818
     },
     {
       "circuit": "Budapest",
@@ -348,10 +424,10 @@
       "label": "MEDIUM",
       "compound_id": "C4",
       "actual": 0.12096219780264991,
-      "global_mean": 0.10333468680933129,
-      "label_mean": 0.11368380600836546,
-      "label_plus_circuit": 0.11890346528633221,
-      "compound_plus_circuit": 0.1278923269890802
+      "global_mean": 0.10154213389038559,
+      "label_mean": 0.10918587245002648,
+      "label_plus_circuit": 0.11400565941571755,
+      "compound_plus_circuit": 0.1269626938100985
     },
     {
       "circuit": "Budapest",
@@ -359,10 +435,43 @@
       "label": "SOFT",
       "compound_id": "C5",
       "actual": 0.1561449882910034,
-      "global_mean": 0.10333468680933129,
-      "label_mean": 0.12567614795074722,
-      "label_plus_circuit": 0.13178294426699647,
-      "compound_plus_circuit": 0.09207239880495294
+      "global_mean": 0.10154213389038559,
+      "label_mean": 0.12775561955508394,
+      "label_plus_circuit": 0.13251270500974222,
+      "compound_plus_circuit": 0.08912772802991843
+    },
+    {
+      "circuit": "Budapest",
+      "event": "Hungarian Grand Prix",
+      "label": "HARD",
+      "compound_id": null,
+      "actual": 0.09663774854766022,
+      "global_mean": 0.10154213389038559,
+      "label_mean": 0.07865337207986758,
+      "label_plus_circuit": 0.08466984397801011,
+      "compound_plus_circuit": 0.1073771893403172
+    },
+    {
+      "circuit": "Budapest",
+      "event": "Hungarian Grand Prix",
+      "label": "MEDIUM",
+      "compound_id": null,
+      "actual": 0.10289328391813593,
+      "global_mean": 0.10154213389038559,
+      "label_mean": 0.10918587245002648,
+      "label_plus_circuit": 0.11469991183585498,
+      "compound_plus_circuit": 0.1073771893403172
+    },
+    {
+      "circuit": "Budapest",
+      "event": "Hungarian Grand Prix",
+      "label": "SOFT",
+      "compound_id": null,
+      "actual": 0.1456006685623704,
+      "global_mean": 0.10154213389038559,
+      "label_mean": 0.12775561955508394,
+      "label_plus_circuit": 0.13320695742987965,
+      "compound_plus_circuit": 0.10737718934031719
     },
     {
       "circuit": "Imola",
@@ -370,10 +479,10 @@
       "label": "HARD",
       "compound_id": null,
       "actual": 0.03630363495822751,
-      "global_mean": 0.10451717106033945,
-      "label_mean": 0.08199702163798989,
-      "label_plus_circuit": 0.07640964147510901,
-      "compound_plus_circuit": 0.1023082617622504
+      "global_mean": 0.10269415878472471,
+      "label_mean": 0.08017467908971466,
+      "label_plus_circuit": 0.0681197262027063,
+      "compound_plus_circuit": 0.09120060910748642
     },
     {
       "circuit": "Imola",
@@ -381,10 +490,10 @@
       "label": "MEDIUM",
       "compound_id": null,
       "actual": 0.07534110002905046,
-      "global_mean": 0.10451717106033945,
-      "label_mean": 0.11415955695167504,
-      "label_plus_circuit": 0.10794724871086527,
-      "compound_plus_circuit": 0.1023082617622504
+      "global_mean": 0.10269415878472471,
+      "label_mean": 0.10952414833760299,
+      "label_plus_circuit": 0.09696508974609684,
+      "compound_plus_circuit": 0.09120060910748642
     },
     {
       "circuit": "Imola",
@@ -392,10 +501,10 @@
       "label": "SOFT",
       "compound_id": null,
       "actual": 0.16405290195855254,
-      "global_mean": 0.10451717106033945,
-      "label_mean": 0.12611858085429828,
-      "label_plus_circuit": 0.12085476452158227,
-      "compound_plus_circuit": 0.1023082617622504
+      "global_mean": 0.10269415878472471,
+      "label_mean": 0.1284412241460847,
+      "label_plus_circuit": 0.11584425746386232,
+      "compound_plus_circuit": 0.09120060910748642
     },
     {
       "circuit": "Imola",
@@ -403,10 +512,10 @@
       "label": "HARD",
       "compound_id": "C3",
       "actual": 0.1041373335417555,
-      "global_mean": 0.10451717106033945,
-      "label_mean": 0.08199702163798989,
-      "label_plus_circuit": 0.07088799281830474,
-      "compound_plus_circuit": 0.09199135087991699
+      "global_mean": 0.10269415878472471,
+      "label_mean": 0.08017467908971466,
+      "label_plus_circuit": 0.07202444798904545,
+      "compound_plus_circuit": 0.09539714960948789
     },
     {
       "circuit": "Imola",
@@ -414,10 +523,32 @@
       "label": "MEDIUM",
       "compound_id": "C4",
       "actual": 0.12376575191190249,
-      "global_mean": 0.10451717106033945,
-      "label_mean": 0.11415955695167504,
-      "label_plus_circuit": 0.102425600054061,
-      "compound_plus_circuit": 0.11081801488108681
+      "global_mean": 0.10269415878472471,
+      "label_mean": 0.10952414833760299,
+      "label_plus_circuit": 0.10086981153243599,
+      "compound_plus_circuit": 0.11354211457530415
+    },
+    {
+      "circuit": "Imola",
+      "event": "Emilia Romagna Grand Prix",
+      "label": "HARD",
+      "compound_id": null,
+      "actual": 0.08746439453101837,
+      "global_mean": 0.10269415878472471,
+      "label_mean": 0.08017467908971466,
+      "label_plus_circuit": 0.07194268752941958,
+      "compound_plus_circuit": 0.09273356508108092
+    },
+    {
+      "circuit": "Imola",
+      "event": "Emilia Romagna Grand Prix",
+      "label": "MEDIUM",
+      "compound_id": null,
+      "actual": 0.10327646906472551,
+      "global_mean": 0.10269415878472471,
+      "label_mean": 0.10952414833760299,
+      "label_plus_circuit": 0.10078805107281012,
+      "compound_plus_circuit": 0.09273356508108092
     },
     {
       "circuit": "Jeddah",
@@ -425,10 +556,10 @@
       "label": "HARD",
       "compound_id": null,
       "actual": 0.00029133962596947227,
-      "global_mean": 0.1076581470635513,
-      "label_mean": 0.08577232913009765,
-      "label_plus_circuit": 0.07834293423826802,
-      "compound_plus_circuit": 0.10494598419069154
+      "global_mean": 0.10488098939336972,
+      "label_mean": 0.08325849484267614,
+      "label_plus_circuit": 0.06848400644891241,
+      "compound_plus_circuit": 0.09140108557756019
     },
     {
       "circuit": "Jeddah",
@@ -436,10 +567,10 @@
       "label": "MEDIUM",
       "compound_id": null,
       "actual": 0.1326283223281539,
-      "global_mean": 0.1076581470635513,
-      "label_mean": 0.11608988639731918,
-      "label_plus_circuit": 0.10794835021543936,
-      "compound_plus_circuit": 0.10494598419069154
+      "global_mean": 0.10488098939336972,
+      "label_mean": 0.1103651741931045,
+      "label_plus_circuit": 0.09512075576630882,
+      "compound_plus_circuit": 0.09140108557756019
     },
     {
       "circuit": "Jeddah",
@@ -447,10 +578,10 @@
       "label": "HARD",
       "compound_id": null,
       "actual": 0.010035513975168345,
-      "global_mean": 0.1076581470635513,
-      "label_mean": 0.08577232913009765,
-      "label_plus_circuit": 0.07791529026007807,
-      "compound_plus_circuit": 0.10381343037558315
+      "global_mean": 0.10488098939336972,
+      "label_mean": 0.08325849484267614,
+      "label_plus_circuit": 0.06909673427499252,
+      "compound_plus_circuit": 0.0915454301132052
     },
     {
       "circuit": "Jeddah",
@@ -458,10 +589,10 @@
       "label": "MEDIUM",
       "compound_id": null,
       "actual": 0.03389401577269065,
-      "global_mean": 0.1076581470635513,
-      "label_mean": 0.11608988639731918,
-      "label_plus_circuit": 0.10752070623724941,
-      "compound_plus_circuit": 0.10381343037558315
+      "global_mean": 0.10488098939336972,
+      "label_mean": 0.1103651741931045,
+      "label_plus_circuit": 0.09573348359238894,
+      "compound_plus_circuit": 0.0915454301132052
     },
     {
       "circuit": "Jeddah",
@@ -469,10 +600,10 @@
       "label": "SOFT",
       "compound_id": null,
       "actual": 0.08196092736830056,
-      "global_mean": 0.1076581470635513,
-      "label_mean": 0.13053008068301714,
-      "label_plus_circuit": 0.1218099889069927,
-      "compound_plus_circuit": 0.10381343037558315
+      "global_mean": 0.10488098939336972,
+      "label_mean": 0.13164759648306928,
+      "label_plus_circuit": 0.1168358421108373,
+      "compound_plus_circuit": 0.0915454301132052
     },
     {
       "circuit": "Jeddah",
@@ -480,10 +611,10 @@
       "label": "HARD",
       "compound_id": "C2",
       "actual": 0.019570454439339316,
-      "global_mean": 0.1076581470635513,
-      "label_mean": 0.08577232913009765,
-      "label_plus_circuit": 0.07794598594466345,
-      "compound_plus_circuit": 0.0887999321360593
+      "global_mean": 0.10488098939336972,
+      "label_mean": 0.08325849484267614,
+      "label_plus_circuit": 0.0690676046582208,
+      "compound_plus_circuit": 0.08085426952559645
     },
     {
       "circuit": "Jeddah",
@@ -491,10 +622,10 @@
       "label": "MEDIUM",
       "compound_id": "C3",
       "actual": 0.04829726906393177,
-      "global_mean": 0.1076581470635513,
-      "label_mean": 0.11608988639731918,
-      "label_plus_circuit": 0.10755140192183481,
-      "compound_plus_circuit": 0.10345848474083859
+      "global_mean": 0.10488098939336972,
+      "label_mean": 0.1103651741931045,
+      "label_plus_circuit": 0.09570435397561722,
+      "compound_plus_circuit": 0.09486438815943232
     },
     {
       "circuit": "Jeddah",
@@ -502,10 +633,32 @@
       "label": "SOFT",
       "compound_id": "C4",
       "actual": 0.07586556058298435,
-      "global_mean": 0.1076581470635513,
-      "label_mean": 0.13053008068301714,
-      "label_plus_circuit": 0.12184068459157808,
-      "compound_plus_circuit": 0.12242633606388957
+      "global_mean": 0.10488098939336972,
+      "label_mean": 0.13164759648306928,
+      "label_plus_circuit": 0.11680671249406559,
+      "compound_plus_circuit": 0.11334668266136746
+    },
+    {
+      "circuit": "Jeddah",
+      "event": "Saudi Arabian Grand Prix",
+      "label": "HARD",
+      "compound_id": null,
+      "actual": 0.062315631372935554,
+      "global_mean": 0.10488098939336972,
+      "label_mean": 0.08325849484267614,
+      "label_plus_circuit": 0.06956429293980651,
+      "compound_plus_circuit": 0.09107843847486669
+    },
+    {
+      "circuit": "Jeddah",
+      "event": "Saudi Arabian Grand Prix",
+      "label": "MEDIUM",
+      "compound_id": null,
+      "actual": 0.13737502643789865,
+      "global_mean": 0.10488098939336972,
+      "label_mean": 0.1103651741931045,
+      "label_plus_circuit": 0.09620104225720293,
+      "compound_plus_circuit": 0.09107843847486669
     },
     {
       "circuit": "Las Vegas",
@@ -513,10 +666,10 @@
       "label": "HARD",
       "compound_id": null,
       "actual": 0.007950904872827042,
-      "global_mean": 0.10395701613673915,
-      "label_mean": 0.08295626121385381,
-      "label_plus_circuit": 0.08206854458894844,
-      "compound_plus_circuit": 0.11252581000806734
+      "global_mean": 0.10276161205689041,
+      "label_mean": 0.08152310024892137,
+      "label_plus_circuit": 0.06956148381157053,
+      "compound_plus_circuit": 0.09731784846233237
     },
     {
       "circuit": "Las Vegas",
@@ -524,10 +677,10 @@
       "label": "MEDIUM",
       "compound_id": null,
       "actual": 0.07322422653983937,
-      "global_mean": 0.10395701613673915,
-      "label_mean": 0.11059037890450626,
-      "label_plus_circuit": 0.10910816346231755,
-      "compound_plus_circuit": 0.11252581000806734
+      "global_mean": 0.10276161205689041,
+      "label_mean": 0.10751744162117911,
+      "label_plus_circuit": 0.09504978860466808,
+      "compound_plus_circuit": 0.09731784846233237
     },
     {
       "circuit": "Las Vegas",
@@ -535,10 +688,10 @@
       "label": "HARD",
       "compound_id": "C3",
       "actual": 0.08260960568223213,
-      "global_mean": 0.10395701613673915,
-      "label_mean": 0.08295626121385381,
-      "label_plus_circuit": 0.08196425409813624,
-      "compound_plus_circuit": 0.11247088314874644
+      "global_mean": 0.10276161205689041,
+      "label_mean": 0.08152310024892137,
+      "label_plus_circuit": 0.0693575149040179,
+      "compound_plus_circuit": 0.09926092518607753
     },
     {
       "circuit": "Las Vegas",
@@ -546,10 +699,32 @@
       "label": "MEDIUM",
       "compound_id": "C4",
       "actual": 0.31147988385388964,
-      "global_mean": 0.10395701613673915,
-      "label_mean": 0.11059037890450626,
-      "label_plus_circuit": 0.10900387297150535,
-      "compound_plus_circuit": 0.11641178901702022
+      "global_mean": 0.10276161205689041,
+      "label_mean": 0.10751744162117911,
+      "label_plus_circuit": 0.09484581969711545,
+      "compound_plus_circuit": 0.10223529307360849
+    },
+    {
+      "circuit": "Las Vegas",
+      "event": "Las Vegas Grand Prix",
+      "label": "HARD",
+      "compound_id": null,
+      "actual": 0.04160695017226674,
+      "global_mean": 0.10276161205689041,
+      "label_mean": 0.08152310024892137,
+      "label_plus_circuit": 0.07067468381404023,
+      "compound_plus_circuit": 0.09801487186068536
+    },
+    {
+      "circuit": "Las Vegas",
+      "event": "Las Vegas Grand Prix",
+      "label": "MEDIUM",
+      "compound_id": null,
+      "actual": 0.062162094194468734,
+      "global_mean": 0.10276161205689041,
+      "label_mean": 0.10751744162117911,
+      "label_plus_circuit": 0.09616298860713779,
+      "compound_plus_circuit": 0.09801487186068536
     },
     {
       "circuit": "Le Castellet",
@@ -557,10 +732,10 @@
       "label": "HARD",
       "compound_id": null,
       "actual": 0.07902828071768528,
-      "global_mean": 0.10463216257208004,
-      "label_mean": 0.08160863798033532,
-      "label_plus_circuit": 0.08549380298181575,
-      "compound_plus_circuit": 0.10281135351118181
+      "global_mean": 0.10272918711704589,
+      "label_mean": 0.08001752462579531,
+      "label_plus_circuit": 0.08371576244097015,
+      "compound_plus_circuit": 0.10229013229133858
     },
     {
       "circuit": "Le Castellet",
@@ -568,10 +743,10 @@
       "label": "MEDIUM",
       "compound_id": null,
       "actual": 0.095152099880582,
-      "global_mean": 0.10463216257208004,
-      "label_mean": 0.11396701346315988,
-      "label_plus_circuit": 0.11718482624753283,
-      "compound_plus_circuit": 0.10281135351118181
+      "global_mean": 0.10272918711704589,
+      "label_mean": 0.10936445812746638,
+      "label_plus_circuit": 0.11253675662078405,
+      "compound_plus_circuit": 0.10229013229133858
     },
     {
       "circuit": "Lusail",
@@ -579,10 +754,10 @@
       "label": "HARD",
       "compound_id": null,
       "actual": 0.05177521533835567,
-      "global_mean": 0.10715632090097084,
-      "label_mean": 0.08455419216214324,
-      "label_plus_circuit": 0.09998848846995437,
-      "compound_plus_circuit": 0.11995114814655537
+      "global_mean": 0.10484399062490148,
+      "label_mean": 0.08270431330299223,
+      "label_plus_circuit": 0.09461969881619825,
+      "compound_plus_circuit": 0.1131850871510824
     },
     {
       "circuit": "Lusail",
@@ -590,10 +765,10 @@
       "label": "MEDIUM",
       "compound_id": null,
       "actual": 0.01677884733212856,
-      "global_mean": 0.10715632090097084,
-      "label_mean": 0.11720534769177696,
-      "label_plus_circuit": 0.13207803600044446,
-      "compound_plus_circuit": 0.11995114814655537
+      "global_mean": 0.10484399062490148,
+      "label_mean": 0.11239129854450502,
+      "label_plus_circuit": 0.123893249583624,
+      "compound_plus_circuit": 0.1131850871510824
     },
     {
       "circuit": "Lusail",
@@ -601,10 +776,10 @@
       "label": "HARD",
       "compound_id": "C1",
       "actual": -0.044307114094346636,
-      "global_mean": 0.10715632090097084,
-      "label_mean": 0.08455419216214324,
-      "label_plus_circuit": 0.10547711650408452,
-      "compound_plus_circuit": 0.1340441079830807
+      "global_mean": 0.10484399062490148,
+      "label_mean": 0.08270431330299223,
+      "label_plus_circuit": 0.09456987102633632,
+      "compound_plus_circuit": 0.12356179353703844
     },
     {
       "circuit": "Lusail",
@@ -612,10 +787,10 @@
       "label": "MEDIUM",
       "compound_id": "C2",
       "actual": 0.023946886123524212,
-      "global_mean": 0.10715632090097084,
-      "label_mean": 0.11720534769177696,
-      "label_plus_circuit": 0.1375666640345746,
-      "compound_plus_circuit": 0.11703549600046982
+      "global_mean": 0.10484399062490148,
+      "label_mean": 0.11239129854450502,
+      "label_plus_circuit": 0.12384342179376207,
+      "compound_plus_circuit": 0.10597538617098545
     },
     {
       "circuit": "Lusail",
@@ -623,10 +798,43 @@
       "label": "SOFT",
       "compound_id": "C3",
       "actual": 0.09912165921458801,
-      "global_mean": 0.10715632090097084,
-      "label_mean": 0.1282131370718455,
-      "label_plus_circuit": 0.14945855826737517,
-      "compound_plus_circuit": 0.1259891800160719
+      "global_mean": 0.10484399062490148,
+      "label_mean": 0.1293323458545229,
+      "label_plus_circuit": 0.14093062583465873,
+      "compound_plus_circuit": 0.1153187702023164
+    },
+    {
+      "circuit": "Lusail",
+      "event": "Qatar Grand Prix",
+      "label": "HARD",
+      "compound_id": null,
+      "actual": 0.04083323264428513,
+      "global_mean": 0.10484399062490148,
+      "label_mean": 0.08270431330299223,
+      "label_plus_circuit": 0.09523803796906176,
+      "compound_plus_circuit": 0.11426259356434466
+    },
+    {
+      "circuit": "Lusail",
+      "event": "Qatar Grand Prix",
+      "label": "MEDIUM",
+      "compound_id": null,
+      "actual": 0.05522277265307911,
+      "global_mean": 0.10484399062490148,
+      "label_mean": 0.11239129854450502,
+      "label_plus_circuit": 0.12451158873648752,
+      "compound_plus_circuit": 0.11426259356434466
+    },
+    {
+      "circuit": "Lusail",
+      "event": "Qatar Grand Prix",
+      "label": "SOFT",
+      "compound_id": null,
+      "actual": 0.15594535513564362,
+      "global_mean": 0.10484399062490148,
+      "label_mean": 0.1293323458545229,
+      "label_plus_circuit": 0.14159879277738419,
+      "compound_plus_circuit": 0.11426259356434466
     },
     {
       "circuit": "Marina Bay",
@@ -634,10 +842,10 @@
       "label": "HARD",
       "compound_id": null,
       "actual": 0.08199638222881835,
-      "global_mean": 0.10436682118218797,
-      "label_mean": 0.08098657372391455,
-      "label_plus_circuit": 0.07255927570135344,
-      "compound_plus_circuit": 0.09629752756881313
+      "global_mean": 0.10246706312032736,
+      "label_mean": 0.07924477917603014,
+      "label_plus_circuit": 0.07367823620235292,
+      "compound_plus_circuit": 0.0959701150701116
     },
     {
       "circuit": "Marina Bay",
@@ -645,10 +853,10 @@
       "label": "MEDIUM",
       "compound_id": null,
       "actual": 0.1072359921089261,
-      "global_mean": 0.10436682118218797,
-      "label_mean": 0.11373180665392951,
-      "label_plus_circuit": 0.104629817533943,
-      "compound_plus_circuit": 0.09629752756881313
+      "global_mean": 0.10246706312032736,
+      "label_mean": 0.10944147193893627,
+      "label_plus_circuit": 0.10333185195503697,
+      "compound_plus_circuit": 0.0959701150701116
     },
     {
       "circuit": "Marina Bay",
@@ -656,10 +864,10 @@
       "label": "SOFT",
       "compound_id": null,
       "actual": 0.10886408927366072,
-      "global_mean": 0.10436682118218797,
-      "label_mean": 0.12865994195884325,
-      "label_plus_circuit": 0.12024467804007588,
-      "compound_plus_circuit": 0.09629752756881313
+      "global_mean": 0.10246706312032736,
+      "label_mean": 0.1304335198302118,
+      "label_plus_circuit": 0.1240281296867863,
+      "compound_plus_circuit": 0.0959701150701116
     },
     {
       "circuit": "Marina Bay",
@@ -667,10 +875,10 @@
       "label": "HARD",
       "compound_id": "C3",
       "actual": 0.11098787780308256,
-      "global_mean": 0.10436682118218797,
-      "label_mean": 0.08098657372391455,
-      "label_plus_circuit": 0.07255423551987662,
-      "compound_plus_circuit": 0.09604304209470424
+      "global_mean": 0.10246706312032736,
+      "label_mean": 0.07924477917603014,
+      "label_plus_circuit": 0.07367963378777526,
+      "compound_plus_circuit": 0.09847122135330767
     },
     {
       "circuit": "Marina Bay",
@@ -678,10 +886,10 @@
       "label": "MEDIUM",
       "compound_id": "C4",
       "actual": 0.11411387531479451,
-      "global_mean": 0.10436682118218797,
-      "label_mean": 0.11373180665392951,
-      "label_plus_circuit": 0.10462477735246618,
-      "compound_plus_circuit": 0.1158709447441894
+      "global_mean": 0.10246706312032736,
+      "label_mean": 0.10944147193893627,
+      "label_plus_circuit": 0.10333324954045929,
+      "compound_plus_circuit": 0.11771805015723226
     },
     {
       "circuit": "Marina Bay",
@@ -689,10 +897,43 @@
       "label": "SOFT",
       "compound_id": "C5",
       "actual": 0.10506656040284057,
-      "global_mean": 0.10436682118218797,
-      "label_mean": 0.12865994195884325,
-      "label_plus_circuit": 0.12023963785859906,
-      "compound_plus_circuit": 0.09885502739358534
+      "global_mean": 0.10246706312032736,
+      "label_mean": 0.1304335198302118,
+      "label_plus_circuit": 0.12402952727220862,
+      "compound_plus_circuit": 0.0999474143709619
+    },
+    {
+      "circuit": "Marina Bay",
+      "event": "Singapore Grand Prix",
+      "label": "HARD",
+      "compound_id": null,
+      "actual": 0.10094399687070249,
+      "global_mean": 0.10246706312032736,
+      "label_mean": 0.07924477917603014,
+      "label_plus_circuit": 0.07345475649441685,
+      "compound_plus_circuit": 0.09614639317752197
+    },
+    {
+      "circuit": "Marina Bay",
+      "event": "Singapore Grand Prix",
+      "label": "MEDIUM",
+      "compound_id": null,
+      "actual": 0.0869861542859617,
+      "global_mean": 0.10246706312032736,
+      "label_mean": 0.10944147193893627,
+      "label_plus_circuit": 0.1031083722471009,
+      "compound_plus_circuit": 0.09614639317752197
+    },
+    {
+      "circuit": "Marina Bay",
+      "event": "Singapore Grand Prix",
+      "label": "SOFT",
+      "compound_id": null,
+      "actual": 0.1253205775250087,
+      "global_mean": 0.10246706312032736,
+      "label_mean": 0.1304335198302118,
+      "label_plus_circuit": 0.12380464997885024,
+      "compound_plus_circuit": 0.09614639317752197
     },
     {
       "circuit": "Melbourne",
@@ -700,10 +941,10 @@
       "label": "HARD",
       "compound_id": null,
       "actual": 0.019877473613833727,
-      "global_mean": 0.10529392689642636,
-      "label_mean": 0.08375371986209268,
-      "label_plus_circuit": 0.09428961873254581,
-      "compound_plus_circuit": 0.11779277135797964
+      "global_mean": 0.10316268721138956,
+      "label_mean": 0.08151353799566213,
+      "label_plus_circuit": 0.09068579887270055,
+      "compound_plus_circuit": 0.11338160772166177
     },
     {
       "circuit": "Melbourne",
@@ -711,10 +952,10 @@
       "label": "MEDIUM",
       "compound_id": null,
       "actual": 0.1430365535059355,
-      "global_mean": 0.10529392689642636,
-      "label_mean": 0.11302387417083538,
-      "label_plus_circuit": 0.12303192212504421,
-      "compound_plus_circuit": 0.11779277135797964
+      "global_mean": 0.10316268721138956,
+      "label_mean": 0.10856855236941171,
+      "label_plus_circuit": 0.1172918930088951,
+      "compound_plus_circuit": 0.11338160772166177
     },
     {
       "circuit": "Melbourne",
@@ -722,10 +963,10 @@
       "label": "HARD",
       "compound_id": null,
       "actual": 0.03367864227430341,
-      "global_mean": 0.10529392689642636,
-      "label_mean": 0.08375371986209268,
-      "label_plus_circuit": 0.09599038354483912,
-      "compound_plus_circuit": 0.12128420909024182
+      "global_mean": 0.10316268721138956,
+      "label_mean": 0.08151353799566213,
+      "label_plus_circuit": 0.09009177883135154,
+      "compound_plus_circuit": 0.11395907958033274
     },
     {
       "circuit": "Melbourne",
@@ -733,10 +974,10 @@
       "label": "MEDIUM",
       "compound_id": null,
       "actual": 0.09954210930400573,
-      "global_mean": 0.10529392689642636,
-      "label_mean": 0.11302387417083538,
-      "label_plus_circuit": 0.12473268693733752,
-      "compound_plus_circuit": 0.12128420909024182
+      "global_mean": 0.10316268721138956,
+      "label_mean": 0.10856855236941171,
+      "label_plus_circuit": 0.11669787296754609,
+      "compound_plus_circuit": 0.11395907958033274
     },
     {
       "circuit": "Melbourne",
@@ -744,10 +985,10 @@
       "label": "HARD",
       "compound_id": "C3",
       "actual": 0.07929026482059363,
-      "global_mean": 0.10529392689642636,
-      "label_mean": 0.08375371986209268,
-      "label_plus_circuit": 0.09396881546832288,
-      "compound_plus_circuit": 0.11705673206775134
+      "global_mean": 0.10316268721138956,
+      "label_mean": 0.08151353799566213,
+      "label_plus_circuit": 0.09065802175188505,
+      "compound_plus_circuit": 0.1165434661323348
     },
     {
       "circuit": "Melbourne",
@@ -755,10 +996,10 @@
       "label": "MEDIUM",
       "compound_id": "C4",
       "actual": 0.12860756790550934,
-      "global_mean": 0.10529392689642636,
-      "label_mean": 0.11302387417083538,
-      "label_plus_circuit": 0.1227111188608213,
-      "compound_plus_circuit": 0.13540086578172647
+      "global_mean": 0.10316268721138956,
+      "label_mean": 0.10856855236941171,
+      "label_plus_circuit": 0.1172641158880796,
+      "compound_plus_circuit": 0.1340547387864225
     },
     {
       "circuit": "Mexico City",
@@ -766,10 +1007,10 @@
       "label": "HARD",
       "compound_id": null,
       "actual": 0.1118961658162298,
-      "global_mean": 0.10447783641644771,
-      "label_mean": 0.08114657968137026,
-      "label_plus_circuit": 0.0850718323885709,
-      "compound_plus_circuit": 0.10776826729718289
+      "global_mean": 0.10263104563097297,
+      "label_mean": 0.07964231977521813,
+      "label_plus_circuit": 0.0809721276784548,
+      "compound_plus_circuit": 0.10265497352189645
     },
     {
       "circuit": "Mexico City",
@@ -777,10 +1018,10 @@
       "label": "MEDIUM",
       "compound_id": null,
       "actual": 0.10593928726135304,
-      "global_mean": 0.10447783641644771,
-      "label_mean": 0.11376220578391992,
-      "label_plus_circuit": 0.11702912503414807,
-      "compound_plus_circuit": 0.10776826729718289
+      "global_mean": 0.10263104563097297,
+      "label_mean": 0.1092199434026362,
+      "label_plus_circuit": 0.11001813366441611,
+      "compound_plus_circuit": 0.10265497352189645
     },
     {
       "circuit": "Mexico City",
@@ -788,10 +1029,10 @@
       "label": "HARD",
       "compound_id": "C2",
       "actual": 0.07276778442797359,
-      "global_mean": 0.10447783641644771,
-      "label_mean": 0.08114657968137026,
-      "label_plus_circuit": 0.0882087093764404,
-      "compound_plus_circuit": 0.10015421063194387
+      "global_mean": 0.10263104563097297,
+      "label_mean": 0.07964231977521813,
+      "label_plus_circuit": 0.08133089118965181,
+      "compound_plus_circuit": 0.09352425740970846
     },
     {
       "circuit": "Mexico City",
@@ -799,10 +1040,43 @@
       "label": "MEDIUM",
       "compound_id": "C3",
       "actual": 0.11382982540286592,
-      "global_mean": 0.10447783641644771,
-      "label_mean": 0.11376220578391992,
-      "label_plus_circuit": 0.12016600202201759,
-      "compound_plus_circuit": 0.11407565060468698
+      "global_mean": 0.10263104563097297,
+      "label_mean": 0.1092199434026362,
+      "label_plus_circuit": 0.11037689717561314,
+      "compound_plus_circuit": 0.10759742877923582
+    },
+    {
+      "circuit": "Mexico City",
+      "event": "Mexico City Grand Prix",
+      "label": "HARD",
+      "compound_id": null,
+      "actual": 0.08103892411605251,
+      "global_mean": 0.10263104563097297,
+      "label_mean": 0.07964231977521813,
+      "label_plus_circuit": 0.07995750067510043,
+      "compound_plus_circuit": 0.10047566584973613
+    },
+    {
+      "circuit": "Mexico City",
+      "event": "Mexico City Grand Prix",
+      "label": "MEDIUM",
+      "compound_id": null,
+      "actual": 0.10451696365906847,
+      "global_mean": 0.10263104563097297,
+      "label_mean": 0.1092199434026362,
+      "label_plus_circuit": 0.10900350666106175,
+      "compound_plus_circuit": 0.10047566584973613
+    },
+    {
+      "circuit": "Mexico City",
+      "event": "Mexico City Grand Prix",
+      "label": "SOFT",
+      "compound_id": null,
+      "actual": 0.11609168190951331,
+      "global_mean": 0.10263104563097297,
+      "label_mean": 0.12955660135652747,
+      "label_plus_circuit": 0.1291932143343405,
+      "compound_plus_circuit": 0.10047566584973613
     },
     {
       "circuit": "Miami",
@@ -810,10 +1084,10 @@
       "label": "HARD",
       "compound_id": null,
       "actual": 0.042331317610196074,
-      "global_mean": 0.107408801571846,
-      "label_mean": 0.08305827232137072,
-      "label_plus_circuit": 0.08292536038359857,
-      "compound_plus_circuit": 0.10750647223320778
+      "global_mean": 0.10464863844266156,
+      "label_mean": 0.08101399117063651,
+      "label_plus_circuit": 0.08175205374880198,
+      "compound_plus_circuit": 0.10473455058572999
     },
     {
       "circuit": "Miami",
@@ -821,10 +1095,10 @@
       "label": "MEDIUM",
       "compound_id": null,
       "actual": 0.05165997049175599,
-      "global_mean": 0.107408801571846,
-      "label_mean": 0.11654869356041764,
-      "label_plus_circuit": 0.11569643922616228,
-      "compound_plus_circuit": 0.10750647223320778
+      "global_mean": 0.10464863844266156,
+      "label_mean": 0.11106529943703247,
+      "label_plus_circuit": 0.11125802744713324,
+      "compound_plus_circuit": 0.10473455058572999
     },
     {
       "circuit": "Miami",
@@ -832,10 +1106,10 @@
       "label": "SOFT",
       "compound_id": null,
       "actual": 0.018284342044813787,
-      "global_mean": 0.107408801571846,
-      "label_mean": 0.1332668849170822,
-      "label_plus_circuit": 0.1331003931099787,
-      "compound_plus_circuit": 0.10750647223320778
+      "global_mean": 0.10464863844266156,
+      "label_mean": 0.13360245665025858,
+      "label_plus_circuit": 0.13342539620059457,
+      "compound_plus_circuit": 0.10473455058572999
     },
     {
       "circuit": "Miami",
@@ -843,10 +1117,10 @@
       "label": "HARD",
       "compound_id": null,
       "actual": 0.05839666028783298,
-      "global_mean": 0.107408801571846,
-      "label_mean": 0.08305827232137072,
-      "label_plus_circuit": 0.08275682724989246,
-      "compound_plus_circuit": 0.10925095119543604
+      "global_mean": 0.10464863844266156,
+      "label_mean": 0.08101399117063651,
+      "label_plus_circuit": 0.08085331859540998,
+      "compound_plus_circuit": 0.10503123689667787
     },
     {
       "circuit": "Miami",
@@ -854,10 +1128,10 @@
       "label": "MEDIUM",
       "compound_id": null,
       "actual": 0.07471762028223003,
-      "global_mean": 0.107408801571846,
-      "label_mean": 0.11654869356041764,
-      "label_plus_circuit": 0.11552790609245617,
-      "compound_plus_circuit": 0.10925095119543604
+      "global_mean": 0.10464863844266156,
+      "label_mean": 0.11106529943703247,
+      "label_plus_circuit": 0.11035929229374124,
+      "compound_plus_circuit": 0.10503123689667787
     },
     {
       "circuit": "Miami",
@@ -865,10 +1139,10 @@
       "label": "HARD",
       "compound_id": "C2",
       "actual": 0.06758622738752135,
-      "global_mean": 0.107408801571846,
-      "label_mean": 0.08305827232137072,
-      "label_plus_circuit": 0.08289064447809275,
-      "compound_plus_circuit": 0.0881107237042412
+      "global_mean": 0.10464863844266156,
+      "label_mean": 0.08101399117063651,
+      "label_plus_circuit": 0.08185925855390729,
+      "compound_plus_circuit": 0.09036492837871805
     },
     {
       "circuit": "Miami",
@@ -876,10 +1150,10 @@
       "label": "MEDIUM",
       "compound_id": "C3",
       "actual": 0.06504285107276972,
-      "global_mean": 0.107408801571846,
-      "label_mean": 0.11654869356041764,
-      "label_plus_circuit": 0.11566172332065645,
-      "compound_plus_circuit": 0.10511877830572189
+      "global_mean": 0.10464863844266156,
+      "label_mean": 0.11106529943703247,
+      "label_plus_circuit": 0.11136523225223853,
+      "compound_plus_circuit": 0.1070180175290084
     },
     {
       "circuit": "Miami",
@@ -887,10 +1161,32 @@
       "label": "SOFT",
       "compound_id": "C4",
       "actual": 0.0574380188845195,
-      "global_mean": 0.107408801571846,
-      "label_mean": 0.1332668849170822,
-      "label_plus_circuit": 0.13306567720447288,
-      "compound_plus_circuit": 0.1269821954183914
+      "global_mean": 0.10464863844266156,
+      "label_mean": 0.13360245665025858,
+      "label_plus_circuit": 0.13353260100569986,
+      "compound_plus_circuit": 0.1284602898762588
+    },
+    {
+      "circuit": "Miami Gardens",
+      "event": "Miami Grand Prix",
+      "label": "HARD",
+      "compound_id": null,
+      "actual": 0.06694622444173823,
+      "global_mean": 0.10278047784353593,
+      "label_mean": 0.08018303224601377,
+      "label_plus_circuit": 0.07526474824932408,
+      "compound_plus_circuit": 0.0981794931363378
+    },
+    {
+      "circuit": "Miami Gardens",
+      "event": "Miami Grand Prix",
+      "label": "MEDIUM",
+      "compound_id": null,
+      "actual": 0.09743762739693006,
+      "global_mean": 0.10278047784353593,
+      "label_mean": 0.10933357262048869,
+      "label_plus_circuit": 0.10390887757102861,
+      "compound_plus_circuit": 0.0981794931363378
     },
     {
       "circuit": "Monaco",
@@ -898,10 +1194,10 @@
       "label": "HARD",
       "compound_id": null,
       "actual": 0.10840522080684677,
-      "global_mean": 0.10523118053005777,
-      "label_mean": 0.0818746008624294,
-      "label_plus_circuit": 0.07933667800547517,
-      "compound_plus_circuit": 0.10165966839221542
+      "global_mean": 0.10388788289708249,
+      "label_mean": 0.08086537699929755,
+      "label_plus_circuit": 0.08067041031097988,
+      "compound_plus_circuit": 0.10234760024311221
     },
     {
       "circuit": "Monaco",
@@ -909,10 +1205,10 @@
       "label": "MEDIUM",
       "compound_id": null,
       "actual": 0.09720160140936578,
-      "global_mean": 0.10523118053005777,
-      "label_mean": 0.11572278553982739,
-      "label_plus_circuit": 0.11243223912010394,
-      "compound_plus_circuit": 0.10165966839221542
+      "global_mean": 0.10388788289708249,
+      "label_mean": 0.11249148117677854,
+      "label_plus_circuit": 0.11168339001454576,
+      "compound_plus_circuit": 0.10234760024311221
     },
     {
       "circuit": "Monaco",
@@ -920,10 +1216,10 @@
       "label": "SOFT",
       "compound_id": null,
       "actual": 0.1937564833213896,
-      "global_mean": 0.10523118053005777,
-      "label_mean": 0.12753046993701295,
-      "label_plus_circuit": 0.12529551656754692,
-      "compound_plus_circuit": 0.10165966839221542
+      "global_mean": 0.10388788289708249,
+      "label_mean": 0.12864736686304867,
+      "label_plus_circuit": 0.12778182922887804,
+      "compound_plus_circuit": 0.10234760024311221
     },
     {
       "circuit": "Monaco",
@@ -931,10 +1227,10 @@
       "label": "HARD",
       "compound_id": "C3",
       "actual": 0.03840162802228153,
-      "global_mean": 0.10523118053005777,
-      "label_mean": 0.0818746008624294,
-      "label_plus_circuit": 0.07886070237515352,
-      "compound_plus_circuit": 0.10277650649684815
+      "global_mean": 0.10388788289708249,
+      "label_mean": 0.08086537699929755,
+      "label_plus_circuit": 0.08162317748300885,
+      "compound_plus_circuit": 0.10727735774238416
     },
     {
       "circuit": "Monaco",
@@ -942,10 +1238,10 @@
       "label": "MEDIUM",
       "compound_id": "C4",
       "actual": 0.020617363947665012,
-      "global_mean": 0.10523118053005777,
-      "label_mean": 0.11572278553982739,
-      "label_plus_circuit": 0.1119562634897823,
-      "compound_plus_circuit": 0.12603823781130385
+      "global_mean": 0.10388788289708249,
+      "label_mean": 0.11249148117677854,
+      "label_plus_circuit": 0.11263615718657474,
+      "compound_plus_circuit": 0.13011904638540728
     },
     {
       "circuit": "Monaco",
@@ -953,10 +1249,43 @@
       "label": "SOFT",
       "compound_id": "C5",
       "actual": 0.054058327010021445,
-      "global_mean": 0.10523118053005777,
-      "label_mean": 0.12753046993701295,
-      "label_plus_circuit": 0.12481954093722528,
-      "compound_plus_circuit": 0.12588600473423944
+      "global_mean": 0.10388788289708249,
+      "label_mean": 0.12864736686304867,
+      "label_plus_circuit": 0.12873459640090704,
+      "compound_plus_circuit": 0.12923205279832817
+    },
+    {
+      "circuit": "Monaco",
+      "event": "Monaco Grand Prix",
+      "label": "HARD",
+      "compound_id": null,
+      "actual": 0.03205896262148878,
+      "global_mean": 0.10388788289708249,
+      "label_mean": 0.08086537699929755,
+      "label_plus_circuit": 0.08132309036743214,
+      "compound_plus_circuit": 0.10221210031681076
+    },
+    {
+      "circuit": "Monaco",
+      "event": "Monaco Grand Prix",
+      "label": "MEDIUM",
+      "compound_id": null,
+      "actual": -0.029083608771991003,
+      "global_mean": 0.10388788289708249,
+      "label_mean": 0.11249148117677854,
+      "label_plus_circuit": 0.11233607007099802,
+      "compound_plus_circuit": 0.10221210031681076
+    },
+    {
+      "circuit": "Monaco",
+      "event": "Monaco Grand Prix",
+      "label": "SOFT",
+      "compound_id": null,
+      "actual": 0.16466868852378672,
+      "global_mean": 0.10388788289708249,
+      "label_mean": 0.12864736686304867,
+      "label_plus_circuit": 0.12843450928533032,
+      "compound_plus_circuit": 0.10221210031681076
     },
     {
       "circuit": "Montr\u00e9al",
@@ -964,10 +1293,10 @@
       "label": "HARD",
       "compound_id": null,
       "actual": 0.07748228189077017,
-      "global_mean": 0.10476398406923214,
-      "label_mean": 0.08163780776952241,
-      "label_plus_circuit": 0.08574911925559714,
-      "compound_plus_circuit": 0.10831534377159172
+      "global_mean": 0.10261459025484491,
+      "label_mean": 0.08023028834423437,
+      "label_plus_circuit": 0.08918294599125462,
+      "compound_plus_circuit": 0.11129275468502244
     },
     {
       "circuit": "Montr\u00e9al",
@@ -975,10 +1304,32 @@
       "label": "MEDIUM",
       "compound_id": null,
       "actual": 0.07850673210050813,
-      "global_mean": 0.10476398406923214,
-      "label_mean": 0.11428107700618012,
-      "label_plus_circuit": 0.11775260173366305,
-      "compound_plus_circuit": 0.10831534377159172
+      "global_mean": 0.10261459025484491,
+      "label_mean": 0.10863768845398102,
+      "label_plus_circuit": 0.11709743289918825,
+      "compound_plus_circuit": 0.11129275468502244
+    },
+    {
+      "circuit": "Montr\u00e9al",
+      "event": "Canadian Grand Prix",
+      "label": "HARD",
+      "compound_id": null,
+      "actual": 0.06624453572509705,
+      "global_mean": 0.10261459025484491,
+      "label_mean": 0.08023028834423437,
+      "label_plus_circuit": 0.08759632009764048,
+      "compound_plus_circuit": 0.10832042139044662
+    },
+    {
+      "circuit": "Montr\u00e9al",
+      "event": "Canadian Grand Prix",
+      "label": "MEDIUM",
+      "compound_id": null,
+      "actual": 0.17906401207197156,
+      "global_mean": 0.10261459025484491,
+      "label_mean": 0.10863768845398102,
+      "label_plus_circuit": 0.1155108070055741,
+      "compound_plus_circuit": 0.10832042139044662
     },
     {
       "circuit": "Monza",
@@ -986,10 +1337,10 @@
       "label": "HARD",
       "compound_id": null,
       "actual": 0.08568962824684573,
-      "global_mean": 0.1046652986042867,
-      "label_mean": 0.08105279881328045,
-      "label_plus_circuit": 0.11641539571921491,
-      "compound_plus_circuit": 0.13683376997796248
+      "global_mean": 0.10328299145068223,
+      "label_mean": 0.08010225602196451,
+      "label_plus_circuit": 0.11474609678588463,
+      "compound_plus_circuit": 0.13610392444223593
     },
     {
       "circuit": "Monza",
@@ -997,10 +1348,10 @@
       "label": "MEDIUM",
       "compound_id": null,
       "actual": 0.08514168930959812,
-      "global_mean": 0.1046652986042867,
-      "label_mean": 0.1137097931614539,
-      "label_plus_circuit": 0.1483012632029576,
-      "compound_plus_circuit": 0.13683376997796248
+      "global_mean": 0.10328299145068223,
+      "label_mean": 0.10980314577367517,
+      "label_plus_circuit": 0.1437403008915132,
+      "compound_plus_circuit": 0.13610392444223593
     },
     {
       "circuit": "Monza",
@@ -1008,10 +1359,10 @@
       "label": "SOFT",
       "compound_id": null,
       "actual": 0.08613638478311916,
-      "global_mean": 0.1046652986042867,
-      "label_mean": 0.12863201689221548,
-      "label_plus_circuit": 0.16420827378066621,
-      "compound_plus_circuit": 0.13683376997796248
+      "global_mean": 0.10328299145068223,
+      "label_mean": 0.13025323617342036,
+      "label_plus_circuit": 0.16383045548826364,
+      "compound_plus_circuit": 0.13610392444223593
     },
     {
       "circuit": "Monza",
@@ -1019,10 +1370,10 @@
       "label": "HARD",
       "compound_id": null,
       "actual": 0.1121788950699321,
-      "global_mean": 0.1046652986042867,
-      "label_mean": 0.08105279881328045,
-      "label_plus_circuit": 0.11642409862660463,
-      "compound_plus_circuit": 0.13690057533141547
+      "global_mean": 0.10328299145068223,
+      "label_mean": 0.08010225602196451,
+      "label_plus_circuit": 0.11471698553590065,
+      "compound_plus_circuit": 0.13610433341833356
     },
     {
       "circuit": "Monza",
@@ -1030,10 +1381,10 @@
       "label": "MEDIUM",
       "compound_id": null,
       "actual": 0.1393962116106606,
-      "global_mean": 0.1046652986042867,
-      "label_mean": 0.1137097931614539,
-      "label_plus_circuit": 0.1483099661103473,
-      "compound_plus_circuit": 0.13690057533141547
+      "global_mean": 0.10328299145068223,
+      "label_mean": 0.10980314577367517,
+      "label_plus_circuit": 0.14371118964152924,
+      "compound_plus_circuit": 0.13610433341833356
     },
     {
       "circuit": "Monza",
@@ -1041,10 +1392,10 @@
       "label": "HARD",
       "compound_id": "C3",
       "actual": 0.0727248308813764,
-      "global_mean": 0.1046652986042867,
-      "label_mean": 0.08105279881328045,
-      "label_plus_circuit": 0.1158612824236387,
-      "compound_plus_circuit": 0.13534328179300809
+      "global_mean": 0.10328299145068223,
+      "label_mean": 0.08010225602196451,
+      "label_plus_circuit": 0.11508106460106174,
+      "compound_plus_circuit": 0.13852345505655136
     },
     {
       "circuit": "Monza",
@@ -1052,10 +1403,32 @@
       "label": "MEDIUM",
       "compound_id": "C4",
       "actual": 0.11166646127364815,
-      "global_mean": 0.1046652986042867,
-      "label_mean": 0.1137097931614539,
-      "label_plus_circuit": 0.1477471499073814,
-      "compound_plus_circuit": 0.15382291034941495
+      "global_mean": 0.10328299145068223,
+      "label_mean": 0.10980314577367517,
+      "label_plus_circuit": 0.14407526870669032,
+      "compound_plus_circuit": 0.15642914168130898
+    },
+    {
+      "circuit": "Monza",
+      "event": "Italian Grand Prix",
+      "label": "HARD",
+      "compound_id": null,
+      "actual": 0.04255630266507299,
+      "global_mean": 0.10328299145068223,
+      "label_mean": 0.08010225602196451,
+      "label_plus_circuit": 0.1147660461768996,
+      "compound_plus_circuit": 0.1361028467644414
+    },
+    {
+      "circuit": "Monza",
+      "event": "Italian Grand Prix",
+      "label": "MEDIUM",
+      "compound_id": null,
+      "actual": 0.05589428918824936,
+      "global_mean": 0.10328299145068223,
+      "label_mean": 0.10980314577367517,
+      "label_plus_circuit": 0.1437602502825282,
+      "compound_plus_circuit": 0.1361028467644414
     },
     {
       "circuit": "Sakhir",
@@ -1063,10 +1436,10 @@
       "label": "HARD",
       "compound_id": null,
       "actual": 0.1807327481907883,
-      "global_mean": 0.10086084240674804,
-      "label_mean": 0.07778115388367113,
-      "label_plus_circuit": 0.07013909179535194,
-      "compound_plus_circuit": 0.0930746869543705
+      "global_mean": 0.09911676086200429,
+      "label_mean": 0.07616642211309281,
+      "label_plus_circuit": 0.06856823286356291,
+      "compound_plus_circuit": 0.09086637367490341
     },
     {
       "circuit": "Sakhir",
@@ -1074,10 +1447,10 @@
       "label": "MEDIUM",
       "compound_id": null,
       "actual": 0.1850994728347897,
-      "global_mean": 0.10086084240674804,
-      "label_mean": 0.11226989321874085,
-      "label_plus_circuit": 0.10387393890298763,
-      "compound_plus_circuit": 0.0930746869543705
+      "global_mean": 0.09911676086200429,
+      "label_mean": 0.10775218615887651,
+      "label_plus_circuit": 0.09951206564277582,
+      "compound_plus_circuit": 0.09086637367490341
     },
     {
       "circuit": "Sakhir",
@@ -1085,10 +1458,10 @@
       "label": "SOFT",
       "compound_id": null,
       "actual": 0.23928371012424302,
-      "global_mean": 0.10086084240674804,
-      "label_mean": 0.12059823625644821,
-      "label_plus_circuit": 0.11345198583082464,
-      "compound_plus_circuit": 0.0930746869543705
+      "global_mean": 0.09911676086200429,
+      "label_mean": 0.12352020250580764,
+      "label_plus_circuit": 0.11550049348396649,
+      "compound_plus_circuit": 0.09086637367490341
     },
     {
       "circuit": "Sakhir",
@@ -1096,10 +1469,10 @@
       "label": "HARD",
       "compound_id": null,
       "actual": 0.12329285475604933,
-      "global_mean": 0.10086084240674804,
-      "label_mean": 0.07778115388367113,
-      "label_plus_circuit": 0.07066307798245712,
-      "compound_plus_circuit": 0.0931360365854034
+      "global_mean": 0.09911676086200429,
+      "label_mean": 0.07616642211309281,
+      "label_plus_circuit": 0.06972785177393737,
+      "compound_plus_circuit": 0.0917288201612418
     },
     {
       "circuit": "Sakhir",
@@ -1107,10 +1480,10 @@
       "label": "SOFT",
       "compound_id": null,
       "actual": 0.18100740165202336,
-      "global_mean": 0.10086084240674804,
-      "label_mean": 0.12059823625644821,
-      "label_plus_circuit": 0.1139759720179298,
-      "compound_plus_circuit": 0.0931360365854034
+      "global_mean": 0.09911676086200429,
+      "label_mean": 0.12352020250580764,
+      "label_plus_circuit": 0.11666011239434093,
+      "compound_plus_circuit": 0.0917288201612418
     },
     {
       "circuit": "Sakhir",
@@ -1118,10 +1491,10 @@
       "label": "HARD",
       "compound_id": "C1",
       "actual": 0.13342164266139217,
-      "global_mean": 0.10086084240674804,
-      "label_mean": 0.07778115388367113,
-      "label_plus_circuit": 0.06890248114021615,
-      "compound_plus_circuit": 0.07318090106183067
+      "global_mean": 0.09911676086200429,
+      "label_mean": 0.07616642211309281,
+      "label_plus_circuit": 0.06597278735430065,
+      "compound_plus_circuit": 0.07187655468064053
     },
     {
       "circuit": "Sakhir",
@@ -1129,10 +1502,43 @@
       "label": "SOFT",
       "compound_id": "C3",
       "actual": 0.15608894522853492,
-      "global_mean": 0.10086084240674804,
-      "label_mean": 0.12059823625644821,
-      "label_plus_circuit": 0.11221537517568884,
-      "compound_plus_circuit": 0.09539120037885984
+      "global_mean": 0.09911676086200429,
+      "label_mean": 0.12352020250580764,
+      "label_plus_circuit": 0.11290504797470423,
+      "compound_plus_circuit": 0.09323739454049333
+    },
+    {
+      "circuit": "Sakhir",
+      "event": "Bahrain Grand Prix",
+      "label": "HARD",
+      "compound_id": null,
+      "actual": 0.1512107848760162,
+      "global_mean": 0.09911676086200429,
+      "label_mean": 0.07616642211309281,
+      "label_plus_circuit": 0.0701269449532262,
+      "compound_plus_circuit": 0.09201705828913284
+    },
+    {
+      "circuit": "Sakhir",
+      "event": "Bahrain Grand Prix",
+      "label": "MEDIUM",
+      "compound_id": null,
+      "actual": 0.13711293888031953,
+      "global_mean": 0.09911676086200429,
+      "label_mean": 0.10775218615887651,
+      "label_plus_circuit": 0.10107077773243911,
+      "compound_plus_circuit": 0.09201705828913284
+    },
+    {
+      "circuit": "Sakhir",
+      "event": "Bahrain Grand Prix",
+      "label": "SOFT",
+      "compound_id": null,
+      "actual": 0.169837383003087,
+      "global_mean": 0.09911676086200429,
+      "label_mean": 0.12352020250580764,
+      "label_plus_circuit": 0.11705920557362978,
+      "compound_plus_circuit": 0.09201705828913284
     },
     {
       "circuit": "Shanghai",
@@ -1140,10 +1546,10 @@
       "label": "HARD",
       "compound_id": "C2",
       "actual": 0.13150420619157355,
-      "global_mean": 0.10294742107554215,
-      "label_mean": 0.0806185261789412,
-      "label_plus_circuit": 0.08097339867917701,
-      "compound_plus_circuit": 0.08684330955302219
+      "global_mean": 0.10154384818606,
+      "label_mean": 0.07933923943642468,
+      "label_plus_circuit": 0.08014433205555795,
+      "compound_plus_circuit": 0.08702593927087174
     },
     {
       "circuit": "Shanghai",
@@ -1151,10 +1557,10 @@
       "label": "MEDIUM",
       "compound_id": "C3",
       "actual": 0.1870135023694893,
-      "global_mean": 0.10294742107554215,
-      "label_mean": 0.1122337794539352,
-      "label_plus_circuit": 0.11185718178315221,
-      "compound_plus_circuit": 0.10301679564907765
+      "global_mean": 0.10154384818606,
+      "label_mean": 0.1079711931363217,
+      "label_plus_circuit": 0.10819309225644173,
+      "compound_plus_circuit": 0.10321552384705501
     },
     {
       "circuit": "Shanghai",
@@ -1162,10 +1568,32 @@
       "label": "SOFT",
       "compound_id": "C4",
       "actual": 0.19110441963497382,
-      "global_mean": 0.10294742107554215,
-      "label_mean": 0.12524595125183308,
-      "label_plus_circuit": 0.12609897522968702,
-      "compound_plus_circuit": 0.12024231118546715
+      "global_mean": 0.10154384818606,
+      "label_mean": 0.12781211908384232,
+      "label_plus_circuit": 0.1281537274682984,
+      "compound_plus_circuit": 0.11997540245628904
+    },
+    {
+      "circuit": "Shanghai",
+      "event": "Chinese Grand Prix",
+      "label": "HARD",
+      "compound_id": null,
+      "actual": 0.076378132786593,
+      "global_mean": 0.10154384818606,
+      "label_mean": 0.07933923943642468,
+      "label_plus_circuit": 0.08159512283178191,
+      "compound_plus_circuit": 0.10503296982771633
+    },
+    {
+      "circuit": "Shanghai",
+      "event": "Chinese Grand Prix",
+      "label": "MEDIUM",
+      "compound_id": null,
+      "actual": 0.1192113999921208,
+      "global_mean": 0.10154384818606,
+      "label_mean": 0.1079711931363217,
+      "label_plus_circuit": 0.10964388303266569,
+      "compound_plus_circuit": 0.10503296982771633
     },
     {
       "circuit": "Silverstone",
@@ -1173,10 +1601,10 @@
       "label": "HARD",
       "compound_id": null,
       "actual": 0.03234525198595206,
-      "global_mean": 0.10531772777476936,
-      "label_mean": 0.08172373723638976,
-      "label_plus_circuit": 0.0826402486759538,
-      "compound_plus_circuit": 0.10973531178509072
+      "global_mean": 0.10314488392882339,
+      "label_mean": 0.08005538146170653,
+      "label_plus_circuit": 0.08037170331268736,
+      "compound_plus_circuit": 0.1045864784256096
     },
     {
       "circuit": "Silverstone",
@@ -1184,10 +1612,10 @@
       "label": "MEDIUM",
       "compound_id": null,
       "actual": 0.04746251078427388,
-      "global_mean": 0.10531772777476936,
-      "label_mean": 0.11483919479932314,
-      "label_plus_circuit": 0.11509997010843229,
-      "compound_plus_circuit": 0.10973531178509072
+      "global_mean": 0.10314488392882339,
+      "label_mean": 0.10985440448125722,
+      "label_plus_circuit": 0.1096552662760342,
+      "compound_plus_circuit": 0.1045864784256096
     },
     {
       "circuit": "Silverstone",
@@ -1195,10 +1623,10 @@
       "label": "SOFT",
       "compound_id": null,
       "actual": 0.0992047148826844,
-      "global_mean": 0.10531772777476936,
-      "label_mean": 0.1300659587818423,
-      "label_plus_circuit": 0.13100107711869838,
-      "compound_plus_circuit": 0.10973531178509072
+      "global_mean": 0.10314488392882339,
+      "label_mean": 0.13134657162126395,
+      "label_plus_circuit": 0.13089438620198238,
+      "compound_plus_circuit": 0.1045864784256096
     },
     {
       "circuit": "Silverstone",
@@ -1206,10 +1634,10 @@
       "label": "HARD",
       "compound_id": null,
       "actual": 0.08043023104403824,
-      "global_mean": 0.10531772777476936,
-      "label_mean": 0.08172373723638976,
-      "label_plus_circuit": 0.08245092806890837,
-      "compound_plus_circuit": 0.10937955322568223
+      "global_mean": 0.10314488392882339,
+      "label_mean": 0.08005538146170653,
+      "label_plus_circuit": 0.08051278874710337,
+      "compound_plus_circuit": 0.10462192011526629
     },
     {
       "circuit": "Silverstone",
@@ -1217,10 +1645,10 @@
       "label": "MEDIUM",
       "compound_id": null,
       "actual": 0.07279637699439746,
-      "global_mean": 0.10531772777476936,
-      "label_mean": 0.11483919479932314,
-      "label_plus_circuit": 0.11491064950138685,
-      "compound_plus_circuit": 0.10937955322568223
+      "global_mean": 0.10314488392882339,
+      "label_mean": 0.10985440448125722,
+      "label_plus_circuit": 0.1097963517104502,
+      "compound_plus_circuit": 0.10462192011526629
     },
     {
       "circuit": "Silverstone",
@@ -1228,10 +1656,10 @@
       "label": "SOFT",
       "compound_id": null,
       "actual": 0.07454713357362006,
-      "global_mean": 0.10531772777476936,
-      "label_mean": 0.1300659587818423,
-      "label_plus_circuit": 0.13081175651165294,
-      "compound_plus_circuit": 0.10937955322568223
+      "global_mean": 0.10314488392882339,
+      "label_mean": 0.13134657162126395,
+      "label_plus_circuit": 0.13103547163639837,
+      "compound_plus_circuit": 0.10462192011526629
     },
     {
       "circuit": "Silverstone",
@@ -1239,10 +1667,10 @@
       "label": "HARD",
       "compound_id": "C1",
       "actual": 0.12360001158958879,
-      "global_mean": 0.10531772777476936,
-      "label_mean": 0.08172373723638976,
-      "label_plus_circuit": 0.08305181368186804,
-      "compound_plus_circuit": 0.08211319274788292
+      "global_mean": 0.10314488392882339,
+      "label_mean": 0.08005538146170653,
+      "label_plus_circuit": 0.07990866089451147,
+      "compound_plus_circuit": 0.0807756517889756
     },
     {
       "circuit": "Silverstone",
@@ -1250,10 +1678,10 @@
       "label": "MEDIUM",
       "compound_id": "C2",
       "actual": 0.15834599088390292,
-      "global_mean": 0.10531772777476936,
-      "label_mean": 0.11483919479932314,
-      "label_plus_circuit": 0.1155115351143465,
-      "compound_plus_circuit": 0.08518795452215258
+      "global_mean": 0.10314488392882339,
+      "label_mean": 0.10985440448125722,
+      "label_plus_circuit": 0.10919222385785832,
+      "compound_plus_circuit": 0.08261746742659949
     },
     {
       "circuit": "Silverstone",
@@ -1261,10 +1689,10 @@
       "label": "SOFT",
       "compound_id": "C3",
       "actual": 0.1280642553120683,
-      "global_mean": 0.10531772777476936,
-      "label_mean": 0.1300659587818423,
-      "label_plus_circuit": 0.1314126421246126,
-      "compound_plus_circuit": 0.1071784884171323
+      "global_mean": 0.10314488392882339,
+      "label_mean": 0.13134657162126395,
+      "label_plus_circuit": 0.13043134378380647,
+      "compound_plus_circuit": 0.10462219891761008
     },
     {
       "circuit": "Spa-Francorchamps",
@@ -1272,10 +1700,10 @@
       "label": "HARD",
       "compound_id": null,
       "actual": 0.1643439035451028,
-      "global_mean": 0.10094211628757001,
-      "label_mean": 0.08015933361142194,
-      "label_plus_circuit": 0.05785554661780737,
-      "compound_plus_circuit": 0.07136958643027326
+      "global_mean": 0.10003457110469167,
+      "label_mean": 0.07894870600721149,
+      "label_plus_circuit": 0.05893204718569682,
+      "compound_plus_circuit": 0.07320028123823737
     },
     {
       "circuit": "Spa-Francorchamps",
@@ -1283,10 +1711,10 @@
       "label": "MEDIUM",
       "compound_id": null,
       "actual": 0.2412150651749962,
-      "global_mean": 0.10094211628757001,
-      "label_mean": 0.10865909532551452,
-      "label_plus_circuit": 0.08546695505665768,
-      "compound_plus_circuit": 0.07136958643027326
+      "global_mean": 0.10003457110469167,
+      "label_mean": 0.10547683402064276,
+      "label_plus_circuit": 0.08469755680507521,
+      "compound_plus_circuit": 0.07320028123823737
     },
     {
       "circuit": "Spa-Francorchamps",
@@ -1294,10 +1722,10 @@
       "label": "SOFT",
       "compound_id": null,
       "actual": 0.21193527639130774,
-      "global_mean": 0.10094211628757001,
-      "label_mean": 0.12463655657117448,
-      "label_plus_circuit": 0.10126419249420195,
-      "compound_plus_circuit": 0.07136958643027326
+      "global_mean": 0.10003457110469167,
+      "label_mean": 0.1275062627405477,
+      "label_plus_circuit": 0.10547541822233193,
+      "compound_plus_circuit": 0.07320028123823737
     },
     {
       "circuit": "Spa-Francorchamps",
@@ -1305,10 +1733,10 @@
       "label": "MEDIUM",
       "compound_id": null,
       "actual": 0.26445200210789066,
-      "global_mean": 0.10094211628757001,
-      "label_mean": 0.10865909532551452,
-      "label_plus_circuit": 0.08625575039278946,
-      "compound_plus_circuit": 0.07412646294993004
+      "global_mean": 0.10003457110469167,
+      "label_mean": 0.10547683402064276,
+      "label_plus_circuit": 0.08345071443576448,
+      "compound_plus_circuit": 0.07325270186659012
     },
     {
       "circuit": "Spa-Francorchamps",
@@ -1316,10 +1744,10 @@
       "label": "SOFT",
       "compound_id": null,
       "actual": 0.20214386050066632,
-      "global_mean": 0.10094211628757001,
-      "label_mean": 0.12463655657117448,
-      "label_plus_circuit": 0.10205298783033373,
-      "compound_plus_circuit": 0.07412646294993004
+      "global_mean": 0.10003457110469167,
+      "label_mean": 0.1275062627405477,
+      "label_plus_circuit": 0.1042285758530212,
+      "compound_plus_circuit": 0.07325270186659012
     },
     {
       "circuit": "Spa-Francorchamps",
@@ -1327,10 +1755,10 @@
       "label": "HARD",
       "compound_id": "C2",
       "actual": 0.07165684233641312,
-      "global_mean": 0.10094211628757001,
-      "label_mean": 0.08015933361142194,
-      "label_plus_circuit": 0.0576287967790984,
-      "compound_plus_circuit": 0.060852256601350505
+      "global_mean": 0.10003457110469167,
+      "label_mean": 0.07894870600721149,
+      "label_plus_circuit": 0.05970740670482503,
+      "compound_plus_circuit": 0.06451904007955236
     },
     {
       "circuit": "Spa-Francorchamps",
@@ -1338,10 +1766,10 @@
       "label": "MEDIUM",
       "compound_id": "C3",
       "actual": 0.08812288454392822,
-      "global_mean": 0.10094211628757001,
-      "label_mean": 0.10865909532551452,
-      "label_plus_circuit": 0.08524020521794871,
-      "compound_plus_circuit": 0.07711630244808851
+      "global_mean": 0.10003457110469167,
+      "label_mean": 0.10547683402064276,
+      "label_plus_circuit": 0.08547291632420341,
+      "compound_plus_circuit": 0.08074311089799757
     },
     {
       "circuit": "Spa-Francorchamps",
@@ -1349,10 +1777,10 @@
       "label": "SOFT",
       "compound_id": "C4",
       "actual": 0.0451896309857653,
-      "global_mean": 0.10094211628757001,
-      "label_mean": 0.12463655657117448,
-      "label_plus_circuit": 0.10103744265549298,
-      "compound_plus_circuit": 0.1009963948384093
+      "global_mean": 0.10003457110469167,
+      "label_mean": 0.1275062627405477,
+      "label_plus_circuit": 0.10625077774146013,
+      "compound_plus_circuit": 0.10409365812370658
     },
     {
       "circuit": "Spielberg",
@@ -1360,10 +1788,10 @@
       "label": "HARD",
       "compound_id": null,
       "actual": 0.10636415205736952,
-      "global_mean": 0.10395058854906969,
-      "label_mean": 0.08036430813205908,
-      "label_plus_circuit": 0.08912792898480856,
-      "compound_plus_circuit": 0.11881037593561536
+      "global_mean": 0.10187391928302167,
+      "label_mean": 0.0787890467064208,
+      "label_plus_circuit": 0.09865713526366864,
+      "compound_plus_circuit": 0.12633896895164043
     },
     {
       "circuit": "Spielberg",
@@ -1371,10 +1799,10 @@
       "label": "MEDIUM",
       "compound_id": null,
       "actual": 0.11026124455475524,
-      "global_mean": 0.10395058854906969,
-      "label_mean": 0.11316552137239627,
-      "label_plus_circuit": 0.12122203001587512,
-      "compound_plus_circuit": 0.11881037593561536
+      "global_mean": 0.10187391928302167,
+      "label_mean": 0.10853550191277578,
+      "label_plus_circuit": 0.1278695267814065,
+      "compound_plus_circuit": 0.12633896895164043
     },
     {
       "circuit": "Spielberg",
@@ -1382,10 +1810,10 @@
       "label": "HARD",
       "compound_id": "C3",
       "actual": 0.11897791875101545,
-      "global_mean": 0.10395058854906969,
-      "label_mean": 0.08036430813205908,
-      "label_plus_circuit": 0.08397364276257996,
-      "compound_plus_circuit": 0.11017586077538155
+      "global_mean": 0.10187391928302167,
+      "label_mean": 0.0787890467064208,
+      "label_plus_circuit": 0.09802783238451465,
+      "compound_plus_circuit": 0.12647956809609243
     },
     {
       "circuit": "Spielberg",
@@ -1393,10 +1821,43 @@
       "label": "MEDIUM",
       "compound_id": "C4",
       "actual": 0.1405354575086938,
-      "global_mean": 0.10395058854906969,
-      "label_mean": 0.11316552137239627,
-      "label_plus_circuit": 0.11606774379364652,
-      "compound_plus_circuit": 0.1288907139623379
+      "global_mean": 0.10187391928302167,
+      "label_mean": 0.10853550191277578,
+      "label_plus_circuit": 0.1272402239022525,
+      "compound_plus_circuit": 0.1449367895002147
+    },
+    {
+      "circuit": "Spielberg",
+      "event": "Austrian Grand Prix",
+      "label": "HARD",
+      "compound_id": null,
+      "actual": 0.10094319143648106,
+      "global_mean": 0.10187391928302167,
+      "label_mean": 0.0787890467064208,
+      "label_plus_circuit": 0.09732288596238198,
+      "compound_plus_circuit": 0.12237175958085135
+    },
+    {
+      "circuit": "Spielberg",
+      "event": "Austrian Grand Prix",
+      "label": "MEDIUM",
+      "compound_id": null,
+      "actual": 0.1227691615297894,
+      "global_mean": 0.10187391928302167,
+      "label_mean": 0.10853550191277578,
+      "label_plus_circuit": 0.12653527748011983,
+      "compound_plus_circuit": 0.12237175958085135
+    },
+    {
+      "circuit": "Spielberg",
+      "event": "Austrian Grand Prix",
+      "label": "SOFT",
+      "compound_id": null,
+      "actual": 0.14705500747389616,
+      "global_mean": 0.10187391928302167,
+      "label_mean": 0.1288365240178209,
+      "label_plus_circuit": 0.1463616291540101,
+      "compound_plus_circuit": 0.12237175958085135
     },
     {
       "circuit": "Suzuka",
@@ -1404,10 +1865,10 @@
       "label": "HARD",
       "compound_id": null,
       "actual": 0.141297035107315,
-      "global_mean": 0.10242316641287548,
-      "label_mean": 0.07966529203563938,
-      "label_plus_circuit": 0.0702011204927296,
-      "compound_plus_circuit": 0.09149075693038196
+      "global_mean": 0.10173394919170899,
+      "label_mean": 0.0791719306624068,
+      "label_plus_circuit": 0.07533965027701356,
+      "compound_plus_circuit": 0.09711414256627685
     },
     {
       "circuit": "Suzuka",
@@ -1415,10 +1876,10 @@
       "label": "MEDIUM",
       "compound_id": null,
       "actual": 0.15049830168687522,
-      "global_mean": 0.10242316641287548,
-      "label_mean": 0.11274378369207459,
-      "label_plus_circuit": 0.10257999605182362,
-      "compound_plus_circuit": 0.09149075693038196
+      "global_mean": 0.10173394919170899,
+      "label_mean": 0.10877654609578474,
+      "label_plus_circuit": 0.104471802393807,
+      "compound_plus_circuit": 0.09711414256627685
     },
     {
       "circuit": "Suzuka",
@@ -1426,10 +1887,10 @@
       "label": "SOFT",
       "compound_id": null,
       "actual": 0.15920712871959988,
-      "global_mean": 0.10242316641287548,
-      "label_mean": 0.1239810787161396,
-      "label_plus_circuit": 0.11472688113149834,
-      "compound_plus_circuit": 0.09149075693038196
+      "global_mean": 0.10173394919170899,
+      "label_mean": 0.12843727452066028,
+      "label_plus_circuit": 0.12384386743194953,
+      "compound_plus_circuit": 0.09711414256627685
     },
     {
       "circuit": "Suzuka",
@@ -1437,10 +1898,10 @@
       "label": "HARD",
       "compound_id": "C1",
       "actual": 0.12039387271489518,
-      "global_mean": 0.10242316641287548,
-      "label_mean": 0.07966529203563938,
-      "label_plus_circuit": 0.07191910861184067,
-      "compound_plus_circuit": 0.06925893303130934
+      "global_mean": 0.10173394919170899,
+      "label_mean": 0.0791719306624068,
+      "label_plus_circuit": 0.07612055565775311,
+      "compound_plus_circuit": 0.07571171845857208
     },
     {
       "circuit": "Suzuka",
@@ -1448,10 +1909,10 @@
       "label": "MEDIUM",
       "compound_id": "C2",
       "actual": 0.12222875975330104,
-      "global_mean": 0.10242316641287548,
-      "label_mean": 0.11274378369207459,
-      "label_plus_circuit": 0.10429798417093471,
-      "compound_plus_circuit": 0.077433811521869
+      "global_mean": 0.10173394919170899,
+      "label_mean": 0.10877654609578474,
+      "label_plus_circuit": 0.10525270777454657,
+      "compound_plus_circuit": 0.08243442959956146
     },
     {
       "circuit": "Suzuka",
@@ -1459,10 +1920,43 @@
       "label": "SOFT",
       "compound_id": "C3",
       "actual": 0.19508941823801107,
-      "global_mean": 0.10242316641287548,
-      "label_mean": 0.1239810787161396,
-      "label_plus_circuit": 0.11644486925060943,
-      "compound_plus_circuit": 0.09275139880170061
+      "global_mean": 0.10173394919170899,
+      "label_mean": 0.12843727452066028,
+      "label_plus_circuit": 0.12462477281268909,
+      "compound_plus_circuit": 0.09773120524278726
+    },
+    {
+      "circuit": "Suzuka",
+      "event": "Japanese Grand Prix",
+      "label": "HARD",
+      "compound_id": null,
+      "actual": 0.03740959354764934,
+      "global_mean": 0.10173394919170899,
+      "label_mean": 0.0791719306624068,
+      "label_plus_circuit": 0.07657839325964247,
+      "compound_plus_circuit": 0.10203903368180968
+    },
+    {
+      "circuit": "Suzuka",
+      "event": "Japanese Grand Prix",
+      "label": "MEDIUM",
+      "compound_id": null,
+      "actual": 0.08348362097641565,
+      "global_mean": 0.10173394919170899,
+      "label_mean": 0.10877654609578474,
+      "label_plus_circuit": 0.10571054537643593,
+      "compound_plus_circuit": 0.10203903368180968
+    },
+    {
+      "circuit": "Suzuka",
+      "event": "Japanese Grand Prix",
+      "label": "SOFT",
+      "compound_id": null,
+      "actual": 0.06680073793551124,
+      "global_mean": 0.10173394919170899,
+      "label_mean": 0.12843727452066028,
+      "label_plus_circuit": 0.12508261041457847,
+      "compound_plus_circuit": 0.10203903368180968
     },
     {
       "circuit": "S\u00e3o Paulo",
@@ -1470,10 +1964,10 @@
       "label": "MEDIUM",
       "compound_id": null,
       "actual": 0.10598135521494144,
-      "global_mean": 0.10432429015720521,
-      "label_mean": 0.11376268789081347,
-      "label_plus_circuit": 0.11811301637034194,
-      "compound_plus_circuit": 0.10600681255306993
+      "global_mean": 0.1016903847219788,
+      "label_mean": 0.10880584136364958,
+      "label_plus_circuit": 0.11526194534203613,
+      "compound_plus_circuit": 0.1059920196001884
     },
     {
       "circuit": "S\u00e3o Paulo",
@@ -1481,10 +1975,43 @@
       "label": "SOFT",
       "compound_id": null,
       "actual": 0.11068541863605182,
-      "global_mean": 0.10432429015720521,
-      "label_mean": 0.12784011257437894,
-      "label_plus_circuit": 0.13319131733492584,
-      "compound_plus_circuit": 0.10600681255306993
+      "global_mean": 0.1016903847219788,
+      "label_mean": 0.1286908803982488,
+      "label_plus_circuit": 0.13528455358016772,
+      "compound_plus_circuit": 0.1059920196001884
+    },
+    {
+      "circuit": "S\u00e3o Paulo",
+      "event": "S\u00e3o Paulo Grand Prix",
+      "label": "HARD",
+      "compound_id": null,
+      "actual": 0.1503586469415959,
+      "global_mean": 0.1016903847219788,
+      "label_mean": 0.07904039632135818,
+      "label_plus_circuit": 0.084082571641058,
+      "compound_plus_circuit": 0.10717034324242994
+    },
+    {
+      "circuit": "S\u00e3o Paulo",
+      "event": "S\u00e3o Paulo Grand Prix",
+      "label": "MEDIUM",
+      "compound_id": null,
+      "actual": 0.13931422655173367,
+      "global_mean": 0.1016903847219788,
+      "label_mean": 0.10880584136364958,
+      "label_plus_circuit": 0.11336385663602569,
+      "compound_plus_circuit": 0.10717034324242994
+    },
+    {
+      "circuit": "S\u00e3o Paulo",
+      "event": "S\u00e3o Paulo Grand Prix",
+      "label": "SOFT",
+      "compound_id": null,
+      "actual": 0.17132314487769243,
+      "global_mean": 0.1016903847219788,
+      "label_mean": 0.1286908803982488,
+      "label_plus_circuit": 0.13338646487415728,
+      "compound_plus_circuit": 0.10717034324242994
     },
     {
       "circuit": "Yas Island",
@@ -1492,10 +2019,10 @@
       "label": "HARD",
       "compound_id": null,
       "actual": 0.09261783581624358,
-      "global_mean": 0.10406600393710909,
-      "label_mean": 0.08116402048182034,
-      "label_plus_circuit": 0.08768918445478999,
-      "compound_plus_circuit": 0.11426145378139518
+      "global_mean": 0.10218718081373881,
+      "label_mean": 0.07955196635979495,
+      "label_plus_circuit": 0.08581763906835707,
+      "compound_plus_circuit": 0.11082568930765664
     },
     {
       "circuit": "Yas Island",
@@ -1503,10 +2030,10 @@
       "label": "MEDIUM",
       "compound_id": null,
       "actual": 0.15087463477652827,
-      "global_mean": 0.10406600393710909,
-      "label_mean": 0.1126676646528919,
-      "label_plus_circuit": 0.11854104739937793,
-      "compound_plus_circuit": 0.11426145378139518
+      "global_mean": 0.10218718081373881,
+      "label_mean": 0.10796927306088225,
+      "label_plus_circuit": 0.11371734817402478,
+      "compound_plus_circuit": 0.11082568930765664
     },
     {
       "circuit": "Yas Island",
@@ -1514,10 +2041,10 @@
       "label": "HARD",
       "compound_id": "C3",
       "actual": 0.09113919280455622,
-      "global_mean": 0.10406600393710909,
-      "label_mean": 0.08116402048182034,
-      "label_plus_circuit": 0.08789350616367159,
-      "compound_plus_circuit": 0.11656336288246717
+      "global_mean": 0.10218718081373881,
+      "label_mean": 0.07955196635979495,
+      "label_plus_circuit": 0.08551372649861094,
+      "compound_plus_circuit": 0.11489193803995305
     },
     {
       "circuit": "Yas Island",
@@ -1525,10 +2052,32 @@
       "label": "MEDIUM",
       "compound_id": "C4",
       "actual": 0.12581061670114876,
-      "global_mean": 0.10406600393710909,
-      "label_mean": 0.1126676646528919,
-      "label_plus_circuit": 0.11874536910825954,
-      "compound_plus_circuit": 0.13519774083289884
+      "global_mean": 0.10218718081373881,
+      "label_mean": 0.10796927306088225,
+      "label_plus_circuit": 0.11341343560427866,
+      "compound_plus_circuit": 0.13277634138382918
+    },
+    {
+      "circuit": "Yas Island",
+      "event": "Abu Dhabi Grand Prix",
+      "label": "HARD",
+      "compound_id": null,
+      "actual": 0.0883609382345015,
+      "global_mean": 0.10218718081373881,
+      "label_mean": 0.07955196635979495,
+      "label_plus_circuit": 0.08535881860664028,
+      "compound_plus_circuit": 0.11083023736964713
+    },
+    {
+      "circuit": "Yas Island",
+      "event": "Abu Dhabi Grand Prix",
+      "label": "MEDIUM",
+      "compound_id": null,
+      "actual": 0.1376490894518953,
+      "global_mean": 0.10218718081373881,
+      "label_mean": 0.10796927306088225,
+      "label_plus_circuit": 0.113258527712308,
+      "compound_plus_circuit": 0.11083023736964713
     },
     {
       "circuit": "Zandvoort",
@@ -1536,10 +2085,10 @@
       "label": "HARD",
       "compound_id": null,
       "actual": 0.07299218446997459,
-      "global_mean": 0.10593916051728587,
-      "label_mean": 0.08268522787447485,
-      "label_plus_circuit": 0.10943308899640412,
-      "compound_plus_circuit": 0.13291176576260072
+      "global_mean": 0.10378527322570089,
+      "label_mean": 0.08068842779890835,
+      "label_plus_circuit": 0.10164850606328078,
+      "compound_plus_circuit": 0.12337102747270126
     },
     {
       "circuit": "Zandvoort",
@@ -1547,10 +2096,10 @@
       "label": "MEDIUM",
       "compound_id": null,
       "actual": 0.10221593465191713,
-      "global_mean": 0.10593916051728587,
-      "label_mean": 0.11533005922866822,
-      "label_plus_circuit": 0.1415504481216101,
-      "compound_plus_circuit": 0.13291176576260072
+      "global_mean": 0.10378527322570089,
+      "label_mean": 0.11042992012645882,
+      "label_plus_circuit": 0.13092210941299692,
+      "compound_plus_circuit": 0.12337102747270126
     },
     {
       "circuit": "Zandvoort",
@@ -1558,10 +2107,10 @@
       "label": "SOFT",
       "compound_id": null,
       "actual": 0.12243693940801788,
-      "global_mean": 0.10593916051728587,
-      "label_mean": 0.130318978810488,
-      "label_plus_circuit": 0.15831554500861666,
-      "compound_plus_circuit": 0.13291176576260072
+      "global_mean": 0.10378527322570089,
+      "label_mean": 0.13241050447374242,
+      "label_plus_circuit": 0.15343450180910911,
+      "compound_plus_circuit": 0.12337102747270126
     },
     {
       "circuit": "Zandvoort",
@@ -1569,10 +2118,10 @@
       "label": "HARD",
       "compound_id": null,
       "actual": 0.02691062353589139,
-      "global_mean": 0.10593916051728587,
-      "label_mean": 0.08268522787447485,
-      "label_plus_circuit": 0.1151147221898743,
-      "compound_plus_circuit": 0.13992122889958414
+      "global_mean": 0.10378527322570089,
+      "label_mean": 0.08068842779890835,
+      "label_plus_circuit": 0.10291953350811138,
+      "compound_plus_circuit": 0.12543441262231153
     },
     {
       "circuit": "Zandvoort",
@@ -1580,10 +2129,10 @@
       "label": "MEDIUM",
       "compound_id": null,
       "actual": 0.05692512624150854,
-      "global_mean": 0.10593916051728587,
-      "label_mean": 0.11533005922866822,
-      "label_plus_circuit": 0.14723208131508028,
-      "compound_plus_circuit": 0.13992122889958414
+      "global_mean": 0.10378527322570089,
+      "label_mean": 0.11042992012645882,
+      "label_plus_circuit": 0.13219313685782752,
+      "compound_plus_circuit": 0.12543441262231153
     },
     {
       "circuit": "Zandvoort",
@@ -1591,10 +2140,10 @@
       "label": "SOFT",
       "compound_id": null,
       "actual": 0.056850920755446684,
-      "global_mean": 0.10593916051728587,
-      "label_mean": 0.130318978810488,
-      "label_plus_circuit": 0.16399717820208684,
-      "compound_plus_circuit": 0.13992122889958414
+      "global_mean": 0.10378527322570089,
+      "label_mean": 0.13241050447374242,
+      "label_plus_circuit": 0.15470552925393968,
+      "compound_plus_circuit": 0.12543441262231153
     },
     {
       "circuit": "Zandvoort",
@@ -1602,10 +2151,10 @@
       "label": "HARD",
       "compound_id": "C1",
       "actual": 0.08743666407137395,
-      "global_mean": 0.10593916051728587,
-      "label_mean": 0.08268522787447485,
-      "label_plus_circuit": 0.11138975734137473,
-      "compound_plus_circuit": 0.11289282944271091
+      "global_mean": 0.10378527322570089,
+      "label_mean": 0.08068842779890835,
+      "label_plus_circuit": 0.10226930285698864,
+      "compound_plus_circuit": 0.10722848064532776
     },
     {
       "circuit": "Zandvoort",
@@ -1613,10 +2162,10 @@
       "label": "MEDIUM",
       "compound_id": "C2",
       "actual": 0.09442973187255026,
-      "global_mean": 0.10593916051728587,
-      "label_mean": 0.11533005922866822,
-      "label_plus_circuit": 0.1435071164665807,
-      "compound_plus_circuit": 0.118151349265827
+      "global_mean": 0.10378527322570089,
+      "label_mean": 0.11042992012645882,
+      "label_plus_circuit": 0.13154290620670478,
+      "compound_plus_circuit": 0.1101417836822125
     },
     {
       "circuit": "Zandvoort",
@@ -1624,10 +2173,43 @@
       "label": "SOFT",
       "compound_id": "C3",
       "actual": 0.11519066277418236,
-      "global_mean": 0.10593916051728587,
-      "label_mean": 0.130318978810488,
-      "label_plus_circuit": 0.16027221335358727,
-      "compound_plus_circuit": 0.13272016486119798
+      "global_mean": 0.10378527322570089,
+      "label_mean": 0.13241050447374242,
+      "label_plus_circuit": 0.15405529860281697,
+      "compound_plus_circuit": 0.12504277037947942
+    },
+    {
+      "circuit": "Zandvoort",
+      "event": "Dutch Grand Prix",
+      "label": "HARD",
+      "compound_id": null,
+      "actual": 0.08477816039991865,
+      "global_mean": 0.10378527322570089,
+      "label_mean": 0.08068842779890835,
+      "label_plus_circuit": 0.10270996027710388,
+      "compound_plus_circuit": 0.12495975601492215
+    },
+    {
+      "circuit": "Zandvoort",
+      "event": "Dutch Grand Prix",
+      "label": "MEDIUM",
+      "compound_id": null,
+      "actual": 0.09402687956854208,
+      "global_mean": 0.10378527322570089,
+      "label_mean": 0.11042992012645882,
+      "label_plus_circuit": 0.13198356362682004,
+      "compound_plus_circuit": 0.12495975601492215
+    },
+    {
+      "circuit": "Zandvoort",
+      "event": "Dutch Grand Prix",
+      "label": "SOFT",
+      "compound_id": null,
+      "actual": 0.09612683835285127,
+      "global_mean": 0.10378527322570089,
+      "label_mean": 0.13241050447374242,
+      "label_plus_circuit": 0.1544959560229322,
+      "compound_plus_circuit": 0.12495975601492215
     }
   ]
 }

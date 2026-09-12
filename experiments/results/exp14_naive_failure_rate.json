@@ -1,15 +1,15 @@
 {
   "experiment": "exp14_naive_failure_rate",
-  "generated_at": "2026-09-11T21:52:07.274753+00:00",
+  "generated_at": "2026-09-11T23:57:04.451543+00:00",
   "summary": {
-    "n_races": 61,
-    "n_races_with_a_negative_compound": 43,
-    "race_failure_rate": 0.7049180327868853,
-    "n_compound_stints": 164,
-    "n_negative_compound_stints": 84,
-    "stint_failure_rate": 0.5121951219512195,
+    "n_races": 77,
+    "n_races_with_a_negative_compound": 57,
+    "race_failure_rate": 0.7402597402597403,
+    "n_compound_stints": 208,
+    "n_negative_compound_stints": 111,
+    "stint_failure_rate": 0.5336538461538461,
     "excluded_wet": 1,
-    "would_not_fit": 3
+    "would_not_fit": 4
   },
   "races": [
     {
@@ -67,6 +67,194 @@
       "estimates": {
         "MEDIUM": -0.00559602262396444,
         "HARD": -0.03021376462068839
+      }
+    },
+    {
+      "session_id": "2025-emilia-romagna-grand-prix-R",
+      "year": 2025,
+      "event": "Emilia Romagna Grand Prix",
+      "n_compounds": 2,
+      "n_negative": 2,
+      "estimates": {
+        "MEDIUM": -0.01975807399324419,
+        "HARD": -0.0034749016341879733
+      }
+    },
+    {
+      "session_id": "2025-monaco-grand-prix-R",
+      "year": 2025,
+      "event": "Monaco Grand Prix",
+      "n_compounds": 3,
+      "n_negative": 2,
+      "estimates": {
+        "MEDIUM": -0.15998128545585502,
+        "HARD": -0.05349547001462792,
+        "SOFT": 0.15040122887864885
+      }
+    },
+    {
+      "session_id": "2025-spanish-grand-prix-R",
+      "year": 2025,
+      "event": "Spanish Grand Prix",
+      "n_compounds": 3,
+      "n_negative": 0,
+      "estimates": {
+        "SOFT": 0.004605927084577626,
+        "MEDIUM": 0.01752954721315145,
+        "HARD": 0.0530285714285711
+      }
+    },
+    {
+      "session_id": "2025-canadian-grand-prix-R",
+      "year": 2025,
+      "event": "Canadian Grand Prix",
+      "n_compounds": 2,
+      "n_negative": 1,
+      "estimates": {
+        "MEDIUM": 0.0480775469138709,
+        "HARD": -0.019447383991587363
+      }
+    },
+    {
+      "session_id": "2025-austrian-grand-prix-R",
+      "year": 2025,
+      "event": "Austrian Grand Prix",
+      "n_compounds": 3,
+      "n_negative": 1,
+      "estimates": {
+        "MEDIUM": 0.03449783164756292,
+        "HARD": 0.022808512988534382,
+        "SOFT": -0.012054960317458258
+      }
+    },
+    {
+      "session_id": "2025-hungarian-grand-prix-R",
+      "year": 2025,
+      "event": "Hungarian Grand Prix",
+      "n_compounds": 3,
+      "n_negative": 2,
+      "estimates": {
+        "SOFT": -0.00786207958708036,
+        "MEDIUM": -0.017009773897631336,
+        "HARD": 0.013834433153526622
+      }
+    },
+    {
+      "session_id": "2025-dutch-grand-prix-R",
+      "year": 2025,
+      "event": "Dutch Grand Prix",
+      "n_compounds": 3,
+      "n_negative": 3,
+      "estimates": {
+        "MEDIUM": -0.019647727197386836,
+        "HARD": -0.01214153639727512,
+        "SOFT": -0.12413839442797645
+      }
+    },
+    {
+      "session_id": "2025-italian-grand-prix-R",
+      "year": 2025,
+      "event": "Italian Grand Prix",
+      "n_compounds": 3,
+      "n_negative": 3,
+      "estimates": {
+        "HARD": -0.04103735565021904,
+        "MEDIUM": -0.04698163204749602,
+        "SOFT": -0.09613571428571416
+      }
+    },
+    {
+      "session_id": "2025-azerbaijan-grand-prix-R",
+      "year": 2025,
+      "event": "Azerbaijan Grand Prix",
+      "n_compounds": 2,
+      "n_negative": 2,
+      "estimates": {
+        "MEDIUM": -0.048664135906818944,
+        "HARD": -0.04880547890730672
+      }
+    },
+    {
+      "session_id": "2025-singapore-grand-prix-R",
+      "year": 2025,
+      "event": "Singapore Grand Prix",
+      "n_compounds": 3,
+      "n_negative": 1,
+      "estimates": {
+        "MEDIUM": -0.0637537878636409,
+        "SOFT": 0.023155450632935646,
+        "HARD": 0.027209789347631623
+      }
+    },
+    {
+      "session_id": "2025-united-states-grand-prix-R",
+      "year": 2025,
+      "event": "United States Grand Prix",
+      "n_compounds": 3,
+      "n_negative": 3,
+      "estimates": {
+        "HARD": -0.05474569454196363,
+        "MEDIUM": -0.012062918273945187,
+        "SOFT": -0.0015847320263228815
+      }
+    },
+    {
+      "session_id": "2025-mexico-city-grand-prix-R",
+      "year": 2025,
+      "event": "Mexico City Grand Prix",
+      "n_compounds": 3,
+      "n_negative": 1,
+      "estimates": {
+        "HARD": -0.01169570659109026,
+        "SOFT": 0.02797913998445924,
+        "MEDIUM": 0.01381135814847422
+      }
+    },
+    {
+      "session_id": "2025-s\u00e3o-paulo-grand-prix-R",
+      "year": 2025,
+      "event": "S\u00e3o Paulo Grand Prix",
+      "n_compounds": 3,
+      "n_negative": 0,
+      "estimates": {
+        "MEDIUM": 0.04441492766345136,
+        "SOFT": 0.07964050578603253,
+        "HARD": 0.1637794486215554
+      }
+    },
+    {
+      "session_id": "2025-las-vegas-grand-prix-R",
+      "year": 2025,
+      "event": "Las Vegas Grand Prix",
+      "n_compounds": 2,
+      "n_negative": 2,
+      "estimates": {
+        "HARD": -0.05055780885958515,
+        "MEDIUM": -0.054286149595434485
+      }
+    },
+    {
+      "session_id": "2025-qatar-grand-prix-R",
+      "year": 2025,
+      "event": "Qatar Grand Prix",
+      "n_compounds": 3,
+      "n_negative": 2,
+      "estimates": {
+        "HARD": -0.0637421853689783,
+        "MEDIUM": -0.11165578260680228,
+        "SOFT": 0.28688858695652747
+      }
+    },
+    {
+      "session_id": "2025-abu-dhabi-grand-prix-R",
+      "year": 2025,
+      "event": "Abu Dhabi Grand Prix",
+      "n_compounds": 3,
+      "n_negative": 2,
+      "estimates": {
+        "SOFT": -0.17910952380951337,
+        "HARD": -0.0013421583199331214,
+        "MEDIUM": 0.03390798630644459
       }
     },
     {

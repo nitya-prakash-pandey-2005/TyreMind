@@ -16,8 +16,19 @@ Two diagnostics, because they answer different questions.
 
       U-shaped        too many observations in the tails -- intervals too NARROW
       hump-shaped     too many in the middle -- intervals too WIDE
+      leptokurtic     too many at BOTH, drained from the shoulders -- the assumed
+                      shape is wrong, not its width
       sloped          the mean is biased, not the spread
       spike at an end one-sided bias
+
+  The leptokurtic case is not a refinement. Classifying on tails-versus-middle
+  alone reports whichever threshold fires first, and the state-space model sits
+  exactly on that boundary: 1.38x the expected tail mass and 1.20x the expected
+  middle. Its verdict flipped between race sets twice while nothing about the
+  model changed, and both flips were reported as findings before the cause was
+  understood. Three regions -- tails, shoulders, middle -- separate "too narrow"
+  from "wrong shape", and the second is the honest description of a model whose
+  residuals are heavier-tailed than the Gaussian it reports.
 
   This applies to the Gaussian predictive distribution, which is a full
   distribution and can therefore be transformed.
@@ -105,18 +116,37 @@ def diagnose_pit(pit: np.ndarray) -> dict:
     share = counts / counts.sum()
     expected = 1.0 / PIT_BINS
 
-    # Tail mass against middle mass. Under uniformity both equal their width.
+    # Three regions, not two. Under uniformity each equals its own width.
+    #
+    # Two regions is not enough to name the fault, and getting that wrong cost
+    # this experiment two retracted conclusions. A distribution can have heavy
+    # tails AND a heavy middle at the same time -- that is leptokurtosis, a
+    # predictive distribution of the wrong SHAPE rather than the wrong width --
+    # and a tails-versus-middle test reports whichever threshold happens to fire
+    # first. The state-space model sits exactly there (tails 1.38x expected,
+    # middle 1.20x), so its verdict flipped between race sets while nothing about
+    # the model changed.
     tails = float(share[:2].sum() + share[-2:].sum())
     middle = float(share[PIT_BINS // 2 - 2 : PIT_BINS // 2 + 2].sum())
+    shoulders = float(share.sum() - tails - middle)
     expected_tails = 4 * expected
     expected_middle = 4 * expected
+    expected_shoulders = (PIT_BINS - 8) * expected
 
     # Kolmogorov-Smirnov against uniform: does the departure exceed sampling noise?
     ks_stat, ks_p = stats.kstest(pit, "uniform")
     # Mean away from 0.5 is a bias in the mean, not the spread.
     bias = float(pit.mean() - 0.5)
 
-    if tails > expected_tails * 1.25:
+    heavy_tails = tails > expected_tails * 1.25
+    heavy_middle = middle > expected_middle * 1.15
+    thin_shoulders = shoulders < expected_shoulders * 0.90
+
+    if heavy_tails and heavy_middle and thin_shoulders:
+        # Mass piled at both ends AND at the centre, drained from the shoulders.
+        # The width is not the problem: the assumed shape is.
+        verdict = "leptokurtic: heavy tails AND a heavy middle, the wrong SHAPE"
+    elif heavy_tails:
         verdict = "U-shaped: intervals too NARROW, overconfident"
     elif middle > expected_middle * 1.25:
         verdict = "hump-shaped: intervals too WIDE, underconfident"
@@ -130,6 +160,11 @@ def diagnose_pit(pit: np.ndarray) -> dict:
         "tail_mass": tails,
         "expected_tail_mass": expected_tails,
         "middle_mass": middle,
+        "shoulder_mass": shoulders,
+        "expected_shoulder_mass": expected_shoulders,
+        "tail_ratio": tails / expected_tails,
+        "middle_ratio": middle / expected_middle,
+        "shoulder_ratio": shoulders / expected_shoulders,
         "mean": float(pit.mean()),
         "bias_from_centre": bias,
         "ks_statistic": float(ks_stat),
@@ -246,6 +281,7 @@ def main() -> None:
 
     gauss_gap, adaptive_gap = diagonal_gap("gaussian"), diagonal_gap("adaptive")
     overconfident = [n for n, f in findings.items() if "NARROW" in f["pit"].get("verdict", "")]
+    leptokurtic = [n for n, f in findings.items() if "leptokurtic" in f["pit"].get("verdict", "")]
 
     print("\n" + "=" * 88)
     print("  mean distance from the reliability diagonal, over all levels and rungs:")
@@ -260,6 +296,20 @@ def main() -> None:
         print("  intervals are not merely mis-sized, the distribution is the wrong width.")
     else:
         print("  No rung shows a U-shaped PIT, so the Gaussian spread is not the problem.")
+
+    if leptokurtic:
+        print()
+        print(f"  {', '.join(leptokurtic)} is different, and the difference is")
+        print("  informative rather than a technicality. Its PIT is heavy at BOTH ends")
+        print("  and heavy in the middle, drained from the shoulders -- the width is not")
+        print("  the problem, the assumed SHAPE is. That is what a Gaussian summary of")
+        print("  heavy-tailed residuals looks like, and the state-space model assumes")
+        print("  heavy-tailed observation noise by construction. The model knows; the")
+        print("  interval it reports does not carry the knowledge.")
+        print()
+        print("  This is also why the diagnosis needs three regions rather than two. On a")
+        print("  tails-versus-middle test this rung sits on the boundary and its verdict")
+        print("  flipped between race sets twice while nothing about the model changed.")
     print()
     if adaptive_gap < gauss_gap:
         print(f"  Adaptive conformal tracks the diagonal {gauss_gap / max(adaptive_gap, 1e-9):.1f}x")
@@ -282,6 +332,7 @@ def main() -> None:
         "gaussian_diagonal_gap": gauss_gap,
         "adaptive_diagonal_gap": adaptive_gap,
         "overconfident_rungs": overconfident,
+        "leptokurtic_rungs": leptokurtic,
         "per_model": findings,
     }, indent=2))
     print(f"\nwrote {RESULTS}")

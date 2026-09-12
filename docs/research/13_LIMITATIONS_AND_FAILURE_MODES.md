@@ -33,7 +33,7 @@ against a nominal 95%. That is not a perfect score — it means the intervals ar
 
 For decision support that is the safer error, but it is a miscalibration and is
 reported as one. Practice-to-race coverage went the *other* way and on a sample
-large enough to mean something: 76% over 62 comparisons against a nominal 95%.
+large enough to mean something: 76% over 94 comparisons against a nominal 95%.
 That is overconfidence, and it is the more dangerous direction, because a
 strategist can plan around a wide interval and cannot plan around a wrong one.
 
@@ -68,8 +68,8 @@ calibrated for a race that no longer exists.
 
 Adaptive Conformal Inference (Gibbs & Candès, 2021) drops the exchangeability
 assumption rather than hoping it holds, moving the working miss-rate by
-`γ(α − err)` after every lap. Pooled over every rung it reaches **95.4%** against
-the Gaussian's 75.1%, at a median width of 7.12 s. The nonconformity score also
+`γ(α − err)` after every lap. Pooled over every rung it reaches **95.2%** against
+the Gaussian's 75.9%, at a median width of 5.74 s. The nonconformity score also
 had to change: the *studentised* score that won for degradation rates is wrong
 here, because dividing by a posterior sd that is itself badly wrong amplifies the
 miscalibration instead of correcting it.
@@ -101,8 +101,8 @@ real predictive variance and already covered 90–95%, so calibration holds it a
 
 ## 4. Known systematic biases
 
-**Practice over-predicts race degradation by +0.043 s/lap**, in 42 of 62
-comparisons across 27 events in 2024 and 2023.
+**Practice over-predicts race degradation by +0.027 s/lap**, in 63 of 94
+comparisons across 42 events in 2023, 2024 and 2025.
 
 An earlier version of this section proposed a physical cause — practice race-sims
 holding high fuel throughout — and called the cross-session test untested. **It

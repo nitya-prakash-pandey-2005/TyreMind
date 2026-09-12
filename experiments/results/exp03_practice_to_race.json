@@ -1,8 +1,9 @@
 {
   "experiment": "exp03_practice_to_race",
-  "generated_at": "2026-09-11T21:46:54.661099+00:00",
+  "generated_at": "2026-09-11T23:50:06.924353+00:00",
   "year": null,
   "years": [
+    2025,
     2024,
     2023
   ],
@@ -10,15 +11,17 @@
   "excluded_not_dry": {
     "2023 Australian Grand Prix": "FP2 ran 50% of laps on wet rubber",
     "2024 Canadian Grand Prix": "R ran 67% of laps on wet rubber",
-    "2024 Japanese Grand Prix": "FP2 ran 46% of laps on wet rubber"
+    "2024 Japanese Grand Prix": "FP2 ran 46% of laps on wet rubber",
+    "2025 Australian Grand Prix": "R ran 81% of laps on wet rubber",
+    "2025 British Grand Prix": "R ran 74% of laps on wet rubber"
   },
   "overall": {
-    "n_events": 27,
-    "n_comparisons": 62,
-    "mae": 0.08580885757103751,
-    "naive_mae": 0.1439602599286368,
-    "bias": 0.042947215287445016,
-    "coverage_95": 0.7741935483870968
+    "n_events": 42,
+    "n_comparisons": 94,
+    "mae": 0.08066077203281545,
+    "naive_mae": 0.14714993038186264,
+    "bias": 0.026757158413257185,
+    "coverage_95": 0.7978723404255319
   },
   "per_event": [
     {
@@ -290,6 +293,156 @@
       "bias": 0.054329793476930156,
       "coverage_95": 1.0,
       "practice_quality": 89.2644483362522
+    },
+    {
+      "year": 2025,
+      "event": "Abu Dhabi Grand Prix",
+      "compounds": 3,
+      "mae": 0.03353848953887511,
+      "naive_mae": 0.05251727266460255,
+      "bias": 0.03353848953887511,
+      "coverage_95": 1.0,
+      "practice_quality": 88.06506849315068
+    },
+    {
+      "year": 2025,
+      "event": "Austrian Grand Prix",
+      "compounds": 3,
+      "mae": 0.018529656328283323,
+      "naive_mae": 0.11165980803525492,
+      "bias": -0.011282156901363388,
+      "coverage_95": 1.0,
+      "practice_quality": 88.59939759036143
+    },
+    {
+      "year": 2025,
+      "event": "Azerbaijan Grand Prix",
+      "compounds": 1,
+      "mae": 0.037760448594729074,
+      "naive_mae": 0.028246937313137294,
+      "bias": 0.037760448594729074,
+      "coverage_95": 1.0,
+      "practice_quality": 71.86635944700461
+    },
+    {
+      "year": 2025,
+      "event": "Bahrain Grand Prix",
+      "compounds": 3,
+      "mae": 0.05132313961123036,
+      "naive_mae": 0.01968813668763569,
+      "bias": 0.05132313961123036,
+      "coverage_95": 0.6666666666666666,
+      "practice_quality": 89.44444444444444
+    },
+    {
+      "year": 2025,
+      "event": "Canadian Grand Prix",
+      "compounds": 2,
+      "mae": 0.18026617683438778,
+      "naive_mae": 0.5646886905227078,
+      "bias": -0.18026617683438778,
+      "coverage_95": 0.5,
+      "practice_quality": 91.90635451505015
+    },
+    {
+      "year": 2025,
+      "event": "Dutch Grand Prix",
+      "compounds": 3,
+      "mae": 0.06131943356275954,
+      "naive_mae": 0.0851308220829526,
+      "bias": 0.06131943356275954,
+      "coverage_95": 1.0,
+      "practice_quality": 83.58574610244989
+    },
+    {
+      "year": 2025,
+      "event": "Emilia Romagna Grand Prix",
+      "compounds": 1,
+      "mae": 0.011415906070458406,
+      "naive_mae": 0.08438634690618074,
+      "bias": 0.011415906070458406,
+      "coverage_95": 1.0,
+      "practice_quality": 84.73988439306359
+    },
+    {
+      "year": 2025,
+      "event": "Hungarian Grand Prix",
+      "compounds": 3,
+      "mae": 0.048090698912192247,
+      "naive_mae": 0.03769899748674275,
+      "bias": -0.02280290919922649,
+      "coverage_95": 1.0,
+      "practice_quality": 87.0796460176991
+    },
+    {
+      "year": 2025,
+      "event": "Italian Grand Prix",
+      "compounds": 2,
+      "mae": 0.02005135772004401,
+      "naive_mae": 0.11959665764186918,
+      "bias": 0.008832224710353213,
+      "coverage_95": 1.0,
+      "practice_quality": 85.63088512241055
+    },
+    {
+      "year": 2025,
+      "event": "Las Vegas Grand Prix",
+      "compounds": 1,
+      "mae": 0.21290331479282576,
+      "naive_mae": 0.4049012611116071,
+      "bias": 0.21290331479282576,
+      "coverage_95": 1.0,
+      "practice_quality": 92.22577209797657
+    },
+    {
+      "year": 2025,
+      "event": "Mexico City Grand Prix",
+      "compounds": 3,
+      "mae": 0.0681799129708735,
+      "naive_mae": 0.09535457843596838,
+      "bias": 0.0681799129708735,
+      "coverage_95": 0.6666666666666666,
+      "practice_quality": 87.5
+    },
+    {
+      "year": 2025,
+      "event": "Monaco Grand Prix",
+      "compounds": 3,
+      "mae": 0.15713026234508307,
+      "naive_mae": 0.37924493003310916,
+      "bias": -0.15713026234508307,
+      "coverage_95": 0.6666666666666666,
+      "practice_quality": 85.76797385620915
+    },
+    {
+      "year": 2025,
+      "event": "Saudi Arabian Grand Prix",
+      "compounds": 1,
+      "mae": 0.11662942662741106,
+      "naive_mae": 0.31736700507607896,
+      "bias": -0.11662942662741106,
+      "coverage_95": 1.0,
+      "practice_quality": 39.83925549915398
+    },
+    {
+      "year": 2025,
+      "event": "Singapore Grand Prix",
+      "compounds": 1,
+      "mae": 0.07557722093435892,
+      "naive_mae": 0.26014261631256386,
+      "bias": -0.07557722093435892,
+      "coverage_95": 1.0,
+      "practice_quality": 33.682719546742206
+    },
+    {
+      "year": 2025,
+      "event": "Spanish Grand Prix",
+      "compounds": 2,
+      "mae": 0.0463536178718938,
+      "naive_mae": 0.04952942049604112,
+      "bias": 0.02800174183110655,
+      "coverage_95": 0.5,
+      "practice_quality": 90.22375215146299
     }
   ],
   "reports": [
@@ -1504,6 +1657,650 @@
           "covered_95": true,
           "practice_laps": 123,
           "race_laps": 458
+        }
+      ]
+    },
+    {
+      "event": "Abu Dhabi Grand Prix",
+      "year": 2025,
+      "practice_session": "FP2",
+      "mae": 0.03353848953887511,
+      "naive_mae": 0.05251727266460255,
+      "bias": 0.03353848953887511,
+      "coverage_95": 1.0,
+      "practice_quality": 88.06506849315068,
+      "race_quality": 100.0,
+      "skipped": {},
+      "comparisons": [
+        {
+          "compound": "HARD",
+          "predicted": 0.0896397809807838,
+          "predicted_sd": 0.14032909504313312,
+          "actual": 0.0883609382345015,
+          "actual_sd": 0.01816011895169758,
+          "error": 0.001278842746282302,
+          "naive_predicted": 0.12367770562770405,
+          "naive_error": 0.03531676739320255,
+          "covered_95": true,
+          "practice_laps": 17,
+          "race_laps": 680
+        },
+        {
+          "compound": "MEDIUM",
+          "predicted": 0.1878325977073743,
+          "predicted_sd": 0.055678389492765795,
+          "actual": 0.1376490894518953,
+          "actual_sd": 0.020130273652180883,
+          "error": 0.05018350825547899,
+          "naive_predicted": 0.017143509480545945,
+          "naive_error": -0.12050557997134936,
+          "covered_95": true,
+          "practice_laps": 159,
+          "race_laps": 384
+        },
+        {
+          "compound": "SOFT",
+          "predicted": 0.10572258824411647,
+          "predicted_sd": 0.11701285749998284,
+          "actual": 0.056569470629252445,
+          "actual_sd": 0.07022516893908647,
+          "error": 0.049153117614864024,
+          "naive_predicted": 0.05483999999999671,
+          "naive_error": -0.0017294706292557346,
+          "covered_95": true,
+          "practice_laps": 35,
+          "race_laps": 17
+        }
+      ]
+    },
+    {
+      "event": "Austrian Grand Prix",
+      "year": 2025,
+      "practice_session": "FP2",
+      "mae": 0.018529656328283323,
+      "naive_mae": 0.11165980803525492,
+      "bias": -0.011282156901363388,
+      "coverage_95": 1.0,
+      "practice_quality": 88.59939759036143,
+      "race_quality": 100.0,
+      "skipped": {},
+      "comparisons": [
+        {
+          "compound": "HARD",
+          "predicted": 0.11181444057686096,
+          "predicted_sd": 0.02058517652934638,
+          "actual": 0.10094319143648106,
+          "actual_sd": 0.018830484559098196,
+          "error": 0.010871249140379902,
+          "naive_predicted": 0.015121872177087582,
+          "naive_error": -0.08582131925939349,
+          "covered_95": true,
+          "practice_laps": 85,
+          "race_laps": 416
+        },
+        {
+          "compound": "MEDIUM",
+          "predicted": 0.11289830497937761,
+          "predicted_sd": 0.01931980699255424,
+          "actual": 0.1227691615297894,
+          "actual_sd": 0.018521063404842206,
+          "error": -0.009870856550411783,
+          "naive_predicted": 0.020398207014454023,
+          "naive_error": -0.10237095451533537,
+          "covered_95": true,
+          "practice_laps": 128,
+          "race_laps": 537
+        },
+        {
+          "compound": "SOFT",
+          "predicted": 0.11220814417983788,
+          "predicted_sd": 0.029284538573535454,
+          "actual": 0.14705500747389616,
+          "actual_sd": 0.036802288173243256,
+          "error": -0.03484686329405828,
+          "naive_predicted": 0.00026785714286026163,
+          "naive_error": -0.1467871503310359,
+          "covered_95": true,
+          "practice_laps": 34,
+          "race_laps": 54
+        }
+      ]
+    },
+    {
+      "event": "Azerbaijan Grand Prix",
+      "year": 2025,
+      "practice_session": "FP2",
+      "mae": 0.037760448594729074,
+      "naive_mae": 0.028246937313137294,
+      "bias": 0.037760448594729074,
+      "coverage_95": 1.0,
+      "practice_quality": 71.86635944700461,
+      "race_quality": 100.0,
+      "skipped": {
+        "HARD": "too few laps to compare (7 in FP2, 537 in race; need 8)",
+        "SOFT": "not run in the race"
+      },
+      "comparisons": [
+        {
+          "compound": "MEDIUM",
+          "predicted": 0.10182099135004263,
+          "predicted_sd": 0.10837525519309153,
+          "actual": 0.06406054275531356,
+          "actual_sd": 0.018070585176508683,
+          "error": 0.037760448594729074,
+          "naive_predicted": 0.035813605442176266,
+          "naive_error": -0.028246937313137294,
+          "covered_95": true,
+          "practice_laps": 52,
+          "race_laps": 303
+        }
+      ]
+    },
+    {
+      "event": "Bahrain Grand Prix",
+      "year": 2025,
+      "practice_session": "FP2",
+      "mae": 0.05132313961123036,
+      "naive_mae": 0.01968813668763569,
+      "bias": 0.05132313961123036,
+      "coverage_95": 0.6666666666666666,
+      "practice_quality": 89.44444444444444,
+      "race_quality": 100.0,
+      "skipped": {},
+      "comparisons": [
+        {
+          "compound": "HARD",
+          "predicted": 0.15982281421061534,
+          "predicted_sd": 0.10575115863945878,
+          "actual": 0.1512107848760162,
+          "actual_sd": 0.02029137828747864,
+          "error": 0.008612029334599147,
+          "naive_predicted": 0.14472023809523402,
+          "naive_error": -0.006490546780782175,
+          "covered_95": true,
+          "practice_laps": 16,
+          "race_laps": 270
+        },
+        {
+          "compound": "MEDIUM",
+          "predicted": 0.17980175103640533,
+          "predicted_sd": 0.04668608144057562,
+          "actual": 0.13711293888031953,
+          "actual_sd": 0.01901180027116506,
+          "error": 0.042688812156085804,
+          "naive_predicted": 0.12419879121453893,
+          "naive_error": -0.012914147665780598,
+          "covered_95": true,
+          "practice_laps": 80,
+          "race_laps": 455
+        },
+        {
+          "compound": "SOFT",
+          "predicted": 0.27250596034609315,
+          "predicted_sd": 0.036954285298739925,
+          "actual": 0.169837383003087,
+          "actual_sd": 0.022360469999004772,
+          "error": 0.10266857734300613,
+          "naive_predicted": 0.2094970986194313,
+          "naive_error": 0.03965971561634429,
+          "covered_95": false,
+          "practice_laps": 107,
+          "race_laps": 218
+        }
+      ]
+    },
+    {
+      "event": "Canadian Grand Prix",
+      "year": 2025,
+      "practice_session": "FP2",
+      "mae": 0.18026617683438778,
+      "naive_mae": 0.5646886905227078,
+      "bias": -0.18026617683438778,
+      "coverage_95": 0.5,
+      "practice_quality": 91.90635451505015,
+      "race_quality": 100.0,
+      "skipped": {
+        "SOFT": "not run in the race"
+      },
+      "comparisons": [
+        {
+          "compound": "HARD",
+          "predicted": -0.17790486439008385,
+          "predicted_sd": 0.13234669337705474,
+          "actual": 0.06624453572509705,
+          "actual_sd": 0.017665928525162508,
+          "error": -0.24414940011518088,
+          "naive_predicted": -0.661489024390246,
+          "naive_error": -0.7277335601153431,
+          "covered_95": true,
+          "practice_laps": 28,
+          "race_laps": 942
+        },
+        {
+          "compound": "MEDIUM",
+          "predicted": 0.06268105851837688,
+          "predicted_sd": 0.0487894020697501,
+          "actual": 0.17906401207197156,
+          "actual_sd": 0.02224897774379939,
+          "error": -0.11638295355359468,
+          "naive_predicted": -0.22257980885810086,
+          "naive_error": -0.40164382093007245,
+          "covered_95": false,
+          "practice_laps": 212,
+          "race_laps": 253
+        }
+      ]
+    },
+    {
+      "event": "Dutch Grand Prix",
+      "year": 2025,
+      "practice_session": "FP2",
+      "mae": 0.06131943356275954,
+      "naive_mae": 0.0851308220829526,
+      "bias": 0.06131943356275954,
+      "coverage_95": 1.0,
+      "practice_quality": 83.58574610244989,
+      "race_quality": 100.0,
+      "skipped": {},
+      "comparisons": [
+        {
+          "compound": "HARD",
+          "predicted": 0.17851425720069208,
+          "predicted_sd": 0.0800418574426404,
+          "actual": 0.08477816039991865,
+          "actual_sd": 0.019596905056792555,
+          "error": 0.09373609680077344,
+          "naive_predicted": 0.2120617424242462,
+          "naive_error": 0.12728358202432755,
+          "covered_95": true,
+          "practice_laps": 28,
+          "race_laps": 493
+        },
+        {
+          "compound": "MEDIUM",
+          "predicted": 0.10667878043187916,
+          "predicted_sd": 0.05155433180175039,
+          "actual": 0.09402687956854208,
+          "actual_sd": 0.02262196161796174,
+          "error": 0.012651900863337076,
+          "naive_predicted": -0.0112088430088411,
+          "naive_error": -0.10523572257738319,
+          "covered_95": true,
+          "practice_laps": 81,
+          "race_laps": 336
+        },
+        {
+          "compound": "SOFT",
+          "predicted": 0.17369714137701936,
+          "predicted_sd": 0.12806236577970545,
+          "actual": 0.09612683835285127,
+          "actual_sd": 0.024019898613002685,
+          "error": 0.07757030302416809,
+          "naive_predicted": 0.11899999999999838,
+          "naive_error": 0.022873161647147117,
+          "covered_95": true,
+          "practice_laps": 13,
+          "race_laps": 212
+        }
+      ]
+    },
+    {
+      "event": "Emilia Romagna Grand Prix",
+      "year": 2025,
+      "practice_session": "FP2",
+      "mae": 0.011415906070458406,
+      "naive_mae": 0.08438634690618074,
+      "bias": 0.011415906070458406,
+      "coverage_95": 1.0,
+      "practice_quality": 84.73988439306359,
+      "race_quality": 100.0,
+      "skipped": {
+        "HARD": "not run in FP2"
+      },
+      "comparisons": [
+        {
+          "compound": "MEDIUM",
+          "predicted": 0.11469237513518392,
+          "predicted_sd": 0.06940956521037836,
+          "actual": 0.10327646906472551,
+          "actual_sd": 0.024103725521597497,
+          "error": 0.011415906070458406,
+          "naive_predicted": 0.018890122158544773,
+          "naive_error": -0.08438634690618074,
+          "covered_95": true,
+          "practice_laps": 153,
+          "race_laps": 314
+        }
+      ]
+    },
+    {
+      "event": "Hungarian Grand Prix",
+      "year": 2025,
+      "practice_session": "FP2",
+      "mae": 0.048090698912192247,
+      "naive_mae": 0.03769899748674275,
+      "bias": -0.02280290919922649,
+      "coverage_95": 1.0,
+      "practice_quality": 87.0796460176991,
+      "race_quality": 100.0,
+      "skipped": {},
+      "comparisons": [
+        {
+          "compound": "HARD",
+          "predicted": 0.11754454858010026,
+          "predicted_sd": 0.12951141871880245,
+          "actual": 0.09663774854766022,
+          "actual_sd": 0.017976449003200234,
+          "error": 0.02090680003244004,
+          "naive_predicted": 0.10227619047618933,
+          "naive_error": 0.005638441928529109,
+          "covered_95": true,
+          "practice_laps": 17,
+          "race_laps": 724
+        },
+        {
+          "compound": "MEDIUM",
+          "predicted": 0.11991816845514452,
+          "predicted_sd": 0.045915853761014154,
+          "actual": 0.10289328391813593,
+          "actual_sd": 0.01900262101085325,
+          "error": 0.017024884537008594,
+          "naive_predicted": 0.08234539238539117,
+          "naive_error": -0.020547891532744764,
+          "covered_95": true,
+          "practice_laps": 154,
+          "race_laps": 522
+        },
+        {
+          "compound": "SOFT",
+          "predicted": 0.03926025639524229,
+          "predicted_sd": 0.12342738444924585,
+          "actual": 0.1456006685623704,
+          "actual_sd": 0.03967654812539226,
+          "error": -0.1063404121671281,
+          "naive_predicted": 0.23251132756132475,
+          "naive_error": 0.08691065899895437,
+          "covered_95": true,
+          "practice_laps": 22,
+          "race_laps": 40
+        }
+      ]
+    },
+    {
+      "event": "Italian Grand Prix",
+      "year": 2025,
+      "practice_session": "FP2",
+      "mae": 0.02005135772004401,
+      "naive_mae": 0.11959665764186918,
+      "bias": 0.008832224710353213,
+      "coverage_95": 1.0,
+      "practice_quality": 85.63088512241055,
+      "race_quality": 100.0,
+      "skipped": {
+        "SOFT": "too few laps to compare (7 in FP2, 20 in race; need 8)"
+      },
+      "comparisons": [
+        {
+          "compound": "HARD",
+          "predicted": 0.07143988509547021,
+          "predicted_sd": 0.06060034251885055,
+          "actual": 0.04255630266507299,
+          "actual_sd": 0.016936613806538086,
+          "error": 0.028883582430397223,
+          "naive_predicted": -0.06365571428571451,
+          "naive_error": -0.1062120169507875,
+          "covered_95": true,
+          "practice_laps": 45,
+          "race_laps": 488
+        },
+        {
+          "compound": "MEDIUM",
+          "predicted": 0.044675156178558564,
+          "predicted_sd": 0.04280575897120713,
+          "actual": 0.05589428918824936,
+          "actual_sd": 0.01717688156958885,
+          "error": -0.011219133009690796,
+          "naive_predicted": -0.07708700914470148,
+          "naive_error": -0.13298129833295086,
+          "covered_95": true,
+          "practice_laps": 114,
+          "race_laps": 399
+        }
+      ]
+    },
+    {
+      "event": "Las Vegas Grand Prix",
+      "year": 2025,
+      "practice_session": "FP2",
+      "mae": 0.21290331479282576,
+      "naive_mae": 0.4049012611116071,
+      "bias": 0.21290331479282576,
+      "coverage_95": 1.0,
+      "practice_quality": 92.22577209797657,
+      "race_quality": 100.0,
+      "skipped": {
+        "HARD": "too few laps to compare (7 in FP2, 523 in race; need 8)"
+      },
+      "comparisons": [
+        {
+          "compound": "MEDIUM",
+          "predicted": 0.2750654089872945,
+          "predicted_sd": 0.1596713084762367,
+          "actual": 0.062162094194468734,
+          "actual_sd": 0.022932135438312656,
+          "error": 0.21290331479282576,
+          "naive_predicted": 0.46706335530607584,
+          "naive_error": 0.4049012611116071,
+          "covered_95": true,
+          "practice_laps": 153,
+          "race_laps": 235
+        }
+      ]
+    },
+    {
+      "event": "Mexico City Grand Prix",
+      "year": 2025,
+      "practice_session": "FP2",
+      "mae": 0.0681799129708735,
+      "naive_mae": 0.09535457843596838,
+      "bias": 0.0681799129708735,
+      "coverage_95": 0.6666666666666666,
+      "practice_quality": 87.5,
+      "race_quality": 100.0,
+      "skipped": {},
+      "comparisons": [
+        {
+          "compound": "HARD",
+          "predicted": 0.12011956753815994,
+          "predicted_sd": 0.1152283500376023,
+          "actual": 0.08103892411605251,
+          "actual_sd": 0.020595420143981604,
+          "error": 0.03908064342210743,
+          "naive_predicted": 0.09708993418505724,
+          "naive_error": 0.016051010069004723,
+          "covered_95": true,
+          "practice_laps": 21,
+          "race_laps": 83
+        },
+        {
+          "compound": "MEDIUM",
+          "predicted": 0.2251132500705073,
+          "predicted_sd": 0.0516399009283152,
+          "actual": 0.10451696365906847,
+          "actual_sd": 0.017874354345136654,
+          "error": 0.12059628641143884,
+          "naive_predicted": 0.1963641965003093,
+          "naive_error": 0.09184723284124084,
+          "covered_95": false,
+          "practice_laps": 123,
+          "race_laps": 427
+        },
+        {
+          "compound": "SOFT",
+          "predicted": 0.16095449098858758,
+          "predicted_sd": 0.07078747647111187,
+          "actual": 0.11609168190951331,
+          "actual_sd": 0.0176282650064769,
+          "error": 0.044862809079074265,
+          "naive_predicted": 0.29425717430717285,
+          "naive_error": 0.17816549239765955,
+          "covered_95": true,
+          "practice_laps": 73,
+          "race_laps": 634
+        }
+      ]
+    },
+    {
+      "event": "Monaco Grand Prix",
+      "year": 2025,
+      "practice_session": "FP2",
+      "mae": 0.15713026234508307,
+      "naive_mae": 0.37924493003310916,
+      "bias": -0.15713026234508307,
+      "coverage_95": 0.6666666666666666,
+      "practice_quality": 85.76797385620915,
+      "race_quality": 100.0,
+      "skipped": {},
+      "comparisons": [
+        {
+          "compound": "HARD",
+          "predicted": 0.027222911190232967,
+          "predicted_sd": 0.17651093422538242,
+          "actual": 0.03205896262148878,
+          "actual_sd": 0.03624823406353431,
+          "error": -0.004836051431255813,
+          "naive_predicted": -0.14339999999999947,
+          "naive_error": -0.17545896262148825,
+          "covered_95": true,
+          "practice_laps": 9,
+          "race_laps": 772
+        },
+        {
+          "compound": "MEDIUM",
+          "predicted": -0.1719713552046375,
+          "predicted_sd": 0.09251319371314595,
+          "actual": -0.029083608771991003,
+          "actual_sd": 0.041442335588335204,
+          "error": -0.14288774643264648,
+          "naive_predicted": -0.2991970593101164,
+          "naive_error": -0.2701134505381254,
+          "covered_95": true,
+          "practice_laps": 123,
+          "race_laps": 439
+        },
+        {
+          "compound": "SOFT",
+          "predicted": -0.15899830064756018,
+          "predicted_sd": 0.10917212388962982,
+          "actual": 0.16466868852378672,
+          "actual_sd": 0.10045286669941461,
+          "error": -0.3236669891713469,
+          "naive_predicted": -0.5274936884159271,
+          "naive_error": -0.6921623769397138,
+          "covered_95": false,
+          "practice_laps": 61,
+          "race_laps": 45
+        }
+      ]
+    },
+    {
+      "event": "Saudi Arabian Grand Prix",
+      "year": 2025,
+      "practice_session": "FP2",
+      "mae": 0.11662942662741106,
+      "naive_mae": 0.31736700507607896,
+      "bias": -0.11662942662741106,
+      "coverage_95": 1.0,
+      "practice_quality": 39.83925549915398,
+      "race_quality": 100.0,
+      "skipped": {
+        "HARD": "not run in FP2"
+      },
+      "comparisons": [
+        {
+          "compound": "MEDIUM",
+          "predicted": 0.020745599810487587,
+          "predicted_sd": 0.16566803699645707,
+          "actual": 0.13737502643789865,
+          "actual_sd": 0.024609866664009713,
+          "error": -0.11662942662741106,
+          "naive_predicted": -0.17999197863818028,
+          "naive_error": -0.31736700507607896,
+          "covered_95": true,
+          "practice_laps": 25,
+          "race_laps": 240
+        }
+      ]
+    },
+    {
+      "event": "Singapore Grand Prix",
+      "year": 2025,
+      "practice_session": "FP2",
+      "mae": 0.07557722093435892,
+      "naive_mae": 0.26014261631256386,
+      "bias": -0.07557722093435892,
+      "coverage_95": 1.0,
+      "practice_quality": 33.682719546742206,
+      "race_quality": 100.0,
+      "skipped": {
+        "HARD": "too few laps to compare (4 in FP2, 486 in race; need 8)",
+        "MEDIUM": "too few laps to compare (6 in FP2, 473 in race; need 8)"
+      },
+      "comparisons": [
+        {
+          "compound": "SOFT",
+          "predicted": 0.049743356590649775,
+          "predicted_sd": 0.18373358856843666,
+          "actual": 0.1253205775250087,
+          "actual_sd": 0.02983416678702193,
+          "error": -0.07557722093435892,
+          "naive_predicted": -0.1348220387875552,
+          "naive_error": -0.26014261631256386,
+          "covered_95": true,
+          "practice_laps": 16,
+          "race_laps": 196
+        }
+      ]
+    },
+    {
+      "event": "Spanish Grand Prix",
+      "year": 2025,
+      "practice_session": "FP2",
+      "mae": 0.0463536178718938,
+      "naive_mae": 0.04952942049604112,
+      "bias": 0.02800174183110655,
+      "coverage_95": 0.5,
+      "practice_quality": 90.22375215146299,
+      "race_quality": 100.0,
+      "skipped": {
+        "HARD": "too few laps to compare (8 in FP2, 6 in race; need 8)"
+      },
+      "comparisons": [
+        {
+          "compound": "MEDIUM",
+          "predicted": 0.17693707202095857,
+          "predicted_sd": 0.030908298374372548,
+          "actual": 0.10258171231795822,
+          "actual_sd": 0.020844193758041533,
+          "error": 0.07435535970300035,
+          "naive_predicted": 0.1323298065156087,
+          "naive_error": 0.029748094197650468,
+          "covered_95": false,
+          "practice_laps": 89,
+          "race_laps": 456
+        },
+        {
+          "compound": "SOFT",
+          "predicted": 0.13988948275190644,
+          "predicted_sd": 0.02543807034561938,
+          "actual": 0.1582413587926937,
+          "actual_sd": 0.02166518324162093,
+          "error": -0.01835187604078725,
+          "naive_predicted": 0.08893061199826191,
+          "naive_error": -0.06931074679443178,
+          "covered_95": true,
+          "practice_laps": 138,
+          "race_laps": 523
         }
       ]
     }

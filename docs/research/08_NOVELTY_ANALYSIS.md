@@ -164,10 +164,10 @@ that the degradation rate enters as a distribution."*
 Stated because a novelty claim that hides its losses is not credible.
 
 **Two simpler models predict lap times better than we do** — over twenty races,
-pooled regression at CRPS 0.487 and LightGBM at 0.537, against our 0.757. Neither
+pooled regression at CRPS 0.396 and LightGBM at 0.469, against our 0.645. Neither
 has a degradation parameter, so neither can be scored on the task the product
 exists for, where we lead at 0.0041 s/lap. LightGBM is also badly overconfident
 (62% coverage on nominal 95%), and on extrapolation the lap-time leader's bias
-drift is +0.262 against our −0.452.
+drift is +0.031 against our −0.432.
 
 We report this in the product, not just here.
